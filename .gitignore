@@ -74,6 +74,10 @@ ipch/
 *.vsp
 *.vspx
 
+# Visual Studio 2022 files
+*.vsidx
+*.read.lock
+
 # TFS 2012 Local Workspace
 $tf/
 
