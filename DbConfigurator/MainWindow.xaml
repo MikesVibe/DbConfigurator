@@ -12,7 +12,15 @@
 
 
     <Grid>
-        <view:DetailsView DataContext="{Binding SelectedDetailViewModel}"/>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <view:NavigationView 
+            DataContext="{Binding NavigationViewModel}"/>
+    
+        <view:DetailsView Grid.Column="1" DataContext="{Binding SelectedDetailViewModel}"/>
+    
     </Grid>
 </Window>

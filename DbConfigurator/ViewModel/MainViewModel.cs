@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DbConfigurator.UI.ViewModel.Interfaces;
 
 namespace DbConfigurator.UI.ViewModel
 {
@@ -13,11 +14,19 @@ namespace DbConfigurator.UI.ViewModel
         {
             //DetailViewModels = new ObservableCollection<IDetailViewModel>();
             SelectedDetailViewModel = new DetailsViewModel();
+            NavigationViewModel = new NavigationViewModel();
         }
 
         public ObservableCollection<IDetailViewModel> DetailViewModels { get; }
 
-        private IDetailViewModel _selectedDetailViewModel;
+
+
+        public INavigationViewModel NavigationViewModel
+        {
+            get { return _navigationViewModel; }
+            set { _navigationViewModel = value; }
+        }
+
 
         public IDetailViewModel SelectedDetailViewModel
         {
@@ -25,5 +34,8 @@ namespace DbConfigurator.UI.ViewModel
             set { _selectedDetailViewModel = value; }
         }
 
+
+        private IDetailViewModel _selectedDetailViewModel;
+        private INavigationViewModel _navigationViewModel;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model;
+using DbConfigurator.UI.ViewModel.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

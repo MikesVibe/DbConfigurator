@@ -1,4 +1,4 @@
-﻿namespace DbConfigurator.UI.ViewModel
+﻿namespace DbConfigurator.UI.ViewModel.Interfaces
 {
     public interface IDetailViewModel
     {

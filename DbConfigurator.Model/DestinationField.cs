@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.Model
 {
-    public class Recipient
+    public class DestinationField
     {
-        public Recipient()
+        public DestinationField() 
         {
             RecipientsGroups = new Collection<RecipientsGroup>();
         }
@@ -20,13 +20,8 @@ namespace DbConfigurator.Model
         public int Id { get; set; }
 
         [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
-
-        [EmailAddress]
-        public string Email { get; set; }
+        [MaxLength(3)]
+        public string Name { get; set; }
         public ICollection<RecipientsGroup> RecipientsGroups { get; set; }
     }
 }
