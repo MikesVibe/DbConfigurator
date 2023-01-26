@@ -73,6 +73,7 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+*.v2
 
 # Visual Studio 2022 files
 *.vsidx
