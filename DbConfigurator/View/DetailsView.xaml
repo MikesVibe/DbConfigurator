@@ -3,17 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:DbConfigurator.UI.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <DataGrid Width="550"
-            ItemsSource="{Binding Recipients_ObservableCollection}"
+             xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+             xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+             mc:Ignorable="d">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300"/>
+            <RowDefinition />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DataGrid CanUserResizeRows="False"
+            ItemsSource="{Binding GridDataCollection}"
                   SelectedItem="{Binding SelectedRecipient, Mode=TwoWay}"
                   SelectedIndex="{Binding DefaultRowIndex, Mode=OneTime}"
-                  AutoGenerateColumns="False">
-            
-            <DataGrid.Columns>
+                  AutoGenerateColumns="False" FontSize="11">
+
+            <DataGrid.Columns >
                 <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Width="150" />
                 <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" Width="150" />
                 <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="250" />

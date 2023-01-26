@@ -9,7 +9,7 @@
     
     <UserControl.Resources>
         <DataTemplate x:Key="NaviItemTemplate">
-            <Button Content="{Binding DisplayMember}" FontSize="20">
+            <Button Content="{Binding DisplayMember}" FontSize="16" Margin="2">
                 
                 
             </Button>
@@ -20,14 +20,14 @@
             <RowDefinition Height="300"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Sheet">
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding Recipients_ObservableCollection}"
-                            ItemTemplate="{StaticResource NaviItemTemplate}"
-                            Margin="10">
-                </ItemsControl>
-            </ScrollViewer>
-        </GroupBox>
+            <ItemsControl ItemsSource="{Binding Recipients_ObservableCollection}"
+                            ItemTemplate="{StaticResource NaviItemTemplate}">
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>
