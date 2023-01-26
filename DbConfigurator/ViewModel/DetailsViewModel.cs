@@ -13,39 +13,19 @@ namespace DbConfigurator.UI.ViewModel
     {
         public DetailsViewModel()
         {
-            Recipients_ObservableCollection = new ObservableCollection<Recipient>
+            Recipients_ObservableCollection = new ObservableCollection<Recipient>();
+
+
+
+            for (int i = 0; i < 5; i++)
             {
-                new Recipient()
+                Recipients_ObservableCollection.Add(new Recipient
                 {
-                    FirstName =  "Mikołaj",
-                    LastName =  "Mrukowski",
-                    Email =  "mrukowski.m@company.com"
-                },
-                new Recipient()
-                {
-                    FirstName =  "Mikołaj",
-                    LastName =  "Mrukowski",
-                    Email =  "mrukowski.m@company.com"
-                },
-                new Recipient()
-                {
-                    FirstName =  "Mikołaj",
-                    LastName =  "Mrukowski",
-                    Email =  "mrukowski.m@company.com"
-                },
-                new Recipient()
-                {
-                    FirstName =  "Mikołaj",
-                    LastName =  "Mrukowski",
-                    Email =  "mrukowski.m@company.com"
-                },
-                new Recipient()
-                {
-                    FirstName =  "Mikołaj",
-                    LastName =  "Mrukowski",
-                    Email =  "mrukowski.m@company.com"
-                }
-            };
+                    FirstName = "John",
+                    LastName = "Doe",
+                    Email = "John.Doe@comp.net"
+                });
+            }
         }
 
 

@@ -6,7 +6,28 @@
              xmlns:local="clr-namespace:DbConfigurator.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <DataTemplate x:Key="NaviItemTemplate">
+            <Button Content="{Binding DisplayMember}" FontSize="20">
+                
+                
+            </Button>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Sheet">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Recipients_ObservableCollection}"
+                            ItemTemplate="{StaticResource NaviItemTemplate}"
+                            Margin="10">
+                </ItemsControl>
+            </ScrollViewer>
+        </GroupBox>
     </Grid>
 </UserControl>

@@ -19,23 +19,24 @@ namespace DbConfigurator.UI.ViewModel
 
         public ObservableCollection<IDetailViewModel> DetailViewModels { get; }
 
-
-
         public INavigationViewModel NavigationViewModel
         {
             get { return _navigationViewModel; }
             set { _navigationViewModel = value; }
         }
-
-
         public IDetailViewModel SelectedDetailViewModel
         {
             get { return _selectedDetailViewModel; }
             set { _selectedDetailViewModel = value; }
         }
-
+        public async Task LoadAsync()
+        {
+            await NavigationViewModel.LoadAsync();
+        }
 
         private IDetailViewModel _selectedDetailViewModel;
         private INavigationViewModel _navigationViewModel;
+
+
     }
 }
