@@ -3,11 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:ig="http://schemas.infragistics.com/xaml"
+             xmlns:igwpf="http://schemas.infragistics.com/xaml/wpf"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:local="clr-namespace:DbConfigurator.UI.View"
-             xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-             xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+             xmlns:prism="http://prismlibrary.com/" 
              mc:Ignorable="d">
     <Grid >
         <Grid.RowDefinitions>
@@ -15,12 +14,20 @@
             <RowDefinition />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DataGrid CanUserResizeRows="False"
-            ItemsSource="{Binding GridDataCollection}"
-                  SelectedItem="{Binding SelectedRecipient, Mode=TwoWay}"
-                  SelectedIndex="{Binding DefaultRowIndex, Mode=OneTime}"
-                  AutoGenerateColumns="False" FontSize="11">
-
+        <DataGrid   x:Name="myDataGrid"
+            CanUserResizeRows="False"
+            ItemsSource="{Binding Recipients_ObservableCollection}"
+            SelectedItem="{Binding SelectedRecipient, Mode=TwoWay}"
+            SelectedIndex="{Binding DefaultRowIndex, Mode=OneTime}"
+            AutoGenerateColumns="False" FontSize="11">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CellEditEnding">
+                    <i:InvokeCommandAction  
+                Command="{Binding CellEditEndingCommand}"
+                CommandParameter="{Binding SelectedCells, ElementName=myDataGrid}">
+                    </i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <DataGrid.Columns >
                 <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" Width="150" />
                 <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" Width="150" />
