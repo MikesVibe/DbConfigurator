@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model;
+using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using System;
@@ -15,38 +16,33 @@ using System.Windows.Media;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public class DetailsViewModel : ViewModelBase, IDetailViewModel
+    public class RecipientDetailViewModel : DetailViewModelBase, IRecipientDetailViewModel
     {
-        public DetailsViewModel()
+        public RecipientDetailViewModel(IRecipientRepository recipientRepository)
         {
-            InitRecipients();
-
+            _recipientRepository = recipientRepository;
 
             CellEditEndingCommand = new RelayCommand(CellEditEndingCommandExecute);
 
+            Recipients_ObservableCollection = new ObservableCollection<Recipient>();
         }
 
-        private void InitRecipients()
-        {
-            Recipients_ObservableCollection = new ObservableCollection<Recipient>();
 
-            for (int i = 0; i < 5; i++)
+        public async Task LoadAsync()
+        {
+            var recipients = await _recipientRepository.GetAllAsync();
+
+            foreach(var recipient in recipients)
             {
-                Recipients_ObservableCollection.Add(new Recipient
-                {
-                    FirstName = "John",
-                    LastName = "Doe",
-                    Email = "John.Doe@comp.net"
-                });
+                Recipients_ObservableCollection.Add(recipient);
             }
         }
 
+        public ObservableCollection<Recipient> Recipients_ObservableCollection { get; set; }
+        public Recipient SelectedRecipient { get; set; }
+        public int DefaultRowIndex { get { return 0; } }
         public RelayCommand CellEditEndingCommand { get; set; }
 
-        public int DefaultRowIndex { get { return 0; } }
-        public ObservableCollection<Recipient> Recipients_ObservableCollection { get; set; }
-
-        public Recipient SelectedRecipient { get; set; }
 
         private void CellEditEndingCommandExecute(object obj)
         {
@@ -73,6 +69,10 @@ namespace DbConfigurator.UI.ViewModel
             }
         }
 
+
+
         private ObservableCollection<Recipient> _gridDataCollection;
+        private IRecipientRepository _recipientRepository;
+
     }
 }

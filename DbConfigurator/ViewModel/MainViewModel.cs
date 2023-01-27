@@ -10,32 +10,44 @@ namespace DbConfigurator.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        public MainViewModel()
+        public MainViewModel(
+            INavigationViewModel navigationViewModel,
+            IRecipientDetailViewModel recipientDetailViewModel
+            )
         {
-            //DetailViewModels = new ObservableCollection<IDetailViewModel>();
-            SelectedDetailViewModel = new DetailsViewModel();
-            NavigationViewModel = new NavigationViewModel();
+            _navigationViewModel = navigationViewModel;
+            _recipientDetailViewModel = recipientDetailViewModel;
+            SelectedDetailViewModel = RecipientDetailViewModel;
+
         }
 
-        public ObservableCollection<IDetailViewModel> DetailViewModels { get; }
+        public ObservableCollection<IRecipientDetailViewModel> DetailViewModels { get; }
 
         public INavigationViewModel NavigationViewModel
         {
             get { return _navigationViewModel; }
             set { _navigationViewModel = value; }
         }
-        public IDetailViewModel SelectedDetailViewModel
+        public IRecipientDetailViewModel RecipientDetailViewModel
+        {
+            get { return _recipientDetailViewModel; }
+            set { _recipientDetailViewModel = value; }
+        }
+        public IRecipientDetailViewModel SelectedDetailViewModel
         {
             get { return _selectedDetailViewModel; }
             set { _selectedDetailViewModel = value; }
         }
+
         public async Task LoadAsync()
         {
             await NavigationViewModel.LoadAsync();
+            await RecipientDetailViewModel.LoadAsync();
         }
 
-        private IDetailViewModel _selectedDetailViewModel;
+        private IRecipientDetailViewModel _selectedDetailViewModel;
         private INavigationViewModel _navigationViewModel;
+        private IRecipientDetailViewModel _recipientDetailViewModel;
 
 
     }

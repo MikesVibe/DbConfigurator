@@ -1,5 +1,8 @@
 ﻿using Autofac;
+using DbConfigurator.DataAccess;
+using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel;
+using DbConfigurator.UI.ViewModel.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +19,14 @@ namespace DbConfigurator.UI.Startup
 
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
+            builder.RegisterType<DbConfiguratorDbContext>().AsSelf();
+
+
+            builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
+            builder.RegisterType<RecipientDetailViewModel>().As<IRecipientDetailViewModel>();
+
+            
+            builder.RegisterType<RecipientRepository>().AsImplementedInterfaces();
 
 
             return builder.Build();
