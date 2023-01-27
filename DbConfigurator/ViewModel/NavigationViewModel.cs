@@ -27,10 +27,10 @@ namespace DbConfigurator.UI.ViewModel
         {
             await Task.Delay(0);
 
-            for (int i=1; i<=5; i++)
-            {
-                Recipients_ObservableCollection.Add(new NavigationItemViewModel(i, "John Doe"));
-            }
+            Recipients_ObservableCollection.Add(new NavigationItemViewModel(0, "Distribution List"));
+            Recipients_ObservableCollection.Add(new NavigationItemViewModel(1, "Recipients"));
+            Recipients_ObservableCollection.Add(new NavigationItemViewModel(2, "Countries"));
+
 
         }
     }

@@ -9,10 +9,7 @@
     
     <UserControl.Resources>
         <DataTemplate x:Key="NaviItemTemplate">
-            <Button Content="{Binding DisplayMember}" FontSize="16" Margin="2">
-                
-                
-            </Button>
+            <Button Content="{Binding DisplayMember}" FontSize="16" Margin="2,5,2,15" Height="32"/>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
@@ -21,7 +18,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="150" />
         </Grid.ColumnDefinitions>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
