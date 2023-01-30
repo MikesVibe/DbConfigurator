@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.UI.ViewModel.Interfaces
 {
-    public interface IBuisnessUnitTableViewModel
+    public interface IBuisnessUnitTableViewModel : ITableViewModel
     {
     }
 }

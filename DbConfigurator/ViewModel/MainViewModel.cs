@@ -13,42 +13,53 @@ namespace DbConfigurator.UI.ViewModel
         public MainViewModel(
             INavigationViewModel navigationViewModel,
             IRecipientTableViewModel recipientDetailViewModel,
-            IBuisnessUnitTableViewModel buisnessUnitTableDetailViewModel
+            IBuisnessUnitTableViewModel buisnessUnitTableViewModel
             )
         {
             _navigationViewModel = navigationViewModel;
-            _recipientDetailViewModel = recipientDetailViewModel;
-            SelectedDetailViewModel = RecipientDetailViewModel;
+            RecipientTableViewModel = recipientDetailViewModel;
+            BuisnessUnitTableViewModel = buisnessUnitTableViewModel;
 
+
+            SelectedTableViewModel = BuisnessUnitTableViewModel;
         }
 
-        public ObservableCollection<IRecipientTableViewModel> DetailViewModels { get; }
+        public ObservableCollection<IRecipientTableViewModel> TableViewModels { get; }
 
         public INavigationViewModel NavigationViewModel
         {
             get { return _navigationViewModel; }
             set { _navigationViewModel = value; }
         }
-        public IRecipientTableViewModel RecipientDetailViewModel
+        public IRecipientTableViewModel RecipientTableViewModel
         {
             get { return _recipientDetailViewModel; }
             set { _recipientDetailViewModel = value; }
         }
-        public IRecipientTableViewModel SelectedDetailViewModel
+        public IBuisnessUnitTableViewModel BuisnessUnitTableViewModel
         {
-            get { return _selectedDetailViewModel; }
-            set { _selectedDetailViewModel = value; }
+            get { return _buisnessUnitTableViewModel; }
+            set { _buisnessUnitTableViewModel = value; }
         }
+        public ITableViewModel SelectedTableViewModel
+        {
+            get { return _selectedTableViewModel; }
+            set { _selectedTableViewModel = value; }
+        }
+
+
 
         public async Task LoadAsync()
         {
             await NavigationViewModel.LoadAsync();
-            await RecipientDetailViewModel.LoadAsync();
+            //await RecipientTableViewModel.LoadAsync();
         }
 
-        private IRecipientTableViewModel _selectedDetailViewModel;
+        private ITableViewModel _selectedTableViewModel;
+
         private INavigationViewModel _navigationViewModel;
         private IRecipientTableViewModel _recipientDetailViewModel;
+        private IBuisnessUnitTableViewModel _buisnessUnitTableViewModel;
 
 
     }

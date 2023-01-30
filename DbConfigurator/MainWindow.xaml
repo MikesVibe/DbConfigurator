@@ -23,7 +23,8 @@
         <view:NavigationView Grid.Column="0" Margin="10"
             DataContext="{Binding NavigationViewModel}"/>
 
-        <view:DetailsView Grid.Column="1" Margin="0 10" DataContext="{Binding SelectedDetailViewModel}"/>
+
+        <view:BuisnessUnitTableView Grid.Column="1" Margin="0 10" DataContext="{Binding SelectedDetailViewModel}"/>
     
     </Grid>
 </Window>
