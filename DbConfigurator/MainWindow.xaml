@@ -7,7 +7,7 @@
         xmlns:view="clr-namespace:DbConfigurator.UI.View"
         xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel"
         mc:Ignorable="d"
-        Title="DbConfigurator" Height="400" Width="800"
+        Title="DbConfigurator" Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
 
