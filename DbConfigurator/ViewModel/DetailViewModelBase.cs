@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using DbConfigurator.UI.ViewModel.Interfaces;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
