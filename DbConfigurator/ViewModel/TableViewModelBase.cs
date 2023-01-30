@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public abstract class DetailViewModelBase : ViewModelBase, IDetailViewModel
+    public abstract class TableViewModelBase : ViewModelBase, ITableViewModel
     {
 
-        public DetailViewModelBase(IEventAggregator eventAggregator)
+        public TableViewModelBase(IEventAggregator eventAggregator)
         {
             EventAggregator = eventAggregator;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);

@@ -2,8 +2,7 @@
 
 namespace DbConfigurator.UI.ViewModel.Interfaces
 {
-    public interface IRecipientDetailViewModel
+    public interface IBuisnessUnitTableViewModel
     {
-        Task LoadAsync();
     }
 }

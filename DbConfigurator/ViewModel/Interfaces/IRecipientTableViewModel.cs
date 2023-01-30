@@ -2,9 +2,8 @@
 
 namespace DbConfigurator.UI.ViewModel.Interfaces
 {
-    public interface IDetailViewModel
+    public interface IRecipientTableViewModel
     {
-        bool HasChanges { get; }
-        int Id { get; }
+        Task LoadAsync();
     }
 }

@@ -12,7 +12,8 @@ namespace DbConfigurator.UI.ViewModel
     {
         public MainViewModel(
             INavigationViewModel navigationViewModel,
-            IRecipientDetailViewModel recipientDetailViewModel
+            IRecipientTableViewModel recipientDetailViewModel,
+            IBuisnessUnitTableViewModel buisnessUnitTableDetailViewModel
             )
         {
             _navigationViewModel = navigationViewModel;
@@ -21,19 +22,19 @@ namespace DbConfigurator.UI.ViewModel
 
         }
 
-        public ObservableCollection<IRecipientDetailViewModel> DetailViewModels { get; }
+        public ObservableCollection<IRecipientTableViewModel> DetailViewModels { get; }
 
         public INavigationViewModel NavigationViewModel
         {
             get { return _navigationViewModel; }
             set { _navigationViewModel = value; }
         }
-        public IRecipientDetailViewModel RecipientDetailViewModel
+        public IRecipientTableViewModel RecipientDetailViewModel
         {
             get { return _recipientDetailViewModel; }
             set { _recipientDetailViewModel = value; }
         }
-        public IRecipientDetailViewModel SelectedDetailViewModel
+        public IRecipientTableViewModel SelectedDetailViewModel
         {
             get { return _selectedDetailViewModel; }
             set { _selectedDetailViewModel = value; }
@@ -45,9 +46,9 @@ namespace DbConfigurator.UI.ViewModel
             await RecipientDetailViewModel.LoadAsync();
         }
 
-        private IRecipientDetailViewModel _selectedDetailViewModel;
+        private IRecipientTableViewModel _selectedDetailViewModel;
         private INavigationViewModel _navigationViewModel;
-        private IRecipientDetailViewModel _recipientDetailViewModel;
+        private IRecipientTableViewModel _recipientDetailViewModel;
 
 
     }

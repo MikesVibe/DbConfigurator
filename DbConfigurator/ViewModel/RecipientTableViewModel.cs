@@ -1,4 +1,5 @@
-﻿using DbConfigurator.UI.Data.Repositories;
+﻿using DbConfigurator.Model;
+using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Wrapper;
 using Prism.Commands;
@@ -6,27 +7,33 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public class CountryTableDetailViewModel : DetailViewModelBase, ICountryTableDetailViewModel
+    public class RecipientTableViewModel : TableViewModelBase, IRecipientTableViewModel
     {
-        public CountryTableDetailViewModel(IBuisnessRepository countryRepository,
-        IEventAggregator eventAggregator) : base(eventAggregator)
+        public RecipientTableViewModel(IRecipientRepository recipientRepository,
+            IEventAggregator eventAggregator) : base(eventAggregator)
         {
-            _countryRepository = countryRepository;
+            _recipientRepository = recipientRepository;
 
-            Recipients_ObservableCollection = new ObservableCollection<BuisnessUnitWrapper>();
+            Recipients_ObservableCollection = new ObservableCollection<RecipientWrapper>();
         }
 
 
         public async Task LoadAsync()
         {
-            var countries = await _countryRepository.GetAllAsync();
+            var recipients = await _recipientRepository.GetAllAsync();
 
 #pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target
             foreach (var wrapper in Recipients_ObservableCollection)
@@ -36,9 +43,9 @@ namespace DbConfigurator.UI.ViewModel
             }
             Recipients_ObservableCollection.Clear();
 
-            foreach (var country in countries)
+            foreach (var recipient in recipients)
             {
-                var wrapper = new BuisnessUnitWrapper(country);
+                var wrapper = new RecipientWrapper(recipient);
                 Recipients_ObservableCollection.Add(wrapper);
                 wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
             }
@@ -48,9 +55,9 @@ namespace DbConfigurator.UI.ViewModel
         {
             if (!HasChanges)
             {
-                HasChanges = _countryRepository.HasChanges();
+                HasChanges = _recipientRepository.HasChanges();
             }
-            if (e.PropertyName == nameof(BuisnessUnitWrapper.HasErrors))
+            if (e.PropertyName == nameof(RecipientWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
@@ -68,29 +75,30 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override void OnSaveExecute()
         {
-            _countryRepository.SaveAsync();
-            HasChanges = _countryRepository.HasChanges();
+            _recipientRepository.SaveAsync();
+            HasChanges = _recipientRepository.HasChanges();
             Id = SelectedRecipient.Id;
 
         }
 
-
+        
         public int DefaultRowIndex { get { return 0; } }
-        public BuisnessUnitWrapper SelectedRecipient
+        public RecipientWrapper SelectedRecipient
         {
             get { return _selectedRecipient; }
-            set
+            set 
             {
                 _selectedRecipient = value;
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<BuisnessUnitWrapper> Recipients_ObservableCollection { get; set; }
+        public ObservableCollection<RecipientWrapper> Recipients_ObservableCollection { get; set; }
 
 
-        private ObservableCollection<BuisnessUnitWrapper> _gridDataCollection;
-        private IBuisnessRepository _countryRepository;
-        private BuisnessUnitWrapper _selectedRecipient;
+        private IRecipientRepository _recipientRepository;
+        private IEventAggregator _eventAggregator;
+        private RecipientWrapper _selectedRecipient;
+
 
     }
 }

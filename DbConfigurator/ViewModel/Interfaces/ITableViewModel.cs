@@ -2,7 +2,9 @@
 
 namespace DbConfigurator.UI.ViewModel.Interfaces
 {
-    public interface ICountryTableDetailViewModel
+    public interface ITableViewModel
     {
+        bool HasChanges { get; }
+        int Id { get; }
     }
 }
