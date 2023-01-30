@@ -43,9 +43,9 @@ namespace DbConfigurator.UI.ViewModel
             }
             Recipients_ObservableCollection.Clear();
 
-            foreach (var friendPhoneNumber in recipients)
+            foreach (var recipient in recipients)
             {
-                var wrapper = new RecipientWrapper(friendPhoneNumber);
+                var wrapper = new RecipientWrapper(recipient);
                 Recipients_ObservableCollection.Add(wrapper);
                 wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
             }

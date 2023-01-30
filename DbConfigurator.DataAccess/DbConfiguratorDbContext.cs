@@ -15,7 +15,7 @@ namespace DbConfigurator.DataAccess
         public DbSet<DistributionInformation> DistributionInformations { get; set; }
         public DbSet<BuisnessUnit> BuisnessUnits { get; set; }
         public DbSet<Area> Areas { get; set; }
-        public DbSet<Country> Countries{ get; set; }
+        public DbSet<BuisnessUnit> Countries{ get; set; }
         public DbSet<Priority> Priorities{ get; set; }
         public DbSet<RecipientsGroup> RecipientsGroups{ get; set; }
         public DbSet<Recipient> Recipients{ get; set; }

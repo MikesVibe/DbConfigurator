@@ -15,18 +15,18 @@ namespace DbConfigurator.UI.ViewModel
 {
     public class CountryTableDetailViewModel : DetailViewModelBase, ICountryTableDetailViewModel
     {
-        public CountryTableDetailViewModel(ICountryRepository countryRepository,
+        public CountryTableDetailViewModel(IBuisnessRepository countryRepository,
         IEventAggregator eventAggregator) : base(eventAggregator)
         {
             _countryRepository = countryRepository;
 
-            Recipients_ObservableCollection = new ObservableCollection<RecipientWrapper>();
+            Recipients_ObservableCollection = new ObservableCollection<BuisnessUnitWrapper>();
         }
 
 
         public async Task LoadAsync()
         {
-            var recipients = await _countryRepository.GetAllAsync();
+            var countries = await _countryRepository.GetAllAsync();
 
 #pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target
             foreach (var wrapper in Recipients_ObservableCollection)
@@ -36,9 +36,9 @@ namespace DbConfigurator.UI.ViewModel
             }
             Recipients_ObservableCollection.Clear();
 
-            foreach (var friendPhoneNumber in recipients)
+            foreach (var country in countries)
             {
-                var wrapper = new RecipientWrapper(friendPhoneNumber);
+                var wrapper = new BuisnessUnitWrapper(country);
                 Recipients_ObservableCollection.Add(wrapper);
                 wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
             }
@@ -50,7 +50,7 @@ namespace DbConfigurator.UI.ViewModel
             {
                 HasChanges = _countryRepository.HasChanges();
             }
-            if (e.PropertyName == nameof(RecipientWrapper.HasErrors))
+            if (e.PropertyName == nameof(BuisnessUnitWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
@@ -76,7 +76,7 @@ namespace DbConfigurator.UI.ViewModel
 
 
         public int DefaultRowIndex { get { return 0; } }
-        public RecipientWrapper SelectedRecipient
+        public BuisnessUnitWrapper SelectedRecipient
         {
             get { return _selectedRecipient; }
             set
@@ -85,12 +85,12 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<RecipientWrapper> Recipients_ObservableCollection { get; set; }
+        public ObservableCollection<BuisnessUnitWrapper> Recipients_ObservableCollection { get; set; }
 
 
-        private ObservableCollection<RecipientWrapper> _gridDataCollection;
-        private ICountryRepository _countryRepository;
-        private RecipientWrapper _selectedRecipient;
+        private ObservableCollection<BuisnessUnitWrapper> _gridDataCollection;
+        private IBuisnessRepository _countryRepository;
+        private BuisnessUnitWrapper _selectedRecipient;
 
     }
 }
