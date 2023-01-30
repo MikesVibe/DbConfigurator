@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
         <DataGrid   x:Name="myDataGrid"
             CanUserResizeRows="False"
             ItemsSource="{Binding Recipients_ObservableCollection}"
@@ -22,7 +23,6 @@
             SelectedIndex="{Binding DefaultRowIndex, Mode=OneTime}"
             AutoGenerateColumns="False" FontSize="11" Height="300">
             
-
 
             <DataGrid.Columns >
                 <DataGridTextColumn Header="First Name"  Width="150"
@@ -33,11 +33,21 @@
                                     Binding="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Button Content="Save" Width="125" Height="45" Margin="10"
                     Command="{Binding SaveCommand}"/>
-            <Button Content="Delete" Width="125" Height="45" Margin="10"
-                    Command="{Binding DeleteCommand}"/>
-        </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Height="85" Grid.Column="1">
+                <Button Content="Add" Width="125" Height="45" Margin="10"
+                    Command="{Binding AddCommand}"/>
+                <Button Content="Remove" Width="125" Height="45" Margin="10"
+                    Command="{Binding RemoveCommand}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
