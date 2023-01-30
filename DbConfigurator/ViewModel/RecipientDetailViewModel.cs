@@ -1,30 +1,33 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel.Interfaces;
+using DbConfigurator.UI.Wrapper;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace DbConfigurator.UI.ViewModel
 {
     public class RecipientDetailViewModel : DetailViewModelBase, IRecipientDetailViewModel
     {
-        public RecipientDetailViewModel(IRecipientRepository recipientRepository)
+        public RecipientDetailViewModel(IRecipientRepository recipientRepository,
+            IEventAggregator eventAggregator) : base(eventAggregator)
         {
             _recipientRepository = recipientRepository;
 
-            CellEditEndingCommand = new RelayCommand(CellEditEndingCommandExecute);
-
-            Recipients_ObservableCollection = new ObservableCollection<Recipient>();
+            Recipients_ObservableCollection = new ObservableCollection<RecipientWrapper>();
         }
 
 
@@ -32,47 +35,71 @@ namespace DbConfigurator.UI.ViewModel
         {
             var recipients = await _recipientRepository.GetAllAsync();
 
-            foreach(var recipient in recipients)
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target
+            foreach (var wrapper in Recipients_ObservableCollection)
             {
-                Recipients_ObservableCollection.Add(recipient);
+                wrapper.PropertyChanged -= Recipients_ObservableCollection_PropertyChanged;
+
             }
+            Recipients_ObservableCollection.Clear();
+
+            foreach (var friendPhoneNumber in recipients)
+            {
+                var wrapper = new RecipientWrapper(friendPhoneNumber);
+                Recipients_ObservableCollection.Add(wrapper);
+                wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
+            }
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target
         }
-
-        public ObservableCollection<Recipient> Recipients_ObservableCollection { get; set; }
-        public Recipient SelectedRecipient { get; set; }
-        public int DefaultRowIndex { get { return 0; } }
-        public RelayCommand CellEditEndingCommand { get; set; }
-
-
-        private void CellEditEndingCommandExecute(object obj)
+        private void Recipients_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            //var recipient = (Recipient)obj;
-            //var Id = Recipients_ObservableCollection.Where(rec => recipient.Id == rec.Id).FirstOrDefault()?.Id;
-            //if(Id == null)
-            //    return;
-
-            //Recipients_ObservableCollection[(int)Id] = recipient;
-            //var a = 0;
-
-            var selectedCells = (IEnumerable<DataGridCellInfo>)obj;
-            object item;
-            DataGridColumn column;
-            FrameworkElement value;
-
-            foreach (var cell in selectedCells)
+            if (!HasChanges)
             {
-                item = cell.Item;
-                column = cell.Column;
-                value = column.GetCellContent(item);
-
-
+                HasChanges = _recipientRepository.HasChanges();
+            }
+            if (e.PropertyName == nameof(RecipientWrapper.HasErrors))
+            {
+                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
         }
 
+        protected override void OnDeleteExecute()
+        {
+            throw new NotImplementedException();
+        }
+        protected override bool OnSaveCanExecute()
+        {
+            return SelectedRecipient != null
+                && !SelectedRecipient.HasErrors
+                && HasChanges;
+        }
+        protected override void OnSaveExecute()
+        {
+            _recipientRepository.SaveAsync();
+            HasChanges = _recipientRepository.HasChanges();
+            Id = SelectedRecipient.Id;
+
+        }
+
+        
+        public int DefaultRowIndex { get { return 0; } }
+        public RecipientWrapper SelectedRecipient
+        {
+            get { return _selectedRecipient; }
+            set 
+            {
+                _selectedRecipient = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<RecipientWrapper> Recipients_ObservableCollection { get; set; }
 
 
-        private ObservableCollection<Recipient> _gridDataCollection;
+        private ObservableCollection<RecipientWrapper> _gridDataCollection;
         private IRecipientRepository _recipientRepository;
+        private IEventAggregator _eventAggregator;
+        private RecipientWrapper _selectedRecipient;
+
 
     }
 }

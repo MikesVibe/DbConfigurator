@@ -3,6 +3,7 @@ using DbConfigurator.DataAccess;
 using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Interfaces;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace DbConfigurator.UI.Startup
         public IContainer Bootstrap()
         {
             var builder = new ContainerBuilder();
+
+            builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
 
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
