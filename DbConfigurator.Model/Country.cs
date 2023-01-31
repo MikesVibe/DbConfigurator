@@ -19,5 +19,7 @@ namespace DbConfigurator.Model
         [Required]
         [MaxLength(2)]
         public string ShortCode{ get; set; }
+
+        public int BuisnessUnitId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DbConfigurator.UI.Data.Repositories;
+﻿using DbConfigurator.Model;
+using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Wrapper;
 using Prism.Commands;
@@ -27,6 +28,13 @@ namespace DbConfigurator.UI.ViewModel
         public async Task LoadAsync()
         {
             var buisnessUnits = await _buisnessUnitRepository.GetAllAsync();
+
+            //BuisnessUnit temp = new BuisnessUnit();
+            //temp.Id = 1;
+            //temp.Name = "MEV";
+            //temp.AreaId = 1;
+
+
 
             foreach (var wrapper in BuisnessUnit_ObservableCollection)
             {

@@ -4,7 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DbConfigurator.Model;
+using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
 
 namespace DbConfigurator.UI.ViewModel
 {
@@ -21,7 +25,7 @@ namespace DbConfigurator.UI.ViewModel
             BuisnessUnitTableViewModel = buisnessUnitTableViewModel;
 
 
-            SelectedTableViewModel = BuisnessUnitTableViewModel;
+            SelectedTableViewModel = RecipientTableViewModel;
         }
 
         public ObservableCollection<IRecipientTableViewModel> TableViewModels { get; }
@@ -55,11 +59,13 @@ namespace DbConfigurator.UI.ViewModel
             //await RecipientTableViewModel.LoadAsync();
         }
 
+
         private ITableViewModel _selectedTableViewModel;
 
         private INavigationViewModel _navigationViewModel;
         private IRecipientTableViewModel _recipientDetailViewModel;
         private IBuisnessUnitTableViewModel _buisnessUnitTableViewModel;
+
 
 
     }

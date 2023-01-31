@@ -1,5 +1,15 @@
-﻿using DbConfigurator.UI.ViewModel;
+﻿using DbConfigurator.DataAccess;
+using DbConfigurator.Model;
+using DbConfigurator.UI.ViewModel;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
 using System.Windows;
+using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
 
 namespace DbConfigurator.UI
 {
@@ -13,12 +23,15 @@ namespace DbConfigurator.UI
             _viewModel = viewModel;
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
-
         }
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            //await _viewModel.Seed();
+            
             await _viewModel.LoadAsync();
+
         }
+
     }
 }

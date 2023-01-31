@@ -11,7 +11,8 @@ namespace DbConfigurator.Model
         public BuisnessUnit() 
         {
             DistributionInformations = new Collection<DistributionInformation>();
-        }   
+        }
+
         [Required]
         public int Id { get; set; }
         [Required]

@@ -2,6 +2,7 @@
 using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Wrapper;
+using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -17,6 +18,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
 
 namespace DbConfigurator.UI.ViewModel
 {
@@ -28,11 +30,17 @@ namespace DbConfigurator.UI.ViewModel
             _recipientRepository = recipientRepository;
 
             Recipients_ObservableCollection = new ObservableCollection<RecipientWrapper>();
+
+
+
+
         }
 
 
         public async Task LoadAsync()
         {
+
+
             var recipients = await _recipientRepository.GetAllAsync();
 
 #pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target
