@@ -32,6 +32,7 @@ namespace DbConfigurator.UI.Startup
             
             builder.RegisterType<RecipientRepository>().AsImplementedInterfaces();
             builder.RegisterType<BuisnessRepository>().AsImplementedInterfaces();
+            builder.RegisterType<CountryRepository>().AsImplementedInterfaces();
 
 
             return builder.Build();

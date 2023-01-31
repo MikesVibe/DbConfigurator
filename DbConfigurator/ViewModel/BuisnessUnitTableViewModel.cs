@@ -16,33 +16,47 @@ namespace DbConfigurator.UI.ViewModel
 {
     public class BuisnessUnitTableViewModel : TableViewModelBase, IBuisnessUnitTableViewModel
     {
-        public BuisnessUnitTableViewModel(IBuisnessRepository countryRepository,
-        IEventAggregator eventAggregator) : base(eventAggregator)
+        public BuisnessUnitTableViewModel(
+            IBuisnessRepository buisnessUnitRepository,
+            ICountryRepository countryRepository, 
+            IEventAggregator eventAggregator
+            ) : base(eventAggregator)
         {
-            _buisnessUnitRepository = countryRepository;
+            _buisnessUnitRepository = buisnessUnitRepository;
+            _countryRepository = countryRepository;
 
             BuisnessUnit_ObservableCollection = new ObservableCollection<BuisnessUnitWrapper>();
+            Countries_ObservableCollection = new ObservableCollection<Country>();
         }
 
 
         public async Task LoadAsync()
         {
-            var buisnessUnits = await _buisnessUnitRepository.GetAllAsync();
+            //var buisnessUnits = await _buisnessUnitRepository.GetAllAsync();
 
 
 
-            foreach (var wrapper in BuisnessUnit_ObservableCollection)
+            //foreach (var wrapper in BuisnessUnit_ObservableCollection)
+            //{
+            //    wrapper.PropertyChanged -= BuisnessUnits_ObservableCollection_PropertyChanged; 
+
+            //}
+            //BuisnessUnit_ObservableCollection.Clear();
+
+            //foreach (var buisnessUnit in buisnessUnits)
+            //{
+            //    var wrapper = new BuisnessUnitWrapper(buisnessUnit);
+            //    BuisnessUnit_ObservableCollection.Add(wrapper);
+            //    wrapper.PropertyChanged += BuisnessUnits_ObservableCollection_PropertyChanged;
+            //}
+
+            var countries = await _countryRepository.GetAllAsync();
+
+
+
+            foreach (var country in countries)
             {
-                wrapper.PropertyChanged -= BuisnessUnits_ObservableCollection_PropertyChanged; 
-
-            }
-            BuisnessUnit_ObservableCollection.Clear();
-
-            foreach (var buisnessUnit in buisnessUnits)
-            {
-                var wrapper = new BuisnessUnitWrapper(buisnessUnit);
-                BuisnessUnit_ObservableCollection.Add(wrapper);
-                wrapper.PropertyChanged += BuisnessUnits_ObservableCollection_PropertyChanged;
+                Countries_ObservableCollection.Add(country);
             }
         }
         private void BuisnessUnits_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -86,10 +100,21 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+        public BuisnessUnitWrapper SelectedCountry
+        {
+            get { return _selectedBuisnessUnit; }
+            set
+            {
+                _selectedBuisnessUnit = value;
+            }
+        }
+
         public ObservableCollection<BuisnessUnitWrapper> BuisnessUnit_ObservableCollection { get; set; }
+        public ObservableCollection<Country> Countries_ObservableCollection { get; set; }
 
 
         private IBuisnessRepository _buisnessUnitRepository;
+        private ICountryRepository _countryRepository;
         private BuisnessUnitWrapper _selectedBuisnessUnit;
 
     }
