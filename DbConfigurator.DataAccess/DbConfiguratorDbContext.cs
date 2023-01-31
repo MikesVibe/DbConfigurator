@@ -99,6 +99,16 @@ namespace DbConfigurator.DataAccess
             }
 
 
+            modelBuilder.Entity<Recipient>().HasData(
+                    new Recipient
+                    {
+                        Id = 1,
+                        FirstName = "John",
+                        LastName = "Doe",
+                        Email = "John.Doe@company.net"
+                    });
+
+
             base.OnModelCreating(modelBuilder);
         }
 

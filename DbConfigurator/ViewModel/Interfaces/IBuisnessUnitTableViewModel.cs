@@ -4,5 +4,6 @@ namespace DbConfigurator.UI.ViewModel.Interfaces
 {
     public interface IBuisnessUnitTableViewModel : ITableViewModel
     {
+        public Task LoadAsync();
     }
 }

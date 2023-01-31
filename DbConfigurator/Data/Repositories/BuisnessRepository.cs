@@ -13,5 +13,6 @@ namespace DbConfigurator.UI.Data.Repositories
         public BuisnessRepository(DbConfiguratorDbContext context) : base(context)
         {
         }
+        
     }
 }

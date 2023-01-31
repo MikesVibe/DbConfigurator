@@ -27,10 +27,7 @@ namespace DbConfigurator.UI
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //await _viewModel.Seed();
-            
             await _viewModel.LoadAsync();
-
         }
 
     }

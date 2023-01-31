@@ -29,11 +29,6 @@ namespace DbConfigurator.UI.ViewModel
         {
             var buisnessUnits = await _buisnessUnitRepository.GetAllAsync();
 
-            //BuisnessUnit temp = new BuisnessUnit();
-            //temp.Id = 1;
-            //temp.Name = "MEV";
-            //temp.AreaId = 1;
-
 
 
             foreach (var wrapper in BuisnessUnit_ObservableCollection)

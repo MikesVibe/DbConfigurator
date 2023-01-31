@@ -25,7 +25,7 @@ namespace DbConfigurator.UI.ViewModel
             BuisnessUnitTableViewModel = buisnessUnitTableViewModel;
 
 
-            SelectedTableViewModel = RecipientTableViewModel;
+            SelectedTableViewModel = BuisnessUnitTableViewModel;
         }
 
         public ObservableCollection<IRecipientTableViewModel> TableViewModels { get; }
@@ -56,7 +56,8 @@ namespace DbConfigurator.UI.ViewModel
         public async Task LoadAsync()
         {
             await NavigationViewModel.LoadAsync();
-            //await RecipientTableViewModel.LoadAsync();
+            await RecipientTableViewModel.LoadAsync();
+            await BuisnessUnitTableViewModel.LoadAsync();
         }
 
 

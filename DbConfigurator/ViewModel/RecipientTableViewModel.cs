@@ -39,8 +39,6 @@ namespace DbConfigurator.UI.ViewModel
 
         public async Task LoadAsync()
         {
-
-
             var recipients = await _recipientRepository.GetAllAsync();
 
 #pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target
