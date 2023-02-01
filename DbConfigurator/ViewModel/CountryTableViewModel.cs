@@ -17,55 +17,40 @@ namespace DbConfigurator.UI.ViewModel
     public class CountryTableViewModel : TableViewModelBase, ICountryTableViewModel
     {
         public CountryTableViewModel(
-            IBuisnessRepository buisnessUnitRepository,
             ICountryRepository countryRepository, 
             IEventAggregator eventAggregator
             ) : base(eventAggregator)
         {
-           // _buisnessUnitRepository = buisnessUnitRepository;
             _countryRepository = countryRepository;
 
-            //BuisnessUnit_ObservableCollection = new ObservableCollection<BuisnessUnitWrapper>();
-            Countries_ObservableCollection = new ObservableCollection<Country>();
+            Countries_ObservableCollection = new ObservableCollection<CountryWrapper>();
         }
 
 
         public async Task LoadAsync()
         {
-            //var buisnessUnits = await _buisnessUnitRepository.GetAllAsync();
+            var buisnessUnits = await _countryRepository.GetAllAsync();
 
-
-
-            //foreach (var wrapper in BuisnessUnit_ObservableCollection)
-            //{
-            //    wrapper.PropertyChanged -= BuisnessUnits_ObservableCollection_PropertyChanged; 
-
-            //}
-            //BuisnessUnit_ObservableCollection.Clear();
-
-            //foreach (var buisnessUnit in buisnessUnits)
-            //{
-            //    var wrapper = new BuisnessUnitWrapper(buisnessUnit);
-            //    BuisnessUnit_ObservableCollection.Add(wrapper);
-            //    wrapper.PropertyChanged += BuisnessUnits_ObservableCollection_PropertyChanged;
-            //}
-
-            var countries = await _countryRepository.GetAllAsync();
-
-
-
-            foreach (var country in countries)
+            foreach (var wrapper in Countries_ObservableCollection)
             {
-                Countries_ObservableCollection.Add(country);
+                wrapper.PropertyChanged -= Country_ObservableCollection_PropertyChanged;
+            }
+            Countries_ObservableCollection.Clear();
+
+            foreach (var buisnessUnit in buisnessUnits)
+            {
+                var wrapper = new CountryWrapper(buisnessUnit);
+                Countries_ObservableCollection.Add(wrapper);
+                wrapper.PropertyChanged += Country_ObservableCollection_PropertyChanged;
             }
         }
-        private void BuisnessUnits_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Country_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!HasChanges)
             {
-             //   HasChanges = _buisnessUnitRepository.HasChanges();
+                HasChanges = _countryRepository.HasChanges();
             }
-            if (e.PropertyName == nameof(BuisnessUnitWrapper.HasErrors))
+            if (e.PropertyName == nameof(CountryWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
@@ -77,23 +62,20 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override bool OnSaveCanExecute()
         {
-            return true;
-            //return SelectedBuisnessUnit != null
-            //    && !SelectedBuisnessUnit.HasErrors
-            //    && HasChanges;
+            return SelectedCountry != null
+                && !SelectedCountry.HasErrors
+                && HasChanges;
         }
         protected override void OnSaveExecute()
         {
-            //_buisnessUnitRepository.SaveAsync();
-            //HasChanges = _buisnessUnitRepository.HasChanges();
-            //Id = SelectedBuisnessUnit.Id;
-
+            _countryRepository.SaveAsync();
+            HasChanges = _countryRepository.HasChanges();
+            Id = SelectedCountry.Id;
         }
 
 
         public int DefaultRowIndex { get { return 0; } }
-
-        public Country SelectedCountry
+        public CountryWrapper SelectedCountry
         {
             get { return _selectedCountry; }
             set
@@ -101,12 +83,11 @@ namespace DbConfigurator.UI.ViewModel
                 _selectedCountry = value;
             }
         }
-
-        public ObservableCollection<Country> Countries_ObservableCollection { get; set; }
+        public ObservableCollection<CountryWrapper> Countries_ObservableCollection { get; set; }
 
 
         private ICountryRepository _countryRepository;
-        private Country _selectedCountry;
+        private CountryWrapper _selectedCountry;
 
     }
 }

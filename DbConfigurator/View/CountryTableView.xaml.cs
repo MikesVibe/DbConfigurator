@@ -18,9 +18,9 @@ namespace DbConfigurator.UI.View
     /// <summary>
     /// Interaction logic for BuisnessUnitTableView.xaml
     /// </summary>
-    public partial class BuisnessUnitTableView : UserControl
+    public partial class CountryTableView : UserControl
     {
-        public BuisnessUnitTableView()
+        public CountryTableView()
         {
             InitializeComponent();
         }
