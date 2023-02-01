@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Data.Repositories
 {
-    public interface IBuisnessRepository : IGenericRepository<BuisnessUnit>
+    public interface IBuisnessRepository : IGenericRepository<BuisnessUnit> 
     {
     }
 }

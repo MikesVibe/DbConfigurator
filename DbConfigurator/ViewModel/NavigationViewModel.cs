@@ -29,7 +29,7 @@ namespace DbConfigurator.UI.ViewModel
             await Task.Delay(0);
 
             NavigationItems_ObservableCollection.Add(
-                new NavigationItemViewModel(0, "Distribution List", nameof(CountryTableViewModel), _eventAggregator));
+                new NavigationItemViewModel(0, "Distribution List", nameof(DistributionInformationTableViewModel), _eventAggregator));
             NavigationItems_ObservableCollection.Add(
                 new NavigationItemViewModel(1, "Recipients", nameof(RecipientTableViewModel), _eventAggregator));
             NavigationItems_ObservableCollection.Add(

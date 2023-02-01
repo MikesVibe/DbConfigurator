@@ -19,7 +19,7 @@ namespace DbConfigurator.Model
         public int Id { get; set; }
 
         [Required]
-        public int BusinessUnitId { get; set; }
+        public int BuisnessUnitId { get; set; }
         public BuisnessUnit BuisnessUnit { get; set; }
 
         [Required]

@@ -108,6 +108,37 @@ namespace DbConfigurator.DataAccess
                         Email = "John.Doe@company.net"
                     });
 
+            modelBuilder.Entity<Priority>().HasData(
+                new Priority
+                {
+                    Id = 1,
+                    Name = "P1"
+                },
+                new Priority
+                {
+                    Id = 2,
+                    Name = "P2"
+                },
+                new Priority
+                {
+                    Id = 3,
+                    Name = "P3"
+                },
+                new Priority
+                {
+                    Id = 4,
+                    Name = "P4"
+                },
+                new Priority
+                {
+                    Id = 5,
+                    Name = "P5"
+                },
+                new Priority
+                {
+                    Id = 6,
+                    Name = "Any"
+                });
 
             base.OnModelCreating(modelBuilder);
         }

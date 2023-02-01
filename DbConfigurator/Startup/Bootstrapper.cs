@@ -30,11 +30,12 @@ namespace DbConfigurator.UI.Startup
                 .Keyed<ITabelViewModel>(nameof(RecipientTableViewModel));
             builder.RegisterType<CountryTableViewModel>()
                  .Keyed<ITabelViewModel>(nameof(CountryTableViewModel));
-            builder.RegisterType<CountryTableViewModel>()
-                 .Keyed < ITabelViewModel>(nameof(DistributionInformationTableViewModel));
+            builder.RegisterType<DistributionInformationTableViewModel>()
+                 .Keyed <ITabelViewModel>(nameof(DistributionInformationTableViewModel));
 
 
             //Repositories
+            builder.RegisterType<DistributionInformationRepository>().AsImplementedInterfaces();
             builder.RegisterType<RecipientRepository>().AsImplementedInterfaces();
             builder.RegisterType<BuisnessRepository>().AsImplementedInterfaces();
             builder.RegisterType<CountryRepository>().AsImplementedInterfaces();

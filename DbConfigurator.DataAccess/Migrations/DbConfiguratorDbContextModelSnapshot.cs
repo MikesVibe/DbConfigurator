@@ -793,9 +793,6 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.Property<int>("BuisnessUnitId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BusinessUnitId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PriorityId")
                         .HasColumnType("int");
 
@@ -824,6 +821,38 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Priorities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "P1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "P2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "P3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "P4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "P5"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Any"
+                        });
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.Recipient", b =>
@@ -871,26 +900,16 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.Property<int>("DestinationFieldId")
                         .HasColumnType("int");
 
+                    b.Property<int>("DistributionInformationId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DestinationFieldId");
 
+                    b.HasIndex("DistributionInformationId");
+
                     b.ToTable("RecipientsGroups");
-                });
-
-            modelBuilder.Entity("DistributionInformationRecipientsGroup", b =>
-                {
-                    b.Property<int>("DistributionInformationsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecipientsGroup_CollectionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DistributionInformationsId", "RecipientsGroup_CollectionId");
-
-                    b.HasIndex("RecipientsGroup_CollectionId");
-
-                    b.ToTable("DistributionInformationRecipientsGroup");
                 });
 
             modelBuilder.Entity("RecipientRecipientsGroup", b =>
@@ -957,22 +976,15 @@ namespace DbConfigurator.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DbConfigurator.Model.DistributionInformation", "DistributionInformation")
+                        .WithMany("RecipientsGroup_Collection")
+                        .HasForeignKey("DistributionInformationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("DestinationField");
-                });
 
-            modelBuilder.Entity("DistributionInformationRecipientsGroup", b =>
-                {
-                    b.HasOne("DbConfigurator.Model.DistributionInformation", null)
-                        .WithMany()
-                        .HasForeignKey("DistributionInformationsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DbConfigurator.Model.RecipientsGroup", null)
-                        .WithMany()
-                        .HasForeignKey("RecipientsGroup_CollectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("DistributionInformation");
                 });
 
             modelBuilder.Entity("RecipientRecipientsGroup", b =>
@@ -1005,6 +1017,11 @@ namespace DbConfigurator.DataAccess.Migrations
             modelBuilder.Entity("DbConfigurator.Model.DestinationField", b =>
                 {
                     b.Navigation("RecipientsGroups");
+                });
+
+            modelBuilder.Entity("DbConfigurator.Model.DistributionInformation", b =>
+                {
+                    b.Navigation("RecipientsGroup_Collection");
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.Priority", b =>

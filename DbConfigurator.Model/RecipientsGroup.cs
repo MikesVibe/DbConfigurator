@@ -15,7 +15,6 @@ namespace DbConfigurator.Model
         public RecipientsGroup()
         {
             Recipients = new Collection<Recipient>();
-            DistributionInformations = new Collection<DistributionInformation>();
         }
 
         [Required]
@@ -24,8 +23,9 @@ namespace DbConfigurator.Model
         [Required]
         public int DestinationFieldId { get; set; } 
         public DestinationField DestinationField { get; set; }
-        public ICollection<Recipient> Recipients { get; set;}
-        public ICollection<DistributionInformation> DistributionInformations { get; set; }
+        public int DistributionInformationId { get; set; }
+        public DistributionInformation DistributionInformation { get; set; }
+        public ICollection<Recipient> Recipients { get; set; }
 
     }
 }
