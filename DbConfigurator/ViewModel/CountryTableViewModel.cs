@@ -14,18 +14,18 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public class BuisnessUnitTableViewModel : TableViewModelBase, IBuisnessUnitTableViewModel
+    public class CountryTableViewModel : TableViewModelBase, ICountryTableViewModel
     {
-        public BuisnessUnitTableViewModel(
+        public CountryTableViewModel(
             IBuisnessRepository buisnessUnitRepository,
             ICountryRepository countryRepository, 
             IEventAggregator eventAggregator
             ) : base(eventAggregator)
         {
-            _buisnessUnitRepository = buisnessUnitRepository;
+           // _buisnessUnitRepository = buisnessUnitRepository;
             _countryRepository = countryRepository;
 
-            BuisnessUnit_ObservableCollection = new ObservableCollection<BuisnessUnitWrapper>();
+            //BuisnessUnit_ObservableCollection = new ObservableCollection<BuisnessUnitWrapper>();
             Countries_ObservableCollection = new ObservableCollection<Country>();
         }
 
@@ -63,7 +63,7 @@ namespace DbConfigurator.UI.ViewModel
         {
             if (!HasChanges)
             {
-                HasChanges = _buisnessUnitRepository.HasChanges();
+             //   HasChanges = _buisnessUnitRepository.HasChanges();
             }
             if (e.PropertyName == nameof(BuisnessUnitWrapper.HasErrors))
             {
@@ -77,45 +77,36 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override bool OnSaveCanExecute()
         {
-            return SelectedBuisnessUnit != null
-                && !SelectedBuisnessUnit.HasErrors
-                && HasChanges;
+            return true;
+            //return SelectedBuisnessUnit != null
+            //    && !SelectedBuisnessUnit.HasErrors
+            //    && HasChanges;
         }
         protected override void OnSaveExecute()
         {
-            _buisnessUnitRepository.SaveAsync();
-            HasChanges = _buisnessUnitRepository.HasChanges();
-            Id = SelectedBuisnessUnit.Id;
+            //_buisnessUnitRepository.SaveAsync();
+            //HasChanges = _buisnessUnitRepository.HasChanges();
+            //Id = SelectedBuisnessUnit.Id;
 
         }
 
 
         public int DefaultRowIndex { get { return 0; } }
-        public BuisnessUnitWrapper SelectedBuisnessUnit
+
+        public Country SelectedCountry
         {
-            get { return _selectedBuisnessUnit; }
+            get { return _selectedCountry; }
             set
             {
-                _selectedBuisnessUnit = value;
-                OnPropertyChanged();
-            }
-        }
-        public BuisnessUnitWrapper SelectedCountry
-        {
-            get { return _selectedBuisnessUnit; }
-            set
-            {
-                _selectedBuisnessUnit = value;
+                _selectedCountry = value;
             }
         }
 
-        public ObservableCollection<BuisnessUnitWrapper> BuisnessUnit_ObservableCollection { get; set; }
         public ObservableCollection<Country> Countries_ObservableCollection { get; set; }
 
 
-        private IBuisnessRepository _buisnessUnitRepository;
         private ICountryRepository _countryRepository;
-        private BuisnessUnitWrapper _selectedBuisnessUnit;
+        private Country _selectedCountry;
 
     }
 }

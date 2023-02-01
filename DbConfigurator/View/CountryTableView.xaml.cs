@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace DbConfigurator.UI.View
 {
     /// <summary>
-    /// Interaction logic for CountryTableView.xaml
+    /// Interaction logic for BuisnessUnitTableView.xaml
     /// </summary>
-    public partial class CountryTableView : UserControl
+    public partial class BuisnessUnitTableView : UserControl
     {
-        public CountryTableView()
+        public BuisnessUnitTableView()
         {
             InitializeComponent();
         }

@@ -21,5 +21,6 @@ namespace DbConfigurator.Model
         public string ShortCode{ get; set; }
 
         public int BuisnessUnitId { get; set; }
+        public BuisnessUnit BuisnessUnit { get; set; }
     }
 }

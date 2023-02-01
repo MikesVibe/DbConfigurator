@@ -23,6 +23,7 @@ namespace DbConfigurator.Model
 
         [Required]
         public int DestinationFieldId { get; set; } 
+        public DestinationField DestinationField { get; set; }
         public ICollection<Recipient> Recipients { get; set;}
         public ICollection<DistributionInformation> DistributionInformations { get; set; }
 

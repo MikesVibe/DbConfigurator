@@ -20,10 +20,11 @@ namespace DbConfigurator.Model
 
         [Required]
         public int BusinessUnitId { get; set; }
+        public BuisnessUnit BuisnessUnit { get; set; }
 
         [Required]
         public int PriorityId { get; set; }
-
+        public Priority Priority { get; set; }
 
         public ICollection<RecipientsGroup> RecipientsGroup_Collection { get; set; }
 

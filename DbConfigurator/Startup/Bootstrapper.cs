@@ -27,7 +27,7 @@ namespace DbConfigurator.UI.Startup
 
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
             builder.RegisterType<RecipientTableViewModel>().As<IRecipientTableViewModel>();
-            builder.RegisterType<BuisnessUnitTableViewModel>().As<IBuisnessUnitTableViewModel>();
+            builder.RegisterType<CountryTableViewModel>().As<ICountryTableViewModel>();
 
             
             builder.RegisterType<RecipientRepository>().AsImplementedInterfaces();

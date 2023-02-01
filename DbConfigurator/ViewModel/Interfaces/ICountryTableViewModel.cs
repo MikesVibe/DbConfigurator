@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.UI.ViewModel.Interfaces
 {
-    public interface IBuisnessUnitTableViewModel : ITableViewModel
+    public interface ICountryTableViewModel : ITableViewModel
     {
         public Task LoadAsync();
     }

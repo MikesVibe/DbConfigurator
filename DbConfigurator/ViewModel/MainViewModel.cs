@@ -17,7 +17,7 @@ namespace DbConfigurator.UI.ViewModel
         public MainViewModel(
             INavigationViewModel navigationViewModel,
             IRecipientTableViewModel recipientDetailViewModel,
-            IBuisnessUnitTableViewModel buisnessUnitTableViewModel
+            ICountryTableViewModel buisnessUnitTableViewModel
             )
         {
             _navigationViewModel = navigationViewModel;
@@ -40,7 +40,7 @@ namespace DbConfigurator.UI.ViewModel
             get { return _recipientDetailViewModel; }
             set { _recipientDetailViewModel = value; }
         }
-        public IBuisnessUnitTableViewModel BuisnessUnitTableViewModel
+        public ICountryTableViewModel BuisnessUnitTableViewModel
         {
             get { return _buisnessUnitTableViewModel; }
             set { _buisnessUnitTableViewModel = value; }
@@ -65,7 +65,7 @@ namespace DbConfigurator.UI.ViewModel
 
         private INavigationViewModel _navigationViewModel;
         private IRecipientTableViewModel _recipientDetailViewModel;
-        private IBuisnessUnitTableViewModel _buisnessUnitTableViewModel;
+        private ICountryTableViewModel _buisnessUnitTableViewModel;
 
 
 
