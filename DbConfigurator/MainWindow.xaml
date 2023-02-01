@@ -32,8 +32,6 @@
             DataContext="{Binding NavigationViewModel}"/>
 
         <view:RecipientTableView Grid.Column="1"  Content="{Binding SelectedTableViewModel}"/>
-        <!--<ContentControl Grid.Column="1" Content="{Binding SelectedTableViewModel}"/>-->
-                      
 
     </Grid>
 </Window>

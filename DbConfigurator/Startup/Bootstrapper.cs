@@ -30,6 +30,8 @@ namespace DbConfigurator.UI.Startup
                 .Keyed<ITabelViewModel>(nameof(RecipientTableViewModel));
             builder.RegisterType<CountryTableViewModel>()
                  .Keyed<ITabelViewModel>(nameof(CountryTableViewModel));
+            builder.RegisterType<CountryTableViewModel>()
+                 .Keyed < ITabelViewModel>(nameof(DistributionInformationTableViewModel));
 
 
             //Repositories
