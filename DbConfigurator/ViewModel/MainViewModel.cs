@@ -37,8 +37,15 @@ namespace DbConfigurator.UI.ViewModel
 
         private async void OnOpenTabelView(OpenTabelViewEventArgs args)
         {
+            if (!_openTableReady)
+                return;
+
+            _openTableReady = false;
+
             var tabelViewModel = TabelViewModels
-             .SingleOrDefault(vm => vm.GetType().Name == args.ViewModelName);
+             .SingleOrDefault(vm => vm.Id == args.Id &&
+             vm.GetType().Name == args.ViewModelName);
+
 
             if (tabelViewModel == null)
             {
@@ -59,6 +66,7 @@ namespace DbConfigurator.UI.ViewModel
             }
 
             SelectedTableViewModel = tabelViewModel;
+            _openTableReady = true;
         }
 
         public ObservableCollection<IRecipientTableViewModel> TableViewModels { get; }
@@ -73,7 +81,7 @@ namespace DbConfigurator.UI.ViewModel
         public ITabelViewModel SelectedTableViewModel
         {
             get { return _selectedTableViewModel; }
-            set 
+            set
             {
                 _selectedTableViewModel = value;
                 OnPropertyChanged();
@@ -95,6 +103,7 @@ namespace DbConfigurator.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private INavigationViewModel _navigationViewModel;
         private ITabelViewModel _selectedTableViewModel;
+        private bool _openTableReady = true;
 
 
 
