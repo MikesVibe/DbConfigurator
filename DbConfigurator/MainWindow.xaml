@@ -11,7 +11,15 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
 
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:CountryTableViewModel}">
+            <view:CountryTableView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:RecipientTableViewModel}">
+            <view:RecipientTableView/>
+        </DataTemplate>
 
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -23,8 +31,9 @@
         <view:NavigationView Grid.Column="0" Margin="10"
             DataContext="{Binding NavigationViewModel}"/>
 
+        <view:RecipientTableView Grid.Column="1"  Content="{Binding SelectedTableViewModel}"/>
+        <!--<ContentControl Grid.Column="1" Content="{Binding SelectedTableViewModel}"/>-->
+                      
 
-        <view:CountryTableView Grid.Column="1" Margin="0 10" DataContext="{Binding SelectedTableViewModel}"/>
-    
     </Grid>
 </Window>

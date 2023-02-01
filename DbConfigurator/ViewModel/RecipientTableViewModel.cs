@@ -37,7 +37,7 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-        public async Task LoadAsync()
+        public override async Task LoadAsync()
         {
             var recipients = await _recipientRepository.GetAllAsync();
 
@@ -87,7 +87,8 @@ namespace DbConfigurator.UI.ViewModel
 
         }
 
-        
+
+
         public int DefaultRowIndex { get { return 0; } }
         public RecipientWrapper SelectedRecipient
         {

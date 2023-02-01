@@ -18,9 +18,9 @@ namespace DbConfigurator.UI.View
     /// <summary>
     /// Interaction logic for DetailsView.xaml
     /// </summary>
-    public partial class DetailsView : UserControl
+    public partial class RecipientTableView : UserControl
     {
-        public DetailsView()
+        public RecipientTableView()
         {
             InitializeComponent();
         }

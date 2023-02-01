@@ -27,7 +27,7 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-        public async Task LoadAsync()
+        public override async Task LoadAsync()
         {
             var buisnessUnits = await _countryRepository.GetAllAsync();
 

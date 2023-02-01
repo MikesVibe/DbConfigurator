@@ -24,12 +24,15 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<DbConfiguratorDbContext>().AsSelf();
 
-
+            //View Models
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
-            builder.RegisterType<RecipientTableViewModel>().As<IRecipientTableViewModel>();
-            builder.RegisterType<CountryTableViewModel>().As<ICountryTableViewModel>();
+            builder.RegisterType<RecipientTableViewModel>()
+                .Keyed<ITabelViewModel>(nameof(RecipientTableViewModel));
+            builder.RegisterType<CountryTableViewModel>()
+                 .Keyed<ITabelViewModel>(nameof(CountryTableViewModel));
 
-            
+
+            //Repositories
             builder.RegisterType<RecipientRepository>().AsImplementedInterfaces();
             builder.RegisterType<BuisnessRepository>().AsImplementedInterfaces();
             builder.RegisterType<CountryRepository>().AsImplementedInterfaces();

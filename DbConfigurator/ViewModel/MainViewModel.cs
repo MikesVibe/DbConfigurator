@@ -4,10 +4,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac.Features.Indexed;
 using DbConfigurator.Model;
+using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Prism.Events;
 using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
 
 namespace DbConfigurator.UI.ViewModel
@@ -16,16 +20,45 @@ namespace DbConfigurator.UI.ViewModel
     {
         public MainViewModel(
             INavigationViewModel navigationViewModel,
-            IRecipientTableViewModel recipientDetailViewModel,
-            ICountryTableViewModel buisnessUnitTableViewModel
+            IIndex<string, ITabelViewModel> tabelViewModelCreator,
+            IEventAggregator eventAggregator
             )
         {
-            _navigationViewModel = navigationViewModel;
-            RecipientTableViewModel = recipientDetailViewModel;
-            BuisnessUnitTableViewModel = buisnessUnitTableViewModel;
+            _tabelViewModelCreator = tabelViewModelCreator;
+            _eventAggregator = eventAggregator;
 
+            TabelViewModels = new ObservableCollection<ITabelViewModel>();
 
-            SelectedTableViewModel = BuisnessUnitTableViewModel;
+            _eventAggregator.GetEvent<OpenTabelViewEvent>()
+                .Subscribe(OnOpenTabelView);
+
+            NavigationViewModel = navigationViewModel;
+        }
+
+        private async void OnOpenTabelView(OpenTabelViewEventArgs args)
+        {
+            var tabelViewModel = TabelViewModels
+             .SingleOrDefault(vm => vm.GetType().Name == args.ViewModelName);
+
+            if (tabelViewModel == null)
+            {
+                tabelViewModel = _tabelViewModelCreator[args.ViewModelName];
+                try
+                {
+                    await tabelViewModel.LoadAsync();
+                }
+                catch
+                {
+                    //await _messageDialogService.ShowInfoDialogAsync("Could not load the entity, " +
+                    //    "maybe it was deleted in the meantime by another user. " +
+                    //    "The navigation is refreshed for you.");
+                    await NavigationViewModel.LoadAsync();
+                    return;
+                }
+                TabelViewModels.Add(tabelViewModel);
+            }
+
+            SelectedTableViewModel = tabelViewModel;
         }
 
         public ObservableCollection<IRecipientTableViewModel> TableViewModels { get; }
@@ -35,20 +68,16 @@ namespace DbConfigurator.UI.ViewModel
             get { return _navigationViewModel; }
             set { _navigationViewModel = value; }
         }
-        public IRecipientTableViewModel RecipientTableViewModel
-        {
-            get { return _recipientDetailViewModel; }
-            set { _recipientDetailViewModel = value; }
-        }
-        public ICountryTableViewModel BuisnessUnitTableViewModel
-        {
-            get { return _buisnessUnitTableViewModel; }
-            set { _buisnessUnitTableViewModel = value; }
-        }
-        public ITableViewModel SelectedTableViewModel
+
+
+        public ITabelViewModel SelectedTableViewModel
         {
             get { return _selectedTableViewModel; }
-            set { _selectedTableViewModel = value; }
+            set 
+            {
+                _selectedTableViewModel = value;
+                OnPropertyChanged();
+            }
         }
 
 
@@ -56,16 +85,16 @@ namespace DbConfigurator.UI.ViewModel
         public async Task LoadAsync()
         {
             await NavigationViewModel.LoadAsync();
-            await RecipientTableViewModel.LoadAsync();
-            await BuisnessUnitTableViewModel.LoadAsync();
         }
 
 
-        private ITableViewModel _selectedTableViewModel;
 
+        public ObservableCollection<ITabelViewModel> TabelViewModels { get; }
+
+        private IIndex<string, ITabelViewModel> _tabelViewModelCreator;
+        private IEventAggregator _eventAggregator;
         private INavigationViewModel _navigationViewModel;
-        private IRecipientTableViewModel _recipientDetailViewModel;
-        private ICountryTableViewModel _buisnessUnitTableViewModel;
+        private ITabelViewModel _selectedTableViewModel;
 
 
 

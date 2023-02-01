@@ -6,32 +6,38 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DbConfigurator.UI.ViewModel.Interfaces;
+using Prism.Events;
 
 namespace DbConfigurator.UI.ViewModel
 {
     public class NavigationViewModel : ViewModelBase, INavigationViewModel
     {
-        public NavigationViewModel()
+        public NavigationViewModel(IEventAggregator eventAggregator)
         {
-            Recipients_ObservableCollection = new ObservableCollection<NavigationItemViewModel>();
+            NavigationItems_ObservableCollection = new ObservableCollection<NavigationItemViewModel>();
+
+            _eventAggregator = eventAggregator;
+
         }
 
 
+        public ObservableCollection<NavigationItemViewModel> NavigationItems_ObservableCollection { get; }
 
-
-
-
-        public ObservableCollection<NavigationItemViewModel> Recipients_ObservableCollection { get; }
 
         public async Task LoadAsync()
         {
             await Task.Delay(0);
 
-            Recipients_ObservableCollection.Add(new NavigationItemViewModel(0, "Distribution List"));
-            Recipients_ObservableCollection.Add(new NavigationItemViewModel(1, "Recipients"));
-            Recipients_ObservableCollection.Add(new NavigationItemViewModel(2, "Countries"));
-
-
+            NavigationItems_ObservableCollection.Add(
+                new NavigationItemViewModel(0, "Distribution List", nameof(CountryTableViewModel), _eventAggregator));
+            NavigationItems_ObservableCollection.Add(
+                new NavigationItemViewModel(1, "Recipients", nameof(RecipientTableViewModel), _eventAggregator));
+            NavigationItems_ObservableCollection.Add(
+                new NavigationItemViewModel(2, "Countries", nameof(CountryTableViewModel), _eventAggregator));
         }
+
+
+        private IEventAggregator _eventAggregator;
+
     }
 }

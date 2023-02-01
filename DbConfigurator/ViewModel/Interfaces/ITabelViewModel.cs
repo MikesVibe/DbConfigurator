@@ -2,8 +2,10 @@
 
 namespace DbConfigurator.UI.ViewModel.Interfaces
 {
-    public interface ITableViewModel
+    public interface ITabelViewModel
     {
+        Task LoadAsync();
+
         bool HasChanges { get; }
         int Id { get; }
     }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public abstract class TableViewModelBase : ViewModelBase, ITableViewModel
+    public abstract class TableViewModelBase : ViewModelBase, ITabelViewModel
     {
 
         public TableViewModelBase(IEventAggregator eventAggregator)
@@ -19,6 +19,7 @@ namespace DbConfigurator.UI.ViewModel
             DeleteCommand = new DelegateCommand(OnDeleteExecute);
         }
 
+        public abstract Task LoadAsync();
 
         protected abstract void OnDeleteExecute();
         protected abstract bool OnSaveCanExecute();
