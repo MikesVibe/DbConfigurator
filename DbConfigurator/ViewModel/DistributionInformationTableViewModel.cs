@@ -3,6 +3,7 @@ using DbConfigurator.Model;
 using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.View;
 using DbConfigurator.UI.Wrapper;
+using Microsoft.VisualBasic;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -24,7 +25,7 @@ namespace DbConfigurator.UI.ViewModel
         {
             _distributionInformationRepository = distributionInformationRepository;
 
-            DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationWrapper>();
+            DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookupWrapper>();
 
 
         }
@@ -33,19 +34,31 @@ namespace DbConfigurator.UI.ViewModel
         {
             var distributionInformations = await _distributionInformationRepository.GetAllAsync();
 
-            foreach (var wrapper in DistributionInformation_ObservableCollection)
-            {
-                wrapper.PropertyChanged -= DistributionInformation_ObservableCollection_PropertyChanged;
 
-            }
-            DistributionInformation_ObservableCollection.Clear();
-
-            foreach (var distributionInformation in distributionInformations)
+            foreach (var distInfo in distributionInformations)
             {
-                var wrapper = new DistributionInformationWrapper(distributionInformation);
-                DistributionInformation_ObservableCollection.Add(wrapper);
-                wrapper.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
+                foreach (var country in distInfo.BuisnessUnit.Countries)
+                {
+                    var temp = new DistributionInfoLookup
+                    {
+                        Area = distInfo.BuisnessUnit.Area.Name,
+                        BuisnessUnit = distInfo.BuisnessUnit.Name,
+                        Priority = distInfo.Priority.Name,
+                        Country = country.Name
+                    };
+
+                    DisInfoLookup_ObservableCollection.Add(new DistributionInfoLookupWrapper(temp));
+                }
             }
+
+
+
+            //foreach (var distributionInformation in distributionInformations)
+            //{
+            //    var wrapper = new DistributionInformationWrapper(distributionInformation);
+            //    DistributionInformation_ObservableCollection.Add(wrapper);
+            //    wrapper.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
+            //}
         }
         private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -53,7 +66,7 @@ namespace DbConfigurator.UI.ViewModel
             {
                 HasChanges = _distributionInformationRepository.HasChanges();
             }
-            if (e.PropertyName == nameof(DistributionInformationWrapper.HasErrors))
+            if (e.PropertyName == nameof(DistributionInfoLookupWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
@@ -65,35 +78,48 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override bool OnSaveCanExecute()
         {
-            return SelectedDistributionInformation != null
-                && !SelectedDistributionInformation.HasErrors
+            return SelectedDisInfoLookup != null
+                && !SelectedDisInfoLookup.HasErrors
                 && HasChanges;
         }
         protected override void OnSaveExecute()
         {
             _distributionInformationRepository.SaveAsync();
             HasChanges = _distributionInformationRepository.HasChanges();
-            Id = SelectedDistributionInformation.Id;
+            Id = SelectedDisInfoLookup.Id;
 
         }
 
 
 
         public int DefaultRowIndex { get { return 0; } }
-        public DistributionInformationWrapper SelectedDistributionInformation
+        //public DistributionInformationWrapper SelectedDistributionInformation
+        //{
+        //    get { return _selectedDistributionInformation; }
+        //    set
+        //    {
+        //        _selectedDistributionInformation = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //public ObservableCollection<DistributionInformationWrapper> DistributionInformation_ObservableCollection { get; set; }
+
+        public DistributionInfoLookupWrapper SelectedDisInfoLookup
         {
-            get { return _selectedDistributionInformation; }
+            get { return _selectedDisInfoLookup; }
             set
             {
-                _selectedDistributionInformation = value;
+                _selectedDisInfoLookup = value;
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<DistributionInformationWrapper> DistributionInformation_ObservableCollection { get; set; }
+
+        public ObservableCollection<DistributionInfoLookupWrapper> DisInfoLookup_ObservableCollection { get; set; }
 
 
         private IDistributionInformationRepository _distributionInformationRepository;
         private IEventAggregator _eventAggregator;
-        private DistributionInformationWrapper _selectedDistributionInformation;
+        //private DistributionInformationWrapper _selectedDistributionInformation;
+        private DistributionInfoLookupWrapper _selectedDisInfoLookup;
     }
 }

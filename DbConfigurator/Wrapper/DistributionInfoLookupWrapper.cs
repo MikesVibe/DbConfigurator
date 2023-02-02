@@ -12,6 +12,11 @@ namespace DbConfigurator.UI.Wrapper
         public DistributionInfoLookupWrapper(DistributionInfoLookup model) : base(model)
         {
         }
+        public int Id
+        {
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
         public string Area
         {
             get { return GetValue<string>(); }
