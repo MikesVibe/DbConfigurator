@@ -12,6 +12,8 @@ namespace DbConfigurator.UI.Wrapper
     {
         public DistributionInformationWrapper(DistributionInformation model) : base(model)
         {
+            BuisnessUnit = new BuisnessUnitWrapper(model.BuisnessUnit);
+            Priority = new PriorityWrapper(model.Priority);
         }
 
         public int Id 
@@ -19,7 +21,7 @@ namespace DbConfigurator.UI.Wrapper
             get { return GetValue<int>(); }
         }
 
-        public int BusinessUnitId
+        public int BuisnessUnitId
         {
             get { return GetValue<int>(); }
             set
@@ -27,14 +29,9 @@ namespace DbConfigurator.UI.Wrapper
                 SetValue<int>(value);
             }
         }
-        public BuisnessUnit BuisnessUnit
-        {
-            get { return GetValue<BuisnessUnit>(); }
-            set
-            {
-                SetValue<BuisnessUnit>(value);
-            }
-        }
+
+
+        public BuisnessUnitWrapper BuisnessUnit { get; set; }
 
         public int PriorityId
         {
@@ -44,14 +41,7 @@ namespace DbConfigurator.UI.Wrapper
                 SetValue<int>(value);
             }
         }
-        public Priority Priority
-        {
-            get { return GetValue<Priority>(); }
-            set
-            {
-                SetValue<Priority>(value);
-            }
-        }
+        public PriorityWrapper Priority { get; set; }
 
         public ICollection<RecipientsGroup> RecipientsGroup_Collection
         {

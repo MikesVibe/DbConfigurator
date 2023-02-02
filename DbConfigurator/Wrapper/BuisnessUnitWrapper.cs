@@ -12,6 +12,7 @@ namespace DbConfigurator.UI.Wrapper
     {
         public BuisnessUnitWrapper(BuisnessUnit model) : base(model)
         {
+
         }
 
         public int Id
@@ -20,19 +21,18 @@ namespace DbConfigurator.UI.Wrapper
         }
         public string Name
         {
-            get { return GetValue<string>(); }
-            set
-            {
-                SetValue<string>(value);
-            }
+            get {   return GetValue<string>();  }
+            set {   SetValue<string>(value);    }
         }
         public int AreaId
         {
             get { return GetValue<int>(); }
-            set
-            {
-                SetValue<int>(value);
-            }
+            set { SetValue<int>(value); }
+        }
+        public Area Area
+        {
+            get { return GetValue<Area>(); }
+            set { SetValue<Area>(value); }
         }
         public ICollection<Country> Countries
         {

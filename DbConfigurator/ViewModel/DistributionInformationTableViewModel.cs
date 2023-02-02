@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,33 +26,46 @@ namespace DbConfigurator.UI.ViewModel
         {
             _distributionInformationRepository = distributionInformationRepository;
 
-            DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookupWrapper>();
+            DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationWrapper>();
 
 
         }
 
         public override async Task LoadAsync()
         {
+            //var distributionInformations = await _distributionInformationRepository.GetAllAsync();
+            //foreach (var distInfo in distributionInformations)
+            //{
+            //    foreach (var country in distInfo.BuisnessUnit.Countries)
+            //    {
+            //        var temp = new DistributionInfoLookup
+            //        {
+            //            Area = distInfo.BuisnessUnit.Area.Name,
+            //            BuisnessUnit = distInfo.BuisnessUnit.Name,
+            //            Priority = distInfo.Priority.Name,
+            //            Country = country.Name
+            //        };
+
+            //    }
+            //}
             var distributionInformations = await _distributionInformationRepository.GetAllAsync();
 
+            foreach (var wrapper in DistributionInformation_ObservableCollection)
+            {
+                wrapper.PropertyChanged -= DistributionInformation_ObservableCollection_PropertyChanged;
+                wrapper.BuisnessUnit.PropertyChanged -= DistributionInformation_ObservableCollection_PropertyChanged;
+                wrapper.Priority.PropertyChanged -= DistributionInformation_ObservableCollection_PropertyChanged;
+            }
+            DistributionInformation_ObservableCollection.Clear();
 
             foreach (var distInfo in distributionInformations)
             {
-                foreach (var country in distInfo.BuisnessUnit.Countries)
-                {
-                    var temp = new DistributionInfoLookup
-                    {
-                        Area = distInfo.BuisnessUnit.Area.Name,
-                        BuisnessUnit = distInfo.BuisnessUnit.Name,
-                        Priority = distInfo.Priority.Name,
-                        Country = country.Name
-                    };
-
-                    DisInfoLookup_ObservableCollection.Add(new DistributionInfoLookupWrapper(temp));
-                }
+                var wrapper = new DistributionInformationWrapper(distInfo);
+                DistributionInformation_ObservableCollection.Add(wrapper);
+                wrapper.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
+                wrapper.BuisnessUnit.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
+                wrapper.Priority.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
             }
-
-
 
             //foreach (var distributionInformation in distributionInformations)
             //{
@@ -60,13 +74,24 @@ namespace DbConfigurator.UI.ViewModel
             //    wrapper.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
             //}
         }
+        //private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (!HasChanges)
+        //    {
+        //        HasChanges = _distributionInformationRepository.HasChanges();
+        //    }
+        //    if (e.PropertyName == nameof(DistributionInfoLookupWrapper.HasErrors))
+        //    {
+        //        ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+        //    }
+        //}
         private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!HasChanges)
             {
                 HasChanges = _distributionInformationRepository.HasChanges();
             }
-            if (e.PropertyName == nameof(DistributionInfoLookupWrapper.HasErrors))
+            if (e.PropertyName == nameof(DistributionInformationWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
@@ -76,50 +101,62 @@ namespace DbConfigurator.UI.ViewModel
         {
             throw new NotImplementedException();
         }
+        //protected override bool OnSaveCanExecute()
+        //{
+        //    return SelectedDisInfoLookup != null
+        //        && !SelectedDisInfoLookup.HasErrors
+        //        && HasChanges;
+        //}
+        //protected override void OnSaveExecute()
+        //{
+        //    _distributionInformationRepository.SaveAsync();
+        //    HasChanges = _distributionInformationRepository.HasChanges();
+        //    Id = SelectedDisInfoLookup.Id;
+
+        //}
         protected override bool OnSaveCanExecute()
         {
-            return SelectedDisInfoLookup != null
-                && !SelectedDisInfoLookup.HasErrors
+            return SelectedDistributionInformation != null
+                && !SelectedDistributionInformation.HasErrors
                 && HasChanges;
         }
         protected override void OnSaveExecute()
         {
             _distributionInformationRepository.SaveAsync();
             HasChanges = _distributionInformationRepository.HasChanges();
-            Id = SelectedDisInfoLookup.Id;
+            Id = SelectedDistributionInformation.Id;
 
         }
-
 
 
         public int DefaultRowIndex { get { return 0; } }
-        //public DistributionInformationWrapper SelectedDistributionInformation
-        //{
-        //    get { return _selectedDistributionInformation; }
-        //    set
-        //    {
-        //        _selectedDistributionInformation = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //public ObservableCollection<DistributionInformationWrapper> DistributionInformation_ObservableCollection { get; set; }
-
-        public DistributionInfoLookupWrapper SelectedDisInfoLookup
+        public DistributionInformationWrapper SelectedDistributionInformation
         {
-            get { return _selectedDisInfoLookup; }
+            get { return _selectedDistributionInformation; }
             set
             {
-                _selectedDisInfoLookup = value;
+                _selectedDistributionInformation = value;
                 OnPropertyChanged();
             }
         }
+        public ObservableCollection<DistributionInformationWrapper> DistributionInformation_ObservableCollection { get; set; }
 
-        public ObservableCollection<DistributionInfoLookupWrapper> DisInfoLookup_ObservableCollection { get; set; }
+        //public DistributionInfoLookupWrapper SelectedDisInfoLookup
+        //{
+        //    get { return _selectedDisInfoLookup; }
+        //    set
+        //    {
+        //        _selectedDisInfoLookup = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+
+        //public ObservableCollection<DistributionInfoLookupWrapper> DisInfoLookup_ObservableCollection { get; set; }
 
 
         private IDistributionInformationRepository _distributionInformationRepository;
         private IEventAggregator _eventAggregator;
-        //private DistributionInformationWrapper _selectedDistributionInformation;
-        private DistributionInfoLookupWrapper _selectedDisInfoLookup;
+        private DistributionInformationWrapper _selectedDistributionInformation;
+        //private DistributionInfoLookupWrapper _selectedDisInfoLookup;
     }
 }

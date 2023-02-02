@@ -14,9 +14,10 @@
         </Grid.RowDefinitions>
         <DataGrid   x:Name="myDataGrid"
             CanUserResizeRows="False"
-            ItemsSource="{Binding DisInfoLookup_ObservableCollection}"
+            ItemsSource="{Binding DistributionInformation_ObservableCollection}"
+                    SelectedItem="{Binding SelectedDistributionInformation}"
             AutoGenerateColumns="False" FontSize="11" Height="300">
-            <DataGrid.Columns >
+            <!--<DataGrid.Columns >
                 <DataGridTextColumn Header="Area"  Width="150"
                             Binding="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Buisness Unit" Width="100" 
@@ -25,6 +26,20 @@
                             Binding="{Binding Country, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Priority" Width="150" 
                             Binding="{Binding Priority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="TO" Width="80" 
+                            Binding="{Binding TO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="CC" Width="150" 
+                            Binding="{Binding CC, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </DataGrid.Columns>-->
+            <DataGrid.Columns >
+                <DataGridTextColumn Header="Area"  Width="150"
+                            Binding="{Binding BuisnessUnit.Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Buisness Unit" Width="100" 
+                            Binding="{Binding BuisnessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="BuId" Width="150" 
+                            Binding="{Binding BuisnessUnitId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Priority" Width="150" 
+                            Binding="{Binding Priority.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="TO" Width="80" 
                             Binding="{Binding TO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="CC" Width="150" 
