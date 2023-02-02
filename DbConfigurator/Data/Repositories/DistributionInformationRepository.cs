@@ -23,6 +23,8 @@ namespace DbConfigurator.UI.Data.Repositories
                 .Include(g => g.BuisnessUnit.Countries.Where(c => c.BuisnessUnitId == c.BuisnessUnitId))
                 .Include(p => p.Priority).ToListAsync();
 
+
+
             return collection;
         }
     }
