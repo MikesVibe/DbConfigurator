@@ -52,9 +52,7 @@ namespace DbConfigurator.UI.ViewModel
 
             foreach (var wrapper in DistributionInformation_ObservableCollection)
             {
-                wrapper.PropertyChanged -= DistributionInformation_ObservableCollection_PropertyChanged;
-                wrapper.BuisnessUnit.PropertyChanged -= DistributionInformation_ObservableCollection_PropertyChanged;
-                wrapper.Priority.PropertyChanged -= DistributionInformation_ObservableCollection_PropertyChanged;
+
             }
             DistributionInformation_ObservableCollection.Clear();
 
@@ -62,9 +60,7 @@ namespace DbConfigurator.UI.ViewModel
             {
                 var wrapper = new DistributionInformationWrapper(distInfo);
                 DistributionInformation_ObservableCollection.Add(wrapper);
-                wrapper.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
-                wrapper.BuisnessUnit.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
-                wrapper.Priority.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
+
             }
 
             //foreach (var distributionInformation in distributionInformations)

@@ -14,6 +14,7 @@
         </Grid.RowDefinitions>
         <DataGrid   x:Name="myDataGrid"
             CanUserResizeRows="False"
+            IsReadOnly="True"
             ItemsSource="{Binding DistributionInformation_ObservableCollection}"
                     SelectedItem="{Binding SelectedDistributionInformation}"
             AutoGenerateColumns="False" FontSize="11" Height="300">
@@ -33,11 +34,11 @@
             </DataGrid.Columns>-->
             <DataGrid.Columns >
                 <DataGridTextColumn Header="Area"  Width="150"
-                            Binding="{Binding BuisnessUnit.Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Buisness Unit" Width="100" 
-                            Binding="{Binding BuisnessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="BuId" Width="150" 
-                            Binding="{Binding BuisnessUnitId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Binding="{Binding Country.BuisnessUnit.Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Country Cluster" Width="100" 
+                            Binding="{Binding Country.BuisnessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Country" Width="150" 
+                            Binding="{Binding Country.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Priority" Width="150" 
                             Binding="{Binding Priority.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="TO" Width="80" 

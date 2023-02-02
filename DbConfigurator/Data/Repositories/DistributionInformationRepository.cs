@@ -19,10 +19,8 @@ namespace DbConfigurator.UI.Data.Repositories
         public override async Task<IEnumerable<DistributionInformation>> GetAllAsync()
         {
             var collection = await Context.Set<DistributionInformation>()
-                .Include(c => c.BuisnessUnit.Area)
-                .Include(g => g.BuisnessUnit.Countries.Where(c => c.BuisnessUnitId == c.BuisnessUnitId))
+                .Include(c => c.Country.BuisnessUnit.Area)
                 .Include(p => p.Priority).ToListAsync();
-
 
 
             return collection;

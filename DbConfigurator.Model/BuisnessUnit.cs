@@ -10,7 +10,6 @@ namespace DbConfigurator.Model
     {
         public BuisnessUnit() 
         {
-            DistributionInformations = new Collection<DistributionInformation>();
         }
 
         [Required]
@@ -23,6 +22,5 @@ namespace DbConfigurator.Model
    
     
         public ICollection<Country> Countries { get; set; }
-        public ICollection<DistributionInformation> DistributionInformations { get; set; }
     }
 }

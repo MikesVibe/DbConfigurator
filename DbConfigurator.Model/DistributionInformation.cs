@@ -19,8 +19,8 @@ namespace DbConfigurator.Model
         public int Id { get; set; }
 
         [Required]
-        public int BuisnessUnitId { get; set; }
-        public BuisnessUnit BuisnessUnit { get; set; }
+        public int CountryId { get; set; }
+        public Country Country { get; set; }
 
         [Required]
         public int PriorityId { get; set; }
