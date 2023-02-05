@@ -20,6 +20,7 @@ namespace DbConfigurator.UI.Data.Repositories
         {
             var collection = await Context.Set<DistributionInformation>()
                 .Include(c => c.Country.BuisnessUnit.Area)
+                .Include(c => c.RecipientsGroup_Collection)
                 .Include(p => p.Priority).ToListAsync();
 
 

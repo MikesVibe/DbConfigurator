@@ -26,61 +26,29 @@ namespace DbConfigurator.UI.ViewModel
         {
             _distributionInformationRepository = distributionInformationRepository;
 
-            DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationWrapper>();
+            DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookup>();
 
 
         }
 
         public override async Task LoadAsync()
         {
-            //var distributionInformations = await _distributionInformationRepository.GetAllAsync();
-            //foreach (var distInfo in distributionInformations)
-            //{
-            //    foreach (var country in distInfo.BuisnessUnit.Countries)
-            //    {
-            //        var temp = new DistributionInfoLookup
-            //        {
-            //            Area = distInfo.BuisnessUnit.Area.Name,
-            //            BuisnessUnit = distInfo.BuisnessUnit.Name,
-            //            Priority = distInfo.Priority.Name,
-            //            Country = country.Name
-            //        };
-
-            //    }
-            //}
             var distributionInformations = await _distributionInformationRepository.GetAllAsync();
 
-            foreach (var wrapper in DistributionInformation_ObservableCollection)
+
+
+
+            var distributionInformationsLookup = new ObservableCollection<DistributionInfoLookup>();
+            foreach(var dis in distributionInformations)
             {
-
-            }
-            DistributionInformation_ObservableCollection.Clear();
-
-            foreach (var distInfo in distributionInformations)
-            {
-                var wrapper = new DistributionInformationWrapper(distInfo);
-                DistributionInformation_ObservableCollection.Add(wrapper);
-
+                distributionInformationsLookup.Add(new DistributionInfoLookup(dis));
             }
 
-            //foreach (var distributionInformation in distributionInformations)
-            //{
-            //    var wrapper = new DistributionInformationWrapper(distributionInformation);
-            //    DistributionInformation_ObservableCollection.Add(wrapper);
-            //    wrapper.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
-            //}
+
+
+            DisInfoLookup_ObservableCollection = distributionInformationsLookup;
         }
-        //private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    if (!HasChanges)
-        //    {
-        //        HasChanges = _distributionInformationRepository.HasChanges();
-        //    }
-        //    if (e.PropertyName == nameof(DistributionInfoLookupWrapper.HasErrors))
-        //    {
-        //        ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-        //    }
-        //}
+
         private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!HasChanges)
@@ -135,7 +103,7 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<DistributionInformationWrapper> DistributionInformation_ObservableCollection { get; set; }
+        //public ObservableCollection<DistributionInformationWrapper> DistributionInformation_ObservableCollection { get; set; }
 
         //public DistributionInfoLookupWrapper SelectedDisInfoLookup
         //{
@@ -147,7 +115,7 @@ namespace DbConfigurator.UI.ViewModel
         //    }
         //}
 
-        //public ObservableCollection<DistributionInfoLookupWrapper> DisInfoLookup_ObservableCollection { get; set; }
+        public ObservableCollection<DistributionInfoLookup> DisInfoLookup_ObservableCollection { get; set; }
 
 
         private IDistributionInformationRepository _distributionInformationRepository;
