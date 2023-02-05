@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace DbConfigurator.UI.Data.Repositories
 {
@@ -20,9 +21,8 @@ namespace DbConfigurator.UI.Data.Repositories
         {
             var collection = await Context.Set<DistributionInformation>()
                 .Include(c => c.Country.BuisnessUnit.Area)
-                .Include(c => c.RecipientsGroup_Collection)
+                .Include(c => c.RecipientsGroup_Collection).ThenInclude(rg => rg.DestinationField).ThenInclude(r => r.RecipientsGroups).ThenInclude(t => t.Recipients)
                 .Include(p => p.Priority).ToListAsync();
-
 
             return collection;
         }
