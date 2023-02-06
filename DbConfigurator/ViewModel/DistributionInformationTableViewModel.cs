@@ -30,7 +30,7 @@ namespace DbConfigurator.UI.ViewModel
             _countryRepository = countryRepository;
             _recipientRepository = recipientRepository;
 
-            DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookup>();
+            DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInformation>();
 
 
         }
@@ -41,11 +41,10 @@ namespace DbConfigurator.UI.ViewModel
 
 
 
-
-            var distributionInformationsLookup = new ObservableCollection<DistributionInfoLookup>();
-            foreach(var dis in distributionInformations)
+            var distributionInformationsLookup = new ObservableCollection<DistributionInformation>();
+            foreach (var dis in distributionInformations)
             {
-                distributionInformationsLookup.Add(new DistributionInfoLookup(dis));
+                distributionInformationsLookup.Add(dis);
             }
             DisInfoLookup_ObservableCollection = distributionInformationsLookup;
 
@@ -83,6 +82,7 @@ namespace DbConfigurator.UI.ViewModel
             }
             else
             {
+
 
             }
             if (e.PropertyName == nameof(DistributionInformationWrapper.HasErrors))
@@ -122,13 +122,24 @@ namespace DbConfigurator.UI.ViewModel
 
 
         public int DefaultRowIndex { get { return 0; } }
-        public DistributionInfoLookup SelectedDistributionInformation
+        public DistributionInformation SelectedDistributionInformation
         {
             get 
             {
-                if (_selectedDistributionInformation?.Area != null)
-                SelectedAreaIndex = Area_Collection.Where(a => a.Name == _selectedDistributionInformation.Area).First().Id - 1;
+                if (_selectedDistributionInformation != null)
+                {
+                    SelectedAreaIndex = Area_Collection.Where(a => a.Id == _selectedDistributionInformation.Country.BuisnessUnit.Area.Id).First().Id - 1;
+                    SelectedBuisnessUnitIndex = BuisnessUnit_Collection.Where(b => b.Id == _selectedDistributionInformation.Country.BuisnessUnit.Id).First().Id - 1;
+                    SelectedcCountryIndex = Country_Collection.Where(c => c.Id == _selectedDistributionInformation.Country.Id).First().Id - 1;
+                    //SelectedcPriorityIndex = Priority_Collection.Where(p => p.Id == _selectedDistributionInformation.Priority.Id).First().Id - 1;
+
+                }
+
+
                 OnPropertyChanged(nameof(SelectedAreaIndex));
+                OnPropertyChanged(nameof(SelectedBuisnessUnitIndex));
+                OnPropertyChanged(nameof(SelectedcCountryIndex));
+                //OnPropertyChanged(nameof(SelectedcPriorityIndex));
 
                 return _selectedDistributionInformation; 
             }
@@ -139,12 +150,41 @@ namespace DbConfigurator.UI.ViewModel
             }
         }
         private int _selectedAreaIndex;
-
         public int SelectedAreaIndex
         {
             get { return _selectedAreaIndex; }
             set { _selectedAreaIndex = value; }
         }
+        private int _selectedBuisnessUnitIndex;
+        public int SelectedBuisnessUnitIndex
+        {
+            get { return _selectedBuisnessUnitIndex; }
+            set { _selectedBuisnessUnitIndex = value; }
+        }
+        private int _selectedcCountryIndex;
+
+        public int SelectedcCountryIndex
+        {
+            get { return _selectedcCountryIndex; }
+            set { _selectedcCountryIndex = value; }
+        }
+        private int _selectedcPriorityIndex;
+
+        public int SelectedcPriorityIndex
+        {
+            get { return _selectedcPriorityIndex; }
+            set { _selectedcPriorityIndex = value; }
+        }
+
+
+        //private Area _selectedAreaItem;
+
+        //public Area SelectedAreaItem
+        //{
+        //    get { return _selectedAreaItem; }
+        //    set { _selectedAreaItem = value; }
+        //}
+
 
         //public ObservableCollection<DistributionInformationWrapper> DistributionInformation_ObservableCollection { get; set; }
 
@@ -158,7 +198,7 @@ namespace DbConfigurator.UI.ViewModel
         //    }
         //}
 
-        public ObservableCollection<DistributionInfoLookup> DisInfoLookup_ObservableCollection { get; set; }
+        public ObservableCollection<DistributionInformation> DisInfoLookup_ObservableCollection { get; set; }
         public ObservableCollection<Area> Area_Collection { get; set; }
         public ObservableCollection<BuisnessUnit> BuisnessUnit_Collection { get; set; }
         public ObservableCollection<Country> Country_Collection { get; set; }
@@ -168,7 +208,7 @@ namespace DbConfigurator.UI.ViewModel
         private ICountryRepository _countryRepository;
         private IRecipientRepository _recipientRepository;
         private IEventAggregator _eventAggregator;
-        private DistributionInfoLookup _selectedDistributionInformation;
+        private DistributionInformation _selectedDistributionInformation;
         //private DistributionInfoLookupWrapper _selectedDisInfoLookup;
     }
 }

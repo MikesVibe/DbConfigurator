@@ -30,13 +30,13 @@
 
                 <DataGrid.Columns >
                     <DataGridTextColumn Header="Area"  Width="150"
-                            Binding="{Binding Area}" />
+                            Binding="{Binding Country.BuisnessUnit.Area.Name}" />
                     <DataGridTextColumn Header="Country Cluster" Width="100" 
-                            Binding="{Binding BuisnessUnit}" />
+                            Binding="{Binding Country.BuisnessUnit.Name}" />
                     <DataGridTextColumn Header="Country" Width="100" 
-                            Binding="{Binding Country}" />
+                            Binding="{Binding Country.Name}" />
                     <DataGridTextColumn Header="Priority" Width="60" 
-                            Binding="{Binding Priority}" />
+                            Binding="{Binding Priority.Name}" />
                     <DataGridTemplateColumn Header="TO" Width="200" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -103,18 +103,21 @@
                     <Label Content="Country Cluster:" />
                     <ComboBox Name="CountryClusterComboBox" 
                               ItemsSource="{Binding BuisnessUnit_Collection}"
+                              SelectedIndex="{Binding SelectedBuisnessUnitIndex}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Width="150">
                     <Label Content="Country:" />
                     <ComboBox Name="CountryComboBox" 
                               ItemsSource="{Binding Country_Collection}"
+                              SelectedIndex="{Binding SelectedcCountryIndex}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Width="150">
                     <Label Content="Priority:" />
                     <ComboBox Name="PriorityComboBox" 
                               ItemsSource="{Binding Priority_Collection}"
+                              SelectedIndex="{Binding SelectedPriorityIndex}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
             </StackPanel>
