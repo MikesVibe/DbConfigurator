@@ -22,6 +22,27 @@ namespace DbConfigurator.UI.Data.Repositories
 
             return collection;
         }
+        public async Task<IEnumerable<Country>> GetAllCountriesAsync()
+        {
+            var collection = await Context.Set<Country>().ToListAsync();
+
+            return collection;
+        }
+
+        public async Task<IEnumerable<BuisnessUnit>> GetAllBuisnessUnitsAsync()
+        {
+            var collection = await Context.Set<BuisnessUnit>().ToListAsync();
+
+            return collection;
+        }
+
+        public async Task<IEnumerable<Area>> GetAllAreasAsync()
+        {
+            var collection = await Context.Set<Area>().ToListAsync();
+
+            return collection;
+        }
+
 
     }
 }

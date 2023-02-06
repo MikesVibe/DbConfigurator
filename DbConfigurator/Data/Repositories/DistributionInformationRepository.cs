@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,6 @@ namespace DbConfigurator.UI.Data.Repositories
 
         public override async Task<IEnumerable<DistributionInformation>> GetAllAsync()
         {
-            //var B = 0;
-
             var collection = await Context.Set<DistributionInformation>()
                 .Include(c => c.Country.BuisnessUnit.Area)
                 .Include(c => c.RecipientsGroup_Collection)
@@ -29,10 +28,6 @@ namespace DbConfigurator.UI.Data.Repositories
                 .ThenInclude(t => t.Recipients)
                 .Include(p => p.Priority)
                 .ToListAsync();
-            //var a = 0;
-
-            //var coll = await Context.DistributionInformationViews.ToArrayAsync();
-
 
 
             return collection;

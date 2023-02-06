@@ -87,19 +87,53 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Vertical" Margin="10" Width="250">
-                <Label Content="Area"/>
-                <ComboBox Text="Area" Width="200" Margin="10"/>
+            
+            <StackPanel HorizontalAlignment="Left" Margin="20">
+                <StackPanel Orientation="Vertical" Width="150">
+                    <Label Content="Area:" />
+                    <ComboBox Name="AreaComboBox" 
+                              ItemsSource="{Binding Area_Collection}"
+                              DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Width="150">
+                    <Label Content="Country Cluster:" />
+                    <ComboBox Name="CountryClusterComboBox" 
+                              ItemsSource="{Binding BuisnessUnit_Collection}"
+                              DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Width="150">
+                    <Label Content="Country:" />
+                    <ComboBox Name="CountryComboBox" 
+                              ItemsSource="{Binding Country_Collection}"
+                              DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Width="150">
+                    <Label Content="Priority:" />
+                    <ComboBox Name="PriorityComboBox" 
+                              ItemsSource="{Binding Priority_Collection}"
+                              DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                </StackPanel>
+            </StackPanel>
 
-                <Label Content="Area"/>
-                <ComboBox Text="Country Cluster" Width="200" Margin="10"/>
-                
-                <Label Content="Area"/>
-                <ComboBox Text="Country" Width="200" Margin="10"/>
-                
-                <Label Content="Area"/>
-                <ComboBox Text="Priority" Width="200" Margin="10"/>
+            <StackPanel Grid.Column="1" Margin="20">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="To:" />
+                    <ComboBox Name="TO" 
+                              ItemsSource="{Binding Recipients_Collection}"/>
+                </StackPanel>
+                <ListBox Name="listBox" Height="250"
+                         
+                         />
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Margin="20">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Combo Box:" />
+                    <ComboBox Name="ds" />
+                </StackPanel>
+                <ListBox Name="dasdas" Height="250"/>
             </StackPanel>
         </Grid>
     </Grid>
