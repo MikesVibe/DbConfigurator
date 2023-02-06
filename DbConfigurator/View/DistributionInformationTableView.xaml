@@ -25,6 +25,7 @@
             CanUserResizeRows="False"
             IsReadOnly="True"
             ItemsSource="{Binding DisInfoLookup_ObservableCollection}"
+            SelectedItem="{Binding SelectedDistributionInformation}"
             AutoGenerateColumns="False" FontSize="11" Height="300">
 
                 <DataGrid.Columns >
@@ -95,6 +96,7 @@
                     <Label Content="Area:" />
                     <ComboBox Name="AreaComboBox" 
                               ItemsSource="{Binding Area_Collection}"
+                              SelectedIndex="{Binding SelectedAreaIndex}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Width="150">

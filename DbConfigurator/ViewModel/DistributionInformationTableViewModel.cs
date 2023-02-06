@@ -81,6 +81,10 @@ namespace DbConfigurator.UI.ViewModel
             {
                 HasChanges = _distributionInformationRepository.HasChanges();
             }
+            else
+            {
+
+            }
             if (e.PropertyName == nameof(DistributionInformationWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
@@ -106,9 +110,7 @@ namespace DbConfigurator.UI.ViewModel
         //}
         protected override bool OnSaveCanExecute()
         {
-            return SelectedDistributionInformation != null
-                && !SelectedDistributionInformation.HasErrors
-                && HasChanges;
+            return true;
         }
         protected override void OnSaveExecute()
         {
@@ -120,15 +122,30 @@ namespace DbConfigurator.UI.ViewModel
 
 
         public int DefaultRowIndex { get { return 0; } }
-        public DistributionInformationWrapper SelectedDistributionInformation
+        public DistributionInfoLookup SelectedDistributionInformation
         {
-            get { return _selectedDistributionInformation; }
+            get 
+            {
+                if (_selectedDistributionInformation?.Area != null)
+                SelectedAreaIndex = Area_Collection.Where(a => a.Name == _selectedDistributionInformation.Area).First().Id - 1;
+                OnPropertyChanged(nameof(SelectedAreaIndex));
+
+                return _selectedDistributionInformation; 
+            }
             set
             {
                 _selectedDistributionInformation = value;
                 OnPropertyChanged();
             }
         }
+        private int _selectedAreaIndex;
+
+        public int SelectedAreaIndex
+        {
+            get { return _selectedAreaIndex; }
+            set { _selectedAreaIndex = value; }
+        }
+
         //public ObservableCollection<DistributionInformationWrapper> DistributionInformation_ObservableCollection { get; set; }
 
         //public DistributionInfoLookupWrapper SelectedDisInfoLookup
@@ -142,16 +159,16 @@ namespace DbConfigurator.UI.ViewModel
         //}
 
         public ObservableCollection<DistributionInfoLookup> DisInfoLookup_ObservableCollection { get; set; }
-        public Collection<Area> Area_Collection { get; set; }
-        public Collection<BuisnessUnit> BuisnessUnit_Collection { get; set; }
-        public Collection<Country> Country_Collection { get; set; }
-        public Collection<Priority> Priority_Collection { get; private set; }
+        public ObservableCollection<Area> Area_Collection { get; set; }
+        public ObservableCollection<BuisnessUnit> BuisnessUnit_Collection { get; set; }
+        public ObservableCollection<Country> Country_Collection { get; set; }
+        public ObservableCollection<Priority> Priority_Collection { get; private set; }
 
         private IDistributionInformationRepository _distributionInformationRepository;
         private ICountryRepository _countryRepository;
         private IRecipientRepository _recipientRepository;
         private IEventAggregator _eventAggregator;
-        private DistributionInformationWrapper _selectedDistributionInformation;
+        private DistributionInfoLookup _selectedDistributionInformation;
         //private DistributionInfoLookupWrapper _selectedDisInfoLookup;
     }
 }
