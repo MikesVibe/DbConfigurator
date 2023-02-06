@@ -780,6 +780,18 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DestinationFields");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "TO"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "CC"
+                        });
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.DistributionInformation", b =>
@@ -803,6 +815,42 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.HasIndex("PriorityId");
 
                     b.ToTable("DistributionInformations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CountryId = 4,
+                            PriorityId = 5
+                        });
+                });
+
+            modelBuilder.Entity("DbConfigurator.Model.DistributionInformationView", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Area")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BuisnessUnit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Priority")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("DistributionInformationView", (string)null);
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.Priority", b =>
@@ -846,11 +894,6 @@ namespace DbConfigurator.DataAccess.Migrations
                         new
                         {
                             Id = 5,
-                            Name = "P5"
-                        },
-                        new
-                        {
-                            Id = 6,
                             Name = "Any"
                         });
                 });
@@ -886,6 +929,13 @@ namespace DbConfigurator.DataAccess.Migrations
                             Email = "John.Doe@company.net",
                             FirstName = "John",
                             LastName = "Doe"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "Josh.Smith@company.net",
+                            FirstName = "Josh",
+                            LastName = "Smith"
                         });
                 });
 
@@ -910,6 +960,20 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.HasIndex("DistributionInformationId");
 
                     b.ToTable("RecipientsGroups");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DestinationFieldId = 1,
+                            DistributionInformationId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DestinationFieldId = 2,
+                            DistributionInformationId = 1
+                        });
                 });
 
             modelBuilder.Entity("RecipientRecipientsGroup", b =>

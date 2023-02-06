@@ -19,10 +19,21 @@ namespace DbConfigurator.UI.Data.Repositories
 
         public override async Task<IEnumerable<DistributionInformation>> GetAllAsync()
         {
+            //var B = 0;
+
             var collection = await Context.Set<DistributionInformation>()
                 .Include(c => c.Country.BuisnessUnit.Area)
-                .Include(c => c.RecipientsGroup_Collection).ThenInclude(rg => rg.DestinationField).ThenInclude(r => r.RecipientsGroups).ThenInclude(t => t.Recipients)
-                .Include(p => p.Priority).ToListAsync();
+                .Include(c => c.RecipientsGroup_Collection)
+                .ThenInclude(rg => rg.DestinationField)
+                .ThenInclude(r => r.RecipientsGroups)
+                .ThenInclude(t => t.Recipients)
+                .Include(p => p.Priority)
+                .ToListAsync();
+            //var a = 0;
+
+            //var coll = await Context.DistributionInformationViews.ToArrayAsync();
+
+
 
             return collection;
         }

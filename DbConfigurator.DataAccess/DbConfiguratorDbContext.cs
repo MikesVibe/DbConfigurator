@@ -23,10 +23,13 @@ namespace DbConfigurator.DataAccess
         public DbSet<RecipientsGroup> RecipientsGroups { get; set; }
         public DbSet<Recipient> Recipients { get; set; }
         public DbSet<DestinationField> DestinationFields { get; set; }
-
+        public DbSet<DistributionInformationView> DistributionInformationViews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DistributionInformationView>()
+            .ToView("DistributionInformationView");
+
             List<Area> areasTable = new List<Area>();
             List<BuisnessUnit> buisnessUnitsTable = new List<BuisnessUnit>();
 
@@ -106,7 +109,17 @@ namespace DbConfigurator.DataAccess
                         FirstName = "John",
                         LastName = "Doe",
                         Email = "John.Doe@company.net"
-                    });
+                    },
+                     new Recipient
+                     {
+                         Id = 2,
+                         FirstName = "Josh",
+                         LastName = "Smith",
+                         Email = "Josh.Smith@company.net"
+                     }
+                    );
+
+
 
             modelBuilder.Entity<Priority>().HasData(
                 new Priority
@@ -132,14 +145,46 @@ namespace DbConfigurator.DataAccess
                 new Priority
                 {
                     Id = 5,
-                    Name = "P5"
-                },
-                new Priority
-                {
-                    Id = 6,
                     Name = "Any"
                 });
 
+
+            modelBuilder.Entity<DistributionInformation>().HasData(
+                new DistributionInformation
+                {
+                    Id = 1,
+                    CountryId = 4,
+                    PriorityId = 5
+                }
+                
+                );
+
+            modelBuilder.Entity<RecipientsGroup>().HasData(
+                new RecipientsGroup
+                {
+                    Id = 1,
+                    DestinationFieldId = 1,
+                    DistributionInformationId = 1,
+                },
+                new RecipientsGroup
+                {
+                    Id = 2,
+                    DestinationFieldId = 2,
+                    DistributionInformationId = 1,
+                }
+                );
+            modelBuilder.Entity<DestinationField>().HasData(
+                new DestinationField
+                {
+                    Id = 1,
+                    Name = "TO",
+                },
+                new DestinationField
+                {
+                    Id = 2,
+                    Name = "CC",
+                }
+                );
             base.OnModelCreating(modelBuilder);
         }
 

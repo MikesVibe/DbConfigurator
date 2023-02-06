@@ -17,8 +17,8 @@ namespace DbConfigurator.Model
             Country = disInfo.Country.Name;
             Priority = disInfo.Priority.Name;
 
-            var To = disInfo.RecipientsGroup_Collection.Where(g => g.DestinationField.Name == "TO").FirstOrDefault();
-            var Cc = disInfo.RecipientsGroup_Collection.Where(g => g.DestinationField.Name == "CC").FirstOrDefault();
+            var To = disInfo.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 1).FirstOrDefault();
+            var Cc = disInfo.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 2).FirstOrDefault();
             if (To != null)
                 TO = To.Recipients.Select(r => r.Email).ToList();
             if (Cc != null)

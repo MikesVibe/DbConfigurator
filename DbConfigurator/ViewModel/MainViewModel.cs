@@ -50,18 +50,8 @@ namespace DbConfigurator.UI.ViewModel
             if (tabelViewModel == null)
             {
                 tabelViewModel = _tabelViewModelCreator[args.ViewModelName];
-                try
-                {
-                    await tabelViewModel.LoadAsync();
-                }
-                catch
-                {
-                    //await _messageDialogService.ShowInfoDialogAsync("Could not load the entity, " +
-                    //    "maybe it was deleted in the meantime by another user. " +
-                    //    "The navigation is refreshed for you.");
-                    //await NavigationViewModel.LoadAsync();
-                    return;
-                }
+                await tabelViewModel.LoadAsync();
+
                 TabelViewModels.Add(tabelViewModel);
             }
 
