@@ -32,5 +32,10 @@ namespace DbConfigurator.UI.Data.Repositories
 
             return collection;
         }
+        public async Task<IEnumerable<Priority>> GetAllPrioritiesAsync()
+        {
+            var collection = await Context.Set<Priority>().ToListAsync();
+            return collection;
+        }
     }
 }

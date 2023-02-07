@@ -71,6 +71,11 @@ namespace DbConfigurator.UI.ViewModel
             {
                 Country_Collection.Add(country);
             }
+            var priorities = await _distributionInformationRepository.GetAllPrioritiesAsync();
+            foreach (var priority in priorities)
+            {
+                Priority_Collection.Add(priority);
+            }
 
 
         }

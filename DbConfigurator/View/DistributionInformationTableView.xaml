@@ -122,7 +122,7 @@
                     <Label Content="Priority:" />
                     <ComboBox Name="PriorityComboBox" 
                               ItemsSource="{Binding Priority_Collection}"
-                              SelectedIndex="{Binding SelectedPriorityIndex}"
+                              SelectedIndex="{Binding SelectedcPriorityIndex}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
             </StackPanel>
