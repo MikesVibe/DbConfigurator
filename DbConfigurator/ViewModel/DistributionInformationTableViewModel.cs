@@ -107,16 +107,22 @@ namespace DbConfigurator.UI.ViewModel
         {
             if (SelectedDistributionInformation != null)
             {
-                SelectedAreaIndex = Area_Collection.Where(a => a.Id == _selectedDistributionInformation.Country.BuisnessUnit.Area.Id).First().Id - 1;
+                var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.Country.BuisnessUnit.Area.Id).FirstOrDefault();
+                if (area != null)
+                    SelectedAreaIndex = area.Id - 1;
 
-                SelectedBuisnessUnitIndex = BuisnessUnit_Collection.Where(b => b.Id == _selectedDistributionInformation.Country.BuisnessUnit.Id).First().Id - 1;
-                SelectedcCountryIndex = Country_Collection.Where(c => c.Id == _selectedDistributionInformation.Country.Id).First().Id - 1;
-                //SelectedcPriorityIndex = Priority_Collection.Where(p => p.Id == _selectedDistributionInformation.Priority.Id).First().Id - 1;
+                var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.Country.BuisnessUnit.Id).FirstOrDefault();
+                if (buisnessUnit != null)
+                    SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
 
-                //OnPropertyChanged(nameof(SelectedAreaIndex));
-                //OnPropertyChanged(nameof(SelectedBuisnessUnitIndex));
-                //OnPropertyChanged(nameof(SelectedcCountryIndex));
-                //OnPropertyChanged(nameof(SelectedcPriorityIndex));
+                var country = Country_Collection.Where(c => c.Id == SelectedDistributionInformation.Country.Id).FirstOrDefault();
+                if (country != null)
+                    SelectedcCountryIndex = country.Id - 1;
+
+                var priority = Priority_Collection.Where(p => p.Id == SelectedDistributionInformation.Priority.Id).FirstOrDefault();
+                if (priority != null)
+                    SelectedcPriorityIndex = priority.Id - 1;
+
             }
         }
 
@@ -181,9 +187,9 @@ namespace DbConfigurator.UI.ViewModel
         private IRecipientRepository _recipientRepository;
         private IEventAggregator _eventAggregator;
         private DistributionInformation _selectedDistributionInformation;
-        private int _selectedAreaIndex;
-        private int _selectedBuisnessUnitIndex;
-        private int _selectedcCountryIndex;
-        private int _selectedcPriorityIndex;
+        private int _selectedAreaIndex = -1;
+        private int _selectedBuisnessUnitIndex = -1;
+        private int _selectedcCountryIndex = -1;
+        private int _selectedcPriorityIndex = -1;
     }
 }
