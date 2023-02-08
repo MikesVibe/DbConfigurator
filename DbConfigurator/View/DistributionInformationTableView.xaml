@@ -102,13 +102,16 @@
                     <ComboBox Name="AreaComboBox" 
                               ItemsSource="{Binding Area_Collection}"
                               SelectedIndex="{Binding SelectedAreaIndex}"
-                              DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                              SelectedItem="{Binding SelectedArea}"
+                              DisplayMemberPath="Name" SelectedValuePath="Id">
+                    </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Width="150">
                     <Label Content="Country Cluster:" />
                     <ComboBox Name="CountryClusterComboBox" 
                               ItemsSource="{Binding BuisnessUnit_Collection}"
                               SelectedIndex="{Binding SelectedBuisnessUnitIndex}"
+                              SelectedItem="{Binding SelectedBuisnessUnit}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Width="150">
@@ -116,6 +119,7 @@
                     <ComboBox Name="CountryComboBox" 
                               ItemsSource="{Binding Country_Collection}"
                               SelectedIndex="{Binding SelectedcCountryIndex}"
+                              SelectedItem="{Binding SelectedCountry}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Width="150">
@@ -123,6 +127,7 @@
                     <ComboBox Name="PriorityComboBox" 
                               ItemsSource="{Binding Priority_Collection}"
                               SelectedIndex="{Binding SelectedcPriorityIndex}"
+                              SelectedItem="{Binding SelectedPriority}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
             </StackPanel>

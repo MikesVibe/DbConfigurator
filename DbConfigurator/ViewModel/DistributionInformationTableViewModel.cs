@@ -3,6 +3,7 @@ using DbConfigurator.Model;
 using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.View;
 using DbConfigurator.UI.Wrapper;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 using Microsoft.VisualBasic;
 using Prism.Commands;
 using Prism.Events;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,13 +43,26 @@ namespace DbConfigurator.UI.ViewModel
             var distributionInformations = await _distributionInformationRepository.GetAllAsync();
 
 
-
-            var distributionInformationsLookup = new ObservableCollection<DistributionInformation>();
             foreach (var dis in distributionInformations)
             {
-                distributionInformationsLookup.Add(dis);
+                DisInfoLookup_ObservableCollection.Add(dis);
             }
-            DisInfoLookup_ObservableCollection = distributionInformationsLookup;
+
+
+            //var distributionInformationsLookup = new ObservableCollection<DistributionInformationWrapper>();
+
+            //foreach (var dis in DisInfoLookup_ObservableCollection)
+            //{
+            //    dis.PropertyChanged -= DistributionInformation_ObservableCollection_PropertyChanged;
+            //}
+            //DisInfoLookup_ObservableCollection.Clear();
+            //foreach (var dis in distributionInformations)
+            //{
+            //    var wrapper = new DistributionInformationWrapper( dis );
+            //    wrapper.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
+            //    distributionInformationsLookup.Add(wrapper);
+            //}
+            //DisInfoLookup_ObservableCollection = distributionInformationsLookup;
 
 
             Area_Collection = new ObservableCollection<Area>();
@@ -94,7 +109,7 @@ namespace DbConfigurator.UI.ViewModel
         {
             _distributionInformationRepository.SaveAsync();
             HasChanges = _distributionInformationRepository.HasChanges();
-            Id = SelectedDistributionInformation.Id;
+            //Id = SelectedDistributionInformation.Id;
 
         }
         private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -112,17 +127,19 @@ namespace DbConfigurator.UI.ViewModel
         {
             if (SelectedDistributionInformation != null)
             {
-                var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.Country.BuisnessUnit.Area.Id).FirstOrDefault();
-                if (area != null)
-                    SelectedAreaIndex = area.Id - 1;
+                var country = Country_Collection.Where(c => c.Id == SelectedDistributionInformation.Country.Id).FirstOrDefault();
+                if (country != null)
+                    SelectedcCountryIndex = country.Id - 1;
 
                 var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.Country.BuisnessUnit.Id).FirstOrDefault();
                 if (buisnessUnit != null)
                     SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
 
-                var country = Country_Collection.Where(c => c.Id == SelectedDistributionInformation.Country.Id).FirstOrDefault();
-                if (country != null)
-                    SelectedcCountryIndex = country.Id - 1;
+                var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.Country.BuisnessUnit.Area.Id).FirstOrDefault();
+                if (area != null)
+                    SelectedAreaIndex = area.Id - 1;
+
+                
 
                 var priority = Priority_Collection.Where(p => p.Id == SelectedDistributionInformation.Priority.Id).FirstOrDefault();
                 if (priority != null)
@@ -130,6 +147,55 @@ namespace DbConfigurator.UI.ViewModel
 
             }
         }
+
+        
+        private Area _selectedArea;
+        private BuisnessUnit _selectedBuisnessUnit;
+        private Country _selectedCountry;
+        private Priority _selectedPriority;
+
+        public Area SelectedArea
+        {
+            get { return _selectedArea; }
+            set 
+            { 
+                _selectedArea = value;
+                SelectedDistributionInformation.Country.BuisnessUnit.AreaId = _selectedArea.Id;
+                OnPropertyChanged();
+            }
+        }
+        public BuisnessUnit SelectedBuisnessUnit
+        {
+            get { return _selectedBuisnessUnit; }
+            set
+            {
+                _selectedBuisnessUnit = value;
+                SelectedDistributionInformation.Country.BuisnessUnitId = _selectedBuisnessUnit.Id;
+                OnPropertyChanged();
+            }
+        }
+        public Country SelectedCountry
+        {
+            get { return _selectedCountry; }
+            set
+            {
+                _selectedCountry = value;
+                //SelectedDistributionInformation.CountryId = _selectedCountry.Id;
+                SelectedDistributionInformation = _distributionInformationRepository.ReloadDistributionInformationById(SelectedDistributionInformation.Id);
+                OnPropertyChanged();
+            }
+        }
+        public Priority SelectedPriority
+        {
+            get { return _selectedPriority; }
+            set
+            {
+                _selectedPriority = value;
+                SelectedDistributionInformation.PriorityId = _selectedPriority.Id;
+                OnPropertyChanged();
+            }
+        }
+
 
 
         public int DefaultRowIndex { get { return 0; } }
@@ -175,7 +241,7 @@ namespace DbConfigurator.UI.ViewModel
             set
             {
                 _selectedDistributionInformation = value;
-                OnPropertyChanged();
+                //OnPropertyChanged();
             }
         }
         public ObservableCollection<DistributionInformation> DisInfoLookup_ObservableCollection { get; set; }

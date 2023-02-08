@@ -37,5 +37,10 @@ namespace DbConfigurator.UI.Data.Repositories
             var collection = await Context.Set<Priority>().ToListAsync();
             return collection;
         }
+
+        public DistributionInformation ReloadDistributionInformationById(int id)
+        {
+            return Context.Set<DistributionInformation>().Where(di => di.Id == id).First();
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace DbConfigurator.UI.Data.Repositories
     public interface IDistributionInformationRepository : IGenericRepository<DistributionInformation>
     {
         Task<IEnumerable<Priority>> GetAllPrioritiesAsync();
+        DistributionInformation ReloadDistributionInformationById(int id);
     }
 }
