@@ -105,12 +105,11 @@ namespace DbConfigurator.UI.ViewModel
         {
             return true;
         }
-        protected override void OnSaveExecute()
+        protected async override void OnSaveExecute()
         {
-            _distributionInformationRepository.SaveAsync();
+            await _distributionInformationRepository.SaveAsync();
             HasChanges = _distributionInformationRepository.HasChanges();
-            //Id = SelectedDistributionInformation.Id;
-
+            SelectedDistributionInformation = await _distributionInformationRepository.GetByIdAsync(SelectedDistributionInformation.Id);
         }
         private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -160,7 +159,6 @@ namespace DbConfigurator.UI.ViewModel
             set 
             { 
                 _selectedArea = value;
-                SelectedDistributionInformation.Country.BuisnessUnit.AreaId = _selectedArea.Id;
                 OnPropertyChanged();
             }
         }
@@ -170,7 +168,6 @@ namespace DbConfigurator.UI.ViewModel
             set
             {
                 _selectedBuisnessUnit = value;
-                SelectedDistributionInformation.Country.BuisnessUnitId = _selectedBuisnessUnit.Id;
                 OnPropertyChanged();
             }
         }
@@ -180,8 +177,7 @@ namespace DbConfigurator.UI.ViewModel
             set
             {
                 _selectedCountry = value;
-                //SelectedDistributionInformation.CountryId = _selectedCountry.Id;
-                SelectedDistributionInformation = _distributionInformationRepository.ReloadDistributionInformationById(SelectedDistributionInformation.Id);
+                SelectedDistributionInformation.CountryId = _selectedCountry.Id;
                 OnPropertyChanged();
             }
         }

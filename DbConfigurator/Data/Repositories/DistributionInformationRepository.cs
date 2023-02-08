@@ -38,9 +38,16 @@ namespace DbConfigurator.UI.Data.Repositories
             return collection;
         }
 
-        public DistributionInformation ReloadDistributionInformationById(int id)
+        public async Task<DistributionInformation> GetByIdAsync(int id)
         {
-            return Context.Set<DistributionInformation>().Where(di => di.Id == id).First();
+            return await Context.Set<DistributionInformation>().Where(di => di.Id == id)
+                .Include(c => c.Country.BuisnessUnit.Area)
+                .Include(c => c.RecipientsGroup_Collection)
+                .ThenInclude(rg => rg.DestinationField)
+                .ThenInclude(r => r.RecipientsGroups)
+                .ThenInclude(t => t.Recipients)
+                .Include(p => p.Priority)
+                .FirstAsync();
         }
     }
 }
