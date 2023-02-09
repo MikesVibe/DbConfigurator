@@ -58,9 +58,15 @@ namespace DbConfigurator.UI.Data.Repositories
 
         public async Task<Priority> GetNewPriorityById(int id)
         {
+
             return await Context.Set<Priority>().Where(di => di.Id == id)
                 .AsNoTracking()
                 .FirstAsync();
         }
+        public async void ReloadEntryPriority(DistributionInformation dis)
+        {
+            await Context.Entry(dis).Reference(d => d.Priority).LoadAsync();
+        }
+
     }
 }

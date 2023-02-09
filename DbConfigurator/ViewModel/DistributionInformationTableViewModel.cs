@@ -185,7 +185,7 @@ namespace DbConfigurator.UI.ViewModel
             {
                 _selectedCountry = value;
                 if(SelectedDistributionInformation != null)
-                    SetNewCountry();
+                    //SetNewCountry();
                 OnPropertyChanged();
             }
         }
@@ -209,17 +209,19 @@ namespace DbConfigurator.UI.ViewModel
             set
             {
                 _selectedPriority = value;
-                _selectedPriority.Name = _selectedPriority.Name;
                 if (SelectedDistributionInformation != null)
                     SetNewPriority();
                 OnPropertyChanged();
 
             }
         }
-        private async void SetNewPriority()
+        private void SetNewPriority()
         {
-            var priority = await _distributionInformationRepository.GetNewPriorityById(_selectedPriority.Id);
-            SelectedDistributionInformation.SetNewPriority(priority);
+            var disInfo = SelectedDistributionInformation.Model;
+            disInfo.PriorityId = _selectedPriority.Id;
+            _distributionInformationRepository.ReloadEntryPriority(disInfo);
+
+            SelectedDistributionInformation.Model = disInfo;
         }
         public int DefaultRowIndex { get { return 0; } }
         public int SelectedAreaIndex

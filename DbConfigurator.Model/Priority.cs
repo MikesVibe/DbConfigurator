@@ -17,6 +17,12 @@ namespace DbConfigurator.Model
         {
             DistributionInformations = new Collection<DistributionInformation>();
         }
+        public Priority(Priority priority)
+        {
+            Id= priority.Id;
+            Name= priority.Name;
+            DistributionInformations = priority.DistributionInformations; 
+        }
 
         [Required]
         public int Id { get; set; }

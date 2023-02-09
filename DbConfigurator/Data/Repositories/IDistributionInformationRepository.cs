@@ -10,5 +10,6 @@ namespace DbConfigurator.UI.Data.Repositories
         Task<DistributionInformation> GetByIdAsync(int id);
         Task<Country> GetNewCountryById(int id);
         Task<Priority> GetNewPriorityById(int id);
+        void ReloadEntryPriority(DistributionInformation dis);
     }
 }

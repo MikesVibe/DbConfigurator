@@ -24,21 +24,21 @@ namespace DbConfigurator.UI.Data.Repositories
         }
         public async Task<IEnumerable<Country>> GetAllCountriesAsync()
         {
-            var collection = await Context.Set<Country>().ToListAsync();
+            var collection = await Context.Set<Country>().AsNoTracking().ToListAsync();
 
             return collection;
         }
 
         public async Task<IEnumerable<BuisnessUnit>> GetAllBuisnessUnitsAsync()
         {
-            var collection = await Context.Set<BuisnessUnit>().ToListAsync();
+            var collection = await Context.Set<BuisnessUnit>().AsNoTracking().ToListAsync();
 
             return collection;
         }
 
         public async Task<IEnumerable<Area>> GetAllAreasAsync()
         {
-            var collection = await Context.Set<Area>().ToListAsync();
+            var collection = await Context.Set<Area>().AsNoTracking().ToListAsync();
 
             return collection;
         }

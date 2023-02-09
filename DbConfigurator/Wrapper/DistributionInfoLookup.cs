@@ -33,14 +33,21 @@ namespace DbConfigurator.UI
         }
         public void SetNewPriority(Priority priority)
         {
-            Model.Priority = priority;
-            Priority = priority.Name;
+
+            //Model.PriorityId = priority.Id;
+            //Model.Priority.Name = priority.Name;
+            //Model.Priority = new Priority(priority);
+            //OnPropertyChanged(nameof(Priority));
         }
 
         public DistributionInformation Model
         {
             get { return _model; }
-            set { _model = value; }
+            set 
+            { 
+                _model = value;
+                OnPropertyChanged(nameof(Priority));
+            }
         }
         public int Id { get { return Model.Id; } }
         public string Area
@@ -67,25 +74,26 @@ namespace DbConfigurator.UI
         public int BuisnessUnitId { get { return Model.Country.BuisnessUnitId; } }
         public string Country
         {
-            get { return _model.Country.Name; }
-
+            get { return Model.Country.Name; }
             set
             {
-                //_model.Country.Name = value;
                 OnPropertyChanged();
             }
         }
         public int CountryId { get { return Model.CountryId; } }
         public string Priority
         {
-            get { return _model.Priority.Name; }
-
+            get { return Model.Priority.Name; }
             set
             {
                 OnPropertyChanged();
             }
         }
-        public int PriorityId { get { return Model.PriorityId; } }
+        public int PriorityId 
+        { 
+            get { return Model.PriorityId; } 
+            set { Model.PriorityId = value; }
+        }
         public ICollection<string> TO { get; set; }
         public ICollection<string> CC { get; set; }
 
