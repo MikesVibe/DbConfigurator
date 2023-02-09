@@ -24,22 +24,6 @@ namespace DbConfigurator.UI
 
         }
 
-        public void SetNewCountry(Country country)
-        {
-            Model.Country = country;
-            Country = country.Name;
-            BuisnessUnit = country.BuisnessUnit.Name;
-            Area = country.BuisnessUnit.Area.Name;
-        }
-        public void SetNewPriority(Priority priority)
-        {
-
-            //Model.PriorityId = priority.Id;
-            //Model.Priority.Name = priority.Name;
-            //Model.Priority = new Priority(priority);
-            //OnPropertyChanged(nameof(Priority));
-        }
-
         public DistributionInformation Model
         {
             get { return _model; }
@@ -47,6 +31,9 @@ namespace DbConfigurator.UI
             { 
                 _model = value;
                 OnPropertyChanged(nameof(Priority));
+                OnPropertyChanged(nameof(Country));
+                OnPropertyChanged(nameof(BuisnessUnit));
+                OnPropertyChanged(nameof(Area));
             }
         }
         public int Id { get { return Model.Id; } }
@@ -80,7 +67,11 @@ namespace DbConfigurator.UI
                 OnPropertyChanged();
             }
         }
-        public int CountryId { get { return Model.CountryId; } }
+        public int CountryId
+        {
+            get { return Model.CountryId; }
+            set { Model.CountryId = value; }
+        }
         public string Priority
         {
             get { return Model.Priority.Name; }

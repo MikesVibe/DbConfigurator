@@ -185,23 +185,9 @@ namespace DbConfigurator.UI.ViewModel
             {
                 _selectedCountry = value;
                 if(SelectedDistributionInformation != null)
-                    //SetNewCountry();
+                    SetNewCountry();
                 OnPropertyChanged();
             }
-        }
-
-        private async void SetNewCountry()
-        {
-            var country = await _distributionInformationRepository.GetNewCountryById(_selectedCountry.Id);
-            SelectedDistributionInformation.SetNewCountry(country);
-
-            var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-            if (buisnessUnit != null)
-                SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
-
-            var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-            if (area != null)
-                SelectedAreaIndex = area.Id - 1;
         }
         public PriorityWrapper SelectedPriority
         {
@@ -214,6 +200,22 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
 
             }
+        }
+        private void SetNewCountry()
+        {
+            var disInfo = SelectedDistributionInformation.Model;
+            disInfo.CountryId = _selectedCountry.Id;
+            _distributionInformationRepository.ReloadEntryCountry(disInfo);
+
+            SelectedDistributionInformation.Model = disInfo;
+
+            //var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
+            //if (buisnessUnit != null)
+            //    SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
+
+            //var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
+            //if (area != null)
+            //    SelectedAreaIndex = area.Id - 1;
         }
         private void SetNewPriority()
         {

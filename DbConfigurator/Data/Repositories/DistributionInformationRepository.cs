@@ -5,6 +5,7 @@ using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -63,9 +64,18 @@ namespace DbConfigurator.UI.Data.Repositories
                 .AsNoTracking()
                 .FirstAsync();
         }
-        public async void ReloadEntryPriority(DistributionInformation dis)
+
+        public void ReloadEntryCountry(DistributionInformation disInfo)
         {
-            await Context.Entry(dis).Reference(d => d.Priority).LoadAsync();
+            Context.Entry(disInfo).Reference(d => d.Country).Load();
+            Context.Entry(disInfo.Country).Reference(c => c.BuisnessUnit).Load();
+            Context.Entry(disInfo.Country.BuisnessUnit).Reference(bu => bu.Area).Load();
+
+        }
+
+        public void ReloadEntryPriority(DistributionInformation disInfo)
+        {
+            Context.Entry(disInfo).Reference(d => d.Priority).Load();
         }
 
     }
