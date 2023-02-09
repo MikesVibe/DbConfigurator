@@ -185,19 +185,15 @@ namespace DbConfigurator.UI.ViewModel
             {
                 _selectedCountry = value;
                 if(SelectedDistributionInformation != null)
-                    SelectedDistributionInformation.CountryId = _selectedCountry.Id;
-                NewDIstributionInformation();
+                    SetNewCountry();
                 OnPropertyChanged();
             }
         }
 
-        private async void NewDIstributionInformation()
+        private async void SetNewCountry()
         {
-            var country = await _distributionInformationRepository.GetNewCountryById(_selectedDistributionInformation.CountryId);
-            SelectedDistributionInformation.Model.Country = country;
-            SelectedDistributionInformation.Country = country.Name;
-            SelectedDistributionInformation.BuisnessUnit = country.BuisnessUnit.Name;
-            SelectedDistributionInformation.Area = country.BuisnessUnit.Area.Name;
+            var country = await _distributionInformationRepository.GetNewCountryById(_selectedCountry.Id);
+            SelectedDistributionInformation.SetNewCountry(country);
         }
         public PriorityWrapper SelectedPriority
         {
@@ -207,11 +203,15 @@ namespace DbConfigurator.UI.ViewModel
                 _selectedPriority = value;
                 _selectedPriority.Name = _selectedPriority.Name;
                 if (SelectedDistributionInformation != null)
-                    SelectedDistributionInformation.PriorityId = _selectedPriority.Id;
+                    SetNewPriority();
                 OnPropertyChanged();
 
-
             }
+        }
+        private async void SetNewPriority()
+        {
+            var priority = await _distributionInformationRepository.GetNewPriorityById(_selectedPriority.Id);
+            SelectedDistributionInformation.SetNewPriority(priority);
         }
         public int DefaultRowIndex { get { return 0; } }
         public int SelectedAreaIndex

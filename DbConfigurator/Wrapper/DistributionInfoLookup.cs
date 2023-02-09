@@ -15,16 +15,6 @@ namespace DbConfigurator.UI
         {
             _model = model;
 
-            Id = model.Id;
-            Area = model.Country.BuisnessUnit.Area.Name;
-            AreaId = model.Country.BuisnessUnit.Area.Id;
-            BuisnessUnit = model.Country.BuisnessUnit.Name;
-            BuisnessUnitId = model.Country.BuisnessUnit.Id;
-            Country = model.Country.Name;
-            CountryId = model.Country.Id;
-            Priority = model.Priority.Name;
-            PriorityId = model.Priority.Id;
-
             var To = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 1).FirstOrDefault();
             var Cc = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 2).FirstOrDefault();
             if (To != null)
@@ -34,12 +24,25 @@ namespace DbConfigurator.UI
 
         }
 
+        public void SetNewCountry(Country country)
+        {
+            Model.Country = country;
+            Country = country.Name;
+            BuisnessUnit = country.BuisnessUnit.Name;
+            Area = country.BuisnessUnit.Area.Name;
+        }
+        public void SetNewPriority(Priority priority)
+        {
+            Model.Priority = priority;
+            Priority = priority.Name;
+        }
+
         public DistributionInformation Model
         {
             get { return _model; }
             set { _model = value; }
         }
-        public int Id { get; set; }
+        public int Id { get { return Model.Id; } }
         public string Area
         {
             get { return _model.Country.BuisnessUnit.Area.Name; }
@@ -50,7 +53,7 @@ namespace DbConfigurator.UI
                 OnPropertyChanged();
             }
         }
-        public int AreaId { get; set; }
+        public int AreaId { get { return Model.Country.BuisnessUnit.AreaId; } }
         public string BuisnessUnit
         {
             get { return _model.Country.BuisnessUnit.Name; }
@@ -61,7 +64,7 @@ namespace DbConfigurator.UI
                 OnPropertyChanged();
             }
         }
-        public int BuisnessUnitId { get; set; }
+        public int BuisnessUnitId { get { return Model.Country.BuisnessUnitId; } }
         public string Country
         {
             get { return _model.Country.Name; }
@@ -72,32 +75,23 @@ namespace DbConfigurator.UI
                 OnPropertyChanged();
             }
         }
-        public int CountryId 
-        { 
-            get { return Model.CountryId; }
-            
-            set 
-            {
-                Model.CountryId = value;
-                OnPropertyChanged();
-            }
-        }
+        public int CountryId { get { return Model.CountryId; } }
         public string Priority
         {
             get { return _model.Priority.Name; }
 
             set
             {
-                //_model.Country.BuisnessUnit.Name = value;
                 OnPropertyChanged();
             }
         }
-        public int PriorityId { get; set; }
+        public int PriorityId { get { return Model.PriorityId; } }
         public ICollection<string> TO { get; set; }
         public ICollection<string> CC { get; set; }
 
 
         private DistributionInformation _model;
+
 
     }
 }

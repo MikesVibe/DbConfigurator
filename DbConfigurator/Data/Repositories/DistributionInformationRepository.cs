@@ -56,5 +56,10 @@ namespace DbConfigurator.UI.Data.Repositories
                 .FirstAsync();
         }
 
+        public async Task<Priority> GetNewPriorityById(int id)
+        {
+            return await Context.Set<Priority>().Where(di => di.Id == id)
+                .FirstAsync();
+        }
     }
 }
