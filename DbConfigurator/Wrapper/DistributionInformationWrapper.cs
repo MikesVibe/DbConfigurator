@@ -51,7 +51,7 @@ namespace DbConfigurator.UI.Wrapper
                 SetValue<int>(value);
             }
         }
-        public Priority Priority { get; set; }
+        public PriorityWrapper Priority { get; set; }
 
         public ICollection<RecipientsGroup> RecipientsGroup_Collection
         {

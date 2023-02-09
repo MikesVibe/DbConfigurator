@@ -49,5 +49,12 @@ namespace DbConfigurator.UI.Data.Repositories
                 .Include(p => p.Priority)
                 .FirstAsync();
         }
+        public async Task<Country> GetNewCountryById(int id)
+        {
+            return await Context.Set<Country>().Where(di => di.Id == id)
+                .Include(c => c.BuisnessUnit.Area)
+                .FirstAsync();
+        }
+
     }
 }

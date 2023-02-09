@@ -36,13 +36,13 @@
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Area"  Width="150"
-                            Binding="{Binding Country.BuisnessUnit.Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Binding="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <DataGridTextColumn Header="Country Cluster" Width="100" 
-                            Binding="{Binding Path=Country.BuisnessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Binding="{Binding BuisnessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <DataGridTextColumn Header="Country" Width="100" 
-                            Binding="{Binding Path=CountryId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Binding="{Binding Country, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <DataGridTextColumn Header="Priority" Width="60" 
-                            Binding="{Binding Priority.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Binding="{Binding Priority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <DataGridTemplateColumn Header="TO" Width="200" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

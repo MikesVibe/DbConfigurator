@@ -8,5 +8,6 @@ namespace DbConfigurator.UI.Data.Repositories
     {
         Task<IEnumerable<Priority>> GetAllPrioritiesAsync();
         Task<DistributionInformation> GetByIdAsync(int id);
+        Task<Country> GetNewCountryById(int id);
     }
 }
