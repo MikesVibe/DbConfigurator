@@ -52,13 +52,14 @@ namespace DbConfigurator.UI.Data.Repositories
         public async Task<Country> GetNewCountryById(int id)
         {
             return await Context.Set<Country>().Where(di => di.Id == id)
-                .Include(c => c.BuisnessUnit.Area)
+                .Include(c => c.BuisnessUnit.Area).AsNoTracking()
                 .FirstAsync();
         }
 
         public async Task<Priority> GetNewPriorityById(int id)
         {
             return await Context.Set<Priority>().Where(di => di.Id == id)
+                .AsNoTracking()
                 .FirstAsync();
         }
     }

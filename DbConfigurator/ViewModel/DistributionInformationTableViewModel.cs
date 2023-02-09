@@ -194,6 +194,14 @@ namespace DbConfigurator.UI.ViewModel
         {
             var country = await _distributionInformationRepository.GetNewCountryById(_selectedCountry.Id);
             SelectedDistributionInformation.SetNewCountry(country);
+
+            var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
+            if (buisnessUnit != null)
+                SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
+
+            var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
+            if (area != null)
+                SelectedAreaIndex = area.Id - 1;
         }
         public PriorityWrapper SelectedPriority
         {
