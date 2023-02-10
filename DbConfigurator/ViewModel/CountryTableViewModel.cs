@@ -74,6 +74,20 @@ namespace DbConfigurator.UI.ViewModel
             Id = SelectedCountry.Id;
         }
 
+        protected override void OnAddExecute()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnRemoveExecute()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool OnRemoveCanExecute()
+        {
+            throw new NotImplementedException();
+        }
 
         public int DefaultRowIndex { get { return 0; } }
         public CountryWrapper SelectedCountry

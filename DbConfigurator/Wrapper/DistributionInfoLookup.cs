@@ -13,7 +13,7 @@ namespace DbConfigurator.UI
     {
         public DistributionInfoLookup(DistributionInformation model)
         {
-            _model = model;
+            Model = model;
 
             var To = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 1).FirstOrDefault();
             var Cc = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 2).FirstOrDefault();
@@ -30,66 +30,109 @@ namespace DbConfigurator.UI
             set 
             { 
                 _model = value;
-                OnPropertyChanged(nameof(Priority));
-                OnPropertyChanged(nameof(Country));
-                OnPropertyChanged(nameof(BuisnessUnit));
-                OnPropertyChanged(nameof(Area));
+
+                Id = _model.Id;
+                if(_model.Country != null)
+                {
+                    Area = _model.Country.BuisnessUnits.First().Areas.First().Name;
+                    AreaId = _model.Country.BuisnessUnits.First().Areas.First().Id;
+                    BuisnessUnit = _model.Country.BuisnessUnits.First().Name;
+                    BuisnessUnitId = _model.Country.BuisnessUnits.First().Id;
+                    Country = _model.Country.Name;
+                    CountryId = _model.Country.Id;
+                }
+                else
+                {
+                    Area = "";
+                    BuisnessUnit = "";
+                    Country = "";
+                }
+                if(_model.Priority != null)
+                {
+                    Priority = _model.Priority.Name;
+                    PriorityId = _model.Priority.Id;
+                }
+                else
+                {
+                    Priority = "";
+                }
             }
         }
-        public int Id { get { return Model.Id; } }
+        public int Id 
+        { 
+            get { return _id; }
+            private set { _id = value; }
+        }
         public string Area
         {
-            get { return _model.Country.BuisnessUnits.First().Areas.First().Name; }
+            get { return _area; }
             set
             {
-                //_model.Country.BuisnessUnit.Area.Name = value;
-                OnPropertyChanged();
+                _area = value;
+                OnPropertyChanged(value);
             }
         }
-        public int AreaId { get { return Model.Country.BuisnessUnits.First().Areas.First().Id; } }
+        public int AreaId 
+        { 
+            get { return _areaId; } 
+            private set { _areaId = value; }
+        }
         public string BuisnessUnit
         {
-            get { return _model.Country.BuisnessUnits.First().Name; }
-
+            get { return _buisnessUnit; }
             set
             {
-                //_model.Country.BuisnessUnit.Name = value;
-                OnPropertyChanged();
+                _buisnessUnit = value;
+                OnPropertyChanged(value);
             }
         }
-        public int BuisnessUnitId { get { return Model.Country.BuisnessUnits.First().Id; } }
+        public int BuisnessUnitId
+        {
+            get { return _buisnessUnitId; }
+            private set { _buisnessUnitId = value; }
+        }
         public string Country
         {
-            get { return Model.Country.Name; }
+            get { return _country; }
             set
             {
-                OnPropertyChanged();
+                _country = value;
+                OnPropertyChanged(value);
             }
         }
         public int CountryId
         {
-            get { return Model.CountryId; }
-            set { Model.CountryId = value; }
+            get { return _countryId; }
+            private set { _countryId = value; }
         }
         public string Priority
         {
-            get { return Model.Priority.Name; }
+            get { return _priority; }
             set
             {
-                OnPropertyChanged();
+                _priority = value;
+                OnPropertyChanged(value);
             }
         }
-        public int PriorityId 
-        { 
-            get { return Model.PriorityId; } 
-            set { Model.PriorityId = value; }
+        public int PriorityId
+        {
+            get { return _priorityId; }
+            private set { _priorityId = value; }
         }
         public ICollection<string> TO { get; set; }
         public ICollection<string> CC { get; set; }
 
 
+
+        private int _id;
+        private string _area;
+        private int _areaId;
+        private string _buisnessUnit;
+        private int _buisnessUnitId;
+        private string _country;
+        private int _countryId;
+        private string _priority;
+        private int _priorityId;
         private DistributionInformation _model;
-
-
     }
 }

@@ -87,7 +87,20 @@ namespace DbConfigurator.UI.ViewModel
 
         }
 
+        protected override void OnAddExecute()
+        {
+            throw new NotImplementedException();
+        }
 
+        protected override void OnRemoveExecute()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool OnRemoveCanExecute()
+        {
+            throw new NotImplementedException();
+        }
 
         public int DefaultRowIndex { get { return 0; } }
         public RecipientWrapper SelectedRecipient

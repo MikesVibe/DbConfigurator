@@ -102,7 +102,6 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-
         protected override void OnDeleteExecute()
         {
             throw new NotImplementedException();
@@ -225,6 +224,21 @@ namespace DbConfigurator.UI.ViewModel
 
             SelectedDistributionInformation.Model = disInfo;
         }
+
+        protected override void OnAddExecute()
+        {
+            var disInfoLookup = new DistributionInfoLookup(new DistributionInformation());
+            DisInfoLookup_ObservableCollection.Add(disInfoLookup);
+        }
+        protected override void OnRemoveExecute()
+        {
+            throw new NotImplementedException();
+        }
+        protected override bool OnRemoveCanExecute()
+        {
+            return false;
+        }
+
         public int DefaultRowIndex { get { return 0; } }
         public int SelectedAreaIndex
         {
