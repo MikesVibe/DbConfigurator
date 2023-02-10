@@ -14,10 +14,10 @@ namespace DbConfigurator.Model
             _disInfo = disInfo;
 
             Id = disInfo.Id;
-            Area = disInfo.Country.BuisnessUnit.Area.Name;
-            AreaId = disInfo.Country.BuisnessUnit.Area.Id;
-            BuisnessUnit = disInfo.Country.BuisnessUnit.Name;
-            BuisnessUnitId = disInfo.Country.BuisnessUnit.Id;
+            //Area = disInfo.Country.BuisnessUnit.Area.Name;
+            //AreaId = disInfo.Country.BuisnessUnit.Area.Id;
+            //BuisnessUnit = disInfo.Country.BuisnessUnit.Name;
+            //BuisnessUnitId = disInfo.Country.BuisnessUnit.Id;
             Country = disInfo.Country.Name;
             CountryId = disInfo.Country.Id;
             Priority = disInfo.Priority.Name;

@@ -140,13 +140,13 @@ namespace DbConfigurator.UI.ViewModel
                 if (country != null)
                     SelectedcCountryIndex = country.Id - 1;
 
-                var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-                if (buisnessUnit != null)
-                    SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
+                //var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
+                //if (buisnessUnit != null)
+                //    SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
 
-                var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-                if (area != null)
-                    SelectedAreaIndex = area.Id - 1;
+                //var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
+                //if (area != null)
+                //    SelectedAreaIndex = area.Id - 1;
 
                 
 
@@ -209,13 +209,13 @@ namespace DbConfigurator.UI.ViewModel
 
             SelectedDistributionInformation.Model = disInfo;
 
-            var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-            if (buisnessUnit != null)
-                SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
+            //var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
+            //if (buisnessUnit != null)
+            //    SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
 
-            var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-            if (area != null)
-                SelectedAreaIndex = area.Id - 1;
+            //var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
+            //if (area != null)
+            //    SelectedAreaIndex = area.Id - 1;
         }
         private void SetNewPriority()
         {

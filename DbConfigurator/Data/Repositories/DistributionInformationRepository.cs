@@ -22,7 +22,7 @@ namespace DbConfigurator.UI.Data.Repositories
         public override async Task<IEnumerable<DistributionInformation>> GetAllAsync()
         {
             var collection = await Context.Set<DistributionInformation>()
-                .Include(c => c.Country.BuisnessUnit.Area)
+                //.Include(c => c.Country.BuisnessUnit.Area)
                 .Include(c => c.RecipientsGroup_Collection)
                 .ThenInclude(rg => rg.DestinationField)
                 .ThenInclude(r => r.RecipientsGroups)
@@ -42,7 +42,7 @@ namespace DbConfigurator.UI.Data.Repositories
         public async Task<DistributionInformation> GetByIdAsync(int id)
         {
             return await Context.Set<DistributionInformation>().Where(di => di.Id == id)
-                .Include(c => c.Country.BuisnessUnit.Area)
+                //.Include(c => c.Country.BuisnessUnit.Area)
                 .Include(c => c.RecipientsGroup_Collection)
                 .ThenInclude(rg => rg.DestinationField)
                 .ThenInclude(r => r.RecipientsGroups)
@@ -53,7 +53,7 @@ namespace DbConfigurator.UI.Data.Repositories
         public async Task<Country> GetNewCountryById(int id)
         {
             return await Context.Set<Country>().Where(di => di.Id == id)
-                .Include(c => c.BuisnessUnit.Area).AsNoTracking()
+                //.Include(c => c.BuisnessUnit.Area).AsNoTracking()
                 .FirstAsync();
         }
 
@@ -68,8 +68,8 @@ namespace DbConfigurator.UI.Data.Repositories
         public void ReloadEntryCountry(DistributionInformation disInfo)
         {
             Context.Entry(disInfo).Reference(d => d.Country).Load();
-            Context.Entry(disInfo.Country).Reference(c => c.BuisnessUnit).Load();
-            Context.Entry(disInfo.Country.BuisnessUnit).Reference(bu => bu.Area).Load();
+            //Context.Entry(disInfo.Country).Reference(c => c.BuisnessUnit).Load();
+            //Context.Entry(disInfo.Country.BuisnessUnit).Reference(bu => bu.Area).Load();
 
         }
 

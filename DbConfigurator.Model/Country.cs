@@ -13,6 +13,7 @@ namespace DbConfigurator.Model
         public Country()
         {
             DistributionInformations = new Collection<DistributionInformation>();
+            BuisnessUnits = new Collection<BuisnessUnit>();
         }
         [Required]
         public int Id { get; set; }
@@ -22,12 +23,10 @@ namespace DbConfigurator.Model
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(2)]
+        [MaxLength(3)]
         public string ShortCode{ get; set; }
 
-        public int BuisnessUnitId { get; set; }
-        public BuisnessUnit BuisnessUnit { get; set; }
-
+        public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
         public ICollection<DistributionInformation> DistributionInformations { get; set; }
 
     }

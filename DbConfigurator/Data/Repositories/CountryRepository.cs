@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,9 @@ namespace DbConfigurator.UI.Data.Repositories
 
         public override async Task<IEnumerable<Country>> GetAllAsync()
         {
-            var collection = await Context.Set<Country>().Include(c => c.BuisnessUnit.Area).ToListAsync();
+            //var collection = await Context.Set<Country>().Include(c => c.BuisnessUnit.Area).ToListAsync();
 
-            return collection;
+            return new List<Country>();
         }
         public async Task<IEnumerable<Country>> GetAllCountriesAsync()
         {

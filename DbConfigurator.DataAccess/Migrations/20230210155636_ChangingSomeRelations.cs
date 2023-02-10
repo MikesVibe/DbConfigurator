@@ -7,7 +7,7 @@
 namespace DbConfigurator.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeDB : Migration
+    public partial class ChangingSomeRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,6 +23,33 @@ namespace DbConfigurator.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Area", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BuisnessUnit",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BuisnessUnit", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Country",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ShortCode = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Country", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,42 +108,49 @@ namespace DbConfigurator.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BuisnessUnit",
+                name: "AreaBuisnessUnit",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    AreaId = table.Column<int>(type: "int", nullable: false)
+                    AreasId = table.Column<int>(type: "int", nullable: false),
+                    BuisnessUnitsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BuisnessUnit", x => x.Id);
+                    table.PrimaryKey("PK_AreaBuisnessUnit", x => new { x.AreasId, x.BuisnessUnitsId });
                     table.ForeignKey(
-                        name: "FK_BuisnessUnit_Area_AreaId",
-                        column: x => x.AreaId,
+                        name: "FK_AreaBuisnessUnit_Area_AreasId",
+                        column: x => x.AreasId,
                         principalTable: "Area",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AreaBuisnessUnit_BuisnessUnit_BuisnessUnitsId",
+                        column: x => x.BuisnessUnitsId,
+                        principalTable: "BuisnessUnit",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Country",
+                name: "BuisnessUnitCountry",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ShortCode = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
-                    BuisnessUnitId = table.Column<int>(type: "int", nullable: false)
+                    BuisnessUnitsId = table.Column<int>(type: "int", nullable: false),
+                    CountriesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Country", x => x.Id);
+                    table.PrimaryKey("PK_BuisnessUnitCountry", x => new { x.BuisnessUnitsId, x.CountriesId });
                     table.ForeignKey(
-                        name: "FK_Country_BuisnessUnit_BuisnessUnitId",
-                        column: x => x.BuisnessUnitId,
+                        name: "FK_BuisnessUnitCountry_BuisnessUnit_BuisnessUnitsId",
+                        column: x => x.BuisnessUnitsId,
                         principalTable: "BuisnessUnit",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BuisnessUnitCountry_Country_CountriesId",
+                        column: x => x.CountriesId,
+                        principalTable: "Country",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -129,7 +163,7 @@ namespace DbConfigurator.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryId = table.Column<int>(type: "int", nullable: false),
                     PriorityId = table.Column<int>(type: "int", nullable: false),
-                    LocationOptionId = table.Column<int>(type: "int", nullable: false)
+                    LocationOptionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -144,8 +178,7 @@ namespace DbConfigurator.DataAccess.Migrations
                         name: "FK_DistributionInformation_LocationOption_LocationOptionId",
                         column: x => x.LocationOptionId,
                         principalTable: "LocationOption",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DistributionInformation_Priority_PriorityId",
                         column: x => x.PriorityId,
@@ -217,6 +250,114 @@ namespace DbConfigurator.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "BuisnessUnit",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "NAO" },
+                    { 2, "SAM" },
+                    { 3, "GER" },
+                    { 4, "CEE" },
+                    { 5, "MEK" },
+                    { 6, "AFR" },
+                    { 7, "IND" },
+                    { 8, "APAC" },
+                    { 9, "BTN" },
+                    { 10, "UK&I" },
+                    { 11, "ITA" },
+                    { 12, "IBE" },
+                    { 13, "FRA" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Country",
+                columns: new[] { "Id", "Name", "ShortCode" },
+                values: new object[,]
+                {
+                    { 1, "Canada", "CA" },
+                    { 2, "Guatemala", "GT" },
+                    { 3, "Mexico", "MX" },
+                    { 4, "Puerto Rico", "PR" },
+                    { 5, "USA", "US" },
+                    { 6, "Argentina", "AR" },
+                    { 7, "Brazil", "BR" },
+                    { 8, "Chile", "CL" },
+                    { 9, "Colombia", "CO" },
+                    { 10, "Peru", "PE" },
+                    { 11, "Uruguay", "UY" },
+                    { 12, "Venezuela", "VE" },
+                    { 13, "Germany", "DE" },
+                    { 14, "Poland", "PL" },
+                    { 15, "Russian Federation", "RU" },
+                    { 16, "Austria", "AT" },
+                    { 17, "Bulgaria", "BG" },
+                    { 18, "Switzerland", "CH" },
+                    { 19, "Cyprus", "CY" },
+                    { 20, "Czech Republic", "CZ" },
+                    { 21, "Greece", "GR" },
+                    { 22, "Croatia", "HR" },
+                    { 23, "Hungary", "HU" },
+                    { 24, "Israel", "IL" },
+                    { 25, "Kasakhstan", "KZ" },
+                    { 26, "Romania", "RO" },
+                    { 27, "Serbia", "RS" },
+                    { 28, "Slovakia", "SK" },
+                    { 29, "Ukraine", "UA" },
+                    { 30, "United Arab Emirates", "AE" },
+                    { 31, "Egypt", "EG" },
+                    { 32, "Iran", "IR" },
+                    { 33, "Lebanon", "LB" },
+                    { 34, "Qatar", "QA" },
+                    { 35, "Saudi Arabia", "SA" },
+                    { 36, "Turkey", "TR" },
+                    { 37, "Burkina Faso", "BF" },
+                    { 38, "Benin", "BJ" },
+                    { 39, "Cote d'Ivoire", "CI" },
+                    { 40, "Algeria", "DZ" },
+                    { 41, "Gabon", "GA" },
+                    { 42, "Ivory Coast", "CI" },
+                    { 43, "Morocco", "MA" },
+                    { 44, "Madagascar", "MG" },
+                    { 45, "Mali", "ML" },
+                    { 46, "Mauritius", "MU" },
+                    { 47, "Senegal", "SN" },
+                    { 48, "Tunisia", "TN" },
+                    { 49, "South Africa", "ZA" },
+                    { 50, "India", "IN" },
+                    { 51, "Australia", "AU" },
+                    { 52, "People Rep China", "CN" },
+                    { 53, "Hong Kong", "HK" },
+                    { 54, "Indonesia", "ID" },
+                    { 55, "Japan", "JP" },
+                    { 56, "Korea", "KR" },
+                    { 57, "Malaysia", "MY" },
+                    { 58, "New Zealand", "NZ" },
+                    { 59, "Philippines", "PH" },
+                    { 60, "Singapore", "SG" },
+                    { 61, "Thailand", "TH" },
+                    { 62, "Taiwan", "TW" },
+                    { 63, "Belgium", "BE" },
+                    { 64, "Denmark", "DK" },
+                    { 65, "Estonia", "EE" },
+                    { 66, "Finland", "FI" },
+                    { 67, "Lithuania", "LT" },
+                    { 68, "Luxembourg", "LU" },
+                    { 69, "Netherlands", "NL" },
+                    { 70, "Norway", "NO" },
+                    { 71, "Sweden", "SE" },
+                    { 72, "United Kingdom", "GB" },
+                    { 73, "Ireland", "IE" },
+                    { 74, "Italy", "IT" },
+                    { 75, "Andorra", "AD" },
+                    { 76, "Spain", "ES" },
+                    { 77, "Portugal", "PT" },
+                    { 78, "France", "FR" },
+                    { 79, "Morocco", "MA" },
+                    { 80, "New Caledonia", "NC" },
+                    { 81, "French Polynesia", "PF" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "DestinationField",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
@@ -252,114 +393,6 @@ namespace DbConfigurator.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "BuisnessUnit",
-                columns: new[] { "Id", "AreaId", "Name" },
-                values: new object[,]
-                {
-                    { 1, 1, "NAO" },
-                    { 2, 1, "SAM" },
-                    { 3, 2, "GER" },
-                    { 4, 2, "CEE" },
-                    { 5, 3, "MEK" },
-                    { 6, 3, "AFR" },
-                    { 7, 3, "IND" },
-                    { 8, 4, "APAC" },
-                    { 9, 4, "BTN" },
-                    { 10, 4, "UK&I" },
-                    { 11, 5, "ITA" },
-                    { 12, 5, "IBE" },
-                    { 13, 5, "FRA" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Country",
-                columns: new[] { "Id", "BuisnessUnitId", "Name", "ShortCode" },
-                values: new object[,]
-                {
-                    { 1, 1, "Canada", "CA" },
-                    { 2, 1, "Guatemala", "GT" },
-                    { 3, 1, "Mexico", "MX" },
-                    { 4, 1, "Puerto Rico", "PR" },
-                    { 5, 1, "USA", "US" },
-                    { 6, 2, "Argentina", "AR" },
-                    { 7, 2, "Brazil", "BR" },
-                    { 8, 2, "Chile", "CL" },
-                    { 9, 2, "Colombia", "CO" },
-                    { 10, 2, "Peru", "PE" },
-                    { 11, 2, "Uruguay", "UY" },
-                    { 12, 2, "Venezuela", "VE" },
-                    { 13, 3, "Germany", "DE" },
-                    { 14, 4, "Poland", "PL" },
-                    { 15, 4, "Russian Federation", "RU" },
-                    { 16, 4, "Austria", "AT" },
-                    { 17, 4, "Bulgaria", "BG" },
-                    { 18, 4, "Switzerland", "CH" },
-                    { 19, 4, "Cyprus", "CY" },
-                    { 20, 4, "Czech Republic", "CZ" },
-                    { 21, 4, "Greece", "GR" },
-                    { 22, 4, "Croatia", "HR" },
-                    { 23, 4, "Hungary", "HU" },
-                    { 24, 4, "Israel", "IL" },
-                    { 25, 4, "Kasakhstan", "KZ" },
-                    { 26, 4, "Romania", "RO" },
-                    { 27, 4, "Serbia", "RS" },
-                    { 28, 4, "Slovakia", "SK" },
-                    { 29, 4, "Ukraine", "UA" },
-                    { 30, 5, "United Arab Emirates", "AE" },
-                    { 31, 5, "Egypt", "EG" },
-                    { 32, 5, "Iran", "IR" },
-                    { 33, 5, "Lebanon", "LB" },
-                    { 34, 5, "Qatar", "QA" },
-                    { 35, 5, "Saudi Arabia", "SA" },
-                    { 36, 5, "Turkey", "TR" },
-                    { 37, 6, "Burkina Faso", "BF" },
-                    { 38, 6, "Benin", "BJ" },
-                    { 39, 6, "Cote d'Ivoire", "CI" },
-                    { 40, 6, "Algeria", "DZ" },
-                    { 41, 6, "Gabon", "GA" },
-                    { 42, 6, "Ivory Coast", "CI" },
-                    { 43, 6, "Morocco", "MA" },
-                    { 44, 6, "Madagascar", "MG" },
-                    { 45, 6, "Mali", "ML" },
-                    { 46, 6, "Mauritius", "MU" },
-                    { 47, 6, "Senegal", "SN" },
-                    { 48, 6, "Tunisia", "TN" },
-                    { 49, 6, "South Africa", "ZA" },
-                    { 50, 7, "India", "IN" },
-                    { 51, 8, "Australia", "AU" },
-                    { 52, 8, "People Rep China", "CN" },
-                    { 53, 8, "Hong Kong", "HK" },
-                    { 54, 8, "Indonesia", "ID" },
-                    { 55, 8, "Japan", "JP" },
-                    { 56, 8, "Korea", "KR" },
-                    { 57, 8, "Malaysia", "MY" },
-                    { 58, 8, "New Zealand", "NZ" },
-                    { 59, 8, "Philippines", "PH" },
-                    { 60, 8, "Singapore", "SG" },
-                    { 61, 8, "Thailand", "TH" },
-                    { 62, 8, "Taiwan", "TW" },
-                    { 63, 9, "Belgium", "BE" },
-                    { 64, 9, "Denmark", "DK" },
-                    { 65, 9, "Estonia", "EE" },
-                    { 66, 9, "Finland", "FI" },
-                    { 67, 9, "Lithuania", "LT" },
-                    { 68, 9, "Luxembourg", "LU" },
-                    { 69, 9, "Netherlands", "NL" },
-                    { 70, 9, "Norway", "NO" },
-                    { 71, 9, "Sweden", "SE" },
-                    { 72, 10, "United Kingdom", "GB" },
-                    { 73, 10, "Ireland", "IE" },
-                    { 74, 11, "Italy", "IT" },
-                    { 75, 12, "Andorra", "AD" },
-                    { 76, 12, "Spain", "ES" },
-                    { 77, 12, "Portugal", "PT" },
-                    { 78, 13, "France", "FR" },
-                    { 79, 13, "Morocco", "MA" },
-                    { 80, 13, "New Caledonia", "NC" },
-                    { 81, 13, "French Polynesia", "PF" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "DistributionInformation",
                 columns: new[] { "Id", "CountryId", "LocationOptionId", "PriorityId" },
                 values: new object[,]
@@ -378,14 +411,14 @@ namespace DbConfigurator.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BuisnessUnit_AreaId",
-                table: "BuisnessUnit",
-                column: "AreaId");
+                name: "IX_AreaBuisnessUnit_BuisnessUnitsId",
+                table: "AreaBuisnessUnit",
+                column: "BuisnessUnitsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Country_BuisnessUnitId",
-                table: "Country",
-                column: "BuisnessUnitId");
+                name: "IX_BuisnessUnitCountry_CountriesId",
+                table: "BuisnessUnitCountry",
+                column: "CountriesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DistributionInformation_CountryId",
@@ -422,7 +455,19 @@ namespace DbConfigurator.DataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AreaBuisnessUnit");
+
+            migrationBuilder.DropTable(
+                name: "BuisnessUnitCountry");
+
+            migrationBuilder.DropTable(
                 name: "RecipientRecipientsGroup");
+
+            migrationBuilder.DropTable(
+                name: "Area");
+
+            migrationBuilder.DropTable(
+                name: "BuisnessUnit");
 
             migrationBuilder.DropTable(
                 name: "Recipient");
@@ -444,12 +489,6 @@ namespace DbConfigurator.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Priority");
-
-            migrationBuilder.DropTable(
-                name: "BuisnessUnit");
-
-            migrationBuilder.DropTable(
-                name: "Area");
         }
     }
 }

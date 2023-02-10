@@ -10,6 +10,8 @@ namespace DbConfigurator.Model
     {
         public BuisnessUnit() 
         {
+            Areas = new ObservableCollection<Area>();
+            Countries = new ObservableCollection<Country>();
         }
 
         [Required]
@@ -17,11 +19,10 @@ namespace DbConfigurator.Model
         [Required]
         [MaxLength(250)]
         public string Name { get; set; }
-        [Required]
-        public int AreaId { get; set; }
-        public Area Area { get; set; }
+
    
     
+        public ICollection<Area> Areas { get; set; }
         public ICollection<Country> Countries { get; set; }
     }
 }

@@ -65,9 +65,7 @@ namespace DbConfigurator.DataAccess
     new BuisnessUnit
     {
         Id = i,
-        Name = gbuBuisnessUnit[i - 1],
-        AreaId = AreaIds[i - 1],
-
+        Name = gbuBuisnessUnit[i - 1]
     });
                 var businessUnit = new BuisnessUnit();
                 businessUnit.Id = i;
@@ -95,8 +93,7 @@ namespace DbConfigurator.DataAccess
                     {
                         Id = i,
                         Name = gbuCountry[i - 1],
-                        ShortCode = gbuCountryCode[i - 1],
-                        BuisnessUnitId = countryBusinessUnitIdList[i - 1]
+                        ShortCode = gbuCountryCode[i - 1]
                     });
             }
 
