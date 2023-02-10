@@ -37,28 +37,27 @@ namespace DbConfigurator.UI
             }
         }
         public int Id { get { return Model.Id; } }
-        //public string Area
-        //{
-        //    get { return _model.Country.BuisnessUnit.Area.Name; }
+        public string Area
+        {
+            get { return _model.Country.BuisnessUnits.First().Areas.First().Name; }
+            set
+            {
+                //_model.Country.BuisnessUnit.Area.Name = value;
+                OnPropertyChanged();
+            }
+        }
+        public int AreaId { get { return Model.Country.BuisnessUnits.First().Areas.First().Id; } }
+        public string BuisnessUnit
+        {
+            get { return _model.Country.BuisnessUnits.First().Name; }
 
-        //    set
-        //    {
-        //        //_model.Country.BuisnessUnit.Area.Name = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //public int AreaId { get { return Model.Country.BuisnessUnit.AreaId; } }
-        //public string BuisnessUnit
-        //{
-        //    get { return _model.Country.BuisnessUnit.Name; }
-
-        //    set
-        //    {
-        //        //_model.Country.BuisnessUnit.Name = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //public int BuisnessUnitId { get { return Model.Country.BuisnessUnitId; } }
+            set
+            {
+                //_model.Country.BuisnessUnit.Name = value;
+                OnPropertyChanged();
+            }
+        }
+        public int BuisnessUnitId { get { return Model.Country.BuisnessUnits.First().Id; } }
         public string Country
         {
             get { return Model.Country.Name; }

@@ -109,30 +109,20 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Content="Country Cluster:" />
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox Name="CountryClusterComboBox" Width="150" HorizontalAlignment="Left"
+                    <ComboBox Name="CountryClusterComboBox" Width="150" HorizontalAlignment="Left"
                               ItemsSource="{Binding BuisnessUnit_Collection}"
                               SelectedIndex="{Binding SelectedBuisnessUnitIndex}"
                               SelectedItem="{Binding SelectedBuisnessUnit, Mode=TwoWay}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
-                        <CheckBox Name="AnyCountryClusterCheckBox" Content="Any"
-                                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                  Margin="10 0 0 0"/>
-                    </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Content="Country:" />
-                        <StackPanel Orientation="Horizontal">
-                            <ComboBox Name="CountryComboBox" Width="150" HorizontalAlignment="Left"
+                    <ComboBox Name="CountryComboBox" Width="150" HorizontalAlignment="Left"
                               ItemsSource="{Binding Country_Collection}"
                               SelectedIndex="{Binding SelectedcCountryIndex}"
                               SelectedItem="{Binding SelectedCountry}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
-                        <CheckBox Name="AnyCountryCheckBox" Content="Any"
-                                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                  Margin="10 0 0 0"/>
-                        </StackPanel>
-                    </StackPanel>
+                </StackPanel>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Margin="20" Orientation="Vertical" Width="150">
