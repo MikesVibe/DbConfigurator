@@ -94,6 +94,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             
             <StackPanel HorizontalAlignment="Left" Margin="20">
@@ -122,17 +123,18 @@
                               SelectedItem="{Binding SelectedCountry}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Width="150">
-                    <Label Content="Priority:" />
-                    <ComboBox Name="PriorityComboBox" 
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="20" Orientation="Vertical" Width="150">
+                <Label Content="Priority:" />
+                <ComboBox  Name="PriorityComboBox" 
                               ItemsSource="{Binding Priority_Collection}"
                               SelectedIndex="{Binding SelectedcPriorityIndex}"
                               SelectedItem="{Binding SelectedPriority}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
-                </StackPanel>
             </StackPanel>
-
-            <StackPanel Grid.Column="1" Margin="20">
+            
+            <StackPanel Grid.Column="2" Margin="20">
                 <StackPanel Orientation="Vertical">
                     <Label Content="To:" />
                     <!--<ComboBox Name="TO" 
@@ -143,7 +145,7 @@
                          />
             </StackPanel>
 
-            <StackPanel Grid.Column="2" Margin="20">
+            <StackPanel Grid.Column="3" Margin="20">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Combo Box:" />
                     <ComboBox Name="ds" />
