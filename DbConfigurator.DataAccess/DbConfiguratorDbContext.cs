@@ -15,20 +15,19 @@ namespace DbConfigurator.DataAccess
         {
 
         }
-        public DbSet<DistributionInformation> DistributionInformations { get; set; }
-        public DbSet<BuisnessUnit> BuisnessUnits { get; set; }
-        public DbSet<Area> Areas { get; set; }
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<Priority> Priorities { get; set; }
-        public DbSet<RecipientsGroup> RecipientsGroups { get; set; }
-        public DbSet<Recipient> Recipients { get; set; }
-        public DbSet<DestinationField> DestinationFields { get; set; }
-        public DbSet<DistributionInformationView> DistributionInformationViews { get; set; }
+        public DbSet<DistributionInformation> DistributionInformation { get; set; }
+        public DbSet<BuisnessUnit> BuisnessUnit { get; set; }
+        public DbSet<Area> Area { get; set; }
+        public DbSet<Country> Country { get; set; }
+        public DbSet<Priority> Priority { get; set; }
+        public DbSet<RecipientsGroup> RecipientsGroup { get; set; }
+        public DbSet<Recipient> Recipient { get; set; }
+        public DbSet<DestinationField> DestinationField { get; set; }
+        public DbSet<LocationOption> LocationOption { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<DistributionInformationView>()
-            .ToView("DistributionInformationView");
+
 
             List<Area> areasTable = new List<Area>();
             List<BuisnessUnit> buisnessUnitsTable = new List<BuisnessUnit>();
@@ -148,15 +147,33 @@ namespace DbConfigurator.DataAccess
                     Name = "Any"
                 });
 
+            modelBuilder.Entity<LocationOption>().HasData(
+                new LocationOption
+                {
+                    Id = 1,
+                    Name = "Any Country",
+                    Descripiton = "Any Country"
+                }
+                );
+
 
             modelBuilder.Entity<DistributionInformation>().HasData(
                 new DistributionInformation
                 {
                     Id = 1,
                     CountryId = 4,
-                    PriorityId = 5
+                    PriorityId = 5,
+                    LocationOptionId = 1
+                },
+                new DistributionInformation
+                {
+                    Id = 2,
+                    CountryId = 4,
+                    PriorityId = 5,
+                    LocationOptionId = 1
                 }
-                
+
+
                 );
 
             modelBuilder.Entity<RecipientsGroup>().HasData(

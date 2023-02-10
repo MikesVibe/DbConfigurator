@@ -26,6 +26,9 @@ namespace DbConfigurator.Model
         public int PriorityId { get; set; }
         public Priority Priority { get; set; }
 
+        public int? LocationOptionId { get; set; }
+        public LocationOption LocationOption { get; set; }
+
         public ICollection<RecipientsGroup> RecipientsGroup_Collection { get; set; }
 
     }

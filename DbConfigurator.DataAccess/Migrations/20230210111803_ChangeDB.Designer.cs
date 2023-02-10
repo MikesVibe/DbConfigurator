@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbConfigurator.DataAccess.Migrations
 {
     [DbContext(typeof(DbConfiguratorDbContext))]
-    [Migration("20230206103220_RebuildDatabase")]
-    partial class RebuildDatabase
+    [Migration("20230210111803_ChangeDB")]
+    partial class ChangeDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,12 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Areas");
+                    b.ToTable("Area");
 
                     b.HasData(
                         new
@@ -81,13 +82,14 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AreaId");
 
-                    b.ToTable("BuisnessUnits");
+                    b.ToTable("BuisnessUnit");
 
                     b.HasData(
                         new
@@ -195,7 +197,7 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasIndex("BuisnessUnitId");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Country");
 
                     b.HasData(
                         new
@@ -782,7 +784,7 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DestinationFields");
+                    b.ToTable("DestinationField");
 
                     b.HasData(
                         new
@@ -808,6 +810,9 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("LocationOptionId")
+                        .HasColumnType("int");
+
                     b.Property<int>("PriorityId")
                         .HasColumnType("int");
 
@@ -815,45 +820,58 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasIndex("CountryId");
 
+                    b.HasIndex("LocationOptionId");
+
                     b.HasIndex("PriorityId");
 
-                    b.ToTable("DistributionInformations");
+                    b.ToTable("DistributionInformation");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             CountryId = 4,
+                            LocationOptionId = 1,
+                            PriorityId = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CountryId = 4,
+                            LocationOptionId = 1,
                             PriorityId = 5
                         });
                 });
 
-            modelBuilder.Entity("DbConfigurator.Model.DistributionInformationView", b =>
+            modelBuilder.Entity("DbConfigurator.Model.LocationOption", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Area")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BuisnessUnit")
+                    b.Property<string>("Descripiton")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Country")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Priority")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable((string)null);
+                    b.ToTable("LocationOption");
 
-                    b.ToView("DistributionInformationView", (string)null);
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Descripiton = "Any Country",
+                            Name = "Any Country"
+                        });
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.Priority", b =>
@@ -871,7 +889,7 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Priorities");
+                    b.ToTable("Priority");
 
                     b.HasData(
                         new
@@ -923,7 +941,7 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Recipients");
+                    b.ToTable("Recipient");
 
                     b.HasData(
                         new
@@ -962,7 +980,7 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasIndex("DistributionInformationId");
 
-                    b.ToTable("RecipientsGroups");
+                    b.ToTable("RecipientsGroup");
 
                     b.HasData(
                         new
@@ -1024,6 +1042,12 @@ namespace DbConfigurator.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DbConfigurator.Model.LocationOption", "LocationOption")
+                        .WithMany("DistributionInformations")
+                        .HasForeignKey("LocationOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DbConfigurator.Model.Priority", "Priority")
                         .WithMany("DistributionInformations")
                         .HasForeignKey("PriorityId")
@@ -1031,6 +1055,8 @@ namespace DbConfigurator.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
+
+                    b.Navigation("LocationOption");
 
                     b.Navigation("Priority");
                 });
@@ -1092,6 +1118,11 @@ namespace DbConfigurator.DataAccess.Migrations
             modelBuilder.Entity("DbConfigurator.Model.DistributionInformation", b =>
                 {
                     b.Navigation("RecipientsGroup_Collection");
+                });
+
+            modelBuilder.Entity("DbConfigurator.Model.LocationOption", b =>
+                {
+                    b.Navigation("DistributionInformations");
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.Priority", b =>

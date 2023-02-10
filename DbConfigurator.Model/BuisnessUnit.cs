@@ -15,6 +15,7 @@ namespace DbConfigurator.Model
         [Required]
         public int Id { get; set; }
         [Required]
+        [MaxLength(250)]
         public string Name { get; set; }
         [Required]
         public int AreaId { get; set; }

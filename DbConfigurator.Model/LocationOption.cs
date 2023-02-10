@@ -8,20 +8,24 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.Model
 {
-    public class Area
+    public class LocationOption
     {
-        public Area() 
+        public LocationOption()
         {
-            BuisnessUnits = new Collection<BuisnessUnit>();
+            DistributionInformations = new Collection<DistributionInformation>();
         }
-
-
         [Required]
         public int Id { get; set; }
+
         [Required]
-        [MaxLength(250)]
+        [MaxLength(50)]
         public string Name { get; set; }
 
-        public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
+        [Required]
+        [MaxLength(200)]
+        public string Descripiton { get; set; }
+
+        public ICollection<DistributionInformation> DistributionInformations { get; set; }
+
     }
 }
