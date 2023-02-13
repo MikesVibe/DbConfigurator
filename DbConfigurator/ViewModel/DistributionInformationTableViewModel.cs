@@ -138,26 +138,21 @@ namespace DbConfigurator.UI.ViewModel
                 var country = Country_Collection.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
                 if (country != null)
                     SelectedcCountryIndex = country.Id - 1;
-                else
-                    SelectedcCountryIndex = -1;
 
                 var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
                 if (buisnessUnit != null)
                     SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
-                else
-                    SelectedBuisnessUnitIndex = -1;
 
                 var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
                 if (area != null)
                     SelectedAreaIndex = area.Id - 1;
-                else
-                    SelectedAreaIndex = -1;
+
+
 
                 var priority = Priority_Collection.Where(p => p.Id == SelectedDistributionInformation.PriorityId).FirstOrDefault();
                 if (priority != null)
                     SelectedcPriorityIndex = priority.Id - 1;
-                else
-                    SelectedcPriorityIndex = -1;
+
             }
         }
 
@@ -207,10 +202,6 @@ namespace DbConfigurator.UI.ViewModel
         }
         private void SetNewCountry()
         {
-
-            if (_selectedCountry == null)
-                return;
-
             var disInfo = SelectedDistributionInformation.Model;
             disInfo.CountryId = _selectedCountry.Id;
             _distributionInformationRepository.ReloadEntryCountry(disInfo);
@@ -227,8 +218,6 @@ namespace DbConfigurator.UI.ViewModel
         }
         private void SetNewPriority()
         {
-            if (_selectedPriority == null)
-                return;
             var disInfo = SelectedDistributionInformation.Model;
             disInfo.PriorityId = _selectedPriority.Id;
             _distributionInformationRepository.ReloadEntryPriority(disInfo);
@@ -238,18 +227,9 @@ namespace DbConfigurator.UI.ViewModel
 
         protected override void OnAddExecute()
         {
-            var disInfo = new DistributionInformation();
-            _distributionInformationRepository.Add(disInfo);
-            var disInfoLookup = new DistributionInfoLookup(disInfo);
+            var disInfoLookup = new DistributionInfoLookup(new DistributionInformation());
             DisInfoLookup_ObservableCollection.Add(disInfoLookup);
-            SelectedDistributionInformation = disInfoLookup;
-
         }
-
-        private void ResetComboBoxesSelections(int id)
-        {
-        }
-
         protected override void OnRemoveExecute()
         {
             throw new NotImplementedException();
