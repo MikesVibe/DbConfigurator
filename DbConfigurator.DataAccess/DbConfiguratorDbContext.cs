@@ -23,7 +23,6 @@ namespace DbConfigurator.DataAccess
         public DbSet<RecipientsGroup> RecipientsGroup { get; set; }
         public DbSet<Recipient> Recipient { get; set; }
         public DbSet<DestinationField> DestinationField { get; set; }
-        public DbSet<LocationOption> LocationOption { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -144,14 +143,6 @@ namespace DbConfigurator.DataAccess
                     Name = "Any"
                 });
 
-            modelBuilder.Entity<LocationOption>().HasData(
-                new LocationOption
-                {
-                    Id = 1,
-                    Name = "Any Country",
-                    Descripiton = "Any Country"
-                }
-                );
 
 
             modelBuilder.Entity<DistributionInformation>().HasData(
@@ -159,15 +150,13 @@ namespace DbConfigurator.DataAccess
                 {
                     Id = 1,
                     CountryId = 4,
-                    PriorityId = 5,
-                    LocationOptionId = 1
+                    PriorityId = 5
                 },
                 new DistributionInformation
                 {
                     Id = 2,
                     CountryId = 4,
-                    PriorityId = 5,
-                    LocationOptionId = 1
+                    PriorityId = 5
                 }
 
 

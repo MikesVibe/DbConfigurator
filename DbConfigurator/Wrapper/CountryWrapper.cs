@@ -33,21 +33,8 @@ namespace DbConfigurator.UI.Wrapper
                 SetValue<string>(value);
             }
         }
-        public int BuisnessUnitId
-        {
-            get { return GetValue<int>(); }
-            set
-            {
-                SetValue<int>(value);
-            }
-        }
-        public BuisnessUnit BuisnessUnit
-        {
-            get { return GetValue<BuisnessUnit>(); }
-            set
-            {
-                SetValue<BuisnessUnit>(value);
-            }
-        }
+        public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
+        public ICollection<DistributionInformation> DistributionInformations { get; set; }
+
     }
 }

@@ -32,17 +32,17 @@ namespace DbConfigurator.UI.ViewModel
 
             var buisnessUnits = await _countryRepository.GetAllAsync();
 
-            foreach (var wrapper in Countries_ObservableCollection)
-            {
-                wrapper.PropertyChanged -= Country_ObservableCollection_PropertyChanged;
-            }
-            Countries_ObservableCollection.Clear();
+            //foreach (var wrapper in Countries_ObservableCollection)
+            //{
+            //    wrapper.PropertyChanged -= Country_ObservableCollection_PropertyChanged;
+            //}
+            //Countries_ObservableCollection.Clear();
 
             foreach (var buisnessUnit in buisnessUnits)
             {
                 var wrapper = new CountryWrapper(buisnessUnit);
                 Countries_ObservableCollection.Add(wrapper);
-                wrapper.PropertyChanged += Country_ObservableCollection_PropertyChanged;
+                //wrapper.PropertyChanged += Country_ObservableCollection_PropertyChanged;
             }
         }
         private void Country_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)

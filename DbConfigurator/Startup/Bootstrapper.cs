@@ -1,11 +1,15 @@
 ﻿using Autofac;
+using Autofac.Core;
 using DbConfigurator.DataAccess;
 using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +18,13 @@ namespace DbConfigurator.UI.Startup
 {
     public class Bootstrapper
     {
-        public IContainer Bootstrap()
+        public static IContainer Container 
+        {
+            get { return _container; }
+            set { _container = value; }
+        }
+        private static IContainer _container;
+        public void Bootstrap()
         {
             var builder = new ContainerBuilder();
 
@@ -22,7 +32,8 @@ namespace DbConfigurator.UI.Startup
 
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
-            builder.RegisterType<DbConfiguratorDbContext>().AsSelf();
+
+            builder.RegisterType<DbConfiguratorDbContext>().SingleInstance();
 
             //View Models
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
@@ -31,17 +42,26 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<CountryTableViewModel>()
                  .Keyed<ITabelViewModel>(nameof(CountryTableViewModel));
             builder.RegisterType<DistributionInformationTableViewModel>()
-                 .Keyed <ITabelViewModel>(nameof(DistributionInformationTableViewModel));
-
+                 .Keyed<ITabelViewModel>(nameof(DistributionInformationTableViewModel));
 
             //Repositories
             builder.RegisterType<DistributionInformationRepository>().AsImplementedInterfaces();
             builder.RegisterType<RecipientRepository>().AsImplementedInterfaces();
             builder.RegisterType<BuisnessRepository>().AsImplementedInterfaces();
             builder.RegisterType<CountryRepository>().AsImplementedInterfaces();
+            
+            //builder.RegisterType<DbConfiguratorDbContext>().SingleInstance();
 
+            Container = builder.Build();
+        }
 
-            return builder.Build();
+        public static T Resolve<T>()
+        {
+            return Container.Resolve<T>(new Parameter[0]);
+        }
+        public static T Resolve<T>(Parameter[] parameters)
+        {
+            return Container.Resolve<T>(new Parameter[0]);
         }
     }
 }

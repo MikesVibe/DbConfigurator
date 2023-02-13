@@ -10,10 +10,6 @@ namespace DbConfigurator.Model
 {
     public class DistributionInformation
     {
-        public DistributionInformation()
-        {
-            RecipientsGroup_Collection = new Collection<RecipientsGroup>();
-        }
 
         [Required]
         public int Id { get; set; }
@@ -26,8 +22,6 @@ namespace DbConfigurator.Model
         public int PriorityId { get; set; }
         public Priority Priority { get; set; }
 
-        public int? LocationOptionId { get; set; }
-        public LocationOption LocationOption { get; set; }
 
         public ICollection<RecipientsGroup> RecipientsGroup_Collection { get; set; }
 

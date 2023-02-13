@@ -10,11 +10,6 @@ namespace DbConfigurator.Model
 {
     public class Country
     {
-        public Country()
-        {
-            DistributionInformations = new Collection<DistributionInformation>();
-            BuisnessUnits = new Collection<BuisnessUnit>();
-        }
         [Required]
         public int Id { get; set; }
 

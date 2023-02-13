@@ -7,7 +7,7 @@
 namespace DbConfigurator.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangingSomeRelations : Migration
+    public partial class NewDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,7 +45,7 @@ namespace DbConfigurator.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ShortCode = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false)
+                    ShortCode = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,20 +63,6 @@ namespace DbConfigurator.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DestinationField", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LocationOption",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Descripiton = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LocationOption", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,8 +148,7 @@ namespace DbConfigurator.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryId = table.Column<int>(type: "int", nullable: false),
-                    PriorityId = table.Column<int>(type: "int", nullable: false),
-                    LocationOptionId = table.Column<int>(type: "int", nullable: true)
+                    PriorityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,11 +159,6 @@ namespace DbConfigurator.DataAccess.Migrations
                         principalTable: "Country",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DistributionInformation_LocationOption_LocationOptionId",
-                        column: x => x.LocationOptionId,
-                        principalTable: "LocationOption",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DistributionInformation_Priority_PriorityId",
                         column: x => x.PriorityId,
@@ -367,11 +347,6 @@ namespace DbConfigurator.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "LocationOption",
-                columns: new[] { "Id", "Descripiton", "Name" },
-                values: new object[] { 1, "Any Country", "Any Country" });
-
-            migrationBuilder.InsertData(
                 table: "Priority",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
@@ -394,11 +369,11 @@ namespace DbConfigurator.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "DistributionInformation",
-                columns: new[] { "Id", "CountryId", "LocationOptionId", "PriorityId" },
+                columns: new[] { "Id", "CountryId", "PriorityId" },
                 values: new object[,]
                 {
-                    { 1, 4, 1, 5 },
-                    { 2, 4, 1, 5 }
+                    { 1, 4, 5 },
+                    { 2, 4, 5 }
                 });
 
             migrationBuilder.InsertData(
@@ -424,11 +399,6 @@ namespace DbConfigurator.DataAccess.Migrations
                 name: "IX_DistributionInformation_CountryId",
                 table: "DistributionInformation",
                 column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DistributionInformation_LocationOptionId",
-                table: "DistributionInformation",
-                column: "LocationOptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DistributionInformation_PriorityId",
@@ -483,9 +453,6 @@ namespace DbConfigurator.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Country");
-
-            migrationBuilder.DropTable(
-                name: "LocationOption");
 
             migrationBuilder.DropTable(
                 name: "Priority");

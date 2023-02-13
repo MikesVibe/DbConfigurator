@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DbConfigurator.DataAccess;
 using DbConfigurator.UI;
 using DbConfigurator.UI.Startup;
 using System;
@@ -8,7 +9,6 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-
 namespace DbConfigurator
 {
     /// <summary>
@@ -19,9 +19,9 @@ namespace DbConfigurator
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             var bootstrapper = new Bootstrapper();
-            var container = bootstrapper.Bootstrap();
+            bootstrapper.Bootstrap();
 
-            var mainWindow = container.Resolve<MainWindow>();
+            var mainWindow = Bootstrapper.Resolve<MainWindow>();
             mainWindow.Show();
         }
     }

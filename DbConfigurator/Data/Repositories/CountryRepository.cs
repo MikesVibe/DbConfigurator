@@ -19,9 +19,9 @@ namespace DbConfigurator.UI.Data.Repositories
 
         public override async Task<IEnumerable<Country>> GetAllAsync()
         {
-            //var collection = await Context.Set<Country>().Include(c => c.BuisnessUnit.Area).ToListAsync();
+            var collection = await Context.Set<Country>().Include(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas).ToListAsync();
 
-            return new List<Country>();
+            return collection;
         }
         public async Task<IEnumerable<Country>> GetAllCountriesAsync()
         {

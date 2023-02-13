@@ -10,12 +10,6 @@ namespace DbConfigurator.Model
 {
     public class Area
     {
-        public Area() 
-        {
-            BuisnessUnits = new Collection<BuisnessUnit>();
-        }
-
-
         [Required]
         public int Id { get; set; }
         [Required]
