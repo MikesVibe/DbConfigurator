@@ -6,6 +6,14 @@ namespace DbConfigurator.Model
 {
     public interface IDataModel
     {
-        IEnumerable<DistributionInformation> DistributionInformation { get; set; }
+
+        void SaveChangesAsync();
+
+        IEnumerable<DistributionInformation> DistributionInformations{ get; set; }
+        IEnumerable<Area> Areas { get; set; }
+        IEnumerable<BuisnessUnit> BuisnessUnits { get; set; }
+        IEnumerable<Country> Countries { get; set; }
+        IEnumerable<Priority> Priorities { get; set; }
+        bool HasChanges { get; }
     }
 }

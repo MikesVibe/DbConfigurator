@@ -25,34 +25,21 @@ namespace DbConfigurator.UI.ViewModel
     {
         public DistributionInformationTableViewModel(
             IEventAggregator eventAggregator,
-            IDistributionInformationRepository distributionInformationRepository,
-            ICountryRepository countryRepository,
-            IRecipientRepository recipientRepository,
             IDataModel dataModel
             ) : base(eventAggregator)
         {
-            _distributionInformationRepository = distributionInformationRepository;
-            _countryRepository = countryRepository;
-            _recipientRepository = recipientRepository;
             _dataModel = dataModel;
 
             DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookup>();
 
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
+
+            PopulateComboBoxesWithData();
         }
 
         public override async Task LoadAsync()
         {
-            //   var distributionInformations = await _distributionInformationRepository.GetAllAsync();
-            var distributionInformations = _dataModel.DistributionInformation;
-            
-
-            //foreach (var dis in distributionInformations)
-            //{
-            //    DisInfoLookup_ObservableCollection.Add(dis);
-            //}
-
-
+            var distributionInformations = _dataModel.DistributionInformations;
             var distributionInformationsLookup = new ObservableCollection<DistributionInfoLookup>();
 
             //foreach (var dis in DisInfoLookup_ObservableCollection)
@@ -74,36 +61,37 @@ namespace DbConfigurator.UI.ViewModel
             DisInfoLookup_ObservableCollection = distributionInformationsLookup;
 
 
+        }
+
+        private void PopulateComboBoxesWithData()
+        {
             Area_Collection = new ObservableCollection<Area>();
             BuisnessUnit_Collection = new ObservableCollection<BuisnessUnit>();
             Country_Collection = new ObservableCollection<Country>();
             Priority_Collection = new ObservableCollection<PriorityWrapper>();
 
-            var areas = await _countryRepository.GetAllAreasAsync();
-            foreach(var area in areas) 
+            var areas = _dataModel.Areas;
+            foreach (var area in areas)
             {
                 Area_Collection.Add(area);
             }
 
-            var buisnessUnits = await _countryRepository.GetAllBuisnessUnitsAsync();
+            var buisnessUnits = _dataModel.BuisnessUnits;
             foreach (var bu in buisnessUnits)
             {
                 BuisnessUnit_Collection.Add(bu);
             }
-            var countries = await _countryRepository.GetAllCountriesAsync();
+            var countries = _dataModel.Countries;
             foreach (var country in countries)
             {
                 Country_Collection.Add(country);
             }
-            var priorities = await _distributionInformationRepository.GetAllPrioritiesAsync();
+            var priorities = _dataModel.Priorities;
             foreach (var priority in priorities)
             {
                 Priority_Collection.Add(new PriorityWrapper(priority));
             }
-
-
         }
-
 
         protected override void OnDeleteExecute()
         {
@@ -115,19 +103,15 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected async override void OnSaveExecute()
         {
-            await _distributionInformationRepository.SaveAsync();
-            HasChanges = _distributionInformationRepository.HasChanges();
-
-            
-
-            //SelectedDistributionInformation = disInfoWrapper;
+            _dataModel.SaveChangesAsync();
+            HasChanges = _dataModel.HasChanges;
 
         }
         private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!HasChanges)
             {
-                HasChanges = _distributionInformationRepository.HasChanges();
+                HasChanges = _dataModel.HasChanges;
             }
             if (e.PropertyName == nameof(DistributionInformationWrapper.HasErrors))
             {
@@ -205,27 +189,27 @@ namespace DbConfigurator.UI.ViewModel
         }
         private void SetNewCountry()
         {
-            var disInfo = SelectedDistributionInformation.Model;
-            disInfo.CountryId = _selectedCountry.Id;
-            _distributionInformationRepository.ReloadEntryCountry(disInfo);
+            //var disInfo = SelectedDistributionInformation.Model;
+            //disInfo.CountryId = _selectedCountry.Id;
+            //_distributionInformationRepository.ReloadEntryCountry(disInfo);
 
-            SelectedDistributionInformation.Model = disInfo;
+            //SelectedDistributionInformation.Model = disInfo;
 
-            var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-            if (buisnessUnit != null)
-                SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
+            //var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
+            //if (buisnessUnit != null)
+            //    SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
 
-            var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-            if (area != null)
-                SelectedAreaIndex = area.Id - 1;
+            //var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
+            //if (area != null)
+            //    SelectedAreaIndex = area.Id - 1;
         }
         private void SetNewPriority()
         {
-            var disInfo = SelectedDistributionInformation.Model;
-            disInfo.PriorityId = _selectedPriority.Id;
-            _distributionInformationRepository.ReloadEntryPriority(disInfo);
+            //var disInfo = SelectedDistributionInformation.Model;
+            //disInfo.PriorityId = _selectedPriority.Id;
+            //_distributionInformationRepository.ReloadEntryPriority(disInfo);
 
-            SelectedDistributionInformation.Model = disInfo;
+            //SelectedDistributionInformation.Model = disInfo;
         }
 
         protected override void OnAddExecute()
@@ -297,9 +281,6 @@ namespace DbConfigurator.UI.ViewModel
 
 
 
-        private IDistributionInformationRepository _distributionInformationRepository;
-        private ICountryRepository _countryRepository;
-        private IRecipientRepository _recipientRepository;
         private IDataModel _dataModel;
         private IEventAggregator _eventAggregator;
         private DistributionInfoLookup _selectedDistributionInformation;
