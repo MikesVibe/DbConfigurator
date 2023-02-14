@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.Model;
-using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Wrapper;
 using Prism.Commands;
@@ -16,12 +15,11 @@ namespace DbConfigurator.UI.ViewModel
 {
     public class CountryTableViewModel : TableViewModelBase, ICountryTableViewModel
     {
-        public CountryTableViewModel(
-            ICountryRepository countryRepository, 
+        public CountryTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator
             ) : base(eventAggregator)
         {
-            _countryRepository = countryRepository;
+            _dataModel = dataModel;
 
             Countries_ObservableCollection = new ObservableCollection<CountryWrapper>();
         }
@@ -29,8 +27,7 @@ namespace DbConfigurator.UI.ViewModel
 
         public override async Task LoadAsync()
         {
-
-            var buisnessUnits = await _countryRepository.GetAllAsync();
+            var countries = _dataModel.Countries;
 
             //foreach (var wrapper in Countries_ObservableCollection)
             //{
@@ -38,9 +35,9 @@ namespace DbConfigurator.UI.ViewModel
             //}
             //Countries_ObservableCollection.Clear();
 
-            foreach (var buisnessUnit in buisnessUnits)
+            foreach (var country in countries)
             {
-                var wrapper = new CountryWrapper(buisnessUnit);
+                var wrapper = new CountryWrapper(country);
                 Countries_ObservableCollection.Add(wrapper);
                 //wrapper.PropertyChanged += Country_ObservableCollection_PropertyChanged;
             }
@@ -49,7 +46,7 @@ namespace DbConfigurator.UI.ViewModel
         {
             if (!HasChanges)
             {
-                HasChanges = _countryRepository.HasChanges();
+                HasChanges = _dataModel.HasChanges();
             }
             if (e.PropertyName == nameof(CountryWrapper.HasErrors))
             {
@@ -69,8 +66,8 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override void OnSaveExecute()
         {
-            _countryRepository.SaveAsync();
-            HasChanges = _countryRepository.HasChanges();
+            _dataModel.SaveChangesAsync();
+            HasChanges = _dataModel.HasChanges();
             Id = SelectedCountry.Id;
         }
 
@@ -98,11 +95,13 @@ namespace DbConfigurator.UI.ViewModel
                 _selectedCountry = value;
             }
         }
+
+
         public ObservableCollection<CountryWrapper> Countries_ObservableCollection { get; set; }
 
 
-        private ICountryRepository _countryRepository;
         private CountryWrapper _selectedCountry;
+        private IDataModel _dataModel;
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using DbConfigurator.UI.Data.Repositories;
+﻿using DbConfigurator.DataAccess;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.VisualBasic;
 using System;
@@ -12,12 +13,11 @@ namespace DbConfigurator.Model
     public class DataModel : IDataModel
     {
         public DataModel(
-            IDistributionInformationRepository distributionInformationRepository,
-            ICountryRepository countryRepository
+            DbConfiguratorDbContext dbConfiguratorDbContext
             )
         {
-            _distributionInformationRepository = distributionInformationRepository;
-            _countryRepository = countryRepository;
+            Context = dbConfiguratorDbContext;
+
 
 
             LoadDataFromDatabase();
@@ -25,32 +25,78 @@ namespace DbConfigurator.Model
 
         private async void LoadDataFromDatabase()
         {
-            DistributionInformations = await _distributionInformationRepository.GetAllAsync();
-            Areas = await _countryRepository.GetAllAreasAsync();
-            BuisnessUnits = await _countryRepository.GetAllBuisnessUnitsAsync();
-            Countries = await _countryRepository.GetAllCountriesAsync();
-            Priorities = await _distributionInformationRepository.GetAllPrioritiesAsync();
+            DistributionInformations = await GetAllDistributionInformationAsync();
+            Areas = await GetAllAreasAsync();
+            BuisnessUnits = await GetAllBuisnessUnitsAsync();
+            Countries = await GetAllCountriesAsync();
+            Priorities = await GetAllPrioritiesAsync();
+            Recipients = await GetAllRecipientsAsync();
 
         }
 
         public void SaveChangesAsync()
         {
-            _distributionInformationRepository.SaveAsync();
+            Context.SaveChangesAsync();
         }
 
+        private async Task<IEnumerable<DistributionInformation>> GetAllDistributionInformationAsync()
+        {
+            var collection = await Context.Set<DistributionInformation>()
+                .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
+                .Include(c => c.RecipientsGroup_Collection)
+                .ThenInclude(rg => rg.DestinationField)
+                .ThenInclude(r => r.RecipientsGroups)
+                .ThenInclude(t => t.Recipients)
+                .Include(p => p.Priority)
+                .ToListAsync();
+
+            return collection;
+        }
+        private async Task<IEnumerable<Area>> GetAllAreasAsync()
+        {
+            var collection = await Context.Set<Area>().AsNoTracking().ToListAsync();
+
+            return collection;
+        }
+        private async Task<IEnumerable<BuisnessUnit>> GetAllBuisnessUnitsAsync()
+        {
+            var collection = await Context.Set<BuisnessUnit>().AsNoTracking().ToListAsync();
+
+            return collection;
+        }
+        private async Task<IEnumerable<Country>> GetAllCountriesAsync()
+        {
+            var collection = await Context.Set<Country>().AsNoTracking().ToListAsync();
+
+            return collection;
+        }
+        private async Task<IEnumerable<Priority>> GetAllPrioritiesAsync()
+        {
+            var collection = await Context.Set<Priority>().AsNoTracking().ToListAsync();
+            return collection;
+        }
+        private async Task<IEnumerable<Recipient>> GetAllRecipientsAsync()
+        {
+            var collection = await Context.Set<Recipient>().AsNoTracking().ToListAsync();
+            return collection;
+        }
         public IEnumerable<DistributionInformation> DistributionInformations { get; set; }
         public IEnumerable<Area> Areas { get; set; }
         public IEnumerable<BuisnessUnit> BuisnessUnits { get; set; }
         public IEnumerable<Country> Countries { get; set; }
         public IEnumerable<Priority> Priorities { get; set; }
+        public IEnumerable<Recipient> Recipients { get; set; }
 
-
-        public bool HasChanges 
-        { 
-            get { return _distributionInformationRepository.HasChanges(); }
+        public bool HasChanges()
+        {
+            return Context.ChangeTracker.HasChanges();
+        }
+        public DbConfiguratorDbContext Context
+        {
+            get { return _context; }
+            set { _context = value; }
         }
 
-        private IDistributionInformationRepository _distributionInformationRepository;
-        private ICountryRepository _countryRepository;
+        private DbConfiguratorDbContext _context;
     }
 }

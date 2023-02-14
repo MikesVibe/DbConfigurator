@@ -1,6 +1,5 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
-using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;

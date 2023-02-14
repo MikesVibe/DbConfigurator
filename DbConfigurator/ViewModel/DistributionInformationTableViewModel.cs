@@ -1,6 +1,5 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
-using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.View;
 using DbConfigurator.UI.Wrapper;
 using Microsoft.EntityFrameworkCore.Update.Internal;
@@ -104,14 +103,14 @@ namespace DbConfigurator.UI.ViewModel
         protected async override void OnSaveExecute()
         {
             _dataModel.SaveChangesAsync();
-            HasChanges = _dataModel.HasChanges;
+            HasChanges = _dataModel.HasChanges();
 
         }
         private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!HasChanges)
             {
-                HasChanges = _dataModel.HasChanges;
+                HasChanges = _dataModel.HasChanges();
             }
             if (e.PropertyName == nameof(DistributionInformationWrapper.HasErrors))
             {

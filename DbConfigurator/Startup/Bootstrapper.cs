@@ -2,7 +2,6 @@
 using Autofac.Core;
 using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
-using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -46,12 +45,6 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<DistributionInformationTableViewModel>()
                  .Keyed<ITabelViewModel>(nameof(DistributionInformationTableViewModel));
 
-            //Repositories
-            builder.RegisterType<DistributionInformationRepository>().AsImplementedInterfaces();
-            builder.RegisterType<RecipientRepository>().AsImplementedInterfaces();
-            builder.RegisterType<BuisnessRepository>().AsImplementedInterfaces();
-            builder.RegisterType<CountryRepository>().AsImplementedInterfaces();
-            
 
             Container = builder.Build();
         }

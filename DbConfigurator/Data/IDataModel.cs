@@ -14,6 +14,7 @@ namespace DbConfigurator.Model
         IEnumerable<BuisnessUnit> BuisnessUnits { get; set; }
         IEnumerable<Country> Countries { get; set; }
         IEnumerable<Priority> Priorities { get; set; }
-        bool HasChanges { get; }
+        IEnumerable<Recipient> Recipients { get; set; }
+        bool HasChanges();
     }
 }

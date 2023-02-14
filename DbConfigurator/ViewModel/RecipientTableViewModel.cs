@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.Model;
-using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Wrapper;
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +23,11 @@ namespace DbConfigurator.UI.ViewModel
 {
     public class RecipientTableViewModel : TableViewModelBase, IRecipientTableViewModel
     {
-        public RecipientTableViewModel(IRecipientRepository recipientRepository,
+        public RecipientTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator) : base(eventAggregator)
         {
-            _recipientRepository = recipientRepository;
+            _dataModel = dataModel;
+
 
             Recipients_ObservableCollection = new ObservableCollection<RecipientWrapper>();
 
@@ -39,29 +39,27 @@ namespace DbConfigurator.UI.ViewModel
 
         public override async Task LoadAsync()
         {
-            var recipients = await _recipientRepository.GetAllAsync();
+            var recipients = _dataModel.Recipients;
 
-#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target
-            foreach (var wrapper in Recipients_ObservableCollection)
-            {
-                wrapper.PropertyChanged -= Recipients_ObservableCollection_PropertyChanged;
+            //foreach (var wrapper in Recipients_ObservableCollection)
+            //{
+            //    wrapper.PropertyChanged -= Recipients_ObservableCollection_PropertyChanged;
 
-            }
-            Recipients_ObservableCollection.Clear();
+            //}
+            //Recipients_ObservableCollection.Clear();
 
             foreach (var recipient in recipients)
             {
                 var wrapper = new RecipientWrapper(recipient);
                 Recipients_ObservableCollection.Add(wrapper);
-                wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
+                //wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
             }
-#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target
         }
         private void Recipients_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!HasChanges)
             {
-                HasChanges = _recipientRepository.HasChanges();
+                HasChanges = _dataModel.HasChanges();
             }
             if (e.PropertyName == nameof(RecipientWrapper.HasErrors))
             {
@@ -81,8 +79,8 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override void OnSaveExecute()
         {
-            _recipientRepository.SaveAsync();
-            HasChanges = _recipientRepository.HasChanges();
+            _dataModel.SaveChangesAsync();
+            HasChanges = _dataModel.HasChanges();
             Id = SelectedRecipient.Id;
 
         }
@@ -112,12 +110,13 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+
+
         public ObservableCollection<RecipientWrapper> Recipients_ObservableCollection { get; set; }
 
-
-        private IRecipientRepository _recipientRepository;
-        private IEventAggregator _eventAggregator;
         private RecipientWrapper _selectedRecipient;
+        private IEventAggregator _eventAggregator;
+        private IDataModel _dataModel;
 
 
     }
