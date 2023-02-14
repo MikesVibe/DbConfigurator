@@ -188,27 +188,27 @@ namespace DbConfigurator.UI.ViewModel
         }
         private void SetNewCountry()
         {
-            //var disInfo = SelectedDistributionInformation.Model;
-            //disInfo.CountryId = _selectedCountry.Id;
-            //_distributionInformationRepository.ReloadEntryCountry(disInfo);
+            var disInfo = SelectedDistributionInformation.Model;
+            disInfo.CountryId = _selectedCountry.Id;
+            _dataModel.ReloadEntryCountry(disInfo);
 
-            //SelectedDistributionInformation.Model = disInfo;
+            SelectedDistributionInformation.Model = disInfo;
 
-            //var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-            //if (buisnessUnit != null)
-            //    SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
+            var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
+            if (buisnessUnit != null)
+                SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
 
-            //var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-            //if (area != null)
-            //    SelectedAreaIndex = area.Id - 1;
+            var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
+            if (area != null)
+                SelectedAreaIndex = area.Id - 1;
         }
         private void SetNewPriority()
         {
-            //var disInfo = SelectedDistributionInformation.Model;
-            //disInfo.PriorityId = _selectedPriority.Id;
-            //_distributionInformationRepository.ReloadEntryPriority(disInfo);
+            var disInfo = SelectedDistributionInformation.Model;
+            disInfo.PriorityId = _selectedPriority.Id;
+            _dataModel.ReloadEntryPriority(disInfo);
 
-            //SelectedDistributionInformation.Model = disInfo;
+            SelectedDistributionInformation.Model = disInfo;
         }
 
         protected override void OnAddExecute()

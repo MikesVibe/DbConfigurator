@@ -91,6 +91,22 @@ namespace DbConfigurator.Model
         {
             return Context.ChangeTracker.HasChanges();
         }
+
+        public void ReloadEntryPriority(DistributionInformation disInfo)
+        {
+            Context.Entry(disInfo).Reference(e => e.Priority).Load();
+        }
+
+        public void ReloadEntryCountry(DistributionInformation disInfo)
+        {
+            Context.Entry(disInfo).Reference(d => d.Country).Load();
+            Context.Entry(disInfo.Country).Collection(c => c.BuisnessUnits).Load();
+            foreach (var buisnessUnit in disInfo.Country.BuisnessUnits)
+            {
+                Context.Entry(buisnessUnit).Collection(bu => bu.Areas).Load();
+            }
+        }
+
         public DbConfiguratorDbContext Context
         {
             get { return _context; }

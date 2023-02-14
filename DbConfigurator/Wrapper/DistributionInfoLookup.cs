@@ -76,7 +76,7 @@ namespace DbConfigurator.UI
             set
             {
                 _area = value;
-                OnPropertyChanged(value);
+                OnPropertyChanged();
             }
         }
         public int AreaId 
@@ -90,7 +90,7 @@ namespace DbConfigurator.UI
             set
             {
                 _buisnessUnit = value;
-                OnPropertyChanged(value);
+                OnPropertyChanged();
             }
         }
         public int BuisnessUnitId
@@ -104,7 +104,7 @@ namespace DbConfigurator.UI
             set
             {
                 _country = value;
-                OnPropertyChanged(value);
+                OnPropertyChanged();
             }
         }
         public int CountryId
@@ -118,7 +118,7 @@ namespace DbConfigurator.UI
             set
             {
                 _priority = value;
-                OnPropertyChanged(value);
+                OnPropertyChanged();
             }
         }
         public int PriorityId

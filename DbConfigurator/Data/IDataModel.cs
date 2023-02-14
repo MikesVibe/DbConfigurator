@@ -16,5 +16,7 @@ namespace DbConfigurator.Model
         IEnumerable<Priority> Priorities { get; set; }
         IEnumerable<Recipient> Recipients { get; set; }
         bool HasChanges();
+        void ReloadEntryPriority(DistributionInformation disInfo);
+        void ReloadEntryCountry(DistributionInformation disInfo);
     }
 }
