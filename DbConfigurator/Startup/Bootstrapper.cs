@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Core;
 using DbConfigurator.DataAccess;
+using DbConfigurator.Model;
 using DbConfigurator.UI.Data.Repositories;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Interfaces;
@@ -29,6 +30,7 @@ namespace DbConfigurator.UI.Startup
             var builder = new ContainerBuilder();
 
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+            builder.RegisterType<DataModel>().As<IDataModel>().SingleInstance();
 
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
@@ -50,7 +52,6 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<BuisnessRepository>().AsImplementedInterfaces();
             builder.RegisterType<CountryRepository>().AsImplementedInterfaces();
             
-            //builder.RegisterType<DbConfiguratorDbContext>().SingleInstance();
 
             Container = builder.Build();
         }

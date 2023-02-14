@@ -27,12 +27,14 @@ namespace DbConfigurator.UI.ViewModel
             IEventAggregator eventAggregator,
             IDistributionInformationRepository distributionInformationRepository,
             ICountryRepository countryRepository,
-            IRecipientRepository recipientRepository
+            IRecipientRepository recipientRepository,
+            IDataModel dataModel
             ) : base(eventAggregator)
         {
             _distributionInformationRepository = distributionInformationRepository;
             _countryRepository = countryRepository;
             _recipientRepository = recipientRepository;
+            _dataModel = dataModel;
 
             DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookup>();
 
@@ -41,8 +43,9 @@ namespace DbConfigurator.UI.ViewModel
 
         public override async Task LoadAsync()
         {
-            var distributionInformations = await _distributionInformationRepository.GetAllAsync();
-
+            //   var distributionInformations = await _distributionInformationRepository.GetAllAsync();
+            var distributionInformations = _dataModel.DistributionInformation;
+            
 
             //foreach (var dis in distributionInformations)
             //{
@@ -297,6 +300,7 @@ namespace DbConfigurator.UI.ViewModel
         private IDistributionInformationRepository _distributionInformationRepository;
         private ICountryRepository _countryRepository;
         private IRecipientRepository _recipientRepository;
+        private IDataModel _dataModel;
         private IEventAggregator _eventAggregator;
         private DistributionInfoLookup _selectedDistributionInformation;
         private int _selectedAreaIndex = -1;

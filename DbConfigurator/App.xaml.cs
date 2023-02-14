@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DbConfigurator.DataAccess;
+using DbConfigurator.Model;
 using DbConfigurator.UI;
 using DbConfigurator.UI.Startup;
 using System;

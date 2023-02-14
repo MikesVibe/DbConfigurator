@@ -15,8 +15,15 @@ namespace DbConfigurator.UI
         {
             Model = model;
 
+            if (model.RecipientsGroup_Collection == null)
+                return;
+
+
+
             var To = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 1).FirstOrDefault();
             var Cc = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 2).FirstOrDefault();
+
+
             if (To != null)
                 TO = To.Recipients.Select(r => r.Email).ToList();
             if (Cc != null)
