@@ -21,7 +21,7 @@ namespace DbConfigurator.UI.ViewModel
         {
             _dataModel = dataModel;
 
-            Countries_ObservableCollection = new ObservableCollection<CountryWrapper>();
+            Countries_ObservableCollection = new ObservableCollection<CountryLookup>();
         }
 
 
@@ -29,18 +29,24 @@ namespace DbConfigurator.UI.ViewModel
         {
             var countries = _dataModel.Countries;
 
+            foreach (var country in countries)
+            {
+                var wrapper = new CountryLookup(country);
+                Countries_ObservableCollection.Add(wrapper);
+            }
+
             //foreach (var wrapper in Countries_ObservableCollection)
             //{
             //    wrapper.PropertyChanged -= Country_ObservableCollection_PropertyChanged;
             //}
             //Countries_ObservableCollection.Clear();
 
-            foreach (var country in countries)
-            {
-                var wrapper = new CountryWrapper(country);
-                Countries_ObservableCollection.Add(wrapper);
-                //wrapper.PropertyChanged += Country_ObservableCollection_PropertyChanged;
-            }
+            //foreach (var country in countries)
+            //{
+            //    var wrapper = new CountryWrapper(country);
+            //    Countries_ObservableCollection.Add(wrapper);
+            //    wrapper.PropertyChanged += Country_ObservableCollection_PropertyChanged;
+            //}
         }
         private void Country_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -61,7 +67,7 @@ namespace DbConfigurator.UI.ViewModel
         protected override bool OnSaveCanExecute()
         {
             return SelectedCountry != null
-                && !SelectedCountry.HasErrors
+                //&& !SelectedCountry.HasErrors
                 && HasChanges;
         }
         protected override void OnSaveExecute()
@@ -87,7 +93,7 @@ namespace DbConfigurator.UI.ViewModel
         }
 
         public int DefaultRowIndex { get { return 0; } }
-        public CountryWrapper SelectedCountry
+        public CountryLookup SelectedCountry
         {
             get { return _selectedCountry; }
             set
@@ -97,10 +103,10 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-        public ObservableCollection<CountryWrapper> Countries_ObservableCollection { get; set; }
+        public ObservableCollection<CountryLookup> Countries_ObservableCollection { get; set; }
 
 
-        private CountryWrapper _selectedCountry;
+        private CountryLookup _selectedCountry;
         private IDataModel _dataModel;
 
     }

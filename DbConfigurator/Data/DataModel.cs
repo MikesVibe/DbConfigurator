@@ -66,7 +66,7 @@ namespace DbConfigurator.Model
         }
         private async Task<IEnumerable<Country>> GetAllCountriesAsync()
         {
-            var collection = await Context.Set<Country>().AsNoTracking().ToListAsync();
+            var collection = await Context.Set<Country>().Include(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas).AsNoTracking().ToListAsync();
 
             return collection;
         }
