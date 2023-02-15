@@ -107,6 +107,11 @@ namespace DbConfigurator.Model
             }
         }
 
+        public void Add<T>(T disInfoLookup) where T : class
+        {
+            Context.Set<T>().Add(disInfoLookup);
+        }
+
         public DbConfiguratorDbContext Context
         {
             get { return _context; }

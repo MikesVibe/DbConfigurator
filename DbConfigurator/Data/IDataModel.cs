@@ -18,5 +18,6 @@ namespace DbConfigurator.Model
         bool HasChanges();
         void ReloadEntryPriority(DistributionInformation disInfo);
         void ReloadEntryCountry(DistributionInformation disInfo);
+        void Add<T>(T disInfoLookup) where T : class;
     }
 }

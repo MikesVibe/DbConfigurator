@@ -106,6 +106,22 @@ namespace DbConfigurator.UI.ViewModel
             HasChanges = _dataModel.HasChanges();
 
         }
+        protected override void OnAddExecute()
+        {
+            var disInfo = new DistributionInformation();
+            var disInfoLookup = new DistributionInfoLookup(disInfo);
+            DisInfoLookup_ObservableCollection.Add(disInfoLookup);
+
+            _dataModel.Add(disInfo);
+        }
+        protected override void OnRemoveExecute()
+        {
+            throw new NotImplementedException();
+        }
+        protected override bool OnRemoveCanExecute()
+        {
+            return false;
+        }
         private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (!HasChanges)
@@ -121,31 +137,25 @@ namespace DbConfigurator.UI.ViewModel
         {
             if (SelectedDistributionInformation != null)
             {
-                var country = Country_Collection.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
-                if (country != null)
-                    SelectedcCountryIndex = country.Id - 1;
-
-                var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-                if (buisnessUnit != null)
-                    SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
-
-                var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-                if (area != null)
-                    SelectedAreaIndex = area.Id - 1;
-
-
-
-                var priority = Priority_Collection.Where(p => p.Id == SelectedDistributionInformation.PriorityId).FirstOrDefault();
-                if (priority != null)
-                    SelectedcPriorityIndex = priority.Id - 1;
-
+                SelectedCountry = Country_Collection.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
+                SelectedBuisnessUnit = BuisnessUnit_Collection.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
+                SelectedArea = Area_Collection.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
+                SelectedPriority = Priority_Collection.Where(c => c.Id == SelectedDistributionInformation.PriorityId).FirstOrDefault();
             }
+            else
+            {
+                SelectedCountry = null;
+                SelectedBuisnessUnit = null;
+                SelectedArea = null;
+                SelectedPriority = null;
+            }
+
         }
 
         
 
 
-        public Area SelectedArea
+        public Area? SelectedArea
         {
             get { return _selectedArea; }
             set 
@@ -154,7 +164,7 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public BuisnessUnit SelectedBuisnessUnit
+        public BuisnessUnit? SelectedBuisnessUnit
         {
             get { return _selectedBuisnessUnit; }
             set
@@ -163,24 +173,25 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public Country SelectedCountry
+        public Country? SelectedCountry
         {
             get { return _selectedCountry; }
             set
             {
+
                 _selectedCountry = value;
-                if(SelectedDistributionInformation != null)
+                if(SelectedDistributionInformation != null && _selectedCountry != null)
                     SetNewCountry();
                 OnPropertyChanged();
             }
         }
-        public PriorityWrapper SelectedPriority
+        public PriorityWrapper? SelectedPriority
         {
             get { return _selectedPriority; }
             set
             {
                 _selectedPriority = value;
-                if (SelectedDistributionInformation != null)
+                if (SelectedDistributionInformation != null && _selectedPriority != null)
                     SetNewPriority();
                 OnPropertyChanged();
 
@@ -188,6 +199,7 @@ namespace DbConfigurator.UI.ViewModel
         }
         private void SetNewCountry()
         {
+            
             var disInfo = SelectedDistributionInformation.Model;
             disInfo.CountryId = _selectedCountry.Id;
             _dataModel.ReloadEntryCountry(disInfo);
@@ -211,19 +223,7 @@ namespace DbConfigurator.UI.ViewModel
             SelectedDistributionInformation.Model = disInfo;
         }
 
-        protected override void OnAddExecute()
-        {
-            var disInfoLookup = new DistributionInfoLookup(new DistributionInformation());
-            DisInfoLookup_ObservableCollection.Add(disInfoLookup);
-        }
-        protected override void OnRemoveExecute()
-        {
-            throw new NotImplementedException();
-        }
-        protected override bool OnRemoveCanExecute()
-        {
-            return false;
-        }
+
 
         public int DefaultRowIndex { get { return 0; } }
         public int SelectedAreaIndex
@@ -288,9 +288,9 @@ namespace DbConfigurator.UI.ViewModel
         private int _selectedcCountryIndex = -1;
         private int _selectedcPriorityIndex = -1;
 
-        private Area _selectedArea;
-        private BuisnessUnit _selectedBuisnessUnit;
-        private Country _selectedCountry;
-        private PriorityWrapper _selectedPriority;
+        private Area? _selectedArea;
+        private BuisnessUnit? _selectedBuisnessUnit;
+        private Country? _selectedCountry;
+        private PriorityWrapper? _selectedPriority;
     }
 }
