@@ -18,8 +18,8 @@ namespace DbConfigurator.Model
 
             if (model.RecipientsGroup_Collection == null)
                 return;
-            TO = new ObservableCollection<string>();
-            CC = new ObservableCollection<string>();
+            TO = new ObservableCollection<Recipient>();
+            CC = new ObservableCollection<Recipient>();
 
 
             var To = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 1).FirstOrDefault();
@@ -27,7 +27,7 @@ namespace DbConfigurator.Model
 
             if (To != null)
             {
-                var to_lsit = To.Recipients.Select(r => r.Email).ToList();
+                var to_lsit = To.Recipients.ToList();
                 foreach (var to in to_lsit)
                 {
                     TO.Add(to);
@@ -35,13 +35,28 @@ namespace DbConfigurator.Model
             }
             if (Cc != null)
             {
-                var cc_lsit = Cc.Recipients.Select(r => r.Email).ToList();
+                var cc_lsit = Cc.Recipients.ToList();
                 foreach (var cc in cc_lsit)
                 {
                     CC.Add(cc);
                 }
             }
-
+            //if (To != null)
+            //{
+            //    var to_lsit = To.Recipients.Select(r => r.Email).ToList();
+            //    foreach (var to in to_lsit)
+            //    {
+            //        TO.Add(to);
+            //    }
+            //}
+            //if (Cc != null)
+            //{
+            //    var cc_lsit = Cc.Recipients.Select(r => r.Email).ToList();
+            //    foreach (var cc in cc_lsit)
+            //    {
+            //        CC.Add(cc);
+            //    }
+            //}
 
         }
 
@@ -140,8 +155,8 @@ namespace DbConfigurator.Model
             get { return _priorityId; }
             private set { _priorityId = value; }
         }
-        public ObservableCollection<string> TO { get; set; }
-        public ObservableCollection<string> CC { get; set; }
+        public ObservableCollection<Recipient> TO { get; set; }
+        public ObservableCollection<Recipient> CC { get; set; }
 
 
 

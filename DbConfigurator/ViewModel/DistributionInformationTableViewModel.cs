@@ -31,12 +31,26 @@ namespace DbConfigurator.UI.ViewModel
 
             DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookup>();
 
+            var recipients = _dataModel.Recipients;
+            RecipientsTo = new ObservableCollection<Recipient>();
+            foreach(var recipient in recipients)
+            {
+                RecipientsTo.Add(recipient);
+            }
+
+            RecipientsCc = new ObservableCollection<Recipient>();
+            foreach (var recipient in recipients)
+            {
+                RecipientsCc.Add(recipient);
+            }
+
+
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
 
             PopulateComboBoxesWithData();
         }
 
-        public override async Task LoadAsync()
+        public async override Task LoadAsync()
         {
             var distributionInformations = _dataModel.DistributionInformations;
             var distributionInformationsLookup = new ObservableCollection<DistributionInfoLookup>();
@@ -100,7 +114,7 @@ namespace DbConfigurator.UI.ViewModel
         {
             return true;
         }
-        protected async override void OnSaveExecute()
+        protected override void OnSaveExecute()
         {
             _dataModel.SaveChangesAsync();
             HasChanges = _dataModel.HasChanges();
@@ -206,13 +220,8 @@ namespace DbConfigurator.UI.ViewModel
 
             SelectedDistributionInformation.Model = disInfo;
 
-            var buisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-            if (buisnessUnit != null)
-                SelectedBuisnessUnitIndex = buisnessUnit.Id - 1;
-
-            var area = Area_Collection.Where(a => a.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-            if (area != null)
-                SelectedAreaIndex = area.Id - 1;
+            SelectedBuisnessUnit = BuisnessUnit_Collection.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
+            SelectedArea = Area_Collection.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
         }
         private void SetNewPriority()
         {
@@ -226,42 +235,7 @@ namespace DbConfigurator.UI.ViewModel
 
 
         public int DefaultRowIndex { get { return 0; } }
-        public int SelectedAreaIndex
-        {
-            get { return _selectedAreaIndex; }
-            set 
-            {
-                _selectedAreaIndex = value;
-                OnPropertyChanged();
-            }
-        }
-        public int SelectedBuisnessUnitIndex
-        {
-            get { return _selectedBuisnessUnitIndex; }
-            set
-            {
-                _selectedBuisnessUnitIndex = value;
-                OnPropertyChanged();
-            }
-        }
-        public int SelectedcCountryIndex
-        {
-            get { return _selectedcCountryIndex; }
-            set
-            {
-                _selectedcCountryIndex = value;
-                OnPropertyChanged();
-            }
-        }
-        public int SelectedcPriorityIndex
-        {
-            get { return _selectedcPriorityIndex; }
-            set
-            {
-                _selectedcPriorityIndex = value;
-                OnPropertyChanged();
-            }
-        }
+
         public DistributionInfoLookup SelectedDistributionInformation
         {
             get { return _selectedDistributionInformation; }
@@ -281,7 +255,7 @@ namespace DbConfigurator.UI.ViewModel
         public ObservableCollection<BuisnessUnit> BuisnessUnit_Collection { get; set; }
         public ObservableCollection<Country> Country_Collection { get; set; }
         public ObservableCollection<PriorityWrapper> Priority_Collection { get; private set; }
-        public ObservableCollection<string> TO_Collection
+        public ObservableCollection<Recipient> TO_Collection
         {
             get { return _to_Collection; }
             set 
@@ -290,7 +264,7 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<string> CC_Collection
+        public ObservableCollection<Recipient> CC_Collection
         {
             get { return _cc_Collection; }
             set
@@ -299,19 +273,31 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+
+
+        public ObservableCollection<Recipient> RecipientsTo
+        {
+            get { return _recipientsTo; }
+            set { _recipientsTo = value; OnPropertyChanged(); }
+        }
+        public ObservableCollection<Recipient> RecipientsCc
+        {
+            get { return _recipientsCc; }
+            set { _recipientsCc = value; OnPropertyChanged(); }
+        }
+
         public ICommand SelectionChangedCommand { get; set; }
 
 
-        private ObservableCollection<string> _to_Collection;
-        private ObservableCollection<string> _cc_Collection;
+        private ObservableCollection<Recipient> _to_Collection;
+        private ObservableCollection<Recipient> _cc_Collection;
+        private ObservableCollection<Recipient> _recipientsTo;
+        private ObservableCollection<Recipient> _recipientsCc;
 
         private IDataModel _dataModel;
         private IEventAggregator _eventAggregator;
         private DistributionInfoLookup _selectedDistributionInformation;
-        private int _selectedAreaIndex = -1;
-        private int _selectedBuisnessUnitIndex = -1;
-        private int _selectedcCountryIndex = -1;
-        private int _selectedcPriorityIndex = -1;
+
 
         private Area? _selectedArea;
         private BuisnessUnit? _selectedBuisnessUnit;

@@ -24,7 +24,7 @@
             </Grid.ColumnDefinitions>
             <DataGrid
             CanUserResizeRows="False"
-
+            IsReadOnly="True"
             ItemsSource="{Binding DisInfoLookup_ObservableCollection, Mode=TwoWay}"
             SelectedItem="{Binding  SelectedDistributionInformation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             AutoGenerateColumns="False" FontSize="11" Height="300">
@@ -48,13 +48,7 @@
                             <DataTemplate>
                                 <TextBlock>
                                     <TextBlock.Inlines>
-                                        <ItemsControl ItemsSource="{Binding TO}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding}" />
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        <ItemsControl ItemsSource="{Binding TO}" DisplayMemberPath="Email"/>
                                     </TextBlock.Inlines>
                     </TextBlock>
                             </DataTemplate>
@@ -65,15 +59,9 @@
                             <DataTemplate>
                                 <TextBlock>
                                     <TextBlock.Inlines>
-                                        <ItemsControl ItemsSource="{Binding CC}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding}" />
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        <ItemsControl ItemsSource="{Binding CC}" DisplayMemberPath="Email"/>
                                     </TextBlock.Inlines>
-                    </TextBlock>
+                                </TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -108,7 +96,6 @@
                     <Label Content="Area:" />
                     <ComboBox Name="AreaComboBox" Width="150" HorizontalAlignment="Left"
                               ItemsSource="{Binding Area_Collection}"
-                              SelectedIndex="{Binding SelectedAreaIndex}"
                               SelectedItem="{Binding SelectedArea}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
                     </ComboBox>
@@ -117,7 +104,6 @@
                     <Label Content="Country Cluster:" />
                     <ComboBox Name="CountryClusterComboBox" Width="150" HorizontalAlignment="Left"
                               ItemsSource="{Binding BuisnessUnit_Collection}"
-                              SelectedIndex="{Binding SelectedBuisnessUnitIndex}"
                               SelectedItem="{Binding SelectedBuisnessUnit, Mode=TwoWay}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
@@ -125,7 +111,6 @@
                     <Label Content="Country:" />
                     <ComboBox Name="CountryComboBox" Width="150" HorizontalAlignment="Left"
                               ItemsSource="{Binding Country_Collection}"
-                              SelectedIndex="{Binding SelectedcCountryIndex}"
                               SelectedItem="{Binding SelectedCountry}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
@@ -135,27 +120,26 @@
                 <Label Content="Priority:" />
                 <ComboBox  Name="PriorityComboBox" 
                               ItemsSource="{Binding Priority_Collection}"
-                              SelectedIndex="{Binding SelectedcPriorityIndex}"
                               SelectedItem="{Binding SelectedPriority}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
             </StackPanel>
             
             <StackPanel Grid.Column="2" Margin="20">
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical" >
                     <Label Content="To:" />
-                    <ComboBox Name="ToComboBox" />
+                    <ComboBox Name="ToComboBox" ItemsSource="{Binding RecipientsTo}" DisplayMemberPath="Email" SelectedValuePath="Id"/>
                 </StackPanel>
-                <ListBox Name="ToListBox" Height="250" 
-                         ItemsSource="{Binding TO_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListBox Name="ToListBox" Height="250"  Margin="0,5,0,0"
+                         ItemsSource="{Binding TO_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Email" SelectedValuePath="Id"/>
             </StackPanel>
 
             <StackPanel Grid.Column="3" Margin="20">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="CC:" />
-                    <ComboBox Name="CcComboBox" />
+                    <Label Content="Cc:" />
+                    <ComboBox Name="CcComboBox" ItemsSource="{Binding RecipientsCc}" DisplayMemberPath="Email" SelectedValuePath="Id"/>
                 </StackPanel>
-                <ListBox Name="CcListBox" Height="250" 
-                         ItemsSource="{Binding CC_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListBox Name="CcListBox" Height="250" Margin="0,5,0,0"
+                         ItemsSource="{Binding CC_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Email" SelectedValuePath="Id"/>
             </StackPanel>
         </Grid>
     </Grid>
