@@ -2,12 +2,13 @@
 using DbConfigurator.UI.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI
+namespace DbConfigurator.Model
 {
     public class DistributionInfoLookup : ViewModelBase
     {
@@ -17,29 +18,42 @@ namespace DbConfigurator.UI
 
             if (model.RecipientsGroup_Collection == null)
                 return;
-
+            TO = new ObservableCollection<string>();
+            CC = new ObservableCollection<string>();
 
 
             var To = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 1).FirstOrDefault();
             var Cc = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 2).FirstOrDefault();
 
-
             if (To != null)
-                TO = To.Recipients.Select(r => r.Email).ToList();
+            {
+                var to_lsit = To.Recipients.Select(r => r.Email).ToList();
+                foreach (var to in to_lsit)
+                {
+                    TO.Add(to);
+                }
+            }
             if (Cc != null)
-                CC = Cc.Recipients.Select(r => r.Email).ToList();
+            {
+                var cc_lsit = Cc.Recipients.Select(r => r.Email).ToList();
+                foreach (var cc in cc_lsit)
+                {
+                    CC.Add(cc);
+                }
+            }
+
 
         }
 
         public DistributionInformation Model
         {
             get { return _model; }
-            set 
-            { 
+            set
+            {
                 _model = value;
 
                 Id = _model.Id;
-                if(_model.Country != null)
+                if (_model.Country != null)
                 {
                     Area = _model.Country.BuisnessUnits.First().Areas.First().Name;
                     AreaId = _model.Country.BuisnessUnits.First().Areas.First().Id;
@@ -54,7 +68,7 @@ namespace DbConfigurator.UI
                     BuisnessUnit = "";
                     Country = "";
                 }
-                if(_model.Priority != null)
+                if (_model.Priority != null)
                 {
                     Priority = _model.Priority.Name;
                     PriorityId = _model.Priority.Id;
@@ -65,8 +79,8 @@ namespace DbConfigurator.UI
                 }
             }
         }
-        public int Id 
-        { 
+        public int Id
+        {
             get { return _id; }
             private set { _id = value; }
         }
@@ -79,9 +93,9 @@ namespace DbConfigurator.UI
                 OnPropertyChanged();
             }
         }
-        public int AreaId 
-        { 
-            get { return _areaId; } 
+        public int AreaId
+        {
+            get { return _areaId; }
             private set { _areaId = value; }
         }
         public string BuisnessUnit
@@ -126,8 +140,8 @@ namespace DbConfigurator.UI
             get { return _priorityId; }
             private set { _priorityId = value; }
         }
-        public ICollection<string> TO { get; set; }
-        public ICollection<string> CC { get; set; }
+        public ObservableCollection<string> TO { get; set; }
+        public ObservableCollection<string> CC { get; set; }
 
 
 

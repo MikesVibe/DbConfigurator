@@ -143,20 +143,19 @@
             <StackPanel Grid.Column="2" Margin="20">
                 <StackPanel Orientation="Vertical">
                     <Label Content="To:" />
-                    <!--<ComboBox Name="TO" 
-                              ItemsSource="{Binding SelectedDistributionInformation.TO}"/>-->
+                    <ComboBox Name="ToComboBox" />
                 </StackPanel>
-                <ListBox Name="listBox" Height="250"
-                         
-                         />
+                <ListBox Name="ToListBox" Height="250" 
+                         ItemsSource="{Binding TO_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
 
             <StackPanel Grid.Column="3" Margin="20">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="Combo Box:" />
-                    <ComboBox Name="ds" />
+                    <Label Content="CC:" />
+                    <ComboBox Name="CcComboBox" />
                 </StackPanel>
-                <ListBox Name="dasdas" Height="250"/>
+                <ListBox Name="CcListBox" Height="250" 
+                         ItemsSource="{Binding CC_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </Grid>
     </Grid>

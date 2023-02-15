@@ -269,6 +269,11 @@ namespace DbConfigurator.UI.ViewModel
             {
                 _selectedDistributionInformation = value;
                 OnPropertyChanged();
+                if(value != null)
+                {
+                    TO_Collection = _selectedDistributionInformation.TO;
+                    CC_Collection = _selectedDistributionInformation.CC;
+                }
             }
         }
         public ObservableCollection<DistributionInfoLookup> DisInfoLookup_ObservableCollection { get; set; }
@@ -276,9 +281,29 @@ namespace DbConfigurator.UI.ViewModel
         public ObservableCollection<BuisnessUnit> BuisnessUnit_Collection { get; set; }
         public ObservableCollection<Country> Country_Collection { get; set; }
         public ObservableCollection<PriorityWrapper> Priority_Collection { get; private set; }
+        public ObservableCollection<string> TO_Collection
+        {
+            get { return _to_Collection; }
+            set 
+            { 
+                _to_Collection = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<string> CC_Collection
+        {
+            get { return _cc_Collection; }
+            set
+            {
+                _cc_Collection = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand SelectionChangedCommand { get; set; }
 
 
+        private ObservableCollection<string> _to_Collection;
+        private ObservableCollection<string> _cc_Collection;
 
         private IDataModel _dataModel;
         private IEventAggregator _eventAggregator;
