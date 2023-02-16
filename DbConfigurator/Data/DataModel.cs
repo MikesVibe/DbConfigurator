@@ -112,6 +112,23 @@ namespace DbConfigurator.Model
             Context.Set<T>().Add(disInfoLookup);
         }
 
+        public void AddRecipientTo(int id, Recipient value)
+        {
+            var existingRecipient = Context.Recipient.FirstOrDefault(r => r.Id == value.Id);
+
+            // Retrieve the DistributionInformation entity with Id of 1(this is equal to name "TO") and its related RecipientsGroups and Recipients from the database
+            var distributionInfo = Context.DistributionInformation
+                .Include(di => di.RecipientsGroup_Collection)
+                .ThenInclude(rg => rg.Recipients)
+                .FirstOrDefault(di => di.Id == 1);
+
+            // Get the first RecipientsGroup in the collection
+            var firstGroup = distributionInfo.RecipientsGroup_Collection.Where(rg => rg.DestinationFieldId == 1).FirstOrDefault();
+
+            // Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
+            firstGroup.Recipients.Add(existingRecipient);
+        }
+
         public DbConfiguratorDbContext Context
         {
             get { return _context; }

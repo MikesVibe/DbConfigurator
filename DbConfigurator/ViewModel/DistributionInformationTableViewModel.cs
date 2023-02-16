@@ -219,6 +219,8 @@ namespace DbConfigurator.UI.ViewModel
                 _selectedRecipientTo = value;
                 //TODO: Add selected recipient to TO_Collection
                 TO_Collection.Add(value);
+               
+                _dataModel.AddRecipientTo(SelectedDistributionInformation.Id, value);
                 
             }
         }
