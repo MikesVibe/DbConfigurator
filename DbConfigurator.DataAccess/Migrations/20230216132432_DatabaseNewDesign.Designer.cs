@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbConfigurator.DataAccess.Migrations
 {
     [DbContext(typeof(DbConfiguratorDbContext))]
-    [Migration("20230213100415_NewDatabase")]
-    partial class NewDatabase
+    [Migration("20230216132432_DatabaseNewDesign")]
+    partial class DatabaseNewDesign
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -695,36 +695,6 @@ namespace DbConfigurator.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DbConfigurator.Model.DestinationField", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DestinationField");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "TO"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "CC"
-                        });
-                });
-
             modelBuilder.Entity("DbConfigurator.Model.DistributionInformation", b =>
                 {
                     b.Property<int>("Id")
@@ -733,33 +703,31 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CcRecipientsGroupId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<int>("PriorityId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ToRecipientsGroupId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CcRecipientsGroupId")
+                        .IsUnique();
 
                     b.HasIndex("CountryId");
 
                     b.HasIndex("PriorityId");
 
-                    b.ToTable("DistributionInformation");
+                    b.HasIndex("ToRecipientsGroupId")
+                        .IsUnique();
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CountryId = 4,
-                            PriorityId = 5
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CountryId = 4,
-                            PriorityId = 5
-                        });
+                    b.ToTable("DistributionInformation");
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.Priority", b =>
@@ -856,33 +824,18 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DestinationFieldId")
-                        .HasColumnType("int");
-
                     b.Property<int>("DistributionInformationId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("DestinationFieldId");
+                    b.HasKey("Id");
 
                     b.HasIndex("DistributionInformationId");
 
                     b.ToTable("RecipientsGroup");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DestinationFieldId = 1,
-                            DistributionInformationId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DestinationFieldId = 2,
-                            DistributionInformationId = 1
-                        });
                 });
 
             modelBuilder.Entity("RecipientRecipientsGroup", b =>
@@ -932,6 +885,12 @@ namespace DbConfigurator.DataAccess.Migrations
 
             modelBuilder.Entity("DbConfigurator.Model.DistributionInformation", b =>
                 {
+                    b.HasOne("DbConfigurator.Model.RecipientsGroup", "CcRecipientsGroup")
+                        .WithOne()
+                        .HasForeignKey("DbConfigurator.Model.DistributionInformation", "CcRecipientsGroupId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("DbConfigurator.Model.Country", "Country")
                         .WithMany("DistributionInformations")
                         .HasForeignKey("CountryId")
@@ -944,26 +903,28 @@ namespace DbConfigurator.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DbConfigurator.Model.RecipientsGroup", "ToRecipientsGroup")
+                        .WithOne()
+                        .HasForeignKey("DbConfigurator.Model.DistributionInformation", "ToRecipientsGroupId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("CcRecipientsGroup");
+
                     b.Navigation("Country");
 
                     b.Navigation("Priority");
+
+                    b.Navigation("ToRecipientsGroup");
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.RecipientsGroup", b =>
                 {
-                    b.HasOne("DbConfigurator.Model.DestinationField", "DestinationField")
-                        .WithMany("RecipientsGroups")
-                        .HasForeignKey("DestinationFieldId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DbConfigurator.Model.DistributionInformation", "DistributionInformation")
-                        .WithMany("RecipientsGroup_Collection")
+                        .WithMany()
                         .HasForeignKey("DistributionInformationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("DestinationField");
 
                     b.Navigation("DistributionInformation");
                 });
@@ -986,16 +947,6 @@ namespace DbConfigurator.DataAccess.Migrations
             modelBuilder.Entity("DbConfigurator.Model.Country", b =>
                 {
                     b.Navigation("DistributionInformations");
-                });
-
-            modelBuilder.Entity("DbConfigurator.Model.DestinationField", b =>
-                {
-                    b.Navigation("RecipientsGroups");
-                });
-
-            modelBuilder.Entity("DbConfigurator.Model.DistributionInformation", b =>
-                {
-                    b.Navigation("RecipientsGroup_Collection");
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.Priority", b =>

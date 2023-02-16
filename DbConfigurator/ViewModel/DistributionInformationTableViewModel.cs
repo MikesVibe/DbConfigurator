@@ -91,11 +91,16 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override void OnAddExecute()
         {
+            var to = new RecipientsGroup();
+            var cc = new RecipientsGroup();
             var disInfo = new DistributionInformation();
+            disInfo.ToRecipientsGroup = to;
+            disInfo.CcRecipientsGroup = cc;
             var disInfoLookup = new DistributionInfoLookup(disInfo);
             DisInfoLookup_ObservableCollection.Add(disInfoLookup);
-
             _dataModel.Add(disInfo);
+
+
         }
         protected override void OnRemoveExecute()
         {
@@ -217,11 +222,14 @@ namespace DbConfigurator.UI.ViewModel
                     return;
 
                 _selectedRecipientTo = value;
-                //TODO: Add selected recipient to TO_Collection
+
+                if (TO_Collection == null)
+                    TO_Collection = new ObservableCollection<Recipient>();
+
                 TO_Collection.Add(value);
-               
+
                 _dataModel.AddRecipientTo(SelectedDistributionInformation.Id, value);
-                
+
             }
         }
         public Recipient? SelectedRecipientCc { get; set; }

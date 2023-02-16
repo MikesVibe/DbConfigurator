@@ -22,10 +22,20 @@ namespace DbConfigurator.DataAccess
         public DbSet<Priority> Priority { get; set; }
         public DbSet<RecipientsGroup> RecipientsGroup { get; set; }
         public DbSet<Recipient> Recipient { get; set; }
-        public DbSet<DestinationField> DestinationField { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DistributionInformation>()
+                .HasOne(d => d.ToRecipientsGroup)
+                .WithOne()
+                .HasForeignKey<DistributionInformation>(d => d.ToRecipientsGroupId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<DistributionInformation>()
+                .HasOne(d => d.CcRecipientsGroup)
+                .WithOne()
+                .HasForeignKey<DistributionInformation>(d => d.CcRecipientsGroupId)
+                .OnDelete(DeleteBehavior.NoAction);
 
 
             List<Area> areasTable = new List<Area>();
@@ -96,7 +106,6 @@ namespace DbConfigurator.DataAccess
                     });
             }
 
-
             modelBuilder.Entity<Recipient>().HasData(
                     new Recipient
                     {
@@ -113,8 +122,6 @@ namespace DbConfigurator.DataAccess
                          Email = "Josh.Smith@company.net"
                      }
                     );
-
-
 
             modelBuilder.Entity<Priority>().HasData(
                 new Priority
@@ -145,49 +152,6 @@ namespace DbConfigurator.DataAccess
 
 
 
-            modelBuilder.Entity<DistributionInformation>().HasData(
-                new DistributionInformation
-                {
-                    Id = 1,
-                    CountryId = 4,
-                    PriorityId = 5
-                },
-                new DistributionInformation
-                {
-                    Id = 2,
-                    CountryId = 4,
-                    PriorityId = 5
-                }
-
-
-                );
-
-            modelBuilder.Entity<RecipientsGroup>().HasData(
-                new RecipientsGroup
-                {
-                    Id = 1,
-                    DestinationFieldId = 1,
-                    DistributionInformationId = 1,
-                },
-                new RecipientsGroup
-                {
-                    Id = 2,
-                    DestinationFieldId = 2,
-                    DistributionInformationId = 1,
-                }
-                );
-            modelBuilder.Entity<DestinationField>().HasData(
-                new DestinationField
-                {
-                    Id = 1,
-                    Name = "TO",
-                },
-                new DestinationField
-                {
-                    Id = 2,
-                    Name = "CC",
-                }
-                );
             base.OnModelCreating(modelBuilder);
         }
 
@@ -195,6 +159,8 @@ namespace DbConfigurator.DataAccess
         {
             optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DbConfiguration"].ConnectionString);
             optionsBuilder.EnableSensitiveDataLogging();
+
+
 
             //optionsBuilder.UseSqlServer("server=\"MIKI-PC\\SQLEXPRESS01\";database=\"DbConfiguration\";trusted_connection=true;Integrated Security=True;Encrypt=False");
         }

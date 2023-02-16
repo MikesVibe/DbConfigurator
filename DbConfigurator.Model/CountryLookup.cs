@@ -14,14 +14,21 @@ namespace DbConfigurator.Model
                 return;
             _countryModel = countryModel;
 
-            Id = countryModel.Id;
-            Area = countryModel.BuisnessUnits.First().Areas.First().Name;
-            AreaId = countryModel.BuisnessUnits.First().Areas.First().Id;
-            BuisnessUnit = countryModel.BuisnessUnits.First().Name;
-            BuisnessUnitId = countryModel.BuisnessUnits.First().Id;
-            ShortCode = countryModel.ShortCode;
-            Country = countryModel.Name;
-            CountryId = countryModel.Id;
+            try
+            {
+                Id = countryModel.Id;
+                Area = countryModel.BuisnessUnits.First().Areas.First().Name;
+                AreaId = countryModel.BuisnessUnits.First().Areas.First().Id;
+                BuisnessUnit = countryModel.BuisnessUnits.First().Name;
+                BuisnessUnitId = countryModel.BuisnessUnits.First().Id;
+                ShortCode = countryModel.ShortCode;
+                Country = countryModel.Name;
+                CountryId = countryModel.Id;
+            }
+            catch(Exception ex) 
+            {
+            
+            }
 
 
         }

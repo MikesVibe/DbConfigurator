@@ -15,17 +15,16 @@ namespace DbConfigurator.Model
         public DistributionInfoLookup(DistributionInformation model)
         {
             Model = model;
-
-            if (model.RecipientsGroup_Collection == null)
+            if (model.ToRecipientsGroup == null || model.CcRecipientsGroup == null)
                 return;
             TO = new ObservableCollection<Recipient>();
             CC = new ObservableCollection<Recipient>();
 
 
-            var To = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 1).FirstOrDefault();
-            var Cc = model.RecipientsGroup_Collection.Where(g => g.DestinationField.Id == 2).FirstOrDefault();
+            var To = model.ToRecipientsGroup;
+            var Cc = model.CcRecipientsGroup;
 
-            if (To != null)
+            if (To != null && To.Recipients != null)
             {
                 var to_lsit = To.Recipients.ToList();
                 foreach (var to in to_lsit)
@@ -33,7 +32,7 @@ namespace DbConfigurator.Model
                     TO.Add(to);
                 }
             }
-            if (Cc != null)
+            if (Cc != null && Cc.Recipients != null)
             {
                 var cc_lsit = Cc.Recipients.ToList();
                 foreach (var cc in cc_lsit)

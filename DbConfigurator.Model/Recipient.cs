@@ -11,11 +11,6 @@ namespace DbConfigurator.Model
 {
     public class Recipient
     {
-        public Recipient()
-        {
-            RecipientsGroups = new Collection<RecipientsGroup>();
-        }
-
         [Required]
         public int Id { get; set; }
 

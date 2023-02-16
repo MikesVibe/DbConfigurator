@@ -12,17 +12,10 @@ namespace DbConfigurator.Model
 {
     public class RecipientsGroup
     {
-        public RecipientsGroup()
-        {
-            Recipients = new Collection<Recipient>();
-        }
-
         [Required]
         public int Id { get; set; }
-
         [Required]
-        public int DestinationFieldId { get; set; } 
-        public DestinationField DestinationField { get; set; }
+        public string Name { get; set; } 
         public int DistributionInformationId { get; set; }
         public DistributionInformation DistributionInformation { get; set; }
         public ICollection<Recipient> Recipients { get; set; }

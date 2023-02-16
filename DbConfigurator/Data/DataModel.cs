@@ -43,10 +43,10 @@ namespace DbConfigurator.Model
         {
             var collection = await Context.Set<DistributionInformation>()
                 .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
-                .Include(c => c.RecipientsGroup_Collection)
-                .ThenInclude(rg => rg.DestinationField)
-                .ThenInclude(r => r.RecipientsGroups)
+                .Include(c => c.ToRecipientsGroup)
                 .ThenInclude(t => t.Recipients)
+                .Include(c => c.CcRecipientsGroup)
+                .ThenInclude(t =>t.Recipients)
                 .Include(p => p.Priority)
                 .ToListAsync();
 
@@ -107,23 +107,24 @@ namespace DbConfigurator.Model
             }
         }
 
-        public void Add<T>(T disInfoLookup) where T : class
+        public void Add<T>(T item) where T : class
         {
-            Context.Set<T>().Add(disInfoLookup);
+            Context.Set<T>().Add(item);
         }
 
         public void AddRecipientTo(int id, Recipient value)
         {
             var existingRecipient = Context.Recipient.FirstOrDefault(r => r.Id == value.Id);
 
-            // Retrieve the DistributionInformation entity with Id of 1(this is equal to name "TO") and its related RecipientsGroups and Recipients from the database
             var distributionInfo = Context.DistributionInformation
-                .Include(di => di.RecipientsGroup_Collection)
+                .Include(di => di.ToRecipientsGroup)
                 .ThenInclude(rg => rg.Recipients)
-                .FirstOrDefault(di => di.Id == 1);
+                .Include(di => di.CcRecipientsGroup)
+                .ThenInclude(rg => rg.Recipients)
+                .FirstOrDefault();
 
             // Get the first RecipientsGroup in the collection
-            var firstGroup = distributionInfo.RecipientsGroup_Collection.Where(rg => rg.DestinationFieldId == 1).FirstOrDefault();
+            var firstGroup = distributionInfo.ToRecipientsGroup;
 
             // Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
             firstGroup.Recipients.Add(existingRecipient);
