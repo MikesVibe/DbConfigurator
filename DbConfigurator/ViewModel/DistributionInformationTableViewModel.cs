@@ -71,51 +71,8 @@ namespace DbConfigurator.UI.ViewModel
             BuisnessUnit_Collection = EnumerableToObservableCollection(_dataModel.BuisnessUnits);
             Country_Collection = EnumerableToObservableCollection(_dataModel.Countries);
             Priority_Collection = EnumerableToObservableCollection(_dataModel.Priorities);
-
-
-            //var areas = _dataModel.Areas;
-            //foreach (var area in areas)
-            //{
-            //    Area_Collection.Add(area);
-            //}
-            //var buisnessUnits = _dataModel.BuisnessUnits;
-            //foreach (var bu in buisnessUnits)
-            //{
-            //    BuisnessUnit_Collection.Add(bu);
-            //}
-            //var countries = _dataModel.Countries;
-            //foreach (var country in countries)
-            //{
-            //    Country_Collection.Add(country);
-            //}
-            //var priorities = _dataModel.Priorities;
-            //foreach (var priority in priorities)
-            //{
-            //    Priority_Collection.Add(new PriorityWrapper(priority));
-            //}
-
-            //Recipients comboboxes
-            var recipients = _dataModel.Recipients;
-            RecipientsToComboBox = new ObservableCollection<Recipient>();
-            foreach (var recipient in recipients)
-            {
-                RecipientsToComboBox.Add(recipient);
-            }
-            RecipientsCcComboBox = new ObservableCollection<Recipient>();
-            foreach (var recipient in recipients)
-            {
-                RecipientsCcComboBox.Add(recipient);
-            }
-        }
-
-        private static ObservableCollection<T> EnumerableToObservableCollection<T>(IEnumerable<T> items)
-        {
-            ObservableCollection<T> toReturn = new ObservableCollection<T>();
-            foreach (var item in items)
-            {
-                toReturn.Add(item);
-            }
-            return toReturn;
+            RecipientsToComboBox = EnumerableToObservableCollection(_dataModel.Recipients);
+            RecipientsCcComboBox = EnumerableToObservableCollection(_dataModel.Recipients);
         }
 
         protected override void OnDeleteExecute()
@@ -163,10 +120,10 @@ namespace DbConfigurator.UI.ViewModel
         {
             if (SelectedDistributionInformation != null)
             {
-                SelectedCountry = Country_Collection.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
-                SelectedBuisnessUnit = BuisnessUnit_Collection.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-                SelectedArea = Area_Collection.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-                SelectedPriority = Priority_Collection.Where(c => c.Id == SelectedDistributionInformation.PriorityId).FirstOrDefault();
+                SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
+                SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
+                SelectedArea = Area_Collection?.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
+                SelectedPriority = Priority_Collection?.Where(c => c.Id == SelectedDistributionInformation.PriorityId).FirstOrDefault();
             }
             else
             {
@@ -175,7 +132,6 @@ namespace DbConfigurator.UI.ViewModel
                 SelectedArea = null;
                 SelectedPriority = null;
             }
-
         }
         private void SetNewCountry()
         {

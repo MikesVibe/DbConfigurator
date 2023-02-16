@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -15,6 +16,15 @@ namespace DbConfigurator.UI.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        protected static ObservableCollection<T> EnumerableToObservableCollection<T>(IEnumerable<T> items)
+        {
+            ObservableCollection<T> toReturn = new ObservableCollection<T>();
+            foreach (var item in items)
+            {
+                toReturn.Add(item);
+            }
+            return toReturn;
         }
     }
 }
