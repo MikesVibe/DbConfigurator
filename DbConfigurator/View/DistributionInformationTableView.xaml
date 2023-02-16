@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -50,7 +50,7 @@
                                     <TextBlock.Inlines>
                                         <ItemsControl ItemsSource="{Binding TO}" DisplayMemberPath="Email"/>
                                     </TextBlock.Inlines>
-                    </TextBlock>
+                                </TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -88,13 +88,12 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            
-            <StackPanel HorizontalAlignment="Left" Margin="20">
+
+            <StackPanel HorizontalAlignment="Left" Margin="20" Width="200">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Area:" />
-                    <ComboBox Name="AreaComboBox" Width="150" HorizontalAlignment="Left"
+                    <ComboBox Name="AreaComboBox" 
                               ItemsSource="{Binding Area_Collection}"
                               SelectedItem="{Binding SelectedArea}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
@@ -102,50 +101,63 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Content="Country Cluster:" />
-                    <ComboBox Name="CountryClusterComboBox" Width="150" HorizontalAlignment="Left"
+                    <ComboBox Name="CountryClusterComboBox"
                               ItemsSource="{Binding BuisnessUnit_Collection}"
                               SelectedItem="{Binding SelectedBuisnessUnit, Mode=TwoWay}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Content="Country:" />
-                    <ComboBox Name="CountryComboBox" Width="150" HorizontalAlignment="Left"
+                    <ComboBox Name="CountryComboBox"
                               ItemsSource="{Binding Country_Collection}"
                               SelectedItem="{Binding SelectedCountry}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
                 </StackPanel>
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Margin="20" Orientation="Vertical" Width="150">
-                <Label Content="Priority:" />
-                <ComboBox  Name="PriorityComboBox" 
+                
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Priority:" />
+                    <ComboBox  Name="PriorityComboBox" 
                               ItemsSource="{Binding Priority_Collection}"
                               SelectedItem="{Binding SelectedPriority}"
                               DisplayMemberPath="Name" SelectedValuePath="Id"/>
-            </StackPanel>
-            
-            <StackPanel Grid.Column="2" Margin="20">
-                <StackPanel Orientation="Vertical" >
-                    <Label Content="To:" />
-                    <ComboBox Name="ToComboBox" ItemsSource="{Binding RecipientsToComboBox}"
-                              SelectedItem="{Binding SelectedRecipientTo}"
-                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
                 </StackPanel>
-                <ListBox Name="ToListBox" Height="250"  Margin="0,5,0,0"
-                         ItemsSource="{Binding TO_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         DisplayMemberPath="Email" SelectedValuePath="Id"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="3" Margin="20">
+            
+
+            <StackPanel Grid.Column="1" Margin="20">
+                <StackPanel Orientation="Vertical" >
+                    <Label Content="To:" />
+                    <ComboBox Name="ToComboBox" Width="250" HorizontalAlignment="Left" 
+                              ItemsSource="{Binding RecipientsToComboBox}"
+                              SelectedItem="{Binding SelectedRecipientTo}"
+                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
+
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <ListBox Name="ToListBox" Height="250"  Width="250"  Margin="0,5,0,0"
+                         ItemsSource="{Binding TO_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         DisplayMemberPath="Email" SelectedValuePath="Id"/>
+                        <Button Content="-" FontSize="24" Width="30" Height="30" Margin="7,7,0,0" VerticalAlignment="Top" Padding="0,-7,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Margin="20">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Cc:" />
-                    <ComboBox Name="CcComboBox" ItemsSource="{Binding RecipientsCcComboBox}"
+                    <ComboBox Name="CcComboBox" Width="250" HorizontalAlignment="Left" 
+                              ItemsSource="{Binding RecipientsCcComboBox}"
                               SelectedItem="{Binding SelectedRecipientCc}"
                               DisplayMemberPath="Email" SelectedValuePath="Id"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <ListBox Name="CcListBox" Height="250" Width="250" 
+                             ItemsSource="{Binding CC_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             DisplayMemberPath="Email" SelectedValuePath="Id"/>
+                        <Button Content="-" FontSize="24" Width="30" Height="30" Margin="7,7,0,0" VerticalAlignment="Top" Padding="0,-7,0,0"/>
+                    </StackPanel>
                 </StackPanel>
-                <ListBox Name="CcListBox" Height="250" Margin="0,5,0,0"
-                         ItemsSource="{Binding CC_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         DisplayMemberPath="Email" SelectedValuePath="Id"/>
             </StackPanel>
         </Grid>
     </Grid>
