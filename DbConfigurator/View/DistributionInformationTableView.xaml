@@ -127,19 +127,25 @@
             <StackPanel Grid.Column="2" Margin="20">
                 <StackPanel Orientation="Vertical" >
                     <Label Content="To:" />
-                    <ComboBox Name="ToComboBox" ItemsSource="{Binding RecipientsTo}" DisplayMemberPath="Email" SelectedValuePath="Id"/>
+                    <ComboBox Name="ToComboBox" ItemsSource="{Binding RecipientsToComboBox}"
+                              SelectedItem="{Binding SelectedRecipientTo}"
+                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
                 </StackPanel>
                 <ListBox Name="ToListBox" Height="250"  Margin="0,5,0,0"
-                         ItemsSource="{Binding TO_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Email" SelectedValuePath="Id"/>
+                         ItemsSource="{Binding TO_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         DisplayMemberPath="Email" SelectedValuePath="Id"/>
             </StackPanel>
 
             <StackPanel Grid.Column="3" Margin="20">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Cc:" />
-                    <ComboBox Name="CcComboBox" ItemsSource="{Binding RecipientsCc}" DisplayMemberPath="Email" SelectedValuePath="Id"/>
+                    <ComboBox Name="CcComboBox" ItemsSource="{Binding RecipientsCcComboBox}"
+                              SelectedItem="{Binding SelectedRecipientCc}"
+                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
                 </StackPanel>
                 <ListBox Name="CcListBox" Height="250" Margin="0,5,0,0"
-                         ItemsSource="{Binding CC_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Email" SelectedValuePath="Id"/>
+                         ItemsSource="{Binding CC_Collection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         DisplayMemberPath="Email" SelectedValuePath="Id"/>
             </StackPanel>
         </Grid>
     </Grid>

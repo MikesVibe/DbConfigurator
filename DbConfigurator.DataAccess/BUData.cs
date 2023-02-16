@@ -31,20 +31,20 @@ namespace DbConfigurator.DataAccess
             public BUData GetBUData()
             {
                 BUData bUDatas = new BUData();
-            using (var reader = new StreamReader(@"C:\Users\mrukowski.m\Desktop\BuisnessUnit Data.csv"))
-                {
-                    while (!reader.EndOfStream)
-                    {
-                        var line = reader.ReadLine();
+            //using (var reader = new StreamReader(@"C:\Users\mrukowski.m\Desktop\BuisnessUnit Data.csv"))
+            //    {
+            //        while (!reader.EndOfStream)
+            //        {
+            //            var line = reader.ReadLine();
 
-                        if (line == null)
-                            continue;
+            //            if (line == null)
+            //                continue;
 
-                        var temp = line.Split(';');
+            //            var temp = line.Split(';');
 
-                        bUDatas.Add(temp[0], temp[1], temp[2], temp[3]);
-                    }
-                }
+            //            bUDatas.Add(temp[0], temp[1], temp[2], temp[3]);
+            //        }
+            //    }
 
                 return bUDatas;
             }

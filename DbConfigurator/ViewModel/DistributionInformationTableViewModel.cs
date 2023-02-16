@@ -31,18 +31,7 @@ namespace DbConfigurator.UI.ViewModel
 
             DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookup>();
 
-            var recipients = _dataModel.Recipients;
-            RecipientsTo = new ObservableCollection<Recipient>();
-            foreach(var recipient in recipients)
-            {
-                RecipientsTo.Add(recipient);
-            }
 
-            RecipientsCc = new ObservableCollection<Recipient>();
-            foreach (var recipient in recipients)
-            {
-                RecipientsCc.Add(recipient);
-            }
 
 
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
@@ -78,32 +67,55 @@ namespace DbConfigurator.UI.ViewModel
 
         private void PopulateComboBoxesWithData()
         {
-            Area_Collection = new ObservableCollection<Area>();
-            BuisnessUnit_Collection = new ObservableCollection<BuisnessUnit>();
-            Country_Collection = new ObservableCollection<Country>();
-            Priority_Collection = new ObservableCollection<PriorityWrapper>();
+            Area_Collection = EnumerableToObservableCollection(_dataModel.Areas);
+            BuisnessUnit_Collection = EnumerableToObservableCollection(_dataModel.BuisnessUnits);
+            Country_Collection = EnumerableToObservableCollection(_dataModel.Countries);
+            Priority_Collection = EnumerableToObservableCollection(_dataModel.Priorities);
 
-            var areas = _dataModel.Areas;
-            foreach (var area in areas)
-            {
-                Area_Collection.Add(area);
-            }
 
-            var buisnessUnits = _dataModel.BuisnessUnits;
-            foreach (var bu in buisnessUnits)
+            //var areas = _dataModel.Areas;
+            //foreach (var area in areas)
+            //{
+            //    Area_Collection.Add(area);
+            //}
+            //var buisnessUnits = _dataModel.BuisnessUnits;
+            //foreach (var bu in buisnessUnits)
+            //{
+            //    BuisnessUnit_Collection.Add(bu);
+            //}
+            //var countries = _dataModel.Countries;
+            //foreach (var country in countries)
+            //{
+            //    Country_Collection.Add(country);
+            //}
+            //var priorities = _dataModel.Priorities;
+            //foreach (var priority in priorities)
+            //{
+            //    Priority_Collection.Add(new PriorityWrapper(priority));
+            //}
+
+            //Recipients comboboxes
+            var recipients = _dataModel.Recipients;
+            RecipientsToComboBox = new ObservableCollection<Recipient>();
+            foreach (var recipient in recipients)
             {
-                BuisnessUnit_Collection.Add(bu);
+                RecipientsToComboBox.Add(recipient);
             }
-            var countries = _dataModel.Countries;
-            foreach (var country in countries)
+            RecipientsCcComboBox = new ObservableCollection<Recipient>();
+            foreach (var recipient in recipients)
             {
-                Country_Collection.Add(country);
+                RecipientsCcComboBox.Add(recipient);
             }
-            var priorities = _dataModel.Priorities;
-            foreach (var priority in priorities)
+        }
+
+        private static ObservableCollection<T> EnumerableToObservableCollection<T>(IEnumerable<T> items)
+        {
+            ObservableCollection<T> toReturn = new ObservableCollection<T>();
+            foreach (var item in items)
             {
-                Priority_Collection.Add(new PriorityWrapper(priority));
+                toReturn.Add(item);
             }
+            return toReturn;
         }
 
         protected override void OnDeleteExecute()
@@ -165,55 +177,9 @@ namespace DbConfigurator.UI.ViewModel
             }
 
         }
-
-        
-
-
-        public Area? SelectedArea
-        {
-            get { return _selectedArea; }
-            set 
-            { 
-                _selectedArea = value;
-                OnPropertyChanged();
-            }
-        }
-        public BuisnessUnit? SelectedBuisnessUnit
-        {
-            get { return _selectedBuisnessUnit; }
-            set
-            {
-                _selectedBuisnessUnit = value;
-                OnPropertyChanged();
-            }
-        }
-        public Country? SelectedCountry
-        {
-            get { return _selectedCountry; }
-            set
-            {
-
-                _selectedCountry = value;
-                if(SelectedDistributionInformation != null && _selectedCountry != null)
-                    SetNewCountry();
-                OnPropertyChanged();
-            }
-        }
-        public PriorityWrapper? SelectedPriority
-        {
-            get { return _selectedPriority; }
-            set
-            {
-                _selectedPriority = value;
-                if (SelectedDistributionInformation != null && _selectedPriority != null)
-                    SetNewPriority();
-                OnPropertyChanged();
-
-            }
-        }
         private void SetNewCountry()
         {
-            
+
             var disInfo = SelectedDistributionInformation.Model;
             disInfo.CountryId = _selectedCountry.Id;
             _dataModel.ReloadEntryCountry(disInfo);
@@ -236,6 +202,7 @@ namespace DbConfigurator.UI.ViewModel
 
         public int DefaultRowIndex { get { return 0; } }
 
+
         public DistributionInfoLookup SelectedDistributionInformation
         {
             get { return _selectedDistributionInformation; }
@@ -254,7 +221,8 @@ namespace DbConfigurator.UI.ViewModel
         public ObservableCollection<Area> Area_Collection { get; set; }
         public ObservableCollection<BuisnessUnit> BuisnessUnit_Collection { get; set; }
         public ObservableCollection<Country> Country_Collection { get; set; }
-        public ObservableCollection<PriorityWrapper> Priority_Collection { get; private set; }
+        public ObservableCollection<Priority> Priority_Collection { get; private set; }
+
         public ObservableCollection<Recipient> TO_Collection
         {
             get { return _to_Collection; }
@@ -273,35 +241,91 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-
-
-        public ObservableCollection<Recipient> RecipientsTo
+        public ObservableCollection<Recipient> RecipientsToComboBox
         {
-            get { return _recipientsTo; }
-            set { _recipientsTo = value; OnPropertyChanged(); }
+            get { return _recipientsToComboBox; }
+            set { _recipientsToComboBox = value; OnPropertyChanged(); }
         }
-        public ObservableCollection<Recipient> RecipientsCc
+        public ObservableCollection<Recipient> RecipientsCcComboBox
         {
-            get { return _recipientsCc; }
-            set { _recipientsCc = value; OnPropertyChanged(); }
+            get { return _recipientsCcComboBox; }
+            set { _recipientsCcComboBox = value; OnPropertyChanged(); }
         }
 
+        public Recipient? SelectedRecipientTo
+        {
+            get { return _selectedRecipientTo; }
+            set 
+            {
+                if (value == null || SelectedDistributionInformation == null)
+                    return;
+
+                _selectedRecipientTo = value;
+                //TODO: Add selected recipient to TO_Collection
+                TO_Collection.Add(value);
+                
+            }
+        }
+        public Recipient? SelectedRecipientCc { get; set; }
+        public Area? SelectedArea
+        {
+            get { return _selectedArea; }
+            set
+            {
+                _selectedArea = value;
+                OnPropertyChanged();
+            }
+        }
+        public BuisnessUnit? SelectedBuisnessUnit
+        {
+            get { return _selectedBuisnessUnit; }
+            set
+            {
+                _selectedBuisnessUnit = value;
+                OnPropertyChanged();
+            }
+        }
+        public Country? SelectedCountry
+        {
+            get { return _selectedCountry; }
+            set
+            {
+
+                _selectedCountry = value;
+                if (SelectedDistributionInformation != null && _selectedCountry != null)
+                    SetNewCountry();
+                OnPropertyChanged();
+            }
+        }
+        public Priority? SelectedPriority
+        {
+            get { return _selectedPriority; }
+            set
+            {
+                _selectedPriority = value;
+                if (SelectedDistributionInformation != null && _selectedPriority != null)
+                    SetNewPriority();
+                OnPropertyChanged();
+
+            }
+        }
         public ICommand SelectionChangedCommand { get; set; }
 
 
-        private ObservableCollection<Recipient> _to_Collection;
-        private ObservableCollection<Recipient> _cc_Collection;
-        private ObservableCollection<Recipient> _recipientsTo;
-        private ObservableCollection<Recipient> _recipientsCc;
 
         private IDataModel _dataModel;
         private IEventAggregator _eventAggregator;
         private DistributionInfoLookup _selectedDistributionInformation;
 
-
+        private ObservableCollection<Recipient> _to_Collection;
+        private ObservableCollection<Recipient> _cc_Collection;
+        private ObservableCollection<Recipient> _recipientsToComboBox;
+        private ObservableCollection<Recipient> _recipientsCcComboBox;
         private Area? _selectedArea;
         private BuisnessUnit? _selectedBuisnessUnit;
         private Country? _selectedCountry;
-        private PriorityWrapper? _selectedPriority;
+        private Priority? _selectedPriority;
+        private Recipient? _selectedRecipientTo;
+        private Recipient? _selectedRecipientCc;
     }
 }
