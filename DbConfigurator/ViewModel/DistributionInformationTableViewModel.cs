@@ -30,7 +30,8 @@ namespace DbConfigurator.UI.ViewModel
             _dataModel = dataModel;
 
             DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookup>();
-
+            TO_Collection = new ObservableCollection<Recipient>();
+            CC_Collection = new ObservableCollection<Recipient>();
 
 
 
@@ -91,14 +92,9 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override void OnAddExecute()
         {
-            var to = new RecipientsGroup();
-            var cc = new RecipientsGroup();
-            var disInfo = new DistributionInformation();
-            disInfo.ToRecipientsGroup = to;
-            disInfo.CcRecipientsGroup = cc;
-            var disInfoLookup = new DistributionInfoLookup(disInfo);
+            var disInfoLookup = new DistributionInfoLookup();
+            _dataModel.Add(disInfoLookup.Model);
             DisInfoLookup_ObservableCollection.Add(disInfoLookup);
-            _dataModel.Add(disInfo);
 
 
         }
@@ -129,6 +125,8 @@ namespace DbConfigurator.UI.ViewModel
                 SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
                 SelectedArea = Area_Collection?.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
                 SelectedPriority = Priority_Collection?.Where(c => c.Id == SelectedDistributionInformation.PriorityId).FirstOrDefault();
+                TO_Collection = _selectedDistributionInformation.TO ?? new ObservableCollection<Recipient>();
+                CC_Collection = _selectedDistributionInformation.CC ?? new ObservableCollection<Recipient>();
             }
             else
             {
@@ -145,10 +143,13 @@ namespace DbConfigurator.UI.ViewModel
             disInfo.CountryId = _selectedCountry.Id;
             _dataModel.ReloadEntryCountry(disInfo);
 
-            SelectedDistributionInformation.Model = disInfo;
+            //SelectedDistributionInformation.Model = disInfo;
+
+            SelectedDistributionInformation = new DistributionInfoLookup(disInfo);
 
             SelectedBuisnessUnit = BuisnessUnit_Collection.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
             SelectedArea = Area_Collection.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
+
         }
         private void SetNewPriority()
         {
@@ -156,7 +157,9 @@ namespace DbConfigurator.UI.ViewModel
             disInfo.PriorityId = _selectedPriority.Id;
             _dataModel.ReloadEntryPriority(disInfo);
 
-            SelectedDistributionInformation.Model = disInfo;
+            //SelectedDistributionInformation.Model = disInfo;
+            SelectedDistributionInformation = new DistributionInfoLookup(disInfo);
+
         }
 
 
@@ -171,11 +174,6 @@ namespace DbConfigurator.UI.ViewModel
             {
                 _selectedDistributionInformation = value;
                 OnPropertyChanged();
-                if(value != null)
-                {
-                    TO_Collection = _selectedDistributionInformation.TO;
-                    CC_Collection = _selectedDistributionInformation.CC;
-                }
             }
         }
         public ObservableCollection<DistributionInfoLookup> DisInfoLookup_ObservableCollection { get; set; }
@@ -222,13 +220,9 @@ namespace DbConfigurator.UI.ViewModel
                     return;
 
                 _selectedRecipientTo = value;
-
-                if (TO_Collection == null)
-                    TO_Collection = new ObservableCollection<Recipient>();
-
                 TO_Collection.Add(value);
 
-                _dataModel.AddRecipientTo(SelectedDistributionInformation.Id, value);
+                _dataModel.AddRecipientTo((int)SelectedDistributionInformation.Id, value);
 
             }
         }

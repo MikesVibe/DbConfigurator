@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -111,23 +112,42 @@ namespace DbConfigurator.Model
         {
             Context.Set<T>().Add(item);
         }
-
+        public void Load<T>(T item, string propertName) where T : class
+        {
+            Context.Entry(item).Reference(c => c.GetType().GetProperty(propertName)).Load();
+        }
         public void AddRecipientTo(int id, Recipient value)
         {
-            var existingRecipient = Context.Recipient.FirstOrDefault(r => r.Id == value.Id);
+            var recipientToAdd = Context.Recipient.Find(value.Id);
+            if (recipientToAdd == null)
+                return;
 
             var distributionInfo = Context.DistributionInformation
-                .Include(di => di.ToRecipientsGroup)
-                .ThenInclude(rg => rg.Recipients)
-                .Include(di => di.CcRecipientsGroup)
-                .ThenInclude(rg => rg.Recipients)
-                .FirstOrDefault();
+                //.Include(di => di.ToRecipientsGroup)
+                //.ThenInclude(rg => rg.Recipients)
+                //.Include(di => di.CcRecipientsGroup)
+                //.ThenInclude(rg => rg.Recipients)
+                //.Where(d => d.Id == id).FirstOrDefault();
+                .First(d => d.Id == id);
 
-            // Get the first RecipientsGroup in the collection
-            var firstGroup = distributionInfo.ToRecipientsGroup;
+            var toRecipientsGroup = distributionInfo.ToRecipientsGroup;
+
+            if (toRecipientsGroup == null)
+            {
+                var rg = new RecipientsGroup();
+                rg.Recipients = new Collection<Recipient>();
+                rg.Name = "TO";
+                rg.DistributionInformationId = id;
+                Context.RecipientsGroup.Add(rg);
+                distributionInfo.ToRecipientsGroup = rg;
+                toRecipientsGroup = distributionInfo.ToRecipientsGroup;
+            }
+
+            toRecipientsGroup.Recipients.Add(recipientToAdd);
+
 
             // Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
-            firstGroup.Recipients.Add(existingRecipient);
+            distributionInfo.ToRecipientsGroup = toRecipientsGroup;
         }
 
         public DbConfiguratorDbContext Context
