@@ -19,6 +19,9 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected static ObservableCollection<T> EnumerableToObservableCollection<T>(IEnumerable<T> items)
         {
+            if (items == null)
+                return new ObservableCollection<T>();
+
             ObservableCollection<T> toReturn = new ObservableCollection<T>();
             foreach (var item in items)
             {

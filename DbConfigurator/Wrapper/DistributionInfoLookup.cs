@@ -17,93 +17,77 @@ namespace DbConfigurator.Model
         {
             TO = new ObservableCollection<Recipient>();
             CC = new ObservableCollection<Recipient>();
-            _model = new DistributionInformation();
+            Model = new DistributionInformation();
         }
 
         public DistributionInfoLookup(DistributionInformation model)
         {
-            _model = model;
+            TO = new ObservableCollection<Recipient>();
+            CC = new ObservableCollection<Recipient>();
+            Model = model;
 
             InitializeModel();          
         }
 
         private void InitializeModel()
         {
-            Id = _model.Id;
-            if (_model.Country != null)
-            {
-                Area = _model.Country.BuisnessUnits.First().Areas.First().Name;
-                AreaId = _model.Country.BuisnessUnits.First().Areas.First().Id;
-                BuisnessUnit = _model.Country.BuisnessUnits.First().Name;
-                BuisnessUnitId = _model.Country.BuisnessUnits.First().Id;
-                Country = _model.Country.Name;
-                CountryId = _model.Country.Id;
-            }
-            else
-            {
-                Area = "";
-                BuisnessUnit = "";
-                Country = "";
-            }
-            if (_model.Priority != null)
-            {
-                Priority = _model.Priority.Name;
-                PriorityId = _model.Priority.Id;
-            }
-            else
-            {
-                Priority = "";
-            }
-            if(TO_RecipientsGroup != null)
-            {
-                TO_RecipientsGroup = Model.ToRecipientsGroup;
-            }
-            if (CC_RecipientsGroup != null)
-            {
-                CC_RecipientsGroup = Model.CcRecipientsGroup;
-            }
-
-            if (Model.ToRecipientsGroup != null)
-            {
-                TO = new ObservableCollection<Recipient>();
-                
-                var To = Model.ToRecipientsGroup;
-
-                if (To != null && To.Recipients != null)
-                {
-                    var to_lsit = To.Recipients.ToList();
-                    foreach (var to in to_lsit)
-                    {
-                        TO.Add(to);
-                    }
-                }
-            }
-
-            if (Model.CcRecipientsGroup != null)
-            {
-                CC = new ObservableCollection<Recipient>();
-
-                var Cc = Model.CcRecipientsGroup;
-
-                if (Cc != null && Cc.Recipients != null)
-                {
-                    var cc_lsit = Cc.Recipients.ToList();
-                    foreach (var cc in cc_lsit)
-                    {
-                        CC.Add(cc);
-                    }
-                }
-            }
+          
 
         }
 
         public DistributionInformation Model
         {
             get { return _model; }
+            set
+            {
+                if (value == null)
+                    return;
+                _model = value;
 
-           
+                Id = _model.Id;
+
+                if (_model.Country != null)
+                {
+                    Area = _model.Country.BuisnessUnits.First().Areas.First().Name;
+                    AreaId = _model.Country.BuisnessUnits.First().Areas.First().Id;
+                    BuisnessUnit = _model.Country.BuisnessUnits.First().Name;
+                    BuisnessUnitId = _model.Country.BuisnessUnits.First().Id;
+                    Country = _model.Country.Name;
+                    CountryId = _model.Country.Id;
+                }
+                else
+                {
+                    Area = "";
+                    BuisnessUnit = "";
+                    Country = "";
+                }
+                if (_model.Priority != null)
+                {
+                    Priority = _model.Priority.Name;
+                    PriorityId = _model.Priority.Id;
+                }
+                else
+                {
+                    Priority = "";
+                }
+
+                if (Model.ToRecipientsGroup != null)
+                {
+                    if (Model.ToRecipientsGroup.Recipients != null)
+                        TO = EnumerableToObservableCollection(Model.ToRecipientsGroup.Recipients);
+                }
+
+                if (Model.CcRecipientsGroup != null)
+                {
+                    if (Model.CcRecipientsGroup.Recipients != null)
+                        CC = EnumerableToObservableCollection(Model.CcRecipientsGroup.Recipients);
+                }
+
+
+             
+            }
         }
-        public int? Id
+        public int Id
         {
             get { return _id; }
             private set { _id = value; }
@@ -164,16 +148,24 @@ namespace DbConfigurator.Model
             get { return _priorityId; }
             private set { _priorityId = value; }
         }
-        public ObservableCollection<Recipient> TO { get; set; }
+        public ObservableCollection<Recipient> TO
+        {
+            get { return _to; }
+            set
+            {
+                _to = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<Recipient> CC { get; set; }
         
-        public RecipientsGroup CC_RecipientsGroup { get; set; }
-        public RecipientsGroup TO_RecipientsGroup { get; set; }
+        //public RecipientsGroup CC_RecipientsGroup { get; set; }
+        //public RecipientsGroup TO_RecipientsGroup { get; set; }
 
 
 
 
-        private int? _id;
+        private int _id;
         private string? _area;
         private int? _areaId;
         private string? _buisnessUnit;
@@ -183,5 +175,7 @@ namespace DbConfigurator.Model
         private string? _priority;
         private int? _priorityId;
         private DistributionInformation _model;
+        public ObservableCollection<Recipient> _to;
+
     }
 }

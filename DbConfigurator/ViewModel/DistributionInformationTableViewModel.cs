@@ -30,8 +30,8 @@ namespace DbConfigurator.UI.ViewModel
             _dataModel = dataModel;
 
             DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookup>();
-            TO_Collection = new ObservableCollection<Recipient>();
-            CC_Collection = new ObservableCollection<Recipient>();
+            RecipientsTo_ListView = new ObservableCollection<Recipient>();
+            RecipientsCc_ListView = new ObservableCollection<Recipient>();
 
 
 
@@ -45,20 +45,8 @@ namespace DbConfigurator.UI.ViewModel
             var distributionInformations = _dataModel.DistributionInformations;
             var distributionInformationsLookup = new ObservableCollection<DistributionInfoLookup>();
 
-            //foreach (var dis in DisInfoLookup_ObservableCollection)
-            //{
-            //    dis.PropertyChanged -= DistributionInformation_ObservableCollection_PropertyChanged;
-            //    dis.Priority.PropertyChanged -= DistributionInformation_ObservableCollection_PropertyChanged;
-
-            //}
-            //DisInfoLookup_ObservableCollection.Clear();
-
             foreach (var dis in distributionInformations)
             {
-                //var wrapper = new DistributionInformationWrapper(dis);
-                //wrapper.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
-                //wrapper.Priority.PropertyChanged += DistributionInformation_ObservableCollection_PropertyChanged;
-                //distributionInformationsLookup.Add(wrapper);
                 distributionInformationsLookup.Add(new DistributionInfoLookup(dis));
             }
             DisInfoLookup_ObservableCollection = distributionInformationsLookup;
@@ -88,15 +76,12 @@ namespace DbConfigurator.UI.ViewModel
         {
             _dataModel.SaveChangesAsync();
             HasChanges = _dataModel.HasChanges();
-
         }
         protected override void OnAddExecute()
         {
             var disInfoLookup = new DistributionInfoLookup();
             _dataModel.Add(disInfoLookup.Model);
             DisInfoLookup_ObservableCollection.Add(disInfoLookup);
-
-
         }
         protected override void OnRemoveExecute()
         {
@@ -119,37 +104,46 @@ namespace DbConfigurator.UI.ViewModel
         }
         private void OnSelectionChanged()
         {
-            if (SelectedDistributionInformation != null)
+            try
             {
+                //Setting selected items in comboBoxes
                 SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
                 SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
                 SelectedArea = Area_Collection?.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
                 SelectedPriority = Priority_Collection?.Where(c => c.Id == SelectedDistributionInformation.PriorityId).FirstOrDefault();
-                TO_Collection = _selectedDistributionInformation.TO ?? new ObservableCollection<Recipient>();
-                CC_Collection = _selectedDistributionInformation.CC ?? new ObservableCollection<Recipient>();
+
+                //Setting Items in ListViews
+                RecipientsTo_ListView = _selectedDistributionInformation.TO;
+                RecipientsCc_ListView = _selectedDistributionInformation.CC;
             }
-            else
+            catch (NullReferenceException ex) 
             {
                 SelectedCountry = null;
                 SelectedBuisnessUnit = null;
                 SelectedArea = null;
                 SelectedPriority = null;
+
+                RecipientsTo_ListView = null;
+                RecipientsCc_ListView = null;
             }
+
         }
         private void SetNewCountry()
         {
-
+            if (SelectedDistributionInformation == null || SelectedCountry == null)
+                return;
             var disInfo = SelectedDistributionInformation.Model;
-            disInfo.CountryId = _selectedCountry.Id;
+
+            //Change countryId and get country from database
+            disInfo.CountryId = SelectedCountry.Id;
             _dataModel.ReloadEntryCountry(disInfo);
 
-            //SelectedDistributionInformation.Model = disInfo;
+            //Assign it back to the model
+            SelectedDistributionInformation.Model = disInfo;
 
-            SelectedDistributionInformation = new DistributionInfoLookup(disInfo);
-
-            SelectedBuisnessUnit = BuisnessUnit_Collection.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-            SelectedArea = Area_Collection.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-
+            //Adjust selected values in comboboxes
+            SelectedBuisnessUnit = BuisnessUnit_Collection.FirstOrDefault(c => c.Id == SelectedDistributionInformation.BuisnessUnitId);
+            SelectedArea = Area_Collection.FirstOrDefault(c => c.Id == SelectedDistributionInformation.AreaId);
         }
         private void SetNewPriority()
         {
@@ -157,9 +151,7 @@ namespace DbConfigurator.UI.ViewModel
             disInfo.PriorityId = _selectedPriority.Id;
             _dataModel.ReloadEntryPriority(disInfo);
 
-            //SelectedDistributionInformation.Model = disInfo;
-            SelectedDistributionInformation = new DistributionInfoLookup(disInfo);
-
+            SelectedDistributionInformation.Model = disInfo;
         }
 
 
@@ -182,21 +174,21 @@ namespace DbConfigurator.UI.ViewModel
         public ObservableCollection<Country> Country_Collection { get; set; }
         public ObservableCollection<Priority> Priority_Collection { get; private set; }
 
-        public ObservableCollection<Recipient> TO_Collection
+        public ObservableCollection<Recipient> RecipientsTo_ListView
         {
-            get { return _to_Collection; }
+            get { return _recipientsTo_ListView; }
             set 
             { 
-                _to_Collection = value;
+                _recipientsTo_ListView = value;
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<Recipient> CC_Collection
+        public ObservableCollection<Recipient> RecipientsCc_ListView
         {
-            get { return _cc_Collection; }
+            get { return _recipientsCc_ListView; }
             set
             {
-                _cc_Collection = value;
+                _recipientsCc_ListView = value;
                 OnPropertyChanged();
             }
         }
@@ -220,13 +212,31 @@ namespace DbConfigurator.UI.ViewModel
                     return;
 
                 _selectedRecipientTo = value;
-                TO_Collection.Add(value);
+                RecipientsTo_ListView.Add(value);
 
-                _dataModel.AddRecipientTo((int)SelectedDistributionInformation.Id, value);
-
+                _dataModel.AddRecipientTo(SelectedDistributionInformation.Id, _selectedRecipientTo.Id);
+                var selDis = SelectedDistributionInformation;
             }
         }
-        public Recipient? SelectedRecipientCc { get; set; }
+        public Recipient? SelectedRecipientCc
+        {
+            get { return _selectedRecipientCc; }
+            set
+            {
+                if (value == null || SelectedDistributionInformation == null)
+                    return;
+
+                _selectedRecipientCc = value;
+                RecipientsCc_ListView.Add(value);
+
+                var disInfo = SelectedDistributionInformation.Model;
+
+                _dataModel.AddRecipientCc(disInfo, _selectedRecipientCc.Id);
+
+                //Assign it back to the model
+                SelectedDistributionInformation.Model = disInfo;
+            }
+        }
         public Area? SelectedArea
         {
             get { return _selectedArea; }
@@ -252,8 +262,7 @@ namespace DbConfigurator.UI.ViewModel
             {
 
                 _selectedCountry = value;
-                if (SelectedDistributionInformation != null && _selectedCountry != null)
-                    SetNewCountry();
+                SetNewCountry();
                 OnPropertyChanged();
             }
         }
@@ -277,8 +286,8 @@ namespace DbConfigurator.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private DistributionInfoLookup _selectedDistributionInformation;
 
-        private ObservableCollection<Recipient> _to_Collection;
-        private ObservableCollection<Recipient> _cc_Collection;
+        private ObservableCollection<Recipient> _recipientsTo_ListView;
+        private ObservableCollection<Recipient> _recipientsCc_ListView;
         private ObservableCollection<Recipient> _recipientsToComboBox;
         private ObservableCollection<Recipient> _recipientsCcComboBox;
         private Area? _selectedArea;
