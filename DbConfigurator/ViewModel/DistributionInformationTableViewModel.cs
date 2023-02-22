@@ -50,8 +50,6 @@ namespace DbConfigurator.UI.ViewModel
                 distributionInformationsLookup.Add(new DistributionInfoLookup(dis));
             }
             DisInfoLookup_ObservableCollection = distributionInformationsLookup;
-
-
         }
 
         private void PopulateComboBoxesWithData()
@@ -79,9 +77,16 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override void OnAddExecute()
         {
-            var disInfoLookup = new DistributionInfoLookup();
-            _dataModel.Add(disInfoLookup.Model);
-            DisInfoLookup_ObservableCollection.Add(disInfoLookup);
+
+            //_dataModel.Add(toRecipientsGroup);
+            //_dataModel.Add(ccRecipientsGroup);
+
+            var distributionInfoLookup = new DistributionInfoLookup();
+            _dataModel.Add(distributionInfoLookup.Model);
+
+
+            DisInfoLookup_ObservableCollection.Add(distributionInfoLookup);
+            SelectedDistributionInformation = distributionInfoLookup;
         }
         protected override void OnRemoveExecute()
         {

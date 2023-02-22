@@ -39,7 +39,6 @@ namespace DbConfigurator.Model
         {
             Context.SaveChangesAsync();
         }
-
         private async Task<IEnumerable<DistributionInformation>> GetAllDistributionInformationAsync()
         {
             var collection = await Context.Set<DistributionInformation>()
@@ -127,16 +126,15 @@ namespace DbConfigurator.Model
 
             var toRecipientsGroup = distributionInfo.ToRecipientsGroup;
 
-            if (toRecipientsGroup == null)
-            {
-                var rg = new RecipientsGroup();
-                rg.Recipients = new Collection<Recipient>();
-                rg.Name = "TO";
-                rg.DistributionInformationId = distributionInfoId;
-                Context.RecipientsGroup.Add(rg);
-                distributionInfo.ToRecipientsGroup = rg;
-                toRecipientsGroup = distributionInfo.ToRecipientsGroup;
-            }
+            //if (toRecipientsGroup == null)
+            //{
+            //    var rg = new RecipientsGroup();
+            //    rg.Recipients = new Collection<Recipient>();
+            //    rg.DistributionInformationId = distributionInfoId;
+            //    Context.RecipientsGroup.Add(rg);
+            //    distributionInfo.ToRecipientsGroup = rg;
+            //    toRecipientsGroup = distributionInfo.ToRecipientsGroup;
+            //}
 
             toRecipientsGroup.Recipients.Add(recipientToAdd);
 
@@ -154,16 +152,15 @@ namespace DbConfigurator.Model
 
             var ccRecipientsGroup = disInfo.CcRecipientsGroup;
 
-            if (ccRecipientsGroup == null)
-            {
-                var rg = new RecipientsGroup();
-                rg.Recipients = new Collection<Recipient>();
-                rg.Name = "CC";
-                rg.DistributionInformationId = disInfo.Id;
-                Context.RecipientsGroup.Add(rg);
-                disInfo.CcRecipientsGroup = rg;
-                ccRecipientsGroup = disInfo.CcRecipientsGroup;
-            }
+            //if (ccRecipientsGroup == null)
+            //{
+            //    var rg = new RecipientsGroup();
+            //    rg.Recipients = new Collection<Recipient>();
+            //    rg.DistributionInformationId = disInfo.Id;
+            //    Context.RecipientsGroup.Add(rg);
+            //    disInfo.CcRecipientsGroup = rg;
+            //    ccRecipientsGroup = disInfo.CcRecipientsGroup;
+            //}
 
             ccRecipientsGroup.Recipients.Add(recipientToAdd);
 
@@ -171,6 +168,8 @@ namespace DbConfigurator.Model
             // Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
             disInfo.CcRecipientsGroup = ccRecipientsGroup;
         }
+
+
 
         public DbConfiguratorDbContext Context
         {

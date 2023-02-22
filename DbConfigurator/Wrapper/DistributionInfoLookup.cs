@@ -18,6 +18,7 @@ namespace DbConfigurator.Model
             TO = new ObservableCollection<Recipient>();
             CC = new ObservableCollection<Recipient>();
             Model = new DistributionInformation();
+
         }
 
         public DistributionInfoLookup(DistributionInformation model)

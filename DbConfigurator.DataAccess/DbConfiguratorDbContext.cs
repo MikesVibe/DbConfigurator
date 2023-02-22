@@ -27,15 +27,14 @@ namespace DbConfigurator.DataAccess
         {
             modelBuilder.Entity<DistributionInformation>()
                 .HasOne(d => d.ToRecipientsGroup)
-                .WithOne()
-                .HasForeignKey<DistributionInformation>(d => d.ToRecipientsGroupId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .WithMany()
+                .HasForeignKey(d => d.ToRecipientsGroupId);
 
             modelBuilder.Entity<DistributionInformation>()
                 .HasOne(d => d.CcRecipientsGroup)
-                .WithOne()
-                .HasForeignKey<DistributionInformation>(d => d.CcRecipientsGroupId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .WithMany()
+                .HasForeignKey(d => d.CcRecipientsGroupId);
+
 
 
             List<Area> areasTable = new List<Area>();

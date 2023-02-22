@@ -715,17 +715,13 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CcRecipientsGroupId")
-                        .IsUnique()
-                        .HasFilter("[CcRecipientsGroupId] IS NOT NULL");
+                    b.HasIndex("CcRecipientsGroupId");
 
                     b.HasIndex("CountryId");
 
                     b.HasIndex("PriorityId");
 
-                    b.HasIndex("ToRecipientsGroupId")
-                        .IsUnique()
-                        .HasFilter("[ToRecipientsGroupId] IS NOT NULL");
+                    b.HasIndex("ToRecipientsGroupId");
 
                     b.ToTable("DistributionInformation");
                 });
@@ -886,9 +882,8 @@ namespace DbConfigurator.DataAccess.Migrations
             modelBuilder.Entity("DbConfigurator.Model.DistributionInformation", b =>
                 {
                     b.HasOne("DbConfigurator.Model.RecipientsGroup", "CcRecipientsGroup")
-                        .WithOne()
-                        .HasForeignKey("DbConfigurator.Model.DistributionInformation", "CcRecipientsGroupId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .WithMany()
+                        .HasForeignKey("CcRecipientsGroupId");
 
                     b.HasOne("DbConfigurator.Model.Country", "Country")
                         .WithMany("DistributionInformations")
@@ -903,9 +898,8 @@ namespace DbConfigurator.DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("DbConfigurator.Model.RecipientsGroup", "ToRecipientsGroup")
-                        .WithOne()
-                        .HasForeignKey("DbConfigurator.Model.DistributionInformation", "ToRecipientsGroupId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .WithMany()
+                        .HasForeignKey("ToRecipientsGroupId");
 
                     b.Navigation("CcRecipientsGroup");
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Net.Http.Headers;
 
 namespace DbConfigurator.DataAccess
 {
@@ -31,7 +32,7 @@ namespace DbConfigurator.DataAccess
             public BUData GetBUData()
             {
                 BUData bUDatas = new BUData();
-                using (var reader = new StreamReader(@"C:\Users\mrukowski.m\Desktop\BuisnessUnit Data.csv"))
+                using (var reader = new StreamReader(@"C:\Users\MIKI\Desktop\BuisnessUnit Data.csv"))
                 {
                     while (!reader.EndOfStream)
                     {
@@ -47,6 +48,7 @@ namespace DbConfigurator.DataAccess
                 }
 
                 return bUDatas;
+                //return new BUData();
             }
         }
     }

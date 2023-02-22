@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,7 +8,7 @@
 namespace DbConfigurator.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class DatabaseNewDesign : Migration
+    public partial class NewMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -136,8 +137,8 @@ namespace DbConfigurator.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryId = table.Column<int>(type: "int", nullable: false),
                     PriorityId = table.Column<int>(type: "int", nullable: false),
-                    ToRecipientsGroupId = table.Column<int>(type: "int", nullable: false),
-                    CcRecipientsGroupId = table.Column<int>(type: "int", nullable: false)
+                    ToRecipientsGroupId = table.Column<int>(type: "int", nullable: true),
+                    CcRecipientsGroupId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -180,27 +181,28 @@ namespace DbConfigurator.DataAccess.Migrations
                 name: "RecipientRecipientsGroup",
                 columns: table => new
                 {
-                    RecipientsGroupsId = table.Column<int>(type: "int", nullable: false),
-                    RecipientsId = table.Column<int>(type: "int", nullable: false)
+                    RecipientsGroupsId = table.Column<int?>(type: "int", nullable: true),
+                    RecipientsId = table.Column<int?>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecipientRecipientsGroup", x => new { x.RecipientsGroupsId, x.RecipientsId });
                     table.ForeignKey(
                         name: "FK_RecipientRecipientsGroup_Recipient_RecipientsId",
                         column: x => x.RecipientsId,
                         principalTable: "Recipient",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_RecipientRecipientsGroup_RecipientsGroup_RecipientsGroupsId",
                         column: x => x.RecipientsGroupsId,
                         principalTable: "RecipientsGroup",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.UniqueConstraint("AK_RecipientRecipientsGroup_RecipientsGroupsId_RecipientsId", x => new { x.RecipientsGroupsId, x.RecipientsId });
                 });
 
-            migrationBuilder.InsertData(
+
+                        migrationBuilder.InsertData(
                 table: "Area",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
@@ -354,8 +356,7 @@ namespace DbConfigurator.DataAccess.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_DistributionInformation_CcRecipientsGroupId",
                 table: "DistributionInformation",
-                column: "CcRecipientsGroupId",
-                unique: true);
+                column: "CcRecipientsGroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DistributionInformation_CountryId",
@@ -370,8 +371,7 @@ namespace DbConfigurator.DataAccess.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_DistributionInformation_ToRecipientsGroupId",
                 table: "DistributionInformation",
-                column: "ToRecipientsGroupId",
-                unique: true);
+                column: "ToRecipientsGroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipientRecipientsGroup_RecipientsId",

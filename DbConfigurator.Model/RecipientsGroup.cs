@@ -12,6 +12,7 @@ namespace DbConfigurator.Model
 {
     public class RecipientsGroup
     {
+
         [Required]
         public int Id { get; set; }
         [Required]
