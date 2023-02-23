@@ -10,7 +10,11 @@ namespace DbConfigurator.Model
 {
     public class DistributionInformation
     {
-
+        public DistributionInformation() 
+        {
+            ToRecipientsGroup = new RecipientsGroup("TO");
+            CcRecipientsGroup = new RecipientsGroup("CC");
+        }
         [Required]
         public int Id { get; set; }
         [Required]

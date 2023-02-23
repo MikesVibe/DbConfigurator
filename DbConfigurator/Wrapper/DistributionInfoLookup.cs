@@ -19,6 +19,7 @@ namespace DbConfigurator.Model
             CC = new ObservableCollection<Recipient>();
             Model = new DistributionInformation();
 
+
         }
 
         public DistributionInfoLookup(DistributionInformation model)
@@ -158,8 +159,16 @@ namespace DbConfigurator.Model
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<Recipient> CC { get; set; }
-        
+        public ObservableCollection<Recipient> CC
+        {
+            get { return _cc; }
+            set
+            {
+                _cc = value;
+                OnPropertyChanged();
+            }
+        }
+
         //public RecipientsGroup CC_RecipientsGroup { get; set; }
         //public RecipientsGroup TO_RecipientsGroup { get; set; }
 
@@ -177,6 +186,7 @@ namespace DbConfigurator.Model
         private int? _priorityId;
         private DistributionInformation _model;
         public ObservableCollection<Recipient> _to;
+        public ObservableCollection<Recipient> _cc;
 
     }
 }

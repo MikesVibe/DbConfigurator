@@ -820,7 +820,7 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DistributionInformationId")
+                    b.Property<int?>("DistributionInformationId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -914,9 +914,7 @@ namespace DbConfigurator.DataAccess.Migrations
                 {
                     b.HasOne("DbConfigurator.Model.DistributionInformation", "DistributionInformation")
                         .WithMany()
-                        .HasForeignKey("DistributionInformationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DistributionInformationId");
 
                     b.Navigation("DistributionInformation");
                 });

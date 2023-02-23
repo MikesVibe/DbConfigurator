@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbConfigurator.DataAccess.Migrations
 {
     [DbContext(typeof(DbConfiguratorDbContext))]
-    [Migration("20230222173908_New-Migration")]
+    [Migration("20230223200910_New-Migration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -823,7 +823,7 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DistributionInformationId")
+                    b.Property<int?>("DistributionInformationId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -917,9 +917,7 @@ namespace DbConfigurator.DataAccess.Migrations
                 {
                     b.HasOne("DbConfigurator.Model.DistributionInformation", "DistributionInformation")
                         .WithMany()
-                        .HasForeignKey("DistributionInformationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DistributionInformationId");
 
                     b.Navigation("DistributionInformation");
                 });

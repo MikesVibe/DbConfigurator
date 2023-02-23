@@ -77,12 +77,10 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override void OnAddExecute()
         {
-
-            //_dataModel.Add(toRecipientsGroup);
-            //_dataModel.Add(ccRecipientsGroup);
-
             var distributionInfoLookup = new DistributionInfoLookup();
+
             _dataModel.Add(distributionInfoLookup.Model);
+            _dataModel.SaveChangesAsync();
 
 
             DisInfoLookup_ObservableCollection.Add(distributionInfoLookup);
@@ -121,7 +119,7 @@ namespace DbConfigurator.UI.ViewModel
                 RecipientsTo_ListView = _selectedDistributionInformation.TO;
                 RecipientsCc_ListView = _selectedDistributionInformation.CC;
             }
-            catch (NullReferenceException ex) 
+            catch (ArgumentNullException ex) 
             {
                 SelectedCountry = null;
                 SelectedBuisnessUnit = null;
@@ -219,8 +217,8 @@ namespace DbConfigurator.UI.ViewModel
                 _selectedRecipientTo = value;
                 RecipientsTo_ListView.Add(value);
 
-                _dataModel.AddRecipientTo(SelectedDistributionInformation.Id, _selectedRecipientTo.Id);
-                var selDis = SelectedDistributionInformation;
+                var disInfo = SelectedDistributionInformation.Model;
+                disInfo.ToRecipientsGroup?.Recipients.Add(value);
             }
         }
         public Recipient? SelectedRecipientCc
@@ -235,11 +233,7 @@ namespace DbConfigurator.UI.ViewModel
                 RecipientsCc_ListView.Add(value);
 
                 var disInfo = SelectedDistributionInformation.Model;
-
-                _dataModel.AddRecipientCc(disInfo, _selectedRecipientCc.Id);
-
-                //Assign it back to the model
-                SelectedDistributionInformation.Model = disInfo;
+                disInfo.CcRecipientsGroup?.Recipients.Add(value);
             }
         }
         public Area? SelectedArea

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -164,7 +163,7 @@ namespace DbConfigurator.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DistributionInformationId = table.Column<int>(type: "int", nullable: false)
+                    DistributionInformationId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -173,36 +172,34 @@ namespace DbConfigurator.DataAccess.Migrations
                         name: "FK_RecipientsGroup_DistributionInformation_DistributionInformationId",
                         column: x => x.DistributionInformationId,
                         principalTable: "DistributionInformation",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "RecipientRecipientsGroup",
-                columns: table => new
-                {
-                    RecipientsGroupsId = table.Column<int?>(type: "int", nullable: true),
-                    RecipientsId = table.Column<int?>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.ForeignKey(
-                        name: "FK_RecipientRecipientsGroup_Recipient_RecipientsId",
-                        column: x => x.RecipientsId,
-                        principalTable: "Recipient",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RecipientRecipientsGroup_RecipientsGroup_RecipientsGroupsId",
-                        column: x => x.RecipientsGroupsId,
-                        principalTable: "RecipientsGroup",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.UniqueConstraint("AK_RecipientRecipientsGroup_RecipientsGroupsId_RecipientsId", x => new { x.RecipientsGroupsId, x.RecipientsId });
-                });
+                       name: "RecipientRecipientsGroup",
+                       columns: table => new
+                       {
+                           RecipientsGroupsId = table.Column<int?>(type: "int", nullable: true),
+                           RecipientsId = table.Column<int?>(type: "int", nullable: true)
+                       },
+                       constraints: table =>
+                       {
+                           table.ForeignKey(
+                               name: "FK_RecipientRecipientsGroup_Recipient_RecipientsId",
+                               column: x => x.RecipientsId,
+                               principalTable: "Recipient",
+                               principalColumn: "Id",
+                               onDelete: ReferentialAction.Restrict);
+                           table.ForeignKey(
+                               name: "FK_RecipientRecipientsGroup_RecipientsGroup_RecipientsGroupsId",
+                               column: x => x.RecipientsGroupsId,
+                               principalTable: "RecipientsGroup",
+                               principalColumn: "Id",
+                               onDelete: ReferentialAction.Restrict);
+                           table.UniqueConstraint("AK_RecipientRecipientsGroup_RecipientsGroupsId_RecipientsId", x => new { x.RecipientsGroupsId, x.RecipientsId });
+                       });
 
-
-                        migrationBuilder.InsertData(
+            migrationBuilder.InsertData(
                 table: "Area",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
