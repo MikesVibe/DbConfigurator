@@ -12,8 +12,6 @@ namespace DbConfigurator.Model
     {
         public DistributionInformation() 
         {
-            ToRecipientsGroup = new RecipientsGroup("TO");
-            CcRecipientsGroup = new RecipientsGroup("CC");
         }
         [Required]
         public int Id { get; set; }
@@ -23,10 +21,8 @@ namespace DbConfigurator.Model
         [Required]
         public int PriorityId { get; set; }
         public Priority Priority { get; set; }
-        public int? ToRecipientsGroupId { get; set; }
-        public RecipientsGroup? ToRecipientsGroup { get; set; }
-        public int? CcRecipientsGroupId { get; set; }
-        public RecipientsGroup? CcRecipientsGroup { get; set; }
+        public int RecipientsGroupId { get; set; }
+        public RecipientsGroup RecipientsGroup { get; set; }
 
     }
 }

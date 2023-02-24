@@ -73,16 +73,16 @@ namespace DbConfigurator.Model
                     Priority = "";
                 }
 
-                if (Model.ToRecipientsGroup != null)
+                if (Model.RecipientsGroup.RecipientsTo != null)
                 {
-                    if (Model.ToRecipientsGroup.Recipients != null)
-                        TO = EnumerableToObservableCollection(Model.ToRecipientsGroup.Recipients);
+                    if (Model.RecipientsGroup.RecipientsTo!= null)
+                        TO = EnumerableToObservableCollection(Model.RecipientsGroup.RecipientsTo);
                 }
 
-                if (Model.CcRecipientsGroup != null)
+                if (Model.RecipientsGroup.RecipientsCc != null)
                 {
-                    if (Model.CcRecipientsGroup.Recipients != null)
-                        CC = EnumerableToObservableCollection(Model.CcRecipientsGroup.Recipients);
+                    if (Model.RecipientsGroup.RecipientsCc != null)
+                        CC = EnumerableToObservableCollection(Model.RecipientsGroup.RecipientsCc);
                 }
 
 

@@ -13,17 +13,16 @@ namespace DbConfigurator.Model
     public class RecipientsGroup
     {
         public RecipientsGroup() { }
-        public RecipientsGroup(string name)
-        {
-            Name = name;
-        }
+
         [Required]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public int? DistributionInformationId { get; set; }
-        public DistributionInformation? DistributionInformation { get; set; }
-        public ICollection<Recipient> Recipients { get; set; }
+        public int DistributionInformationId { get; set; }
+        public DistributionInformation DistributionInformation { get; set; }
+
+        public ICollection<Recipient> RecipientsTo { get; set; }
+        public ICollection<Recipient> RecipientsCc { get; set; }
 
     }
 }

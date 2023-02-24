@@ -26,14 +26,19 @@ namespace DbConfigurator.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DistributionInformation>()
-                .HasOne(d => d.ToRecipientsGroup)
-                .WithMany()
-                .HasForeignKey(d => d.ToRecipientsGroupId);
+                .HasOne(d => d.RecipientsGroup)
+                .WithOne(r => r.DistributionInformation)
+                .HasForeignKey<DistributionInformation>(d => d.RecipientsGroupId);
 
-            modelBuilder.Entity<DistributionInformation>()
-                .HasOne(d => d.CcRecipientsGroup)
-                .WithMany()
-                .HasForeignKey(d => d.CcRecipientsGroupId);
+            modelBuilder.Entity<RecipientsGroup>()
+                .HasMany(g => g.RecipientsTo)
+                .WithMany(r => r.RecipientsGroupsTo)
+                .UsingEntity(j => j.ToTable("RecipientsGroupTo"));
+
+            modelBuilder.Entity<RecipientsGroup>()
+                .HasMany(g => g.RecipientsCc)
+                .WithMany(r => r.RecipientsGroupsCc)
+                .UsingEntity(j => j.ToTable("RecipientsGroupCc"));
 
 
 

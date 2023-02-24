@@ -43,10 +43,10 @@ namespace DbConfigurator.Model
         {
             var collection = await Context.Set<DistributionInformation>()
                 .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
-                .Include(c => c.ToRecipientsGroup)
-                .ThenInclude(t => t.Recipients)
-                .Include(c => c.CcRecipientsGroup)
-                .ThenInclude(t =>t.Recipients)
+                .Include(c => c.RecipientsGroup)
+                .ThenInclude(t => t.RecipientsTo)
+                .Include(c => c.RecipientsGroup)
+                .ThenInclude(t =>t.RecipientsCc)
                 .Include(p => p.Priority)
                 .ToListAsync();
 
@@ -117,56 +117,56 @@ namespace DbConfigurator.Model
         }
         public void AddRecipientTo(int distributionInfoId, int recipientId)
         {
-            var recipientToAdd = Context.Recipient.Find(recipientId);
-            if (recipientToAdd == null)
-                return;
+            //var recipientToAdd = Context.Recipient.Find(recipientId);
+            //if (recipientToAdd == null)
+            //    return;
 
-            var distributionInfo = Context.DistributionInformation
-                .First(d => d.Id == distributionInfoId);
+            //var distributionInfo = Context.DistributionInformation
+            //    .First(d => d.Id == distributionInfoId);
 
-            var toRecipientsGroup = distributionInfo.ToRecipientsGroup;
+            //var toRecipientsGroup = distributionInfo.ToRecipientsGroup;
 
-            //if (toRecipientsGroup == null)
-            //{
-            //    var rg = new RecipientsGroup();
-            //    rg.Recipients = new Collection<Recipient>();
-            //    rg.DistributionInformationId = distributionInfoId;
-            //    Context.RecipientsGroup.Add(rg);
-            //    distributionInfo.ToRecipientsGroup = rg;
-            //    toRecipientsGroup = distributionInfo.ToRecipientsGroup;
-            //}
+            ////if (toRecipientsGroup == null)
+            ////{
+            ////    var rg = new RecipientsGroup();
+            ////    rg.Recipients = new Collection<Recipient>();
+            ////    rg.DistributionInformationId = distributionInfoId;
+            ////    Context.RecipientsGroup.Add(rg);
+            ////    distributionInfo.ToRecipientsGroup = rg;
+            ////    toRecipientsGroup = distributionInfo.ToRecipientsGroup;
+            ////}
 
-            toRecipientsGroup.Recipients.Add(recipientToAdd);
+            //toRecipientsGroup.Recipients.Add(recipientToAdd);
 
 
-            // Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
-            distributionInfo.ToRecipientsGroup = toRecipientsGroup;
+            //// Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
+            //distributionInfo.ToRecipientsGroup = toRecipientsGroup;
         }
 
         public void AddRecipientCc(DistributionInformation disInfo, int recipientId)
         {
-            var recipientToAdd = Context.Recipient.Find(recipientId);
-            if (recipientToAdd == null)
-                return;
+            //var recipientToAdd = Context.Recipient.Find(recipientId);
+            //if (recipientToAdd == null)
+            //    return;
 
 
-            var ccRecipientsGroup = disInfo.CcRecipientsGroup;
+            //var ccRecipientsGroup = disInfo.CcRecipientsGroup;
 
-            //if (ccRecipientsGroup == null)
-            //{
-            //    var rg = new RecipientsGroup();
-            //    rg.Recipients = new Collection<Recipient>();
-            //    rg.DistributionInformationId = disInfo.Id;
-            //    Context.RecipientsGroup.Add(rg);
-            //    disInfo.CcRecipientsGroup = rg;
-            //    ccRecipientsGroup = disInfo.CcRecipientsGroup;
-            //}
+            ////if (ccRecipientsGroup == null)
+            ////{
+            ////    var rg = new RecipientsGroup();
+            ////    rg.Recipients = new Collection<Recipient>();
+            ////    rg.DistributionInformationId = disInfo.Id;
+            ////    Context.RecipientsGroup.Add(rg);
+            ////    disInfo.CcRecipientsGroup = rg;
+            ////    ccRecipientsGroup = disInfo.CcRecipientsGroup;
+            ////}
 
-            ccRecipientsGroup.Recipients.Add(recipientToAdd);
+            //ccRecipientsGroup.Recipients.Add(recipientToAdd);
 
 
-            // Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
-            disInfo.CcRecipientsGroup = ccRecipientsGroup;
+            //// Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
+            //disInfo.CcRecipientsGroup = ccRecipientsGroup;
         }
 
 
