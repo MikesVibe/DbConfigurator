@@ -16,5 +16,7 @@ namespace DbConfigurator.Model
 
         public ICollection<Area> Areas { get; set; }
         public ICollection<Country> Countries { get; set; }
+        public ICollection<DistributionInformation> DistributionInformations { get; set; }
+
     }
 }

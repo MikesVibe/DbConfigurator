@@ -17,5 +17,7 @@ namespace DbConfigurator.Model
         public string Name { get; set; }
 
         public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
+        public ICollection<DistributionInformation> DistributionInformations { get; set; }
+
     }
 }

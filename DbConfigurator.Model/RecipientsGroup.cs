@@ -14,6 +14,13 @@ namespace DbConfigurator.Model
     {
         public RecipientsGroup() { }
 
+        public RecipientsGroup(DistributionInformation distributionInformation, string name) 
+        {
+            //DistributionInformation = distributionInformation;
+            DistributionInformationId = distributionInformation.Id;
+            Name = name;
+        }
+
         [Required]
         public int Id { get; set; }
         [Required]

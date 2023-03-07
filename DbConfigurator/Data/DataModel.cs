@@ -32,12 +32,16 @@ namespace DbConfigurator.Model
             Countries = await GetAllCountriesAsync();
             Priorities = await GetAllPrioritiesAsync();
             Recipients = await GetAllRecipientsAsync();
+            DefaultArea = await GetDefaultArea();
+            DefaultBuisnessUnit = await GetDefaultBuisnessUnit();
+            DefaultCountry = await GetDefaultCountry();
+            DefaultPriority = await GetDefaultPriority();
 
         }
 
-        public void SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            Context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
         }
         private async Task<IEnumerable<DistributionInformation>> GetAllDistributionInformationAsync()
         {
@@ -80,12 +84,41 @@ namespace DbConfigurator.Model
             var collection = await Context.Set<Recipient>().AsNoTracking().ToListAsync();
             return collection;
         }
-        public IEnumerable<DistributionInformation> DistributionInformations { get; set; }
-        public IEnumerable<Area> Areas { get; set; }
-        public IEnumerable<BuisnessUnit> BuisnessUnits { get; set; }
-        public IEnumerable<Country> Countries { get; set; }
-        public IEnumerable<Priority> Priorities { get; set; }
-        public IEnumerable<Recipient> Recipients { get; set; }
+        private async Task<Area> GetDefaultArea()
+        {
+            var area = await Context.Set<Area>().Where(a => a.Id == 99)
+                .FirstOrDefaultAsync();
+            return area;
+        }
+        private async Task<BuisnessUnit> GetDefaultBuisnessUnit()
+        {
+            var buisnessUnit = await Context.Set<BuisnessUnit>().Where(bu => bu.Id == 99)
+                .FirstOrDefaultAsync();
+            return buisnessUnit;
+        }
+        private async Task<Country> GetDefaultCountry()
+        {
+            var country = await Context.Set<Country>().Where(c => c.Id == 99)
+                .FirstOrDefaultAsync();
+            return country;
+        }
+        private async Task<Priority> GetDefaultPriority()
+        {
+            var priority = await Context.Set<Priority>().Where(c => c.Id == 99)
+                .FirstOrDefaultAsync();
+            return priority;
+        }
+
+        public IEnumerable<DistributionInformation> DistributionInformations { get; private set; }
+        public IEnumerable<Area> Areas { get; private set; }
+        public IEnumerable<BuisnessUnit> BuisnessUnits { get; private set; }
+        public IEnumerable<Country> Countries { get; private set; }
+        public IEnumerable<Priority> Priorities { get; private set; }
+        public IEnumerable<Recipient> Recipients { get; private set; }
+        public Area DefaultArea { get; private set; }
+        public BuisnessUnit DefaultBuisnessUnit { get; private set; }
+        public Country DefaultCountry { get; private set; }
+        public Priority DefaultPriority { get; private set; }
 
         public bool HasChanges()
         {
@@ -111,10 +144,23 @@ namespace DbConfigurator.Model
         {
             Context.Set<T>().Add(item);
         }
+        public async Task AddAsync<T>(T item) where T : class
+        {
+            await Context.Set<T>().AddAsync(item);
+        }
         public void Load<T>(T item, string propertName) where T : class
         {
             Context.Entry(item).Reference(c => c.GetType().GetProperty(propertName)).Load();
         }
+        public async Task ReloadEntityAsync(DistributionInformation item)
+        {
+            await Context.Entry(item).Reference(d => d.Area).LoadAsync();
+            await Context.Entry(item).Reference(d => d.BuisnessUnit).LoadAsync();
+            await Context.Entry(item).Reference(d => d.Country).LoadAsync();
+            await Context.Entry(item).Reference(d => d.Priority).LoadAsync();
+            await Context.Entry(item).Reference(d => d.RecipientsGroup).LoadAsync();
+        }
+
         public void AddRecipientTo(int distributionInfoId, int recipientId)
         {
             //var recipientToAdd = Context.Recipient.Find(recipientId);
@@ -176,6 +222,7 @@ namespace DbConfigurator.Model
             get { return _context; }
             set { _context = value; }
         }
+
 
         private DbConfiguratorDbContext _context;
     }

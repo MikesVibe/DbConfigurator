@@ -13,11 +13,11 @@ namespace DbConfigurator.Model
     public class DistributionInfoLookup : ViewModelBase
     {
 
-        public DistributionInfoLookup() 
+        public DistributionInfoLookup(Area area, BuisnessUnit buisnessUnit, Country country, Priority priority) 
         {
             TO = new ObservableCollection<Recipient>();
             CC = new ObservableCollection<Recipient>();
-            Model = new DistributionInformation();
+            Model = new DistributionInformation(area, buisnessUnit, country, priority);
 
 
         }
@@ -50,10 +50,10 @@ namespace DbConfigurator.Model
 
                 if (_model.Country != null)
                 {
-                    Area = _model.Country.BuisnessUnits.First().Areas.First().Name;
-                    AreaId = _model.Country.BuisnessUnits.First().Areas.First().Id;
-                    BuisnessUnit = _model.Country.BuisnessUnits.First().Name;
-                    BuisnessUnitId = _model.Country.BuisnessUnits.First().Id;
+                    Area = _model.Area.Name;
+                    AreaId = _model.Area.Id;
+                    BuisnessUnit = _model.BuisnessUnit.Name;
+                    BuisnessUnitId = _model.BuisnessUnit.Id;
                     Country = _model.Country.Name;
                     CountryId = _model.Country.Id;
                 }
@@ -73,20 +73,18 @@ namespace DbConfigurator.Model
                     Priority = "";
                 }
 
-                if (Model.RecipientsGroup.RecipientsTo != null)
+            
+                if (Model.RecipientsGroup != null)
                 {
                     if (Model.RecipientsGroup.RecipientsTo!= null)
                         TO = EnumerableToObservableCollection(Model.RecipientsGroup.RecipientsTo);
                 }
 
-                if (Model.RecipientsGroup.RecipientsCc != null)
+                if (Model.RecipientsGroup != null)
                 {
                     if (Model.RecipientsGroup.RecipientsCc != null)
                         CC = EnumerableToObservableCollection(Model.RecipientsGroup.RecipientsCc);
                 }
-
-
-             
             }
         }
         public int Id

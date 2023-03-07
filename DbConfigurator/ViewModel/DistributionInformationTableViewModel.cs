@@ -45,6 +45,7 @@ namespace DbConfigurator.UI.ViewModel
             var distributionInformations = _dataModel.DistributionInformations;
             var distributionInformationsLookup = new ObservableCollection<DistributionInfoLookup>();
 
+
             foreach (var dis in distributionInformations)
             {
                 distributionInformationsLookup.Add(new DistributionInfoLookup(dis));
@@ -75,12 +76,25 @@ namespace DbConfigurator.UI.ViewModel
             _dataModel.SaveChangesAsync();
             HasChanges = _dataModel.HasChanges();
         }
-        protected override void OnAddExecute()
+        protected async override void OnAddExecute()
         {
-            var distributionInfoLookup = new DistributionInfoLookup();
+            //Create New Distribution Infrotmaion
+            Area defaultArea = _dataModel.DefaultArea;
+            BuisnessUnit defaultBuisnessUnit = _dataModel.DefaultBuisnessUnit;
+            Country defaultCountry = _dataModel.DefaultCountry;
+            Priority defaultPriotrity = _dataModel.DefaultPriority;
+            var distributionInfoLookup = new DistributionInfoLookup(defaultArea, defaultBuisnessUnit, defaultCountry, defaultPriotrity);
+            await _dataModel.AddAsync(distributionInfoLookup.Model);
+            await _dataModel.SaveChangesAsync();
+            await _dataModel.ReloadEntityAsync(distributionInfoLookup.Model);
 
-            _dataModel.Add(distributionInfoLookup.Model);
-            _dataModel.SaveChangesAsync();
+            //Create New Recipients Group
+            RecipientsGroup recipientsGroup = new RecipientsGroup(distributionInfoLookup.Model, "dummy");
+            await _dataModel.AddAsync(recipientsGroup);
+            //_dataModel.SaveChanges();
+
+            distributionInfoLookup.Model.RecipientsGroup = recipientsGroup;
+            await _dataModel.SaveChangesAsync();
 
 
             DisInfoLookup_ObservableCollection.Add(distributionInfoLookup);

@@ -28,7 +28,8 @@ namespace DbConfigurator.DataAccess
             modelBuilder.Entity<DistributionInformation>()
                 .HasOne(d => d.RecipientsGroup)
                 .WithOne(r => r.DistributionInformation)
-                .HasForeignKey<DistributionInformation>(d => d.RecipientsGroupId);
+                .HasForeignKey<DistributionInformation>(d => d.RecipientsGroupId)
+                .IsRequired(false);
 
             modelBuilder.Entity<RecipientsGroup>()
                 .HasMany(g => g.RecipientsTo)
@@ -150,7 +151,7 @@ namespace DbConfigurator.DataAccess
                 },
                 new Priority
                 {
-                    Id = 5,
+                    Id = 99,
                     Name = "Any"
                 });
 

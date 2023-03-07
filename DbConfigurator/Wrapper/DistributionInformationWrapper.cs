@@ -19,9 +19,9 @@ namespace DbConfigurator.UI.Wrapper
             //Country = new CountryWrapper(model.Country);'
             Priority = new PriorityWrapper(model.Priority);
         }
-        public DistributionInformationWrapper() : base(new DistributionInformation())
-        {
-        }
+        //public DistributionInformationWrapper() : base(new DistributionInformation())
+        //{
+        //}
         public int Id 
         { 
             get { return GetValue<int>(); }
