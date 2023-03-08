@@ -43,7 +43,7 @@ namespace DbConfigurator.Model
         {
             await Context.SaveChangesAsync();
         }
-        private async Task<IEnumerable<DistributionInformation>> GetAllDistributionInformationAsync()
+        private async Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync()
         {
             var collection = await Context.Set<DistributionInformation>()
                 .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
@@ -56,30 +56,30 @@ namespace DbConfigurator.Model
 
             return collection;
         }
-        private async Task<IEnumerable<Area>> GetAllAreasAsync()
+        private async Task<ICollection<Area>> GetAllAreasAsync()
         {
             var collection = await Context.Set<Area>().AsNoTracking().ToListAsync();
 
             return collection;
         }
-        private async Task<IEnumerable<BuisnessUnit>> GetAllBuisnessUnitsAsync()
+        private async Task<ICollection<BuisnessUnit>> GetAllBuisnessUnitsAsync()
         {
             var collection = await Context.Set<BuisnessUnit>().AsNoTracking().ToListAsync();
 
             return collection;
         }
-        private async Task<IEnumerable<Country>> GetAllCountriesAsync()
+        private async Task<ICollection<Country>> GetAllCountriesAsync()
         {
             var collection = await Context.Set<Country>().Include(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas).AsNoTracking().ToListAsync();
 
             return collection;
         }
-        private async Task<IEnumerable<Priority>> GetAllPrioritiesAsync()
+        private async Task<ICollection<Priority>> GetAllPrioritiesAsync()
         {
             var collection = await Context.Set<Priority>().AsNoTracking().ToListAsync();
             return collection;
         }
-        private async Task<IEnumerable<Recipient>> GetAllRecipientsAsync()
+        private async Task<ICollection<Recipient>> GetAllRecipientsAsync()
         {
             var collection = await Context.Set<Recipient>().AsNoTracking().ToListAsync();
             return collection;
@@ -109,12 +109,12 @@ namespace DbConfigurator.Model
             return priority;
         }
 
-        public IEnumerable<DistributionInformation> DistributionInformations { get; private set; }
-        public IEnumerable<Area> Areas { get; private set; }
-        public IEnumerable<BuisnessUnit> BuisnessUnits { get; private set; }
-        public IEnumerable<Country> Countries { get; private set; }
-        public IEnumerable<Priority> Priorities { get; private set; }
-        public IEnumerable<Recipient> Recipients { get; private set; }
+        public ICollection<DistributionInformation> DistributionInformations { get; private set; }
+        public ICollection<Area> Areas { get; private set; }
+        public ICollection<BuisnessUnit> BuisnessUnits { get; private set; }
+        public ICollection<Country> Countries { get; private set; }
+        public ICollection<Priority> Priorities { get; private set; }
+        public ICollection<Recipient> Recipients { get; private set; }
         public Area DefaultArea { get; private set; }
         public BuisnessUnit DefaultBuisnessUnit { get; private set; }
         public Country DefaultCountry { get; private set; }

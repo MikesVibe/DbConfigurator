@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.Model
@@ -10,12 +11,12 @@ namespace DbConfigurator.Model
 
         Task SaveChangesAsync();
 
-        IEnumerable<DistributionInformation> DistributionInformations{ get; }
-        IEnumerable<Area> Areas { get; }
-        IEnumerable<BuisnessUnit> BuisnessUnits { get; }
-        IEnumerable<Country> Countries { get; }
-        IEnumerable<Priority> Priorities { get; }
-        IEnumerable<Recipient> Recipients { get; }
+        ICollection<DistributionInformation> DistributionInformations{ get; }
+        ICollection<Area> Areas { get; }
+        ICollection<BuisnessUnit> BuisnessUnits { get; }
+        ICollection<Country> Countries { get; }
+        ICollection<Priority> Priorities { get; }
+        ICollection<Recipient> Recipients { get; }
         Country DefaultCountry { get; }
         Priority DefaultPriority { get; }
         Area DefaultArea { get; }

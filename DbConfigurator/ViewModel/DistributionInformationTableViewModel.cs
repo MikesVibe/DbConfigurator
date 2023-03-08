@@ -34,10 +34,9 @@ namespace DbConfigurator.UI.ViewModel
             RecipientsCc_ListView = new ObservableCollection<Recipient>();
 
 
-
+            PopulateComboBoxesWithData();
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
 
-            PopulateComboBoxesWithData();
         }
 
         public async override Task LoadAsync()
@@ -65,18 +64,15 @@ namespace DbConfigurator.UI.ViewModel
             //Priority_Collection = priorities;
             //var recipients = new ObservableCollection<Recipient>(_dataModel.Recipients);
 
-            var areas = _dataModel.Areas;
-            Area_Collection = areas.ToList();
-            var buisnessUnits = _dataModel.BuisnessUnits;
-            BuisnessUnit_Collection = buisnessUnits.ToList();
-            var countries = _dataModel.Countries;
-            Country_Collection = countries.ToList();
-            var priorities = _dataModel.Priorities;
-            Priority_Collection = priorities.ToList();
-            var recipients = _dataModel.Recipients.ToList();
-            // RecipientsToComboBox = recipients.Except(SelectedDistributionInformation.TO);
-            RecipientsToComboBox = recipients;
-            RecipientsCcComboBox = recipients;
+            var areas = EnumerableToObservableCollection(_dataModel.Areas);
+            Area_Collection = areas;
+            var buisnessUnits = EnumerableToObservableCollection(_dataModel.BuisnessUnits);
+            BuisnessUnit_Collection = buisnessUnits;
+            var countries = EnumerableToObservableCollection(_dataModel.Countries);
+            Country_Collection = countries;
+            var priorities = EnumerableToObservableCollection(_dataModel.Priorities);
+            Priority_Collection = priorities;
+           
         }
 
         protected override void OnDeleteExecute()
@@ -134,6 +130,11 @@ namespace DbConfigurator.UI.ViewModel
         }
         private void OnSelectionChanged()
         {
+            //PopulateComboBoxesWithData();
+            var recipients = EnumerableToObservableCollection(_dataModel.Recipients);
+            RecipientsToComboBox = EnumerableToObservableCollection(recipients.Where(p => !SelectedDistributionInformation.TO.Any(p2 => p2.Id == p.Id)));
+            RecipientsCcComboBox = EnumerableToObservableCollection(recipients.Where(p => !SelectedDistributionInformation.CC.Any(p2 => p2.Id == p.Id)));
+
             //Setting selected items in comboBoxes
             SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
             SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
@@ -143,6 +144,8 @@ namespace DbConfigurator.UI.ViewModel
             //Setting Items in ListViews
             RecipientsTo_ListView = _selectedDistributionInformation.TO;
             RecipientsCc_ListView = _selectedDistributionInformation.CC;
+
+
 
         }
         private void SetNewCountry()
@@ -185,16 +188,16 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public List<Area> Area_Collection { get; set; }
-        public List<BuisnessUnit> BuisnessUnit_Collection { get; set; }
-        public List<Country> Country_Collection { get; set; }
-        public List<Priority> Priority_Collection { get; private set; }
-        public List<Recipient> RecipientsToComboBox
+        public ObservableCollection<Area> Area_Collection { get; set; }
+        public ObservableCollection<BuisnessUnit> BuisnessUnit_Collection { get; set; }
+        public ObservableCollection<Country> Country_Collection { get; set; }
+        public ObservableCollection<Priority> Priority_Collection { get; private set; }
+        public ObservableCollection<Recipient> RecipientsToComboBox
         {
             get { return _recipientsToComboBox; }
             set { _recipientsToComboBox = value; OnPropertyChanged(); }
         }
-        public List<Recipient> RecipientsCcComboBox
+        public ObservableCollection<Recipient> RecipientsCcComboBox
         {
             get { return _recipientsCcComboBox; }
             set { _recipientsCcComboBox = value; OnPropertyChanged(); }
@@ -303,8 +306,8 @@ namespace DbConfigurator.UI.ViewModel
 
         private ObservableCollection<Recipient> _recipientsTo_ListView;
         private ObservableCollection<Recipient> _recipientsCc_ListView;
-        private List<Recipient> _recipientsToComboBox;
-        private List<Recipient> _recipientsCcComboBox;
+        private ObservableCollection<Recipient> _recipientsToComboBox;
+        private ObservableCollection<Recipient> _recipientsCcComboBox;
         private Area? _selectedArea;
         private BuisnessUnit? _selectedBuisnessUnit;
         private Country? _selectedCountry;
