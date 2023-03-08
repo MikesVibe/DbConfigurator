@@ -86,13 +86,10 @@ namespace DbConfigurator.UI.ViewModel
             var distributionInfoLookup = new DistributionInfoLookup(defaultArea, defaultBuisnessUnit, defaultCountry, defaultPriotrity);
             await _dataModel.AddAsync(distributionInfoLookup.Model);
             await _dataModel.SaveChangesAsync();
-            await _dataModel.ReloadEntityAsync(distributionInfoLookup.Model);
 
             //Create New Recipients Group
             RecipientsGroup recipientsGroup = new RecipientsGroup(distributionInfoLookup.Model, "dummy");
             await _dataModel.AddAsync(recipientsGroup);
-            //_dataModel.SaveChanges();
-
             distributionInfoLookup.Model.RecipientsGroup = recipientsGroup;
             await _dataModel.SaveChangesAsync();
 

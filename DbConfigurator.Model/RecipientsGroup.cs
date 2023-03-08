@@ -19,6 +19,8 @@ namespace DbConfigurator.Model
             //DistributionInformation = distributionInformation;
             DistributionInformationId = distributionInformation.Id;
             Name = name;
+            RecipientsTo = new Collection<Recipient>();
+            RecipientsCc = new Collection<Recipient>();
         }
 
         [Required]
