@@ -55,7 +55,7 @@ namespace DbConfigurator.Model
                     BuisnessUnit = _model.BuisnessUnit.Name;
                     BuisnessUnitId = _model.BuisnessUnit.Id;
                     Country = _model.Country.Name;
-                    CountryId = _model.Country.Id;
+                    //CountryId = _model.Country.Id;
                 }
                 else
                 {
@@ -92,61 +92,61 @@ namespace DbConfigurator.Model
             get { return _id; }
             private set { _id = value; }
         }
-        public string? Area
+        public string Area
         {
-            get { return _area; }
+            get { return Model.Area.Name; }
             set
             {
-                _area = value;
+                Model.Area.Name = value;
                 OnPropertyChanged();
             }
         }
-        public int? AreaId
+        public int AreaId
         {
-            get { return _areaId; }
-            private set { _areaId = value; }
+            get { return Model.Area.Id; }
+            private set { Model.Area.Id = value; }
         }
-        public string? BuisnessUnit
+        public string BuisnessUnit
         {
-            get { return _buisnessUnit; }
+            get { return Model.BuisnessUnit.Name; }
             set
             {
-                _buisnessUnit = value;
+                Model.BuisnessUnit.Name = value;
                 OnPropertyChanged();
             }
         }
-        public int? BuisnessUnitId
+        public int BuisnessUnitId
         {
-            get { return _buisnessUnitId; }
-            private set { _buisnessUnitId = value; }
+            get { return Model.BuisnessUnit.Id; }
+            private set { Model.BuisnessUnit.Id = value; }
         }
-        public string? Country
+        public string Country
         {
-            get { return _country; }
+            get { return Model.Country.Name; }
             set
             {
-                _country = value;
+                Model.Country.Name = value;
                 OnPropertyChanged();
             }
         }
-        public int? CountryId
+        public int CountryId
         {
-            get { return _countryId; }
-            private set { _countryId = value; }
+            get { return Model.Country.Id; }
+            private set { Model.Country.Id = value; }
         }
-        public string? Priority
+        public string Priority
         {
-            get { return _priority; }
+            get { return Model.Priority.Name; }
             set
             {
-                _priority = value;
+                Model.Priority.Name = value;
                 OnPropertyChanged();
             }
         }
-        public int? PriorityId
+        public int PriorityId
         {
-            get { return _priorityId; }
-            private set { _priorityId = value; }
+            get { return Model.Priority.Id; }
+            private set { Model.Priority.Id = value; }
         }
         public ObservableCollection<Recipient> TO
         {
