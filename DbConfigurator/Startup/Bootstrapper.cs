@@ -30,6 +30,7 @@ namespace DbConfigurator.UI.Startup
 
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterType<DataModel>().As<IDataModel>().SingleInstance();
+            builder.RegisterType<AutoMapperConfig>().AsSelf().SingleInstance();
 
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
@@ -44,6 +45,8 @@ namespace DbConfigurator.UI.Startup
                  .Keyed<ITabelViewModel>(nameof(CountryTableViewModel));
             builder.RegisterType<DistributionInformationTableViewModel>()
                  .Keyed<ITabelViewModel>(nameof(DistributionInformationTableViewModel));
+
+
 
 
             Container = builder.Build();

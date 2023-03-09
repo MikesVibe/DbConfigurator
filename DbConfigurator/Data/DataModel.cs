@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model.DTOs;
+using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.VisualBasic;
@@ -15,11 +16,12 @@ namespace DbConfigurator.Model
     public class DataModel : IDataModel
     {
         public DataModel(
-            DbConfiguratorDbContext dbConfiguratorDbContext
+            DbConfiguratorDbContext dbConfiguratorDbContext,
+            AutoMapperConfig autoMapperConfig
             )
         {
             Context = dbConfiguratorDbContext;
-
+            AutoMapper = autoMapperConfig;
 
 
             LoadDataFromDatabase();
@@ -28,18 +30,20 @@ namespace DbConfigurator.Model
         private async void LoadDataFromDatabase()
         {
             DistributionInformations = await GetAllDistributionInformationAsync();
-            Areas = await GetAllAreasAsync();
-            BuisnessUnits = await GetAllBuisnessUnitsAsync();
-            Countries = await GetAllCountriesAsync();
-            Priorities = await GetAllPrioritiesAsync();
+            //Areas = await GetAllAreasAsync();
+            //BuisnessUnits = await GetAllBuisnessUnitsAsync();
+            //Countries = await GetAllCountriesAsync();
+            //Priorities = await GetAllPrioritiesAsync();
             Recipients = await GetAllRecipientsAsync();
             DefaultArea = await GetDefaultArea();
             DefaultBuisnessUnit = await GetDefaultBuisnessUnit();
             DefaultCountry = await GetDefaultCountry();
             DefaultPriority = await GetDefaultPriority();
 
-
-
+            AreasDto = AutoMapper.Mapper.Map<List<AreaDto>>(await GetAllAreasAsync());
+            BuisnessUnitsDto = AutoMapper.Mapper.Map<List<BuisnessUnitDto>>(await GetAllBuisnessUnitsAsync());
+            CountriesDto = AutoMapper.Mapper.Map<List<CountryDto>>(await GetAllCountriesAsync());
+            PrioritiesDto = AutoMapper.Mapper.Map<List<PriorityDto>>(await GetAllPrioritiesAsync());
         }
 
         public async Task SaveChangesAsync()
@@ -159,7 +163,10 @@ namespace DbConfigurator.Model
         {
             await Context.Set<T>().AddAsync(item);
         }
-
+        public void Remove<T>(T item) where T : class
+        {
+            Context.Set<T>().Remove(item);
+        }
         public Recipient GetRecipient(int id)
         {
             return Context.Recipient.Where(r => r.Id == id).First();
@@ -174,6 +181,7 @@ namespace DbConfigurator.Model
             set { _context = value; }
         }
 
+        private AutoMapperConfig AutoMapper { get; set; }
 
         private DbConfiguratorDbContext _context;
     }

@@ -8,7 +8,7 @@ namespace DbConfigurator.Model.DTOs
 {
     public class BuisnessUnitDto
     {
-        public int Id { get; }
+        public int Id { get; init; }
         public string Name { get; set; } = string.Empty;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using DbConfigurator.Model.DTOs;
+using Microsoft.VisualBasic;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +22,12 @@ namespace DbConfigurator.Model
         Priority DefaultPriority { get; }
         Area DefaultArea { get; }
         BuisnessUnit DefaultBuisnessUnit { get; }
+        ICollection<DistributionInformationDto> DistributionInformationsDto { get; }
+        ICollection<AreaDto> AreasDto { get; }
+        ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; }
+        ICollection<CountryDto> CountriesDto { get; }
+        ICollection<PriorityDto> PrioritiesDto { get; }
+        ICollection<RecipientDto> RecipientsDto { get; }
 
         bool HasChanges();
         void ReloadEntryPriority(DistributionInformation disInfo);
@@ -28,5 +35,6 @@ namespace DbConfigurator.Model
         void Add<T>(T item) where T : class;
         Task AddAsync<T>(T item) where T : class;
         Recipient GetRecipient(int id);
+        void Remove<T>(T item) where T : class;
     }
 }
