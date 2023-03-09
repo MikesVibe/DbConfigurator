@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.DataAccess;
+using DbConfigurator.Model.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.VisualBasic;
@@ -36,6 +37,8 @@ namespace DbConfigurator.Model
             DefaultBuisnessUnit = await GetDefaultBuisnessUnit();
             DefaultCountry = await GetDefaultCountry();
             DefaultPriority = await GetDefaultPriority();
+
+
 
         }
 
@@ -109,6 +112,14 @@ namespace DbConfigurator.Model
             return priority;
         }
 
+
+        public ICollection<DistributionInformationDto> DistributionInformationsDto { get; private set; }
+        public ICollection<AreaDto> AreasDto { get; private set; }
+        public ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; private set; }
+        public ICollection<CountryDto> CountriesDto { get; private set; }
+        public ICollection<PriorityDto> PrioritiesDto { get; private set; }
+        public ICollection<RecipientDto> RecipientsDto { get; private set; }
+
         public ICollection<DistributionInformation> DistributionInformations { get; private set; }
         public ICollection<Area> Areas { get; private set; }
         public ICollection<BuisnessUnit> BuisnessUnits { get; private set; }
@@ -148,75 +159,10 @@ namespace DbConfigurator.Model
         {
             await Context.Set<T>().AddAsync(item);
         }
-        public void Load<T>(T item, string propertName) where T : class
+
+        public Recipient GetRecipient(int id)
         {
-            Context.Entry(item).Reference(c => c.GetType().GetProperty(propertName)).Load();
-        }
-        public async Task ReloadEntityAsync(DistributionInformation item)
-        {
-            await Context.Entry(item).Reference(d => d.Area).LoadAsync();
-            await Context.Entry(item).Reference(d => d.BuisnessUnit).LoadAsync();
-            await Context.Entry(item).Reference(d => d.Country).LoadAsync();
-            await Context.Entry(item).Reference(d => d.Priority).LoadAsync();
-            await Context.Entry(item).Reference(d => d.RecipientsGroup).LoadAsync();
-        }
-
-        public void AddRecipientTo(int distributionInfoId, int recipientId)
-        {
-            //var recipientToAdd = Context.Recipient.Find(recipientId);
-            //if (recipientToAdd == null)
-            //    return;
-
-            //var distributionInfo = Context.DistributionInformation
-            //    .First(d => d.Id == distributionInfoId);
-
-            //var toRecipientsGroup = distributionInfo.ToRecipientsGroup;
-
-            ////if (toRecipientsGroup == null)
-            ////{
-            ////    var rg = new RecipientsGroup();
-            ////    rg.Recipients = new Collection<Recipient>();
-            ////    rg.DistributionInformationId = distributionInfoId;
-            ////    Context.RecipientsGroup.Add(rg);
-            ////    distributionInfo.ToRecipientsGroup = rg;
-            ////    toRecipientsGroup = distributionInfo.ToRecipientsGroup;
-            ////}
-
-            //toRecipientsGroup.Recipients.Add(recipientToAdd);
-
-
-            //// Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
-            //distributionInfo.ToRecipientsGroup = toRecipientsGroup;
-        }
-
-        public void AddRecipientCc(DistributionInformation disInfo, int recipientId)
-        {
-            //var recipientToAdd = Context.Recipient.Find(recipientId);
-            //if (recipientToAdd == null)
-            //    return;
-
-
-            //var ccRecipientsGroup = disInfo.CcRecipientsGroup;
-
-            ////if (ccRecipientsGroup == null)
-            ////{
-            ////    var rg = new RecipientsGroup();
-            ////    rg.Recipients = new Collection<Recipient>();
-            ////    rg.DistributionInformationId = disInfo.Id;
-            ////    Context.RecipientsGroup.Add(rg);
-            ////    disInfo.CcRecipientsGroup = rg;
-            ////    ccRecipientsGroup = disInfo.CcRecipientsGroup;
-            ////}
-
-            //ccRecipientsGroup.Recipients.Add(recipientToAdd);
-
-
-            //// Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
-            //disInfo.CcRecipientsGroup = ccRecipientsGroup;
-        }
-        public Recipient? GetRecipient(int id)
-        {
-            return Context.Recipient.Where(r => r.Id == id).FirstOrDefault();
+            return Context.Recipient.Where(r => r.Id == id).First();
         }
 
 

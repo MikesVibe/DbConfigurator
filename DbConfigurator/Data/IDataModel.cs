@@ -26,11 +26,7 @@ namespace DbConfigurator.Model
         void ReloadEntryPriority(DistributionInformation disInfo);
         void ReloadEntryCountry(DistributionInformation disInfo);
         void Add<T>(T item) where T : class;
-        void AddRecipientTo(int distributionInfoId, int recipientId);
-        void Load<T>(T item, string propertName) where T : class;
-        void AddRecipientCc(DistributionInformation disInfo, int recipientId);
-        Task ReloadEntityAsync(DistributionInformation item);
         Task AddAsync<T>(T item) where T : class;
-        Recipient? GetRecipient(int id);
+        Recipient GetRecipient(int id);
     }
 }

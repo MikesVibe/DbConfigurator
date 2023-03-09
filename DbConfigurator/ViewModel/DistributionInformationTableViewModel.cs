@@ -54,16 +54,6 @@ namespace DbConfigurator.UI.ViewModel
 
         private void PopulateComboBoxesWithData()
         {
-            //var areas = new ObservableCollection<Area>(_dataModel.Areas);
-            //Area_Collection = areas;
-            //var buisnessUnits = new ObservableCollection<BuisnessUnit>(_dataModel.BuisnessUnits);
-            //BuisnessUnit_Collection = buisnessUnits;
-            //var countries = new List<Country>(_dataModel.Countries);
-            //Country_Collection = countries;
-            //var priorities = new ObservableCollection<Priority>(_dataModel.Priorities);
-            //Priority_Collection = priorities;
-            //var recipients = new ObservableCollection<Recipient>(_dataModel.Recipients);
-
             var areas = EnumerableToObservableCollection(_dataModel.Areas);
             Area_Collection = areas;
             var buisnessUnits = EnumerableToObservableCollection(_dataModel.BuisnessUnits);
@@ -71,8 +61,7 @@ namespace DbConfigurator.UI.ViewModel
             var countries = EnumerableToObservableCollection(_dataModel.Countries);
             Country_Collection = countries;
             var priorities = EnumerableToObservableCollection(_dataModel.Priorities);
-            Priority_Collection = priorities;
-           
+            Priority_Collection = priorities;      
         }
 
         protected override void OnDeleteExecute()
