@@ -214,6 +214,11 @@ namespace DbConfigurator.Model
             //// Add the existing Recipient entity to the Recipients collection of the first RecipientsGroup
             //disInfo.CcRecipientsGroup = ccRecipientsGroup;
         }
+        public Recipient? GetRecipient(int id)
+        {
+            return Context.Recipient.Where(r => r.Id == id).FirstOrDefault();
+        }
+
 
 
 

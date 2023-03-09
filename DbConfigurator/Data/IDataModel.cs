@@ -31,5 +31,6 @@ namespace DbConfigurator.Model
         void AddRecipientCc(DistributionInformation disInfo, int recipientId);
         Task ReloadEntityAsync(DistributionInformation item);
         Task AddAsync<T>(T item) where T : class;
+        Recipient? GetRecipient(int id);
     }
 }

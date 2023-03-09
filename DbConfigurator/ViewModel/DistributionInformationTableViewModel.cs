@@ -237,7 +237,7 @@ namespace DbConfigurator.UI.ViewModel
                 RecipientsTo_ListView.Add(value);
 
                 var disInfo = SelectedDistributionInformation.Model;
-                disInfo.RecipientsGroup.RecipientsTo.Add(value);
+                disInfo.RecipientsGroup.RecipientsTo.Add(_dataModel.GetRecipient(value.Id));
             }
         }
         public Recipient? SelectedRecipientCc
@@ -252,7 +252,7 @@ namespace DbConfigurator.UI.ViewModel
                 RecipientsCc_ListView.Add(value);
 
                 var disInfo = SelectedDistributionInformation.Model;
-                disInfo.RecipientsGroup.RecipientsCc.Add(value);
+                disInfo.RecipientsGroup.RecipientsCc.Add(_dataModel.GetRecipient(value.Id));
             }
         }
         public Area? SelectedArea
