@@ -37,6 +37,8 @@ namespace DbConfigurator.UI.ViewModel
 
             PopulateComboBoxesWithData();
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
+            RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecute, OnRemoveRecipientToCanExecute);
+            RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecute, OnRemovRecipientCCeCanExecute);
 
         }
 
@@ -109,6 +111,29 @@ namespace DbConfigurator.UI.ViewModel
         protected override bool OnRemoveCanExecute()
         {
             return SelectedDistributionInformation!=null;
+        }
+        protected void OnRemoveRecipientToExecute()
+        {
+            SelectedDistributionInformation.Model.RecipientsGroup.RecipientsTo.Remove(SelectedRecipientToListView);
+            RecipientsTo_ListView.Remove(SelectedRecipientToListView);
+            SelectedRecipientToListView = null;
+            ((DelegateCommand)RemoveToRecipientCommand).RaiseCanExecuteChanged();
+
+        }
+        protected bool OnRemoveRecipientToCanExecute()
+        {
+            return SelectedRecipientToListView != null;
+        }
+        protected void OnRemoveRecipientCcExecute()
+        {
+            SelectedDistributionInformation.Model.RecipientsGroup.RecipientsCc.Remove(SelectedRecipientCcListView);
+            RecipientsCc_ListView.Remove(SelectedRecipientCcListView);
+            SelectedRecipientCcListView = null;
+            ((DelegateCommand)RemoveCcRecipientCommand).RaiseCanExecuteChanged();
+        }
+        protected bool OnRemovRecipientCCeCanExecute()
+        {
+            return SelectedRecipientCcListView != null;
         }
         private void DistributionInformation_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -222,34 +247,52 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-        public Recipient? SelectedRecipientTo
+        public Recipient? SelectedRecipientToComboBox
         {
-            get { return _selectedRecipientTo; }
+            get { return _selectedRecipientToComboBox; }
             set 
             {
                 if (value == null || SelectedDistributionInformation == null)
                     return;
 
-                _selectedRecipientTo = value;
+                _selectedRecipientToComboBox = value;
                 RecipientsTo_ListView.Add(value);
 
                 var disInfo = SelectedDistributionInformation.Model;
                 disInfo.RecipientsGroup.RecipientsTo.Add(_dataModel.GetRecipient(value.Id));
             }
         }
-        public Recipient? SelectedRecipientCc
+        public Recipient? SelectedRecipientCcComboBox
         {
-            get { return _selectedRecipientCc; }
+            get { return _selectedRecipientCcComboBox; }
             set
             {
                 if (value == null || SelectedDistributionInformation == null)
                     return;
 
-                _selectedRecipientCc = value;
+                _selectedRecipientCcComboBox = value;
                 RecipientsCc_ListView.Add(value);
 
                 var disInfo = SelectedDistributionInformation.Model;
                 disInfo.RecipientsGroup.RecipientsCc.Add(_dataModel.GetRecipient(value.Id));
+            }
+        }
+        public Recipient? SelectedRecipientToListView
+        {
+            get { return _selectedRecipientToListView; }
+            set
+            {
+                _selectedRecipientToListView = value;
+                ((DelegateCommand)RemoveToRecipientCommand).RaiseCanExecuteChanged();
+            }
+        }
+        public Recipient? SelectedRecipientCcListView
+        {
+            get { return _selectedRecipientCcListView; }
+            set
+            {
+                _selectedRecipientCcListView = value;
+                ((DelegateCommand)RemoveCcRecipientCommand).RaiseCanExecuteChanged();
             }
         }
         public AreaDto? SelectedArea
@@ -294,6 +337,8 @@ namespace DbConfigurator.UI.ViewModel
             }
         }
         public ICommand SelectionChangedCommand { get; set; }
+        public ICommand RemoveCcRecipientCommand { get; set; }
+        public ICommand RemoveToRecipientCommand { get; set; }
 
 
 
@@ -303,13 +348,16 @@ namespace DbConfigurator.UI.ViewModel
 
         private ObservableCollection<Recipient> _recipientsTo_ListView;
         private ObservableCollection<Recipient> _recipientsCc_ListView;
+
         private ObservableCollection<Recipient> _recipientsToComboBox;
         private ObservableCollection<Recipient> _recipientsCcComboBox;
         private AreaDto? _selectedArea;
         private BuisnessUnitDto? _selectedBuisnessUnit;
         private CountryDto? _selectedCountry;
         private PriorityDto? _selectedPriority;
-        private Recipient? _selectedRecipientTo;
-        private Recipient? _selectedRecipientCc;
+        private Recipient? _selectedRecipientToComboBox;
+        private Recipient? _selectedRecipientCcComboBox;
+        private Recipient? _selectedRecipientToListView;
+        private Recipient? _selectedRecipientCcListView;
     }
 }

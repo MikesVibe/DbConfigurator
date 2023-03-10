@@ -130,15 +130,19 @@
                     <Label Content="To:" />
                     <ComboBox Name="ToComboBox" Width="250" HorizontalAlignment="Left" 
                               ItemsSource="{Binding RecipientsToComboBox}"
-                              SelectedItem="{Binding SelectedRecipientTo}"
+                              SelectedItem="{Binding SelectedRecipientToComboBox}"
                               DisplayMemberPath="Email" SelectedValuePath="Id"/>
 
 
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                         <ListBox Name="ToListBox" Height="250"  Width="250"  Margin="0,5,0,0"
                          ItemsSource="{Binding RecipientsTo_ListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding SelectedRecipientToListView}"
                          DisplayMemberPath="Email" SelectedValuePath="Id"/>
-                        <Button Content="-" FontSize="24" Width="30" Height="30" Margin="7,7,0,0" VerticalAlignment="Top" Padding="0,-7,0,0"/>
+                        <Button Content="-"
+                                Command="{Binding RemoveToRecipientCommand}"
+                                FontSize="24" Width="30" Height="30" Margin="7,7,0,0"
+                                VerticalAlignment="Top" Padding="0,-7,0,0"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -148,14 +152,18 @@
                     <Label Content="Cc:" />
                     <ComboBox Name="CcComboBox" Width="250" HorizontalAlignment="Left" 
                               ItemsSource="{Binding RecipientsCcComboBox}"
-                              SelectedItem="{Binding SelectedRecipientCc}"
+                              SelectedItem="{Binding SelectedRecipientCcComboBox}"
                               DisplayMemberPath="Email" SelectedValuePath="Id"/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                         <ListBox Name="CcListBox" Height="250" Width="250" 
                              ItemsSource="{Binding RecipientsCc_ListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             SelectedItem="{Binding SelectedRecipientCcListView}"
                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
-                        <Button Content="-" FontSize="24" Width="30" Height="30" Margin="7,7,0,0" VerticalAlignment="Top" Padding="0,-7,0,0"/>
+                        <Button Content="-" 
+                                Command="{Binding RemoveCcRecipientCommand}"
+                                FontSize="24" Width="30" Height="30" Margin="7,7,0,0"
+                                VerticalAlignment="Top" Padding="0,-7,0,0"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
