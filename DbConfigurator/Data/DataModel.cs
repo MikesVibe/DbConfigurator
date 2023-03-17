@@ -30,10 +30,10 @@ namespace DbConfigurator.Model
         private async void LoadDataFromDatabase()
         {
             DistributionInformations = await GetAllDistributionInformationAsync();
-            //Areas = await GetAllAreasAsync();
-            //BuisnessUnits = await GetAllBuisnessUnitsAsync();
-            //Countries = await GetAllCountriesAsync();
-            //Priorities = await GetAllPrioritiesAsync();
+            Areas = await GetAllAreasAsync();
+            BuisnessUnits = await GetAllBuisnessUnitsAsync();
+            Countries = await GetAllCountriesAsync();
+            Priorities = await GetAllPrioritiesAsync();
             Recipients = await GetAllRecipientsAsync();
             DefaultArea = await GetDefaultArea();
             DefaultBuisnessUnit = await GetDefaultBuisnessUnit();
@@ -117,7 +117,7 @@ namespace DbConfigurator.Model
         }
 
 
-        public ICollection<DistributionInformationDto> DistributionInformationsDto { get; private set; }
+        public ICollection<DistributionInformationWithOnlyIdsDto> DistributionInformationsDto { get; private set; }
         public ICollection<AreaDto> AreasDto { get; private set; }
         public ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; private set; }
         public ICollection<CountryDto> CountriesDto { get; private set; }

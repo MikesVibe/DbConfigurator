@@ -22,6 +22,10 @@ namespace DbConfigurator.UI.Startup
                 cfg.CreateMap<Country, CountryDto>();
                 cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>();
                 cfg.CreateMap<Area, AreaDto>();
+                cfg.CreateMap<DistributionInformation, DistributionInformationDto>()
+                            .ForMember(
+                    d => d.RecipientsTo,
+                    opt => opt.MapFrom(rg => rg.RecipientsGroup != null && rg.RecipientsGroup.RecipientsTo != null ? rg.RecipientsGroup.RecipientsTo : Enumerable.Empty<Recipient>()));
             });
 
             Mapper = config.CreateMapper();

@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs;
+using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.View;
 using DbConfigurator.UI.Wrapper;
 using Microsoft.EntityFrameworkCore.Update.Internal;
@@ -25,10 +26,12 @@ namespace DbConfigurator.UI.ViewModel
     {
         public DistributionInformationTableViewModel(
             IEventAggregator eventAggregator,
-            IDataModel dataModel
+            IDataModel dataModel,
+            AutoMapperConfig autoMapperConfig
             ) : base(eventAggregator)
         {
             _dataModel = dataModel;
+            AutoMapper = autoMapperConfig;
 
             DisInfoLookup_ObservableCollection = new ObservableCollection<DistributionInfoLookup>();
             RecipientsTo_ListView = new ObservableCollection<Recipient>();
@@ -53,6 +56,17 @@ namespace DbConfigurator.UI.ViewModel
                 distributionInformationsLookup.Add(new DistributionInfoLookup(dis));
             }
             DisInfoLookup_ObservableCollection = distributionInformationsLookup;
+
+
+
+            //Testing
+            var distributionInformationsLookupDto = new ObservableCollection<DistributionInformationDto>();
+
+            foreach (var dis in distributionInformations)
+            {
+                distributionInformationsLookupDto.Add(AutoMapper.Mapper.Map<DistributionInformationDto>(dis));
+            }
+            var a = 0;
         }
 
         private void PopulateComboBoxesWithData()
@@ -209,6 +223,15 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+        public DistributionInformationDto SelectedDistributionInformationDto
+        {
+            get { return _selectedDistributionInformationDto; }
+            set
+            {
+                _selectedDistributionInformationDto = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<AreaDto> Area_Collection { get; set; }
         public ObservableCollection<BuisnessUnitDto> BuisnessUnit_Collection { get; set; }
         public ObservableCollection<CountryDto> Country_Collection { get; set; }
@@ -227,6 +250,7 @@ namespace DbConfigurator.UI.ViewModel
 
 
         public ObservableCollection<DistributionInfoLookup> DisInfoLookup_ObservableCollection { get; set; }
+        public ObservableCollection<DistributionInformationDto> DistributionInformationDto_ObservableCollection { get; set; }
         public ObservableCollection<Recipient> RecipientsTo_ListView
         {
             get { return _recipientsTo_ListView; }
@@ -343,8 +367,12 @@ namespace DbConfigurator.UI.ViewModel
 
 
         private IDataModel _dataModel;
+
+        public AutoMapperConfig AutoMapper { get; }
+
         private IEventAggregator _eventAggregator;
         private DistributionInfoLookup _selectedDistributionInformation;
+        private DistributionInformationDto _selectedDistributionInformationDto;
 
         private ObservableCollection<Recipient> _recipientsTo_ListView;
         private ObservableCollection<Recipient> _recipientsCc_ListView;

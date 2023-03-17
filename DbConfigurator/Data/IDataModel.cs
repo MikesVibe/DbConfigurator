@@ -22,7 +22,7 @@ namespace DbConfigurator.Model
         Priority DefaultPriority { get; }
         Area DefaultArea { get; }
         BuisnessUnit DefaultBuisnessUnit { get; }
-        ICollection<DistributionInformationDto> DistributionInformationsDto { get; }
+        ICollection<DistributionInformationWithOnlyIdsDto> DistributionInformationsDto { get; }
         ICollection<AreaDto> AreasDto { get; }
         ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; }
         ICollection<CountryDto> CountriesDto { get; }
