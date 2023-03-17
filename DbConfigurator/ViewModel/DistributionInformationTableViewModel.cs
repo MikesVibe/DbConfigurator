@@ -109,7 +109,7 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override void OnRemoveExecute()
         {
-            _dataModel.Remove(SelectedDistributionInformation);
+            _dataModel.Remove(_dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First());
             DistributionInformation_ObservableCollection.Remove(SelectedDistributionInformation);
             SelectedDistributionInformation = null;
             ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
@@ -120,8 +120,12 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected void OnRemoveRecipientToExecute()
         {
+            if (SelectedRecipientToListView == null)
+                return;
+
             _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First()?.RecipientsGroup?.RecipientsTo.Remove(SelectedRecipientToListView);
             RecipientsTo_ListView.Remove(SelectedRecipientToListView);
+            SelectedDistributionInformation.RecipientsTo.Remove(SelectedRecipientToListView);
             SelectedRecipientToListView = null;
             ((DelegateCommand)RemoveToRecipientCommand).RaiseCanExecuteChanged();
 
@@ -132,8 +136,12 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected void OnRemoveRecipientCcExecute()
         {
+            if (SelectedRecipientCcListView == null)
+                return;
+
             _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First()?.RecipientsGroup?.RecipientsCc.Remove(SelectedRecipientCcListView);
             RecipientsCc_ListView.Remove(SelectedRecipientCcListView);
+            SelectedDistributionInformation.RecipientsTo.Remove(SelectedRecipientCcListView);
             SelectedRecipientCcListView = null;
             ((DelegateCommand)RemoveCcRecipientCommand).RaiseCanExecuteChanged();
         }
@@ -363,7 +371,6 @@ namespace DbConfigurator.UI.ViewModel
         public AutoMapperConfig AutoMapper { get; }
 
         private IEventAggregator _eventAggregator;
-        //private DistributionInfoLookup _selectedDistributionInformation;
         private DistributionInformationDtoWrapper _selectedDistributionInformation;
 
         private ObservableCollection<Recipient> _recipientsTo_ListView;

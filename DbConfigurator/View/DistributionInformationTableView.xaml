@@ -23,8 +23,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <DataGrid
-            CanUserResizeRows="False"
-            IsReadOnly="True"
+            CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
             ItemsSource="{Binding DistributionInformation_ObservableCollection, Mode=TwoWay}"
             SelectedItem="{Binding  SelectedDistributionInformation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             AutoGenerateColumns="False" FontSize="11" Height="300">
