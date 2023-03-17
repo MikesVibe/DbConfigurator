@@ -25,8 +25,8 @@
             <DataGrid
             CanUserResizeRows="False"
             IsReadOnly="True"
-            ItemsSource="{Binding DisInfoLookup_ObservableCollection, Mode=TwoWay}"
-            SelectedItem="{Binding  SelectedDistributionInformation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding DistributionInformationDto_ObservableCollection, Mode=TwoWay}"
+            SelectedItem="{Binding  SelectedDistributionInformationDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             AutoGenerateColumns="False" FontSize="11" Height="300">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
@@ -48,7 +48,7 @@
                             <DataTemplate>
                                 <TextBlock>
                                     <TextBlock.Inlines>
-                                        <ItemsControl ItemsSource="{Binding TO}" DisplayMemberPath="Email"/>
+                                        <ItemsControl ItemsSource="{Binding RecipientsTo}" DisplayMemberPath="Email"/>
                                     </TextBlock.Inlines>
                                 </TextBlock>
                             </DataTemplate>
@@ -59,7 +59,7 @@
                             <DataTemplate>
                                 <TextBlock>
                                     <TextBlock.Inlines>
-                                        <ItemsControl ItemsSource="{Binding CC}" DisplayMemberPath="Email"/>
+                                        <ItemsControl ItemsSource="{Binding RecipientsCc}" DisplayMemberPath="Email"/>
                                     </TextBlock.Inlines>
                                 </TextBlock>
                             </DataTemplate>
