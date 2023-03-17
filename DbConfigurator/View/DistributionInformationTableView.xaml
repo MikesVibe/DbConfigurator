@@ -25,8 +25,8 @@
             <DataGrid
             CanUserResizeRows="False"
             IsReadOnly="True"
-            ItemsSource="{Binding DistributionInformationDto_ObservableCollection, Mode=TwoWay}"
-            SelectedItem="{Binding  SelectedDistributionInformationDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding DistributionInformation_ObservableCollection, Mode=TwoWay}"
+            SelectedItem="{Binding  SelectedDistributionInformation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             AutoGenerateColumns="False" FontSize="11" Height="300">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">

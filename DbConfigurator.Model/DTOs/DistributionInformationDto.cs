@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace DbConfigurator.Model.DTOs
         public string BuisnessUnit { get; set; }
         public string Country { get; set; }
         public string Priority { get; set; }
-        public IEnumerable<Recipient> RecipientsTo { get; set; } = Enumerable.Empty<Recipient>();
-        public IEnumerable<Recipient> RecipientsCc { get; set; } = Enumerable.Empty<Recipient>();
+        public ObservableCollection<Recipient> RecipientsTo { get; set; } = new ObservableCollection<Recipient>();
+        public ObservableCollection<Recipient> RecipientsCc { get; set; } = new ObservableCollection<Recipient>();
     }
 }
