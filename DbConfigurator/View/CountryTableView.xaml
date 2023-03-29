@@ -26,13 +26,13 @@
 
 
             <DataGrid.Columns >
-                <DataGridTextColumn Header="Area"  Width="150"
+                <DataGridTextColumn Header="Area"  Width="200"
                                     Binding="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Buisness Unit" Width="100" 
                                     Binding="{Binding BuisnessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Country Code" Width="100" 
                                     Binding="{Binding ShortCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Country" Width="150" 
+                <DataGridTextColumn Header="Country" Width="*" 
                                     Binding="{Binding Country, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </DataGrid.Columns>
         </DataGrid>

@@ -33,7 +33,7 @@
                                     Binding="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Last Name" Width="150" 
                                     Binding="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Email" Width="250" 
+                <DataGridTextColumn Header="Email" Width="*" 
                                     Binding="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </DataGrid.Columns>
         </DataGrid>
