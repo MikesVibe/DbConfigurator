@@ -47,7 +47,19 @@ namespace DbConfigurator.UI.ViewModel
 
         public async override Task LoadAsync()
         {
-            var distributionInformations = _dataModel.DistributionInformations;
+            List<DistributionInformation> distributionInformations = default;
+            //for(int i=1; i<=5; i++)
+            //{
+            //    distributionInformations = _dataModel.DistributionInformations.ToList();
+            //    if (distributionInformations != null)
+            //        break;
+            //    await Task.Delay(100*i);
+            //}
+            if (distributionInformations == null)
+            {
+                DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationDtoWrapper>();
+                return;
+            }
 
             var distributionInformationsDto = new ObservableCollection<DistributionInformationDtoWrapper>();
 
@@ -103,7 +115,8 @@ namespace DbConfigurator.UI.ViewModel
             distributionInformation.RecipientsGroup = recipientsGroup;
             await _dataModel.SaveChangesAsync();
 
-            var mappedDisInfo = AutoMapper.Mapper.Map<DistributionInformationDtoWrapper>(distributionInformation);
+            var distributionInformationDto = _dataModel.GetDistributionInformationDto(distributionInformation.Id);
+            var mappedDisInfo = new DistributionInformationDtoWrapper(distributionInformationDto);
             DistributionInformation_ObservableCollection.Add(mappedDisInfo);
             SelectedDistributionInformation = mappedDisInfo;
         }
@@ -124,8 +137,8 @@ namespace DbConfigurator.UI.ViewModel
                 return;
 
             _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First()?.RecipientsGroup?.RecipientsTo.Remove(SelectedRecipientToListView);
-            RecipientsTo_ListView.Remove(SelectedRecipientToListView);
             SelectedDistributionInformation.RecipientsTo.Remove(SelectedRecipientToListView);
+            RecipientsTo_ListView.Remove(SelectedRecipientToListView);
             SelectedRecipientToListView = null;
             ((DelegateCommand)RemoveToRecipientCommand).RaiseCanExecuteChanged();
 
@@ -140,8 +153,8 @@ namespace DbConfigurator.UI.ViewModel
                 return;
 
             _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First()?.RecipientsGroup?.RecipientsCc.Remove(SelectedRecipientCcListView);
-            RecipientsCc_ListView.Remove(SelectedRecipientCcListView);
             SelectedDistributionInformation.RecipientsTo.Remove(SelectedRecipientCcListView);
+            RecipientsCc_ListView.Remove(SelectedRecipientCcListView);
             SelectedRecipientCcListView = null;
             ((DelegateCommand)RemoveCcRecipientCommand).RaiseCanExecuteChanged();
         }

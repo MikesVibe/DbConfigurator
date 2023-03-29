@@ -35,6 +35,8 @@ namespace DbConfigurator.Model
         void Add<T>(T item) where T : class;
         Task AddAsync<T>(T item) where T : class;
         Recipient GetRecipient(int id);
+
         void Remove<T>(T item) where T : class;
+        DistributionInformationDto GetDistributionInformationDto(int id);
     }
 }
