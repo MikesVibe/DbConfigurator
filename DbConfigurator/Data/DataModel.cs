@@ -51,7 +51,7 @@ namespace DbConfigurator.Model
         {
             await Context.SaveChangesAsync();
         }
-        private async Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync()
+        public async Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync()
         {
             var collection = await Context.Set<DistributionInformation>()
                 .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
@@ -178,7 +178,11 @@ namespace DbConfigurator.Model
             return AutoMapper.Mapper.Map<DistributionInformationDto>(disInfo);
         }
 
-
+        public async Task AddDistributionInformationAsync(DistributionInformation distributionInformation)
+        {
+            await Context.DistributionInformation.AddAsync(distributionInformation);
+            DistributionInformations.Add(distributionInformation);
+        }
 
         public DbConfiguratorDbContext Context
         {

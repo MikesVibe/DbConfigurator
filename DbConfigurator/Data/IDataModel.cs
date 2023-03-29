@@ -38,5 +38,8 @@ namespace DbConfigurator.Model
 
         void Remove<T>(T item) where T : class;
         DistributionInformationDto GetDistributionInformationDto(int id);
+        Task AddDistributionInformationAsync(DistributionInformation distributionInformation);
+        Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync();
+
     }
 }

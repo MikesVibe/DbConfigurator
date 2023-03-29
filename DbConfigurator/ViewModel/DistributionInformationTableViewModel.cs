@@ -47,30 +47,16 @@ namespace DbConfigurator.UI.ViewModel
 
         public async override Task LoadAsync()
         {
-            List<DistributionInformation> distributionInformations = default;
-            for (int i = 1; i <= 5; i++)
-            {
-                distributionInformations = _dataModel.DistributionInformations.ToList();
-                if (distributionInformations != null)
-                    break;
-                await Task.Delay(100 * i);
-            }
-            if (distributionInformations == null)
-            {
-                DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationDtoWrapper>();
-                return;
-            }
+            DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationDtoWrapper>();
+            var distributionInformation = await _dataModel.GetAllDistributionInformationAsync();
 
-            var distributionInformationsDto = new ObservableCollection<DistributionInformationDtoWrapper>();
 
-            foreach (var dis in distributionInformations)
+            foreach (var dis in distributionInformation)
             {
                 var mapped = AutoMapper.Mapper.Map<DistributionInformationDto>(dis);
                 var wrapped = new DistributionInformationDtoWrapper(mapped);
-                distributionInformationsDto.Add(wrapped);
+                DistributionInformation_ObservableCollection.Add(wrapped);
             }
-            DistributionInformation_ObservableCollection = distributionInformationsDto;
-
         }
 
         private void PopulateComboBoxesWithData()
@@ -106,7 +92,8 @@ namespace DbConfigurator.UI.ViewModel
             Country defaultCountry = _dataModel.DefaultCountry;
             Priority defaultPriotrity = _dataModel.DefaultPriority;
             var distributionInformation = new DistributionInformation(defaultArea, defaultBuisnessUnit, defaultCountry, defaultPriotrity);
-            await _dataModel.AddAsync(distributionInformation);
+            //await _dataModel.AddAsync(distributionInformation);
+            await _dataModel.AddDistributionInformationAsync(distributionInformation);
             await _dataModel.SaveChangesAsync();
 
             //Create New Recipients Group
@@ -139,6 +126,7 @@ namespace DbConfigurator.UI.ViewModel
             _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First()?.RecipientsGroup?.RecipientsTo.Remove(SelectedRecipientToListView);
             SelectedDistributionInformation.RecipientsTo.Remove(SelectedRecipientToListView);
             RecipientsTo_ListView.Remove(SelectedRecipientToListView);
+            PopulateComboBoxTo();
             SelectedRecipientToListView = null;
             ((DelegateCommand)RemoveToRecipientCommand).RaiseCanExecuteChanged();
 
@@ -152,9 +140,11 @@ namespace DbConfigurator.UI.ViewModel
             if (SelectedRecipientCcListView == null)
                 return;
 
-            _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First()?.RecipientsGroup?.RecipientsCc.Remove(SelectedRecipientCcListView);
-            SelectedDistributionInformation.RecipientsTo.Remove(SelectedRecipientCcListView);
+            var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
+            disInfo?.RecipientsGroup?.RecipientsCc.Remove(SelectedRecipientCcListView);
+            var result = SelectedDistributionInformation.RecipientsCc.Remove(SelectedRecipientCcListView);
             RecipientsCc_ListView.Remove(SelectedRecipientCcListView);
+            PopulateComboBoxCc();
             SelectedRecipientCcListView = null;
             ((DelegateCommand)RemoveCcRecipientCommand).RaiseCanExecuteChanged();
         }
@@ -178,10 +168,8 @@ namespace DbConfigurator.UI.ViewModel
             if (SelectedDistributionInformation == null)
                 return;
 
-            //PopulateComboBoxesWithData();
-            var recipients = EnumerableToObservableCollection(_dataModel.Recipients);
-            RecipientsToComboBox = EnumerableToObservableCollection(recipients.Where(p => !SelectedDistributionInformation.RecipientsTo.Any(p2 => p2.Id == p.Id)));
-            RecipientsCcComboBox = EnumerableToObservableCollection(recipients.Where(p => !SelectedDistributionInformation.RecipientsCc.Any(p2 => p2.Id == p.Id)));
+            PopulateComboBoxTo();
+            PopulateComboBoxCc();
 
             //Setting selected items in comboBoxes
             SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
@@ -196,6 +184,18 @@ namespace DbConfigurator.UI.ViewModel
 
             ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
         }
+
+        private void PopulateComboBoxTo()
+        {
+            var recipients = EnumerableToObservableCollection(_dataModel.Recipients);
+            RecipientsToComboBox = EnumerableToObservableCollection(recipients.Where(p => !SelectedDistributionInformation.RecipientsTo.Any(p2 => p2.Id == p.Id)));
+        }        
+        private void PopulateComboBoxCc()
+        {
+            var recipients = EnumerableToObservableCollection(_dataModel.Recipients);
+            RecipientsCcComboBox = EnumerableToObservableCollection(recipients.Where(p => !SelectedDistributionInformation.RecipientsCc.Any(p2 => p2.Id == p.Id)));
+        }
+
         private void SetNewCountry()
         {
             //if (SelectedDistributionInformationDtoWrapper == null || SelectedCountry == null)
@@ -295,7 +295,8 @@ namespace DbConfigurator.UI.ViewModel
                 RecipientsTo_ListView.Add(value);
                 SelectedDistributionInformation.RecipientsTo.Add(value);
                 var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
-                disInfo?.RecipientsGroup?.RecipientsTo.Add(_dataModel.GetRecipient(value.Id));
+                var recipient = _dataModel.GetRecipient(value.Id);
+                disInfo?.RecipientsGroup?.RecipientsTo.Add(recipient);
                 RecipientsToComboBox.Remove(value);
                 _selectedRecipientToComboBox = null;
             }
@@ -312,7 +313,8 @@ namespace DbConfigurator.UI.ViewModel
                 RecipientsCc_ListView.Add(value);
                 SelectedDistributionInformation.RecipientsCc.Add(value);
                 var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
-                disInfo?.RecipientsGroup?.RecipientsCc.Add(_dataModel.GetRecipient(value.Id));
+                var recipient = _dataModel.GetRecipient(value.Id);
+                disInfo?.RecipientsGroup?.RecipientsCc.Add(recipient);
                 RecipientsCcComboBox.Remove(value);
                 _selectedRecipientCcComboBox = null;
 
