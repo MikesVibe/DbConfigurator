@@ -48,13 +48,13 @@ namespace DbConfigurator.UI.ViewModel
         public async override Task LoadAsync()
         {
             List<DistributionInformation> distributionInformations = default;
-            //for(int i=1; i<=5; i++)
-            //{
-            //    distributionInformations = _dataModel.DistributionInformations.ToList();
-            //    if (distributionInformations != null)
-            //        break;
-            //    await Task.Delay(100*i);
-            //}
+            for (int i = 1; i <= 5; i++)
+            {
+                distributionInformations = _dataModel.DistributionInformations.ToList();
+                if (distributionInformations != null)
+                    break;
+                await Task.Delay(100 * i);
+            }
             if (distributionInformations == null)
             {
                 DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationDtoWrapper>();
@@ -296,6 +296,8 @@ namespace DbConfigurator.UI.ViewModel
                 SelectedDistributionInformation.RecipientsTo.Add(value);
                 var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
                 disInfo?.RecipientsGroup?.RecipientsTo.Add(_dataModel.GetRecipient(value.Id));
+                RecipientsToComboBox.Remove(value);
+                _selectedRecipientToComboBox = null;
             }
         }
         public Recipient? SelectedRecipientCcComboBox
@@ -311,7 +313,9 @@ namespace DbConfigurator.UI.ViewModel
                 SelectedDistributionInformation.RecipientsCc.Add(value);
                 var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
                 disInfo?.RecipientsGroup?.RecipientsCc.Add(_dataModel.GetRecipient(value.Id));
-                
+                RecipientsCcComboBox.Remove(value);
+                _selectedRecipientCcComboBox = null;
+
             }
         }
         public Recipient? SelectedRecipientToListView
