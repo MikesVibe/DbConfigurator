@@ -122,8 +122,9 @@ namespace DbConfigurator.UI.ViewModel
         {
             if (SelectedRecipientToListView == null)
                 return;
-
-            _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First()?.RecipientsGroup?.RecipientsTo.Remove(SelectedRecipientToListView);
+            var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
+            var recipientToRemove = disInfo?.RecipientsGroup?.RecipientsTo.Where(r => r.Id == SelectedRecipientToListView.Id).First();
+            disInfo?.RecipientsGroup?.RecipientsTo.Remove(recipientToRemove!);
             SelectedDistributionInformation.RecipientsTo.Remove(SelectedRecipientToListView);
             RecipientsTo_ListView.Remove(SelectedRecipientToListView);
             PopulateComboBoxTo();
@@ -141,8 +142,9 @@ namespace DbConfigurator.UI.ViewModel
                 return;
 
             var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
-            disInfo?.RecipientsGroup?.RecipientsCc.Remove(SelectedRecipientCcListView);
-            var result = SelectedDistributionInformation.RecipientsCc.Remove(SelectedRecipientCcListView);
+            var recipientToRemove = disInfo?.RecipientsGroup?.RecipientsCc.Where(r => r.Id == SelectedRecipientCcListView.Id).First();
+            disInfo?.RecipientsGroup?.RecipientsCc.Remove(recipientToRemove!);
+            SelectedDistributionInformation.RecipientsCc.Remove(SelectedRecipientCcListView);
             RecipientsCc_ListView.Remove(SelectedRecipientCcListView);
             PopulateComboBoxCc();
             SelectedRecipientCcListView = null;
