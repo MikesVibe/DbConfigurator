@@ -21,7 +21,7 @@ namespace DbConfigurator.Model
         public string LastName { get; set; }
 
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } 
         public ICollection<RecipientsGroup> RecipientsGroupsTo { get; set; }
         public ICollection<RecipientsGroup> RecipientsGroupsCc { get; set; }
     }

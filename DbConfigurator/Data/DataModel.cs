@@ -44,7 +44,8 @@ namespace DbConfigurator.Model
             BuisnessUnitsDto = AutoMapper.Mapper.Map<List<BuisnessUnitDto>>(await GetAllBuisnessUnitsAsync());
             CountriesDto = AutoMapper.Mapper.Map<List<CountryDto>>(await GetAllCountriesAsync());
             PrioritiesDto = AutoMapper.Mapper.Map<List<PriorityDto>>(await GetAllPrioritiesAsync());
-            //DistributionInformationsDto = AutoMapper.Mapper.Map<List<DistributionInformationDto>>(await GetAllDistributionInformationAsync());
+            RecipientsDto = AutoMapper.Mapper.Map<List<RecipientDto>>(await GetAllRecipientsAsync());
+            DistributionInformationsDto = AutoMapper.Mapper.Map<List<DistributionInformationDto>>(DistributionInformations);
         }
 
         public async Task SaveChangesAsync()
@@ -118,7 +119,7 @@ namespace DbConfigurator.Model
         }
 
 
-        public ICollection<DistributionInformationWithOnlyIdsDto> DistributionInformationsDto { get; private set; }
+        public ICollection<DistributionInformationDto> DistributionInformationsDto { get; private set; }
         public ICollection<AreaDto> AreasDto { get; private set; }
         public ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; private set; }
         public ICollection<CountryDto> CountriesDto { get; private set; }
@@ -191,6 +192,7 @@ namespace DbConfigurator.Model
         }
 
         private AutoMapperConfig AutoMapper { get; set; }
+
 
         private DbConfiguratorDbContext _context;
     }

@@ -26,7 +26,7 @@ namespace DbConfigurator.Model.DTOs
         public string BuisnessUnit { get; set; }
         public string Country { get; set; }
         public string Priority { get; set; }
-        public ObservableCollection<Recipient> RecipientsTo { get; set; } = new ObservableCollection<Recipient>();
-        public ObservableCollection<Recipient> RecipientsCc { get; set; } = new ObservableCollection<Recipient>();
+        public ObservableCollection<RecipientDto> RecipientsTo { get; set; } = new ObservableCollection<RecipientDto>();
+        public ObservableCollection<RecipientDto> RecipientsCc { get; set; } = new ObservableCollection<RecipientDto>();
     }
 }

@@ -96,20 +96,20 @@ namespace DbConfigurator.UI.Wrapper
                 SetValue<string>(value);
             }
         }
-        public ObservableCollection<Recipient> RecipientsTo
+        public ObservableCollection<RecipientDto> RecipientsTo
         {
-            get { return GetValue<ObservableCollection<Recipient>>(); }
+            get { return GetValue<ObservableCollection<RecipientDto>>(); }
             set
             {
-                SetValue<ObservableCollection<Recipient>>(value);
+                SetValue<ObservableCollection<RecipientDto>>(value);
             }
         }
-        public ObservableCollection<Recipient> RecipientsCc
+        public ObservableCollection<RecipientDto> RecipientsCc
         {
-            get { return GetValue<ObservableCollection<Recipient>>(); }
+            get { return GetValue<ObservableCollection<RecipientDto>>(); }
             set
             {
-                SetValue<ObservableCollection<Recipient>>(value);
+                SetValue<ObservableCollection<RecipientDto>>(value);
             }
         }
     }
