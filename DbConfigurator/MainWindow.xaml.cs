@@ -20,12 +20,14 @@ namespace DbConfigurator.UI
     {
         private MainViewModel _viewModel;
         private IDataModel _dataModel;
+        private readonly ISeeder _seeder;
 
         //private IDistributionInformationRepository? _repository;
 
-        public MainWindow(MainViewModel viewModel, IDataModel dataModel)
+        public MainWindow(MainViewModel viewModel, IDataModel dataModel, ISeeder seeder)
         {
             InitializeComponent();
+            _seeder = seeder;
             _viewModel = viewModel;
             _dataModel = dataModel;
             DataContext = _viewModel;
@@ -34,6 +36,7 @@ namespace DbConfigurator.UI
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            await _seeder.Seed();
             await _viewModel.LoadAsync();
         }
 
