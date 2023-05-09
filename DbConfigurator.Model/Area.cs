@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.Model
 {
-    public class Area : IRegion
+    public class Area
     {
         [Required]
         public int Id { get; set; }
