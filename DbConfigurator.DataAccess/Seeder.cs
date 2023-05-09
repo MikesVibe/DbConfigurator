@@ -21,35 +21,34 @@ namespace DbConfigurator.DataAccess
 
         public async Task Seed()
         {
-            if (_dbConfiguratorDbContext.Set<Area>().Any())
-                return;
+            //if (_dbConfiguratorDbContext.Set<Area>().Any())
+            //    return;
 
 
+            //await _dbConfiguratorDbContext.Set<Recipient>().AddRangeAsync(
+            //                   new Recipient
+            //                   {
+            //                       FirstName = "John",
+            //                       LastName = "Doe",
+            //                       Email = "John.Doe@company.net"
+            //                   }, new Recipient
+            //                   {
+            //                       FirstName = "Josh",
+            //                       LastName = "Smith",
+            //                       Email = "Josh.Smith@company.net"
+            //                   }
+            //        );
 
+            //int[] AreaIds = { 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 1, 2, 3, 4, 5, 99 };
+            //int[] BuisnessUnitIds = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 99, 99, 99, 99, 99, 99 };
 
-            await _dbConfiguratorDbContext.Set<Recipient>().AddRangeAsync(
-                               new Recipient
-                               {
-                                   FirstName = "John",
-                                   LastName = "Doe",
-                                   Email = "John.Doe@company.net"
-                               }, new Recipient
-                               {
-                                   FirstName = "Josh",
-                                   LastName = "Smith",
-                                   Email = "Josh.Smith@company.net"
-                               }
-                    );
+            //for (int i=0; i<AreaIds.Count(); i++)
+            //{
+            //    var businessUnit = _dbConfiguratorDbContext.Set<BuisnessUnit>().Where(bu => bu.Id == BuisnessUnitIds[i]).First()!;
 
-            List<string> priorityNames = new List<string>() { "P1", "P2", "P3", "P4", "Any" };
-            foreach (string priorityName in priorityNames)
-            {
-                await _dbConfiguratorDbContext.Set<Priority>().AddRangeAsync(
-                    new Priority
-                    {
-                        Name = priorityName
-                    });
-            }
+            //    _dbConfiguratorDbContext.Set<Area>().Where(a => a.Id == AreaIds[i]).First().BuisnessUnits.Add(businessUnit);
+
+            //}
 
 
             await _dbConfiguratorDbContext.SaveChangesAsync();

@@ -359,6 +359,18 @@ namespace DbConfigurator.DataAccess.Migrations
                     { 99, "ANY", "ANY" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Priority",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "P1" },
+                    { 2, "P2" },
+                    { 3, "P3" },
+                    { 4, "P4" },
+                    { 99, "ANY" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AreaBuisnessUnit_BuisnessUnitsId",
                 table: "AreaBuisnessUnit",

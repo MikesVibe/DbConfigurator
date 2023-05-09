@@ -765,6 +765,33 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Priority");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "P1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "P2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "P3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "P4"
+                        },
+                        new
+                        {
+                            Id = 99,
+                            Name = "ANY"
+                        });
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.Recipient", b =>

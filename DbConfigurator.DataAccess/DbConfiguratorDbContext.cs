@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
 
@@ -43,47 +44,51 @@ namespace DbConfigurator.DataAccess
                 .UsingEntity(j => j.ToTable("RecipientsGroupCc"));
 
 
-            var bUData = new BUData();
+            var bUData = new GenericDataForTabels();
             foreach (var area in bUData.Areas.ToList())
             {
-                modelBuilder.Entity<Area>().HasData(area);
+                modelBuilder.Entity<Area>().HasData(
+                    new Area
+                    {
+                        Id = area.Id,
+                        Name = area.Name
+                    });
             }
 
             foreach (var buisnessUnit in bUData.BuisnessUnits.ToList())
             {
-                modelBuilder.Entity<BuisnessUnit>().HasData(buisnessUnit);
+                modelBuilder.Entity<BuisnessUnit>().HasData(
+                    new BuisnessUnit
+                    {
+                        Id = buisnessUnit.Id,
+                        Name = buisnessUnit.Name
+                    });
             }
 
             foreach (var country in bUData.Countries.ToList())
             {
-                modelBuilder.Entity<Country>().HasData(country);
+                modelBuilder.Entity<Country>().HasData(
+                    new Country
+                    {
+                        Id = country.Id,
+                        Name = country.Name,
+                        ShortCode = country.ShortCode
+                    });
             }
 
-                //await _dbConfiguratorDbContext.Set<Recipient>().AddRangeAsync(
-                //                   new Recipient
-                //                   {
-                //                       FirstName = "John",
-                //                       LastName = "Doe",
-                //                       Email = "John.Doe@company.net"
-                //                   }, new Recipient
-                //                   {
-                //                       FirstName = "Josh",
-                //                       LastName = "Smith",
-                //                       Email = "Josh.Smith@company.net"
-                //                   }
-                //        );
+            foreach (var priority in bUData.Priorities.ToList())
+            {
+                modelBuilder.Entity<Priority>().HasData(
+                    new Priority 
+                    { 
+                        Id = priority.Id,
+                        Name = priority.Name
+                    });
+            }
 
-                //List<string> priorityNames = new List<string>() { "P1", "P2", "P3", "P4", "Any" };
-                //foreach (string priorityName in priorityNames)
-                //{
-                //    await _dbConfiguratorDbContext.Set<Priority>().AddRangeAsync(
-                //        new Priority
-                //        {
-                //            Name = priorityName
-                //        });
-                //}
 
-                base.OnModelCreating(modelBuilder);
+
+            base.OnModelCreating(modelBuilder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
