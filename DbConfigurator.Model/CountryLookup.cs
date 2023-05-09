@@ -14,6 +14,8 @@ namespace DbConfigurator.Model
                 return;
             _countryModel = countryModel;
 
+            //
+            //throw new Exception("Change this class to DTO");
             try
             {
                 Id = countryModel.Id;
@@ -25,9 +27,9 @@ namespace DbConfigurator.Model
                 Country = countryModel.Name;
                 CountryId = countryModel.Id;
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
-            
+
             }
 
 

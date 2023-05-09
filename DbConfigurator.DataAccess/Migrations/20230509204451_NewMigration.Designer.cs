@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbConfigurator.DataAccess.Migrations
 {
     [DbContext(typeof(DbConfiguratorDbContext))]
-    [Migration("20230509185656_NewMigration")]
+    [Migration("20230509204451_NewMigration")]
     partial class NewMigration
     {
         /// <inheritdoc />
@@ -24,36 +24,6 @@ namespace DbConfigurator.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("AreaBuisnessUnit", b =>
-                {
-                    b.Property<int>("AreasId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BuisnessUnitsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AreasId", "BuisnessUnitsId");
-
-                    b.HasIndex("BuisnessUnitsId");
-
-                    b.ToTable("AreaBuisnessUnit");
-                });
-
-            modelBuilder.Entity("BuisnessUnitCountry", b =>
-                {
-                    b.Property<int>("BuisnessUnitsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CountriesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BuisnessUnitsId", "CountriesId");
-
-                    b.HasIndex("CountriesId");
-
-                    b.ToTable("BuisnessUnitCountry");
-                });
 
             modelBuilder.Entity("DbConfigurator.Model.Area", b =>
                 {
@@ -102,6 +72,145 @@ namespace DbConfigurator.DataAccess.Migrations
                         {
                             Id = 99,
                             Name = "ANY"
+                        });
+                });
+
+            modelBuilder.Entity("DbConfigurator.Model.AreaBuisnessUnit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AreaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BuisnessUnitId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AreaId");
+
+                    b.HasIndex("BuisnessUnitId");
+
+                    b.ToTable("AreaBuisnessUnit");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AreaId = 1,
+                            BuisnessUnitId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AreaId = 1,
+                            BuisnessUnitId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AreaId = 2,
+                            BuisnessUnitId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AreaId = 2,
+                            BuisnessUnitId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AreaId = 3,
+                            BuisnessUnitId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AreaId = 3,
+                            BuisnessUnitId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AreaId = 3,
+                            BuisnessUnitId = 7
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AreaId = 4,
+                            BuisnessUnitId = 8
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AreaId = 4,
+                            BuisnessUnitId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AreaId = 4,
+                            BuisnessUnitId = 10
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AreaId = 5,
+                            BuisnessUnitId = 11
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AreaId = 5,
+                            BuisnessUnitId = 12
+                        },
+                        new
+                        {
+                            Id = 13,
+                            AreaId = 5,
+                            BuisnessUnitId = 13
+                        },
+                        new
+                        {
+                            Id = 14,
+                            AreaId = 1,
+                            BuisnessUnitId = 99
+                        },
+                        new
+                        {
+                            Id = 15,
+                            AreaId = 2,
+                            BuisnessUnitId = 99
+                        },
+                        new
+                        {
+                            Id = 16,
+                            AreaId = 3,
+                            BuisnessUnitId = 99
+                        },
+                        new
+                        {
+                            Id = 17,
+                            AreaId = 4,
+                            BuisnessUnitId = 99
+                        },
+                        new
+                        {
+                            Id = 18,
+                            AreaId = 5,
+                            BuisnessUnitId = 99
+                        },
+                        new
+                        {
+                            Id = 19,
+                            AreaId = 99,
+                            BuisnessUnitId = 99
                         });
                 });
 
@@ -192,6 +301,601 @@ namespace DbConfigurator.DataAccess.Migrations
                         {
                             Id = 99,
                             Name = "ANY"
+                        });
+                });
+
+            modelBuilder.Entity("DbConfigurator.Model.BuisnessUnitCountry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BuisnessUnitId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuisnessUnitId");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("BuisnessUnitCountry");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BuisnessUnitId = 1,
+                            CountryId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BuisnessUnitId = 1,
+                            CountryId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BuisnessUnitId = 1,
+                            CountryId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BuisnessUnitId = 1,
+                            CountryId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BuisnessUnitId = 1,
+                            CountryId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BuisnessUnitId = 2,
+                            CountryId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BuisnessUnitId = 2,
+                            CountryId = 7
+                        },
+                        new
+                        {
+                            Id = 8,
+                            BuisnessUnitId = 2,
+                            CountryId = 8
+                        },
+                        new
+                        {
+                            Id = 9,
+                            BuisnessUnitId = 2,
+                            CountryId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            BuisnessUnitId = 2,
+                            CountryId = 10
+                        },
+                        new
+                        {
+                            Id = 11,
+                            BuisnessUnitId = 2,
+                            CountryId = 11
+                        },
+                        new
+                        {
+                            Id = 12,
+                            BuisnessUnitId = 2,
+                            CountryId = 12
+                        },
+                        new
+                        {
+                            Id = 13,
+                            BuisnessUnitId = 3,
+                            CountryId = 13
+                        },
+                        new
+                        {
+                            Id = 14,
+                            BuisnessUnitId = 4,
+                            CountryId = 14
+                        },
+                        new
+                        {
+                            Id = 15,
+                            BuisnessUnitId = 4,
+                            CountryId = 15
+                        },
+                        new
+                        {
+                            Id = 16,
+                            BuisnessUnitId = 4,
+                            CountryId = 16
+                        },
+                        new
+                        {
+                            Id = 17,
+                            BuisnessUnitId = 4,
+                            CountryId = 17
+                        },
+                        new
+                        {
+                            Id = 18,
+                            BuisnessUnitId = 4,
+                            CountryId = 18
+                        },
+                        new
+                        {
+                            Id = 19,
+                            BuisnessUnitId = 4,
+                            CountryId = 19
+                        },
+                        new
+                        {
+                            Id = 20,
+                            BuisnessUnitId = 4,
+                            CountryId = 20
+                        },
+                        new
+                        {
+                            Id = 21,
+                            BuisnessUnitId = 4,
+                            CountryId = 21
+                        },
+                        new
+                        {
+                            Id = 22,
+                            BuisnessUnitId = 4,
+                            CountryId = 22
+                        },
+                        new
+                        {
+                            Id = 23,
+                            BuisnessUnitId = 4,
+                            CountryId = 23
+                        },
+                        new
+                        {
+                            Id = 24,
+                            BuisnessUnitId = 4,
+                            CountryId = 24
+                        },
+                        new
+                        {
+                            Id = 25,
+                            BuisnessUnitId = 4,
+                            CountryId = 25
+                        },
+                        new
+                        {
+                            Id = 26,
+                            BuisnessUnitId = 4,
+                            CountryId = 26
+                        },
+                        new
+                        {
+                            Id = 27,
+                            BuisnessUnitId = 4,
+                            CountryId = 27
+                        },
+                        new
+                        {
+                            Id = 28,
+                            BuisnessUnitId = 4,
+                            CountryId = 28
+                        },
+                        new
+                        {
+                            Id = 29,
+                            BuisnessUnitId = 4,
+                            CountryId = 29
+                        },
+                        new
+                        {
+                            Id = 30,
+                            BuisnessUnitId = 5,
+                            CountryId = 30
+                        },
+                        new
+                        {
+                            Id = 31,
+                            BuisnessUnitId = 5,
+                            CountryId = 31
+                        },
+                        new
+                        {
+                            Id = 32,
+                            BuisnessUnitId = 5,
+                            CountryId = 32
+                        },
+                        new
+                        {
+                            Id = 33,
+                            BuisnessUnitId = 5,
+                            CountryId = 33
+                        },
+                        new
+                        {
+                            Id = 34,
+                            BuisnessUnitId = 5,
+                            CountryId = 34
+                        },
+                        new
+                        {
+                            Id = 35,
+                            BuisnessUnitId = 5,
+                            CountryId = 35
+                        },
+                        new
+                        {
+                            Id = 36,
+                            BuisnessUnitId = 5,
+                            CountryId = 36
+                        },
+                        new
+                        {
+                            Id = 37,
+                            BuisnessUnitId = 6,
+                            CountryId = 37
+                        },
+                        new
+                        {
+                            Id = 38,
+                            BuisnessUnitId = 6,
+                            CountryId = 38
+                        },
+                        new
+                        {
+                            Id = 39,
+                            BuisnessUnitId = 6,
+                            CountryId = 39
+                        },
+                        new
+                        {
+                            Id = 40,
+                            BuisnessUnitId = 6,
+                            CountryId = 40
+                        },
+                        new
+                        {
+                            Id = 41,
+                            BuisnessUnitId = 6,
+                            CountryId = 41
+                        },
+                        new
+                        {
+                            Id = 42,
+                            BuisnessUnitId = 6,
+                            CountryId = 42
+                        },
+                        new
+                        {
+                            Id = 43,
+                            BuisnessUnitId = 6,
+                            CountryId = 43
+                        },
+                        new
+                        {
+                            Id = 44,
+                            BuisnessUnitId = 6,
+                            CountryId = 44
+                        },
+                        new
+                        {
+                            Id = 45,
+                            BuisnessUnitId = 6,
+                            CountryId = 45
+                        },
+                        new
+                        {
+                            Id = 46,
+                            BuisnessUnitId = 6,
+                            CountryId = 46
+                        },
+                        new
+                        {
+                            Id = 47,
+                            BuisnessUnitId = 6,
+                            CountryId = 47
+                        },
+                        new
+                        {
+                            Id = 48,
+                            BuisnessUnitId = 6,
+                            CountryId = 48
+                        },
+                        new
+                        {
+                            Id = 49,
+                            BuisnessUnitId = 6,
+                            CountryId = 49
+                        },
+                        new
+                        {
+                            Id = 50,
+                            BuisnessUnitId = 7,
+                            CountryId = 50
+                        },
+                        new
+                        {
+                            Id = 51,
+                            BuisnessUnitId = 8,
+                            CountryId = 51
+                        },
+                        new
+                        {
+                            Id = 52,
+                            BuisnessUnitId = 8,
+                            CountryId = 52
+                        },
+                        new
+                        {
+                            Id = 53,
+                            BuisnessUnitId = 8,
+                            CountryId = 53
+                        },
+                        new
+                        {
+                            Id = 54,
+                            BuisnessUnitId = 8,
+                            CountryId = 54
+                        },
+                        new
+                        {
+                            Id = 55,
+                            BuisnessUnitId = 8,
+                            CountryId = 55
+                        },
+                        new
+                        {
+                            Id = 56,
+                            BuisnessUnitId = 8,
+                            CountryId = 56
+                        },
+                        new
+                        {
+                            Id = 57,
+                            BuisnessUnitId = 8,
+                            CountryId = 57
+                        },
+                        new
+                        {
+                            Id = 58,
+                            BuisnessUnitId = 8,
+                            CountryId = 58
+                        },
+                        new
+                        {
+                            Id = 59,
+                            BuisnessUnitId = 8,
+                            CountryId = 59
+                        },
+                        new
+                        {
+                            Id = 60,
+                            BuisnessUnitId = 8,
+                            CountryId = 60
+                        },
+                        new
+                        {
+                            Id = 61,
+                            BuisnessUnitId = 8,
+                            CountryId = 61
+                        },
+                        new
+                        {
+                            Id = 62,
+                            BuisnessUnitId = 8,
+                            CountryId = 62
+                        },
+                        new
+                        {
+                            Id = 63,
+                            BuisnessUnitId = 9,
+                            CountryId = 63
+                        },
+                        new
+                        {
+                            Id = 64,
+                            BuisnessUnitId = 9,
+                            CountryId = 64
+                        },
+                        new
+                        {
+                            Id = 65,
+                            BuisnessUnitId = 9,
+                            CountryId = 65
+                        },
+                        new
+                        {
+                            Id = 66,
+                            BuisnessUnitId = 9,
+                            CountryId = 66
+                        },
+                        new
+                        {
+                            Id = 67,
+                            BuisnessUnitId = 9,
+                            CountryId = 67
+                        },
+                        new
+                        {
+                            Id = 68,
+                            BuisnessUnitId = 9,
+                            CountryId = 68
+                        },
+                        new
+                        {
+                            Id = 69,
+                            BuisnessUnitId = 9,
+                            CountryId = 69
+                        },
+                        new
+                        {
+                            Id = 70,
+                            BuisnessUnitId = 9,
+                            CountryId = 70
+                        },
+                        new
+                        {
+                            Id = 71,
+                            BuisnessUnitId = 9,
+                            CountryId = 71
+                        },
+                        new
+                        {
+                            Id = 72,
+                            BuisnessUnitId = 10,
+                            CountryId = 72
+                        },
+                        new
+                        {
+                            Id = 73,
+                            BuisnessUnitId = 10,
+                            CountryId = 73
+                        },
+                        new
+                        {
+                            Id = 74,
+                            BuisnessUnitId = 11,
+                            CountryId = 74
+                        },
+                        new
+                        {
+                            Id = 75,
+                            BuisnessUnitId = 12,
+                            CountryId = 75
+                        },
+                        new
+                        {
+                            Id = 76,
+                            BuisnessUnitId = 12,
+                            CountryId = 76
+                        },
+                        new
+                        {
+                            Id = 77,
+                            BuisnessUnitId = 12,
+                            CountryId = 77
+                        },
+                        new
+                        {
+                            Id = 78,
+                            BuisnessUnitId = 13,
+                            CountryId = 78
+                        },
+                        new
+                        {
+                            Id = 79,
+                            BuisnessUnitId = 13,
+                            CountryId = 79
+                        },
+                        new
+                        {
+                            Id = 80,
+                            BuisnessUnitId = 13,
+                            CountryId = 80
+                        },
+                        new
+                        {
+                            Id = 81,
+                            BuisnessUnitId = 13,
+                            CountryId = 81
+                        },
+                        new
+                        {
+                            Id = 82,
+                            BuisnessUnitId = 1,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 83,
+                            BuisnessUnitId = 2,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 84,
+                            BuisnessUnitId = 3,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 85,
+                            BuisnessUnitId = 4,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 86,
+                            BuisnessUnitId = 5,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 87,
+                            BuisnessUnitId = 6,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 88,
+                            BuisnessUnitId = 7,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 89,
+                            BuisnessUnitId = 8,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 90,
+                            BuisnessUnitId = 9,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 91,
+                            BuisnessUnitId = 10,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 92,
+                            BuisnessUnitId = 11,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 93,
+                            BuisnessUnitId = 12,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 94,
+                            BuisnessUnitId = 13,
+                            CountryId = 99
+                        },
+                        new
+                        {
+                            Id = 95,
+                            BuisnessUnitId = 99,
+                            CountryId = 99
                         });
                 });
 
@@ -872,34 +1576,42 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.ToTable("RecipientsGroupCc", (string)null);
                 });
 
-            modelBuilder.Entity("AreaBuisnessUnit", b =>
+            modelBuilder.Entity("DbConfigurator.Model.AreaBuisnessUnit", b =>
                 {
-                    b.HasOne("DbConfigurator.Model.Area", null)
+                    b.HasOne("DbConfigurator.Model.Area", "Area")
                         .WithMany()
-                        .HasForeignKey("AreasId")
+                        .HasForeignKey("AreaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DbConfigurator.Model.BuisnessUnit", null)
+                    b.HasOne("DbConfigurator.Model.BuisnessUnit", "BuisnessUnit")
                         .WithMany()
-                        .HasForeignKey("BuisnessUnitsId")
+                        .HasForeignKey("BuisnessUnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Area");
+
+                    b.Navigation("BuisnessUnit");
                 });
 
-            modelBuilder.Entity("BuisnessUnitCountry", b =>
+            modelBuilder.Entity("DbConfigurator.Model.BuisnessUnitCountry", b =>
                 {
-                    b.HasOne("DbConfigurator.Model.BuisnessUnit", null)
+                    b.HasOne("DbConfigurator.Model.BuisnessUnit", "BuisnessUnit")
                         .WithMany()
-                        .HasForeignKey("BuisnessUnitsId")
+                        .HasForeignKey("BuisnessUnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DbConfigurator.Model.Country", null)
+                    b.HasOne("DbConfigurator.Model.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountriesId")
+                        .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("BuisnessUnit");
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.DistributionInformation", b =>

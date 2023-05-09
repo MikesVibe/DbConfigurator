@@ -21,8 +21,8 @@ namespace DbConfigurator.DataAccess
 
         public async Task Seed()
         {
-            //if (_dbConfiguratorDbContext.Set<Area>().Any())
-            //    return;
+            if (_dbConfiguratorDbContext.Set<Area>().Any())
+                return;
 
 
             //await _dbConfiguratorDbContext.Set<Recipient>().AddRangeAsync(
@@ -42,16 +42,20 @@ namespace DbConfigurator.DataAccess
             //int[] AreaIds = { 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 1, 2, 3, 4, 5, 99 };
             //int[] BuisnessUnitIds = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 99, 99, 99, 99, 99, 99 };
 
-            //for (int i=0; i<AreaIds.Count(); i++)
+            //for (int i = 0; i < AreaIds.Count(); i++)
             //{
-            //    var businessUnit = _dbConfiguratorDbContext.Set<BuisnessUnit>().Where(bu => bu.Id == BuisnessUnitIds[i]).First()!;
+            //    var businessUnit = _dbConfiguratorDbContext.AreaBuisnessUnit.Add(
+            //        new AreaBuisnessUnit 
+            //        {
+            //            AreaId = AreaIds[i],
+            //            BuisnessUnitId = BuisnessUnitIds[i]
+            //        });
 
-            //    _dbConfiguratorDbContext.Set<Area>().Where(a => a.Id == AreaIds[i]).First().BuisnessUnits.Add(businessUnit);
 
             //}
 
 
-            await _dbConfiguratorDbContext.SaveChangesAsync();
+            //await _dbConfiguratorDbContext.SaveChangesAsync();
         }
     }
 }
