@@ -2,6 +2,8 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace DbConfigurator.DataAccess.Migrations
 {
     /// <inheritdoc />
@@ -232,6 +234,129 @@ namespace DbConfigurator.DataAccess.Migrations
                         principalTable: "RecipientsGroup",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Area",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Americas" },
+                    { 2, "Central Europe" },
+                    { 3, "Growing Markets" },
+                    { 4, "Northern Europe" },
+                    { 5, "Southern Europe" },
+                    { 99, "ANY" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "BuisnessUnit",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "NAO" },
+                    { 2, "SAM" },
+                    { 3, "GER" },
+                    { 4, "CEE" },
+                    { 5, "MEK" },
+                    { 6, "AFR" },
+                    { 7, "IND" },
+                    { 8, "APAC" },
+                    { 9, "BTN" },
+                    { 10, "UK&I" },
+                    { 11, "ITA" },
+                    { 12, "IBE" },
+                    { 13, "FRA" },
+                    { 99, "ANY" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Country",
+                columns: new[] { "Id", "Name", "ShortCode" },
+                values: new object[,]
+                {
+                    { 1, "Canada", "CA" },
+                    { 2, "Guatemala", "GT" },
+                    { 3, "Mexico", "MX" },
+                    { 4, "Puerto Rico", "PR" },
+                    { 5, "USA", "US" },
+                    { 6, "Argentina", "AR" },
+                    { 7, "Brazil", "BR" },
+                    { 8, "Chile", "CL" },
+                    { 9, "Colombia", "CO" },
+                    { 10, "Peru", "PE" },
+                    { 11, "Uruguay", "UY" },
+                    { 12, "Venezuela", "VE" },
+                    { 13, "Germany", "DE" },
+                    { 14, "Poland", "PL" },
+                    { 15, "Russian Federation", "RU" },
+                    { 16, "Austria", "AT" },
+                    { 17, "Bulgaria", "BG" },
+                    { 18, "Switzerland", "CH" },
+                    { 19, "Cyprus", "CY" },
+                    { 20, "Czech Republic", "CZ" },
+                    { 21, "Greece", "GR" },
+                    { 22, "Croatia", "HR" },
+                    { 23, "Hungary", "HU" },
+                    { 24, "Israel", "IL" },
+                    { 25, "Kasakhstan", "KZ" },
+                    { 26, "Romania", "RO" },
+                    { 27, "Serbia", "RS" },
+                    { 28, "Slovakia", "SK" },
+                    { 29, "Ukraine", "UA" },
+                    { 30, "United Arab Emirates", "AE" },
+                    { 31, "Egypt", "EG" },
+                    { 32, "Iran", "IR" },
+                    { 33, "Lebanon", "LB" },
+                    { 34, "Qatar", "QA" },
+                    { 35, "Saudi Arabia", "SA" },
+                    { 36, "Turkey", "TR" },
+                    { 37, "Burkina Faso", "BF" },
+                    { 38, "Benin", "BJ" },
+                    { 39, "Cote d'Ivoire", "CI" },
+                    { 40, "Algeria", "DZ" },
+                    { 41, "Gabon", "GA" },
+                    { 42, "Ivory Coast", "CI" },
+                    { 43, "Morocco", "MA" },
+                    { 44, "Madagascar", "MG" },
+                    { 45, "Mali", "ML" },
+                    { 46, "Mauritius", "MU" },
+                    { 47, "Senegal", "SN" },
+                    { 48, "Tunisia", "TN" },
+                    { 49, "South Africa", "ZA" },
+                    { 50, "India", "IN" },
+                    { 51, "Australia", "AU" },
+                    { 52, "People Rep China", "CN" },
+                    { 53, "Hong Kong", "HK" },
+                    { 54, "Indonesia", "ID" },
+                    { 55, "Japan", "JP" },
+                    { 56, "Korea", "KR" },
+                    { 57, "Malaysia", "MY" },
+                    { 58, "New Zealand", "NZ" },
+                    { 59, "Philippines", "PH" },
+                    { 60, "Singapore", "SG" },
+                    { 61, "Thailand", "TH" },
+                    { 62, "Taiwan", "TW" },
+                    { 63, "Belgium", "BE" },
+                    { 64, "Denmark", "DK" },
+                    { 65, "Estonia", "EE" },
+                    { 66, "Finland", "FI" },
+                    { 67, "Lithuania", "LT" },
+                    { 68, "Luxembourg", "LU" },
+                    { 69, "Netherlands", "NL" },
+                    { 70, "Norway", "NO" },
+                    { 71, "Sweden", "SE" },
+                    { 72, "United Kingdom", "GB" },
+                    { 73, "Ireland", "IE" },
+                    { 74, "Italy", "IT" },
+                    { 75, "Andorra", "AD" },
+                    { 76, "Spain", "ES" },
+                    { 77, "Portugal", "PT" },
+                    { 78, "France", "FR" },
+                    { 79, "Morocco", "MA" },
+                    { 80, "New Caledonia", "NC" },
+                    { 81, "French Polynesia", "PF" },
+                    { 99, "ANY", "ANY" }
                 });
 
             migrationBuilder.CreateIndex(

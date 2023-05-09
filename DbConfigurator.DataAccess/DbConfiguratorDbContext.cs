@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Linq;
+using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
 
 namespace DbConfigurator.DataAccess
 {
@@ -41,17 +42,54 @@ namespace DbConfigurator.DataAccess
                 .WithMany(r => r.RecipientsGroupsCc)
                 .UsingEntity(j => j.ToTable("RecipientsGroupCc"));
 
-            base.OnModelCreating(modelBuilder);
+
+            var bUData = new BUData();
+            foreach (var area in bUData.Areas.ToList())
+            {
+                modelBuilder.Entity<Area>().HasData(area);
+            }
+
+            foreach (var buisnessUnit in bUData.BuisnessUnits.ToList())
+            {
+                modelBuilder.Entity<BuisnessUnit>().HasData(buisnessUnit);
+            }
+
+            foreach (var country in bUData.Countries.ToList())
+            {
+                modelBuilder.Entity<Country>().HasData(country);
+            }
+
+                //await _dbConfiguratorDbContext.Set<Recipient>().AddRangeAsync(
+                //                   new Recipient
+                //                   {
+                //                       FirstName = "John",
+                //                       LastName = "Doe",
+                //                       Email = "John.Doe@company.net"
+                //                   }, new Recipient
+                //                   {
+                //                       FirstName = "Josh",
+                //                       LastName = "Smith",
+                //                       Email = "Josh.Smith@company.net"
+                //                   }
+                //        );
+
+                //List<string> priorityNames = new List<string>() { "P1", "P2", "P3", "P4", "Any" };
+                //foreach (string priorityName in priorityNames)
+                //{
+                //    await _dbConfiguratorDbContext.Set<Priority>().AddRangeAsync(
+                //        new Priority
+                //        {
+                //            Name = priorityName
+                //        });
+                //}
+
+                base.OnModelCreating(modelBuilder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DbConfiguration"].ConnectionString);
             optionsBuilder.EnableSensitiveDataLogging();
-
-
-
-            //optionsBuilder.UseSqlServer("server=\"MIKI-PC\\SQLEXPRESS01\";database=\"DbConfiguration\";trusted_connection=true;Integrated Security=True;Encrypt=False");
         }
     }
 }

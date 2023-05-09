@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
@@ -23,46 +24,9 @@ namespace DbConfigurator.DataAccess
             if (_dbConfiguratorDbContext.Set<Area>().Any())
                 return;
 
-            List<Area> areasTable = new List<Area>();
-            List<BuisnessUnit> buisnessUnitsTable = new List<BuisnessUnit>();
-
-            var temp = new BUData();
-            var gbuData = temp.GetBUData();
 
 
-            //Seed Area table in DataBase
-            var gbuArea = gbuData.Area.Distinct().ToList();
-            for (int i = 1; i <= gbuArea.Count; i++)
-            {
-                await _dbConfiguratorDbContext.Set<Area>().AddAsync(new Area { Name = gbuArea[i - 1] });
-            }
 
-            //Seed BuisnessUnits table in DataBase
-            List<string> gbuBuisnessUnit = gbuData.CountryCluster.Distinct().ToList();
-
-            for (int i = 1; i <= gbuBuisnessUnit.Count; i++)
-            {
-                await _dbConfiguratorDbContext.Set<BuisnessUnit>().AddAsync(
-                        new BuisnessUnit
-                        {
-                            Name = gbuBuisnessUnit[i - 1]
-                        });
-            }
-
-            ////Seed Country table in DataBase
-            var gbuCountry = gbuData.Country.ToList();
-            var gbuCountryCode = gbuData.CountryCode.ToList();
-
-
-            for (int i = 1; i <= gbuCountryCode.Count; i++)
-            {
-                await _dbConfiguratorDbContext.Set<Country>().AddAsync(
-                       new Country
-                       {
-                           Name = gbuCountry[i - 1],
-                           ShortCode = gbuCountryCode[i - 1]
-                       });
-            }
             await _dbConfiguratorDbContext.Set<Recipient>().AddRangeAsync(
                                new Recipient
                                {
