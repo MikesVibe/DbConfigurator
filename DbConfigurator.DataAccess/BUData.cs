@@ -31,14 +31,10 @@ namespace DbConfigurator.DataAccess
 
             public BUData GetBUData()
             {
-                string startupPath = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
-
-                //string startupPath = "./SeedingData/";
-                string fileName = "DbConfigurator.DataAccess/SeedingData/CountrysData.csv";
-                string fullPath = Path.Combine(startupPath, fileName);
+                string fileName = "./SeedingData/CountrysData.csv";
 
                 BUData bUDatas = new BUData();
-                using (var reader = new StreamReader(fullPath))
+                using (var reader = new StreamReader(fileName))
                 {
                     while (!reader.EndOfStream)
                     {
