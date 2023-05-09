@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model
 {
-    public class BuisnessUnit
+    public class BuisnessUnit : IRegion
     {
         [Required]
         public int Id { get; set; }

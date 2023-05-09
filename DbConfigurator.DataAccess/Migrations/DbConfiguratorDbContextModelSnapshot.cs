@@ -94,6 +94,11 @@ namespace DbConfigurator.DataAccess.Migrations
                         {
                             Id = 5,
                             Name = "Southern Europe"
+                        },
+                        new
+                        {
+                            Id = 99,
+                            Name = "ANY"
                         });
                 });
 
@@ -179,6 +184,11 @@ namespace DbConfigurator.DataAccess.Migrations
                         {
                             Id = 13,
                             Name = "FRA"
+                        },
+                        new
+                        {
+                            Id = 99,
+                            Name = "ANY"
                         });
                 });
 
@@ -690,6 +700,12 @@ namespace DbConfigurator.DataAccess.Migrations
                             Id = 81,
                             Name = "French Polynesia",
                             ShortCode = "PF"
+                        },
+                        new
+                        {
+                            Id = 99,
+                            Name = "ANY",
+                            ShortCode = "ANY"
                         });
                 });
 
@@ -749,33 +765,6 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Priority");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "P1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "P2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "P3"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "P4"
-                        },
-                        new
-                        {
-                            Id = 99,
-                            Name = "Any"
-                        });
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.Recipient", b =>
@@ -801,22 +790,6 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Recipient");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "John.Doe@company.net",
-                            FirstName = "John",
-                            LastName = "Doe"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "Josh.Smith@company.net",
-                            FirstName = "Josh",
-                            LastName = "Smith"
-                        });
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.RecipientsGroup", b =>

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.UI", "DbConf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.Model", "DbConfigurator.Model\DbConfigurator.Model.csproj", "{34AAA02D-8975-4DA7-8D7B-1BBE06B4A5EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbConfigurator.DataAccess", "DbConfigurator.DataAccess\DbConfigurator.DataAccess.csproj", "{B7912BE8-2794-4E58-86B9-E0217A0CDBE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.DataAccess", "DbConfigurator.DataAccess\DbConfigurator.DataAccess.csproj", "{B7912BE8-2794-4E58-86B9-E0217A0CDBE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

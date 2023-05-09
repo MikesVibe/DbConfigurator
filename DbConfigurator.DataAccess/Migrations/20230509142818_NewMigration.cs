@@ -245,7 +245,8 @@ namespace DbConfigurator.DataAccess.Migrations
                     { 2, "Central Europe" },
                     { 3, "Growing Markets" },
                     { 4, "Northern Europe" },
-                    { 5, "Southern Europe" }
+                    { 5, "Southern Europe" },
+                    { 99, "ANY" }
                 });
 
             migrationBuilder.InsertData(
@@ -265,7 +266,8 @@ namespace DbConfigurator.DataAccess.Migrations
                     { 10, "UK&I" },
                     { 11, "ITA" },
                     { 12, "IBE" },
-                    { 13, "FRA" }
+                    { 13, "FRA" },
+                    { 99, "ANY" }
                 });
 
             migrationBuilder.InsertData(
@@ -353,28 +355,8 @@ namespace DbConfigurator.DataAccess.Migrations
                     { 78, "France", "FR" },
                     { 79, "Morocco", "MA" },
                     { 80, "New Caledonia", "NC" },
-                    { 81, "French Polynesia", "PF" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Priority",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "P1" },
-                    { 2, "P2" },
-                    { 3, "P3" },
-                    { 4, "P4" },
-                    { 99, "Any" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Recipient",
-                columns: new[] { "Id", "Email", "FirstName", "LastName" },
-                values: new object[,]
-                {
-                    { 1, "John.Doe@company.net", "John", "Doe" },
-                    { 2, "Josh.Smith@company.net", "Josh", "Smith" }
+                    { 81, "French Polynesia", "PF" },
+                    { 99, "ANY", "ANY" }
                 });
 
             migrationBuilder.CreateIndex(

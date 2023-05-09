@@ -1,55 +1,73 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper.Configuration;
+using DbConfigurator.Model;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Headers;
 
 namespace DbConfigurator.DataAccess
 {
-    public partial class DbConfiguratorDbContext
+    public class BUData
     {
-        public class BUData
+        public List<Area> Areas { get; private set; } = new List<Area>();
+        public List<BuisnessUnit> BuisnessUnits { get; private set; } = new List<BuisnessUnit>();
+        public List<Country> Countries { get; private set; } = new List<Country>();
+
+
+        public BUData()
         {
-            public BUData()
-            {
-                Area = new List<string>();
-                CountryCluster = new List<string>();
-                CountryCode = new List<string>();
-                Country = new List<string>();
-            }
-            public void Add(string area, string countryCluster, string countryCode, string country)
-            {
-                this.Area.Add(area);
-                this.CountryCluster.Add(countryCluster);
-                this.CountryCode.Add(countryCode);
-                this.Country.Add(country);
-            }
+            Initialize();
+        }
 
-            public List<string> Area { get; }
-            public List<string> CountryCluster { get; }
-            public List<string> CountryCode { get; }
-            public List<string> Country { get; }
-
-
-            public BUData GetBUData()
+        private void Initialize()
+        {
+            string diretctory = System.IO.Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+            
+            string fileName = "DbConfigurator.DataAccess/SeedingData/CountriesData.csv";
+            string combinedPath = Path.Combine(diretctory, fileName); 
+            using (var reader = new StreamReader(combinedPath))
             {
-                BUData bUDatas = new BUData();
-                using (var reader = new StreamReader(@"C:\Users\mrukowski.m\Desktop\BuisnessUnit Data.csv"))
+                while (!reader.EndOfStream)
                 {
-                    while (!reader.EndOfStream)
+                    var line = reader.ReadLine();
+
+                    if (line == null)
+                        continue;
+
+                    var temp = line.Split(';');
+
+                    Areas.Add(new Area
                     {
-                        var line = reader.ReadLine();
+                        Id = Int32.Parse(temp[0]),
+                        Name = temp[1]
+                    });
 
-                        if (line == null)
-                            continue;
+                    BuisnessUnits.Add(new BuisnessUnit
+                    {
+                        Id = Int32.Parse(temp[2]),
+                        Name = temp[3]
+                    });
 
-                        var temp = line.Split(';');
+                    Countries.Add(new Country
+                    {
+                        Id = Int32.Parse(temp[4]),
+                        Name = temp[5],
+                        ShortCode = temp[6]
 
-                        bUDatas.Add(temp[0], temp[1], temp[2], temp[3]);
-                    }
+                    });
+
+
+                    Areas = Areas.DistinctBy(a => a.Id).ToList();
+                    BuisnessUnits = BuisnessUnits.DistinctBy(a => a.Id).ToList();
+                    Countries = Countries.DistinctBy(a => a.Id).ToList();
                 }
-
-                return bUDatas;
-                //return new BUData();
             }
         }
+
+
     }
+
+
 }

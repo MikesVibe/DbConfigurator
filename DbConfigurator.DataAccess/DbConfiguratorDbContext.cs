@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Linq;
+using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
 
 namespace DbConfigurator.DataAccess
 {
@@ -42,132 +43,53 @@ namespace DbConfigurator.DataAccess
                 .UsingEntity(j => j.ToTable("RecipientsGroupCc"));
 
 
-
-            List<Area> areasTable = new List<Area>();
-            List<BuisnessUnit> buisnessUnitsTable = new List<BuisnessUnit>();
-
-            var temp = new BUData();
-            var gbuData = temp.GetBUData();
-
-            //Seed Area table in DataBase
-            var gbuArea = gbuData.Area.Distinct().ToList();
-            for (int i = 1; i <= gbuArea.Count; i++)
+            var bUData = new BUData();
+            foreach (var area in bUData.Areas.ToList())
             {
-                modelBuilder.Entity<Area>().HasData(new Area { Id = i, Name = gbuArea[i - 1] });
-
-                var area = new Area();
-                area.Id = i;
-                area.Name = gbuArea[i - 1];
-                areasTable.Add(area);
+                modelBuilder.Entity<Area>().HasData(area);
             }
 
-
-            //Seed BuisnessUnits table in DataBase
-            List<string> gbuBuisnessUnit = gbuData.CountryCluster.Distinct().ToList();
-            List<int> AreaIds = new List<int>();
-            foreach (var countryCluster in gbuBuisnessUnit)
+            foreach (var buisnessUnit in bUData.BuisnessUnits.ToList())
             {
-                int index = gbuData.CountryCluster.IndexOf(countryCluster);
-
-                var areaId = areasTable.Where(a => a.Name == gbuData.Area.ElementAt(index)).ToList().First().Id;
-                AreaIds.Add(areaId);
+                modelBuilder.Entity<BuisnessUnit>().HasData(buisnessUnit);
             }
 
-            for (int i = 1; i <= gbuBuisnessUnit.Count; i++)
+            foreach (var country in bUData.Countries.ToList())
             {
-                modelBuilder.Entity<BuisnessUnit>().HasData(
-    new BuisnessUnit
-    {
-        Id = i,
-        Name = gbuBuisnessUnit[i - 1]
-    });
-                var businessUnit = new BuisnessUnit();
-                businessUnit.Id = i;
-                businessUnit.Name = gbuBuisnessUnit[i - 1];
-                buisnessUnitsTable.Add(businessUnit);
+                modelBuilder.Entity<Country>().HasData(country);
             }
 
-            //Seed Country table in DataBase
-            var gbuCountry = gbuData.Country.ToList();
+                //await _dbConfiguratorDbContext.Set<Recipient>().AddRangeAsync(
+                //                   new Recipient
+                //                   {
+                //                       FirstName = "John",
+                //                       LastName = "Doe",
+                //                       Email = "John.Doe@company.net"
+                //                   }, new Recipient
+                //                   {
+                //                       FirstName = "Josh",
+                //                       LastName = "Smith",
+                //                       Email = "Josh.Smith@company.net"
+                //                   }
+                //        );
 
-            var gbuCountryCode = gbuData.CountryCode.ToList();
+                //List<string> priorityNames = new List<string>() { "P1", "P2", "P3", "P4", "Any" };
+                //foreach (string priorityName in priorityNames)
+                //{
+                //    await _dbConfiguratorDbContext.Set<Priority>().AddRangeAsync(
+                //        new Priority
+                //        {
+                //            Name = priorityName
+                //        });
+                //}
 
-
-            List<int> countryBusinessUnitIdList = new List<int>();
-            for (int i = 0; i < gbuData.CountryCluster.Count; i++)
-            {
-                var buId = buisnessUnitsTable.Where(a => a.Name == gbuData.CountryCluster.ElementAt(i)).ToList().First().Id;
-
-                countryBusinessUnitIdList.Add(buId);
-            }
-            for (int i = 1; i <= gbuCountryCode.Count; i++)
-            {
-                modelBuilder.Entity<Country>().HasData(
-                    new Country
-                    {
-                        Id = i,
-                        Name = gbuCountry[i - 1],
-                        ShortCode = gbuCountryCode[i - 1]
-                    });
-            }
-
-            modelBuilder.Entity<Recipient>().HasData(
-                    new Recipient
-                    {
-                        Id = 1,
-                        FirstName = "John",
-                        LastName = "Doe",
-                        Email = "John.Doe@company.net"
-                    },
-                     new Recipient
-                     {
-                         Id = 2,
-                         FirstName = "Josh",
-                         LastName = "Smith",
-                         Email = "Josh.Smith@company.net"
-                     }
-                    );
-
-            modelBuilder.Entity<Priority>().HasData(
-                new Priority
-                {
-                    Id = 1,
-                    Name = "P1"
-                },
-                new Priority
-                {
-                    Id = 2,
-                    Name = "P2"
-                },
-                new Priority
-                {
-                    Id = 3,
-                    Name = "P3"
-                },
-                new Priority
-                {
-                    Id = 4,
-                    Name = "P4"
-                },
-                new Priority
-                {
-                    Id = 99,
-                    Name = "Any"
-                });
-
-
-
-            base.OnModelCreating(modelBuilder);
+                base.OnModelCreating(modelBuilder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DbConfiguration"].ConnectionString);
             optionsBuilder.EnableSensitiveDataLogging();
-
-
-
-            //optionsBuilder.UseSqlServer("server=\"MIKI-PC\\SQLEXPRESS01\";database=\"DbConfiguration\";trusted_connection=true;Integrated Security=True;Encrypt=False");
         }
     }
 }

@@ -30,12 +30,13 @@ namespace DbConfigurator.UI.Startup
 
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterType<DataModel>().As<IDataModel>().SingleInstance();
+            builder.RegisterType<Seeder>().As<ISeeder>().SingleInstance();
             builder.RegisterType<AutoMapperConfig>().AsSelf().SingleInstance();
 
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
 
-            builder.RegisterType<DbConfiguratorDbContext>().SingleInstance();
+            builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
 
             //View Models
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
