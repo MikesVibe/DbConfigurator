@@ -1433,7 +1433,7 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.Property<int>("PriorityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RecipientsGroupId")
+                    b.Property<int?>("RecipientGroupId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1446,9 +1446,9 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasIndex("PriorityId");
 
-                    b.HasIndex("RecipientsGroupId")
+                    b.HasIndex("RecipientGroupId")
                         .IsUnique()
-                        .HasFilter("[RecipientsGroupId] IS NOT NULL");
+                        .HasFilter("[RecipientGroupId] IS NOT NULL");
 
                     b.ToTable("DistributionInformation");
                 });
@@ -1523,7 +1523,7 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.ToTable("Recipient");
                 });
 
-            modelBuilder.Entity("DbConfigurator.Model.RecipientsGroup", b =>
+            modelBuilder.Entity("DbConfigurator.Model.RecipientGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1540,37 +1540,37 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RecipientsGroup");
+                    b.ToTable("RecipientGroup");
                 });
 
-            modelBuilder.Entity("RecipientRecipientsGroup", b =>
+            modelBuilder.Entity("DbConfigurator.Model.RecipientGroupCc", b =>
                 {
-                    b.Property<int>("RecipientsGroupsToId")
+                    b.Property<int>("RecipientGroupId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RecipientsToId")
+                    b.Property<int>("RecipientId")
                         .HasColumnType("int");
 
-                    b.HasKey("RecipientsGroupsToId", "RecipientsToId");
+                    b.HasKey("RecipientGroupId", "RecipientId");
 
-                    b.HasIndex("RecipientsToId");
+                    b.HasIndex("RecipientId");
 
-                    b.ToTable("RecipientsGroupTo", (string)null);
+                    b.ToTable("RecipientGroupCc");
                 });
 
-            modelBuilder.Entity("RecipientRecipientsGroup1", b =>
+            modelBuilder.Entity("DbConfigurator.Model.RecipientGroupTo", b =>
                 {
-                    b.Property<int>("RecipientsCcId")
+                    b.Property<int>("RecipientGroupId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RecipientsGroupsCcId")
+                    b.Property<int>("RecipientId")
                         .HasColumnType("int");
 
-                    b.HasKey("RecipientsCcId", "RecipientsGroupsCcId");
+                    b.HasKey("RecipientGroupId", "RecipientId");
 
-                    b.HasIndex("RecipientsGroupsCcId");
+                    b.HasIndex("RecipientId");
 
-                    b.ToTable("RecipientsGroupCc", (string)null);
+                    b.ToTable("RecipientGroupTo");
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.AreaBuisnessUnit", b =>
@@ -1637,9 +1637,9 @@ namespace DbConfigurator.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DbConfigurator.Model.RecipientsGroup", "RecipientsGroup")
+                    b.HasOne("DbConfigurator.Model.RecipientGroup", "RecipientGroup")
                         .WithOne("DistributionInformation")
-                        .HasForeignKey("DbConfigurator.Model.DistributionInformation", "RecipientsGroupId");
+                        .HasForeignKey("DbConfigurator.Model.DistributionInformation", "RecipientGroupId");
 
                     b.Navigation("Area");
 
@@ -1649,37 +1649,45 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.Navigation("Priority");
 
-                    b.Navigation("RecipientsGroup");
+                    b.Navigation("RecipientGroup");
                 });
 
-            modelBuilder.Entity("RecipientRecipientsGroup", b =>
+            modelBuilder.Entity("DbConfigurator.Model.RecipientGroupCc", b =>
                 {
-                    b.HasOne("DbConfigurator.Model.RecipientsGroup", null)
+                    b.HasOne("DbConfigurator.Model.RecipientGroup", "RecipientGroup")
                         .WithMany()
-                        .HasForeignKey("RecipientsGroupsToId")
+                        .HasForeignKey("RecipientGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DbConfigurator.Model.Recipient", null)
+                    b.HasOne("DbConfigurator.Model.Recipient", "Recipient")
                         .WithMany()
-                        .HasForeignKey("RecipientsToId")
+                        .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("RecipientGroup");
                 });
 
-            modelBuilder.Entity("RecipientRecipientsGroup1", b =>
+            modelBuilder.Entity("DbConfigurator.Model.RecipientGroupTo", b =>
                 {
-                    b.HasOne("DbConfigurator.Model.Recipient", null)
+                    b.HasOne("DbConfigurator.Model.RecipientGroup", "RecipientGroup")
                         .WithMany()
-                        .HasForeignKey("RecipientsCcId")
+                        .HasForeignKey("RecipientGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DbConfigurator.Model.RecipientsGroup", null)
+                    b.HasOne("DbConfigurator.Model.Recipient", "Recipient")
                         .WithMany()
-                        .HasForeignKey("RecipientsGroupsCcId")
+                        .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("RecipientGroup");
                 });
 
             modelBuilder.Entity("DbConfigurator.Model.Area", b =>
@@ -1702,7 +1710,7 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.Navigation("DistributionInformations");
                 });
 
-            modelBuilder.Entity("DbConfigurator.Model.RecipientsGroup", b =>
+            modelBuilder.Entity("DbConfigurator.Model.RecipientGroup", b =>
                 {
                     b.Navigation("DistributionInformation")
                         .IsRequired();

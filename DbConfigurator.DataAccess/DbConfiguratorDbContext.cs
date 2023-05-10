@@ -25,6 +25,8 @@ namespace DbConfigurator.DataAccess
         public DbSet<Country> Country { get; set; }
         public DbSet<Priority> Priority { get; set; }
         public DbSet<RecipientGroup> RecipientGroup { get; set; }
+        public DbSet<RecipientGroupCc> RecipientGroupCc { get; set; }
+        public DbSet<RecipientGroupTo> RecipientGroupTo { get; set; }
         public DbSet<Recipient> Recipient { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,12 +54,14 @@ namespace DbConfigurator.DataAccess
             modelBuilder.Entity<RecipientGroup>()
                 .HasMany(g => g.RecipientsTo)
                 .WithMany(r => r.RecipientGroupTo)
-                .UsingEntity(j => j.ToTable("RecipientsGroupTo"));
+                .UsingEntity<RecipientGroupTo>();
+                //.UsingEntity(j => j.ToTable("RecipientsGroupTo"));
 
             modelBuilder.Entity<RecipientGroup>()
                 .HasMany(g => g.RecipientsCc)
                 .WithMany(r => r.RecipientGroupCc)
-                .UsingEntity(j => j.ToTable("RecipientsGroupCc"));
+                .UsingEntity<RecipientGroupCc>();
+                //.UsingEntity(j => j.ToTable("RecipientsGroupCc"));
 
 
             var bUData = new GenericDataForTabels();
