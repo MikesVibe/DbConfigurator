@@ -10,7 +10,7 @@ using Microsoft.VisualBasic;
 
 namespace DbConfigurator.Model
 {
-    public class RecipientsGroup
+    public class RecipientGroup
     {
         [Required]
         public int Id { get; set; }

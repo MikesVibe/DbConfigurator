@@ -35,7 +35,7 @@ namespace DbConfigurator.Model
         public int PriorityId { get; set; }
         public Priority Priority { get; set; }
         public int? RecipientsGroupId { get; set; }
-        public RecipientsGroup? RecipientsGroup { get; set; }
+        public RecipientGroup? RecipientsGroup { get; set; }
 
     }
 }
