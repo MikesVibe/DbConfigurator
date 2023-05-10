@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.UI", "DbConfigurator\DbConfigurator.UI.csproj", "{E36D3F97-B175-487C-825D-866EE34F15C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.UI", "DbConfigurator.UI\DbConfigurator.UI.csproj", "{E36D3F97-B175-487C-825D-866EE34F15C5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.Model", "DbConfigurator.Model\DbConfigurator.Model.csproj", "{34AAA02D-8975-4DA7-8D7B-1BBE06B4A5EB}"
 EndProject
