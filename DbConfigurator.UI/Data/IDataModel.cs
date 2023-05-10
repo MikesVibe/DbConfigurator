@@ -40,6 +40,7 @@ namespace DbConfigurator.Model
         DistributionInformationDto GetDistributionInformationDto(int id);
         Task AddDistributionInformationAsync(DistributionInformation distributionInformation);
         Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync();
-
+        Task RefreshDistributionInformationAsync();
+        Task<DistributionInformation> GetDistributionInformationByIdAsync(int id);
     }
 }

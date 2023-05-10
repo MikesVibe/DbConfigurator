@@ -185,6 +185,24 @@ namespace DbConfigurator.Model
             DistributionInformations.Add(distributionInformation);
         }
 
+        public async Task RefreshDistributionInformationAsync()
+        {
+            DistributionInformations = await GetAllDistributionInformationAsync();
+            DistributionInformationsDto = AutoMapper.Mapper.Map<List<DistributionInformationDto>>(DistributionInformations);
+        }
+
+        public async Task<DistributionInformation> GetDistributionInformationByIdAsync(int id)
+        {
+            return await Context.DistributionInformation.Where(d => d.Id == id)
+                .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
+                .Include(c => c.RecipientGroup)
+                .ThenInclude(t => t.RecipientsTo)
+                .Include(c => c.RecipientGroup)
+                .ThenInclude(t => t.RecipientsCc)
+                .Include(p => p.Priority)
+                .FirstAsync();
+        }
+
         public DbConfiguratorDbContext Context
         {
             get { return _context; }
