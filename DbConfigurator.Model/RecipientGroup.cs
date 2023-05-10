@@ -14,8 +14,6 @@ namespace DbConfigurator.Model
     {
         [Required]
         public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
         public int DistributionInformationId { get; set; }
         public DistributionInformation DistributionInformation { get; set; }
 

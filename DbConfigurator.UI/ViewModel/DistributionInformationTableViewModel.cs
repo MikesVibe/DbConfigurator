@@ -99,7 +99,6 @@ namespace DbConfigurator.UI.ViewModel
             //Create New Recipients Group
             RecipientGroup recipientsGroup = new RecipientGroup
             {
-                Name = "dummy",
                 DistributionInformation = distributionInformation
             };
             await _dataModel.AddAsync(recipientsGroup);
