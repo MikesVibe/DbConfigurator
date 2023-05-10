@@ -24,7 +24,7 @@ namespace DbConfigurator.DataAccess
         public DbSet<BuisnessUnitCountry> BuisnessUnitCountry { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<Priority> Priority { get; set; }
-        public DbSet<RecipientGroup> RecipientsGroup { get; set; }
+        public DbSet<RecipientGroup> RecipientGroup { get; set; }
         public DbSet<Recipient> Recipient { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,19 +44,19 @@ namespace DbConfigurator.DataAccess
 
             //Setting up joining table for Recipients Groups
             modelBuilder.Entity<DistributionInformation>()
-                .HasOne(d => d.RecipientsGroup)
+                .HasOne(d => d.RecipientGroup)
                 .WithOne(r => r.DistributionInformation)
-                .HasForeignKey<DistributionInformation>(d => d.RecipientsGroupId)
+                .HasForeignKey<DistributionInformation>(d => d.RecipientGroupId)
                 .IsRequired(false);
 
             modelBuilder.Entity<RecipientGroup>()
                 .HasMany(g => g.RecipientsTo)
-                .WithMany(r => r.RecipientsGroupsTo)
+                .WithMany(r => r.RecipientGroupTo)
                 .UsingEntity(j => j.ToTable("RecipientsGroupTo"));
 
             modelBuilder.Entity<RecipientGroup>()
                 .HasMany(g => g.RecipientsCc)
-                .WithMany(r => r.RecipientsGroupsCc)
+                .WithMany(r => r.RecipientGroupCc)
                 .UsingEntity(j => j.ToTable("RecipientsGroupCc"));
 
 

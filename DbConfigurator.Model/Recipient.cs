@@ -22,7 +22,7 @@ namespace DbConfigurator.Model
 
         [EmailAddress]
         public string Email { get; set; } 
-        public ICollection<RecipientGroup> RecipientsGroupsTo { get; set; }
-        public ICollection<RecipientGroup> RecipientsGroupsCc { get; set; }
+        public ICollection<RecipientGroup> RecipientGroupTo { get; set; }
+        public ICollection<RecipientGroup> RecipientGroupCc { get; set; }
     }
 }

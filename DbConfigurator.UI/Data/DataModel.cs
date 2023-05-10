@@ -56,9 +56,9 @@ namespace DbConfigurator.Model
         {
             var collection = await Context.Set<DistributionInformation>()
                 .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
-                .Include(c => c.RecipientsGroup)
+                .Include(c => c.RecipientGroup)
                 .ThenInclude(t => t.RecipientsTo)
-                .Include(c => c.RecipientsGroup)
+                .Include(c => c.RecipientGroup)
                 .ThenInclude(t =>t.RecipientsCc)
                 .Include(p => p.Priority)
                 .ToListAsync();
