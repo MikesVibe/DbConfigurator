@@ -12,17 +12,6 @@ namespace DbConfigurator.Model
 {
     public class RecipientsGroup
     {
-        public RecipientsGroup() { }
-
-        public RecipientsGroup(DistributionInformation distributionInformation, string name) 
-        {
-            //DistributionInformation = distributionInformation;
-            DistributionInformationId = distributionInformation.Id;
-            Name = name;
-            RecipientsTo = new Collection<Recipient>();
-            RecipientsCc = new Collection<Recipient>();
-        }
-
         [Required]
         public int Id { get; set; }
         [Required]
