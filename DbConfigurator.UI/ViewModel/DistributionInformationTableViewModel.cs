@@ -42,6 +42,8 @@ namespace DbConfigurator.UI.ViewModel
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecute, OnRemoveRecipientToCanExecute);
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecute, OnRemovRecipientCCeCanExecute);
+            PriorityChangedCommand = new DelegateCommand(SetNewPriority);
+            CountryChangedCommand = new DelegateCommand(SetNewCountry);
 
         }
 
@@ -77,7 +79,7 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override bool OnSaveCanExecute()
         {
-            return true;
+            return false;
         }
         protected override void OnSaveExecute()
         {
@@ -109,7 +111,8 @@ namespace DbConfigurator.UI.ViewModel
 
 
 
-            var distributionInformationDto = _dataModel.GetDistributionInformationDto(distributionInformation.Id);
+            var distributionInformationEntity = await _dataModel.GetDistributionInformationByIdAsync(distributionInformation.Id);
+            var distributionInformationDto = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInformationEntity);
             var wrappedDisInfo = new DistributionInformationDtoWrapper(distributionInformationDto);
 
             DistributionInformation_ObservableCollection.Add(wrappedDisInfo);
@@ -248,23 +251,12 @@ namespace DbConfigurator.UI.ViewModel
             //Assign Changed properties to SelectedDistributionInformation variable
             SelectedDistributionInformation.Priority = disInfoMapped.Priority;
             SelectedDistributionInformation.PriorityId = disInfoMapped.PriorityId;
-
         }
 
 
 
         public int DefaultRowIndex { get { return 0; } }
 
-
-        //public DistributionInfoLookup SelectedDistributionInformationDtoWrapper
-        //{
-        //    get { return _selectedDistributionInformation; }
-        //    set
-        //    {
-        //        _selectedDistributionInformation = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
         public DistributionInformationDtoWrapper SelectedDistributionInformation
         {
             get { return _selectedDistributionInformation; }
@@ -320,16 +312,23 @@ namespace DbConfigurator.UI.ViewModel
                 if (value == null || SelectedDistributionInformation == null)
                     return;
 
-                _selectedRecipientToComboBox = value;
-                RecipientsTo_ListView.Add(value);
-                SelectedDistributionInformation.RecipientsTo.Add(value);
-                var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
-                var recipient = _dataModel.GetRecipient(value.Id);
-                disInfo?.RecipientGroup?.RecipientsTo.Add(recipient);
-                RecipientsToComboBox.Remove(value);
-                _selectedRecipientToComboBox = null;
+                SetNewRecipientTo(value);
             }
         }
+
+        private async void SetNewRecipientTo(RecipientDto value)
+        {
+
+            _selectedRecipientToComboBox = value;
+            RecipientsTo_ListView.Add(value);
+            SelectedDistributionInformation.RecipientsTo.Add(value);
+            var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
+            var recipient = await _dataModel.GetRecipientAsync(value.Id);
+            disInfo?.RecipientGroup?.RecipientsTo.Add(recipient);
+            RecipientsToComboBox.Remove(value);
+            _selectedRecipientToComboBox = null;
+        }
+
         public RecipientDto? SelectedRecipientCcComboBox
         {
             get { return _selectedRecipientCcComboBox; }
@@ -338,17 +337,22 @@ namespace DbConfigurator.UI.ViewModel
                 if (value == null || SelectedDistributionInformation == null)
                     return;
 
-                _selectedRecipientCcComboBox = value;
-                RecipientsCc_ListView.Add(value);
-                SelectedDistributionInformation.RecipientsCc.Add(value);
-                var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
-                var recipient = _dataModel.GetRecipient(value.Id);
-                disInfo?.RecipientGroup?.RecipientsCc.Add(recipient);
-                RecipientsCcComboBox.Remove(value);
-                _selectedRecipientCcComboBox = null;
-
+                SetNewRecipientCc(value);
             }
         }
+
+        private async void SetNewRecipientCc(RecipientDto value)
+        {
+            _selectedRecipientCcComboBox = value;
+            RecipientsCc_ListView.Add(value);
+            SelectedDistributionInformation.RecipientsCc.Add(value);
+            var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
+            var recipient = await _dataModel.GetRecipientAsync(value.Id);
+            disInfo?.RecipientGroup?.RecipientsCc.Add(recipient);
+            RecipientsCcComboBox.Remove(value);
+            _selectedRecipientCcComboBox = null;
+        }
+
         public RecipientDto? SelectedRecipientToListView
         {
             get { return _selectedRecipientToListView; }
@@ -392,7 +396,6 @@ namespace DbConfigurator.UI.ViewModel
             {
 
                 _selectedCountry = value;
-                SetNewCountry();
                 OnPropertyChanged();
             }
         }
@@ -402,15 +405,14 @@ namespace DbConfigurator.UI.ViewModel
             set
             {
                 _selectedPriority = value;
-                if (SelectedDistributionInformation != null && _selectedPriority != null)
-                    SetNewPriority();
                 OnPropertyChanged();
-
             }
         }
         public ICommand SelectionChangedCommand { get; set; }
         public ICommand RemoveCcRecipientCommand { get; set; }
         public ICommand RemoveToRecipientCommand { get; set; }
+        public ICommand PriorityChangedCommand { get; set; }
+        public ICommand CountryChangedCommand { get; set; }
 
 
 

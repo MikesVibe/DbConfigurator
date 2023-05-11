@@ -142,25 +142,21 @@ namespace DbConfigurator.Model
             return Context.ChangeTracker.HasChanges();
         }
 
-        public void ReloadEntryPriority(DistributionInformation disInfo)
+        public async Task ReloadEntryPriorityAsync(DistributionInformation disInfo)
         {
-            Context.Entry(disInfo).Reference(e => e.Priority).Load();
+            await Context.Entry(disInfo).Reference(e => e.Priority).LoadAsync();
         }
 
-        public void ReloadEntryCountry(DistributionInformation disInfo)
+        public async Task ReloadEntryCountryAsync(DistributionInformation disInfo)
         {
-            Context.Entry(disInfo).Reference(d => d.Country).Load();
-            Context.Entry(disInfo.Country).Collection(c => c.BuisnessUnits).Load();
+            await Context.Entry(disInfo).Reference(d => d.Country).LoadAsync();
+            await Context.Entry(disInfo.Country).Collection(c => c.BuisnessUnits).LoadAsync();
             foreach (var buisnessUnit in disInfo.Country.BuisnessUnits)
             {
-                Context.Entry(buisnessUnit).Collection(bu => bu.Areas).Load();
+                await Context.Entry(buisnessUnit).Collection(bu => bu.Areas).LoadAsync();
             }
         }
 
-        public void Add<T>(T item) where T : class
-        {
-            Context.Set<T>().Add(item);
-        }
         public async Task AddAsync<T>(T item) where T : class
         {
             await Context.Set<T>().AddAsync(item);
@@ -169,26 +165,9 @@ namespace DbConfigurator.Model
         {
             Context.Set<T>().Remove(item);
         }
-        public Recipient GetRecipient(int id)
+        public async Task<Recipient> GetRecipientAsync(int id)
         {
-            return Context.Recipient.Where(r => r.Id == id).First();
-        }
-        public DistributionInformationDto GetDistributionInformationDto(int id)
-        {
-            var disInfo = Context.DistributionInformation.Where(r => r.Id == id).First();
-            return AutoMapper.Mapper.Map<DistributionInformationDto>(disInfo);
-        }
-
-        public async Task AddDistributionInformationAsync(DistributionInformation distributionInformation)
-        {
-            await Context.DistributionInformation.AddAsync(distributionInformation);
-            DistributionInformations.Add(distributionInformation);
-        }
-
-        public async Task RefreshDistributionInformationAsync()
-        {
-            DistributionInformations = await GetAllDistributionInformationAsync();
-            DistributionInformationsDto = AutoMapper.Mapper.Map<List<DistributionInformationDto>>(DistributionInformations);
+            return await Context.Recipient.Where(r => r.Id == id).FirstAsync();
         }
 
         public async Task<DistributionInformation> GetDistributionInformationByIdAsync(int id)

@@ -21,7 +21,7 @@ namespace DbConfigurator.DataAccess
 
         public async Task Seed()
         {
-            if (_dbConfiguratorDbContext.Set<Recipient>().Any())
+            if (await _dbConfiguratorDbContext.Set<Recipient>().AnyAsync())
                 return;
 
 
