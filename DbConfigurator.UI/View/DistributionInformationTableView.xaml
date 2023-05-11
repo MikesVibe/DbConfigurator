@@ -109,7 +109,7 @@
                     <Label Content="Country:" />
                     <ComboBox Name="CountryComboBox"
                               ItemsSource="{Binding Country_Collection}"
-                              SelectedItem="{Binding SelectedCountry}"
+                              SelectedItem="{Binding SelectedCountry, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
@@ -123,7 +123,7 @@
                     <Label Content="Priority:" />
                     <ComboBox  Name="PriorityComboBox" 
                               ItemsSource="{Binding Priority_Collection}"
-                              SelectedItem="{Binding SelectedPriority}"
+                              SelectedItem="{Binding SelectedPriority, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
