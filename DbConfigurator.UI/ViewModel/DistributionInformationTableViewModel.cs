@@ -46,8 +46,8 @@ namespace DbConfigurator.UI.ViewModel
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecute, OnRemoveRecipientToCanExecute);
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecute, OnRemovRecipientCCeCanExecute);
-            PriorityChangedCommand = new DelegateCommand(() => { });//SetNewPriority); ;
-            CountryChangedCommand = new DelegateCommand(() => { });// SetNewCountry);
+            PriorityChangedCommand = new DelegateCommand(SetNewPriority);
+            CountryChangedCommand = new DelegateCommand(SetNewCountry);
 
         }
 
@@ -414,7 +414,7 @@ namespace DbConfigurator.UI.ViewModel
             {
 
                 _selectedCountry = value;
-                SetNewCountry();
+                //SetNewCountry();
                 OnPropertyChanged();
             }
         }
@@ -424,7 +424,7 @@ namespace DbConfigurator.UI.ViewModel
             set
             {
                 _selectedPriority = value;
-                SetNewPriority();
+                //SetNewPriority();
                 OnPropertyChanged();
             }
         }
