@@ -74,16 +74,16 @@ namespace DbConfigurator.Model
                 }
 
             
-                if (Model.RecipientsGroup != null)
+                if (Model.RecipientGroup != null)
                 {
-                    if (Model.RecipientsGroup.RecipientsTo!= null)
-                        TO = EnumerableToObservableCollection(Model.RecipientsGroup.RecipientsTo);
+                    if (Model.RecipientGroup.RecipientsTo!= null)
+                        TO = EnumerableToObservableCollection(Model.RecipientGroup.RecipientsTo);
                 }
 
-                if (Model.RecipientsGroup != null)
+                if (Model.RecipientGroup != null)
                 {
-                    if (Model.RecipientsGroup.RecipientsCc != null)
-                        CC = EnumerableToObservableCollection(Model.RecipientsGroup.RecipientsCc);
+                    if (Model.RecipientGroup.RecipientsCc != null)
+                        CC = EnumerableToObservableCollection(Model.RecipientGroup.RecipientsCc);
                 }
             }
         }

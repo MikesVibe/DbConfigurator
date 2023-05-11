@@ -77,9 +77,9 @@ namespace DbConfigurator.UI.ViewModel
                 && !SelectedRecipient.HasErrors
                 && HasChanges;
         }
-        protected override void OnSaveExecute()
+        protected async override void OnSaveExecute()
         {
-            _dataModel.SaveChangesAsync();
+            await _dataModel.SaveChangesAsync();
             HasChanges = _dataModel.HasChanges();
             Id = SelectedRecipient.Id;
 

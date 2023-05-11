@@ -9,13 +9,6 @@ namespace DbConfigurator.Model.DTOs
 {
     public class DistributionInformationDto
     {
-        public DistributionInformationDto()
-        {
-
-        }
-        public DistributionInformationDto(DistributionInformation distributionInformation)
-        {
-        }
         public int Id { get; init; }
         public int AreaId { get; set; }
         public int BuisnessUnitId { get; set; }

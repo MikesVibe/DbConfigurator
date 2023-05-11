@@ -9,7 +9,6 @@ namespace DbConfigurator.Model
 {
     public interface IDataModel
     {
-
         Task SaveChangesAsync();
 
         ICollection<DistributionInformation> DistributionInformations{ get; }
@@ -30,16 +29,14 @@ namespace DbConfigurator.Model
         ICollection<RecipientDto> RecipientsDto { get; }
 
         bool HasChanges();
-        void ReloadEntryPriority(DistributionInformation disInfo);
-        void ReloadEntryCountry(DistributionInformation disInfo);
-        void Add<T>(T item) where T : class;
+        Task ReloadEntryPriorityAsync(DistributionInformation disInfo);
+        Task ReloadEntryCountryAsync(DistributionInformation disInfo);
         Task AddAsync<T>(T item) where T : class;
-        Recipient GetRecipient(int id);
+        Task<Recipient> GetRecipientAsync(int id);
 
         void Remove<T>(T item) where T : class;
-        DistributionInformationDto GetDistributionInformationDto(int id);
-        Task AddDistributionInformationAsync(DistributionInformation distributionInformation);
+        //Task<DistributionInformationDto> GetDistributionInformationDtoAsync(int id);
         Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync();
-
+        Task<DistributionInformation> GetDistributionInformationByIdAsync(int id);
     }
 }

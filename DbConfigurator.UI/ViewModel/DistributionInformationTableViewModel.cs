@@ -24,6 +24,10 @@ namespace DbConfigurator.UI.ViewModel
 {
     public class DistributionInformationTableViewModel : TableViewModelBase, IDistributionInformationTableView
     {
+        private readonly object balanceLock = new object();
+        private bool SettingPriorityExecuting = false;
+        private bool SettingCountryExecuting = false;
+
         public DistributionInformationTableViewModel(
             IEventAggregator eventAggregator,
             IDataModel dataModel,
@@ -42,6 +46,8 @@ namespace DbConfigurator.UI.ViewModel
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecute, OnRemoveRecipientToCanExecute);
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecute, OnRemovRecipientCCeCanExecute);
+            PriorityChangedCommand = new DelegateCommand(() => { });//SetNewPriority); ;
+            CountryChangedCommand = new DelegateCommand(() => { });// SetNewCountry);
 
         }
 
@@ -68,7 +74,7 @@ namespace DbConfigurator.UI.ViewModel
             var countries = EnumerableToObservableCollection(_dataModel.CountriesDto);
             Country_Collection = countries;
             var priorities = EnumerableToObservableCollection(_dataModel.PrioritiesDto);
-            Priority_Collection = priorities;      
+            Priority_Collection = priorities;
         }
 
         protected override void OnDeleteExecute()
@@ -77,11 +83,11 @@ namespace DbConfigurator.UI.ViewModel
         }
         protected override bool OnSaveCanExecute()
         {
-            return true;
+            return false;
         }
-        protected override void OnSaveExecute()
+        protected async override void OnSaveExecute()
         {
-            _dataModel.SaveChangesAsync();
+            await _dataModel.SaveChangesAsync();
             HasChanges = _dataModel.HasChanges();
         }
         protected async override void OnAddExecute()
@@ -92,43 +98,51 @@ namespace DbConfigurator.UI.ViewModel
             Country defaultCountry = _dataModel.DefaultCountry;
             Priority defaultPriotrity = _dataModel.DefaultPriority;
             var distributionInformation = new DistributionInformation(defaultArea, defaultBuisnessUnit, defaultCountry, defaultPriotrity);
-            //await _dataModel.AddAsync(distributionInformation);
-            await _dataModel.AddDistributionInformationAsync(distributionInformation);
+
+
+            await _dataModel.AddAsync(distributionInformation);
+            //await _dataModel.AddDistributionInformationAsync(distributionInformation);
             await _dataModel.SaveChangesAsync();
 
             //Create New Recipients Group
-            RecipientsGroup recipientsGroup = new RecipientsGroup
-            { 
+            RecipientGroup recipientsGroup = new RecipientGroup
+            {
                 DistributionInformation = distributionInformation
             };
 
             await _dataModel.AddAsync(recipientsGroup);
-            distributionInformation.RecipientsGroup = recipientsGroup;
             await _dataModel.SaveChangesAsync();
 
-            var distributionInformationDto = _dataModel.GetDistributionInformationDto(distributionInformation.Id);
-            var mappedDisInfo = new DistributionInformationDtoWrapper(distributionInformationDto);
-            DistributionInformation_ObservableCollection.Add(mappedDisInfo);
-            SelectedDistributionInformation = mappedDisInfo;
+
+
+            var distributionInformationEntity = await _dataModel.GetDistributionInformationByIdAsync(distributionInformation.Id);
+            var distributionInformationDto = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInformationEntity);
+            var wrappedDisInfo = new DistributionInformationDtoWrapper(distributionInformationDto);
+
+            DistributionInformation_ObservableCollection.Add(wrappedDisInfo);
+            SelectedDistributionInformation = wrappedDisInfo;
         }
-        protected override void OnRemoveExecute()
+        protected async override void OnRemoveExecute()
         {
             _dataModel.Remove(_dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First());
+            await _dataModel.SaveChangesAsync();
+            
             DistributionInformation_ObservableCollection.Remove(SelectedDistributionInformation);
             SelectedDistributionInformation = null;
             ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
+
         }
         protected override bool OnRemoveCanExecute()
         {
-            return SelectedDistributionInformation!=null;
+            return SelectedDistributionInformation != null;
         }
         protected void OnRemoveRecipientToExecute()
         {
             if (SelectedRecipientToListView == null)
                 return;
             var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
-            var recipientToRemove = disInfo?.RecipientsGroup?.RecipientsTo.Where(r => r.Id == SelectedRecipientToListView.Id).First();
-            disInfo?.RecipientsGroup?.RecipientsTo.Remove(recipientToRemove!);
+            var recipientToRemove = disInfo?.RecipientGroup?.RecipientsTo.Where(r => r.Id == SelectedRecipientToListView.Id).First();
+            disInfo?.RecipientGroup?.RecipientsTo.Remove(recipientToRemove!);
             SelectedDistributionInformation.RecipientsTo.Remove(SelectedRecipientToListView);
             RecipientsTo_ListView.Remove(SelectedRecipientToListView);
             PopulateComboBoxTo();
@@ -146,8 +160,8 @@ namespace DbConfigurator.UI.ViewModel
                 return;
 
             var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
-            var recipientToRemove = disInfo?.RecipientsGroup?.RecipientsCc.Where(r => r.Id == SelectedRecipientCcListView.Id).First();
-            disInfo?.RecipientsGroup?.RecipientsCc.Remove(recipientToRemove!);
+            var recipientToRemove = disInfo?.RecipientGroup?.RecipientsCc.Where(r => r.Id == SelectedRecipientCcListView.Id).First();
+            disInfo?.RecipientGroup?.RecipientsCc.Remove(recipientToRemove!);
             SelectedDistributionInformation.RecipientsCc.Remove(SelectedRecipientCcListView);
             RecipientsCc_ListView.Remove(SelectedRecipientCcListView);
             PopulateComboBoxCc();
@@ -196,52 +210,71 @@ namespace DbConfigurator.UI.ViewModel
             var allRecipients = _dataModel.RecipientsDto;
             var recipientsDtoAfterFiltration = allRecipients.Where(p => !SelectedDistributionInformation.RecipientsTo.Any(p2 => p2.Id == p.Id)).ToList();
             RecipientsToComboBox = EnumerableToObservableCollection(recipientsDtoAfterFiltration);
-        }        
+        }
         private void PopulateComboBoxCc()
         {
             var recipients = EnumerableToObservableCollection(_dataModel.RecipientsDto);
             RecipientsCcComboBox = EnumerableToObservableCollection(recipients.Where(p => !SelectedDistributionInformation.RecipientsCc.Any(p2 => p2.Id == p.Id)));
         }
 
-        private void SetNewCountry()
+        private async void SetNewCountry()
         {
-            //if (SelectedDistributionInformationDtoWrapper == null || SelectedCountry == null)
-            //    return;
-            //var disInfo = SelectedDistributionInformationDtoWrapper.Model;
+            if (SelectedDistributionInformation == null || SelectedCountry == null || SettingPriorityExecuting == true || SettingCountryExecuting == true)
+                return;
 
-            ////Change countryId and get country from database
-            //disInfo.CountryId = SelectedCountry.Id;
-            //_dataModel.ReloadEntryCountry(disInfo);
+            SettingCountryExecuting = true;
 
-            ////Assign it back to the model
-            //SelectedDistributionInformationDtoWrapper.Model = disInfo;
+            //Get distribution information entity from database
+            var disInfoDtoWrapper = SelectedDistributionInformation;
+            var distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
 
+            //Change countryId for entity, save changes to database and reload data in distributionInfoEntity
+            distributionInfoEntity.CountryId = SelectedCountry.Id;
+            await _dataModel.SaveChangesAsync();
+            distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
 
+            //Map entity to DTO
+            var disInfoMapped = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInfoEntity);
+
+            //Assign Changed properties to SelectedDistributionInformation variable
+            SelectedDistributionInformation.Country = disInfoMapped.Country;
+            SelectedDistributionInformation.CountryId = disInfoMapped.CountryId;
+
+            SettingCountryExecuting = false;
 
         }
-        private void SetNewPriority()
+        private async void SetNewPriority()
         {
-            //var disInfo = SelectedDistributionInformationDtoWrapper;
-            //disInfo.PriorityId = _selectedPriority.Id;
-            //_dataModel.ReloadEntryPriority(disInfo);
+            if (SelectedDistributionInformation == null || SelectedPriority == null || SettingPriorityExecuting == true || SettingCountryExecuting == true)
+                return;
 
-            //SelectedDistributionInformationDtoWrapper = disInfo;
+
+            SettingPriorityExecuting = true;
+
+
+            //Get distribution information entity from database
+            var disInfoDtoWrapper = SelectedDistributionInformation;
+            var distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
+
+            //Change countryId for entity, save changes to database and reload data in distributionInfoEntity
+            distributionInfoEntity.PriorityId = SelectedPriority.Id;
+            await _dataModel.SaveChangesAsync();
+            distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
+
+            //Map entity to DTO
+            var disInfoMapped = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInfoEntity);
+
+            //Assign Changed properties to SelectedDistributionInformation variable
+            SelectedDistributionInformation.Priority = disInfoMapped.Priority;
+            SelectedDistributionInformation.PriorityId = disInfoMapped.PriorityId;
+
+            SettingPriorityExecuting = false;
         }
 
 
 
         public int DefaultRowIndex { get { return 0; } }
 
-
-        //public DistributionInfoLookup SelectedDistributionInformationDtoWrapper
-        //{
-        //    get { return _selectedDistributionInformation; }
-        //    set
-        //    {
-        //        _selectedDistributionInformation = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
         public DistributionInformationDtoWrapper SelectedDistributionInformation
         {
             get { return _selectedDistributionInformation; }
@@ -268,13 +301,12 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-        //public ObservableCollection<DistributionInfoLookup> DisInfoLookup_ObservableCollection { get; set; }
         public ObservableCollection<DistributionInformationDtoWrapper> DistributionInformation_ObservableCollection { get; set; }
         public ObservableCollection<RecipientDto> RecipientsTo_ListView
         {
             get { return _recipientsTo_ListView; }
-            set 
-            { 
+            set
+            {
                 _recipientsTo_ListView = value;
                 OnPropertyChanged();
             }
@@ -293,21 +325,28 @@ namespace DbConfigurator.UI.ViewModel
         public RecipientDto? SelectedRecipientToComboBox
         {
             get { return _selectedRecipientToComboBox; }
-            set 
+            set
             {
                 if (value == null || SelectedDistributionInformation == null)
                     return;
 
-                _selectedRecipientToComboBox = value;
-                RecipientsTo_ListView.Add(value);
-                SelectedDistributionInformation.RecipientsTo.Add(value);
-                var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
-                var recipient = _dataModel.GetRecipient(value.Id);
-                disInfo?.RecipientsGroup?.RecipientsTo.Add(recipient);
-                RecipientsToComboBox.Remove(value);
-                _selectedRecipientToComboBox = null;
+                SetNewRecipientTo(value);
             }
         }
+
+        private async void SetNewRecipientTo(RecipientDto value)
+        {
+
+            _selectedRecipientToComboBox = value;
+            RecipientsTo_ListView.Add(value);
+            SelectedDistributionInformation.RecipientsTo.Add(value);
+            var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
+            var recipient = await _dataModel.GetRecipientAsync(value.Id);
+            disInfo?.RecipientGroup?.RecipientsTo.Add(recipient);
+            RecipientsToComboBox.Remove(value);
+            _selectedRecipientToComboBox = null;
+        }
+
         public RecipientDto? SelectedRecipientCcComboBox
         {
             get { return _selectedRecipientCcComboBox; }
@@ -316,17 +355,22 @@ namespace DbConfigurator.UI.ViewModel
                 if (value == null || SelectedDistributionInformation == null)
                     return;
 
-                _selectedRecipientCcComboBox = value;
-                RecipientsCc_ListView.Add(value);
-                SelectedDistributionInformation.RecipientsCc.Add(value);
-                var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
-                var recipient = _dataModel.GetRecipient(value.Id);
-                disInfo?.RecipientsGroup?.RecipientsCc.Add(recipient);
-                RecipientsCcComboBox.Remove(value);
-                _selectedRecipientCcComboBox = null;
-
+                SetNewRecipientCc(value);
             }
         }
+
+        private async void SetNewRecipientCc(RecipientDto value)
+        {
+            _selectedRecipientCcComboBox = value;
+            RecipientsCc_ListView.Add(value);
+            SelectedDistributionInformation.RecipientsCc.Add(value);
+            var disInfo = _dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First();
+            var recipient = await _dataModel.GetRecipientAsync(value.Id);
+            disInfo?.RecipientGroup?.RecipientsCc.Add(recipient);
+            RecipientsCcComboBox.Remove(value);
+            _selectedRecipientCcComboBox = null;
+        }
+
         public RecipientDto? SelectedRecipientToListView
         {
             get { return _selectedRecipientToListView; }
@@ -380,15 +424,15 @@ namespace DbConfigurator.UI.ViewModel
             set
             {
                 _selectedPriority = value;
-                if (SelectedDistributionInformation != null && _selectedPriority != null)
-                    SetNewPriority();
+                SetNewPriority();
                 OnPropertyChanged();
-
             }
         }
         public ICommand SelectionChangedCommand { get; set; }
         public ICommand RemoveCcRecipientCommand { get; set; }
         public ICommand RemoveToRecipientCommand { get; set; }
+        public ICommand PriorityChangedCommand { get; set; }
+        public ICommand CountryChangedCommand { get; set; }
 
 
 

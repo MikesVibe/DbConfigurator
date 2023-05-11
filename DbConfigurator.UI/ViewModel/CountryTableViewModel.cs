@@ -70,9 +70,9 @@ namespace DbConfigurator.UI.ViewModel
                 //&& !SelectedCountry.HasErrors
                 && HasChanges;
         }
-        protected override void OnSaveExecute()
+        protected async override void OnSaveExecute()
         {
-            _dataModel.SaveChangesAsync();
+            await _dataModel.SaveChangesAsync();
             HasChanges = _dataModel.HasChanges();
             Id = SelectedCountry.Id;
         }
