@@ -240,13 +240,9 @@ namespace DbConfigurator.UI.ViewModel
             //Map entity to DTO
             var disInfoMapped = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInfoEntity);
 
-            //Assign Changed properties to SelectedDistributionInformation variable
-            SelectedDistributionInformation.Country = disInfoMapped.Country;
-            SelectedDistributionInformation.CountryId = disInfoMapped.CountryId;
-
-
             int buisnessUnitId = 0;
             int areaId = 0;
+            //Get Area and BuisnessUnit which are conected with country
             if (_dataModel.IsDefaultCountry(disInfoMapped.CountryId))
             {
                 buisnessUnitId = _dataModel.DefaultBuisnessUnit.Id;
@@ -258,9 +254,28 @@ namespace DbConfigurator.UI.ViewModel
                 areaId = distributionInfoEntity.Country.BuisnessUnits.First().Areas.First().Id;
             }
 
+            //Assign Area and BuisnessUnit to DistributionInformation Entity and save changes to databse
+            distributionInfoEntity.AreaId = areaId;
+            distributionInfoEntity.BuisnessUnitId = buisnessUnitId;
+            await _dataModel.SaveChangesAsync();
+
+            //Select proper BuisnessUnit and Area in comboBoxes
+            SelectedBuisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == buisnessUnitId).First();
+            SelectedArea = Area_Collection.Where(a => a.Id == areaId).First();
+
+
+            //Assign Changed properties to SelectedDistributionInformation variable
+            SelectedDistributionInformation.Country = SelectedCountry.Name;
+            SelectedDistributionInformation.CountryId = SelectedCountry.Id;
+
+            SelectedDistributionInformation.Area = SelectedArea.Name;
+            SelectedDistributionInformation.AreaId = SelectedArea.Id;
+
+            SelectedDistributionInformation.BuisnessUnit = SelectedBuisnessUnit.Name;
+            SelectedDistributionInformation.BuisnessUnitId = SelectedBuisnessUnit.Id;
+
 
             SettingCountryExecuting = false;
-
         }
         private async void SetNewPriority()
         {

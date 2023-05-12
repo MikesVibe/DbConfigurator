@@ -179,7 +179,7 @@ namespace DbConfigurator.Model
                 .Include(c => c.RecipientGroup)
                 .ThenInclude(t => t.RecipientsCc)
                 .Include(p => p.Priority)
-                .FirstAsync();
+                .FirstOrDefaultAsync();
         }
 
         public bool IsDefaultCountry(int countryId)
