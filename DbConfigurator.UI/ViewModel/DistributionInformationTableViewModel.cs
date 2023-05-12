@@ -219,7 +219,11 @@ namespace DbConfigurator.UI.ViewModel
 
         private async void SetNewCountry()
         {
-            if (SelectedDistributionInformation == null || SelectedCountry == null || SettingPriorityExecuting == true || SettingCountryExecuting == true)
+            if (SelectedDistributionInformation == null || SelectedCountry == null)
+                return;
+
+            //Prevents concurency between threads
+            if (CanConcurencyOccure())
                 return;
 
             SettingCountryExecuting = true;
@@ -240,14 +244,32 @@ namespace DbConfigurator.UI.ViewModel
             SelectedDistributionInformation.Country = disInfoMapped.Country;
             SelectedDistributionInformation.CountryId = disInfoMapped.CountryId;
 
+
+            int buisnessUnitId = 0;
+            int areaId = 0;
+            if (_dataModel.IsDefaultCountry(disInfoMapped.CountryId))
+            {
+                buisnessUnitId = _dataModel.DefaultBuisnessUnit.Id;
+                areaId = _dataModel.DefaultArea.Id;
+            }
+            else
+            {
+                buisnessUnitId = distributionInfoEntity.Country.BuisnessUnits.First().Id;
+                areaId = distributionInfoEntity.Country.BuisnessUnits.First().Areas.First().Id;
+            }
+
+
             SettingCountryExecuting = false;
 
         }
         private async void SetNewPriority()
         {
-            if (SelectedDistributionInformation == null || SelectedPriority == null || SettingPriorityExecuting == true || SettingCountryExecuting == true)
+            if (SelectedDistributionInformation == null || SelectedPriority == null)
                 return;
 
+            //Prevents concurency between threads
+            if (CanConcurencyOccure())
+                return;
 
             SettingPriorityExecuting = true;
 
@@ -271,7 +293,10 @@ namespace DbConfigurator.UI.ViewModel
             SettingPriorityExecuting = false;
         }
 
-
+        private bool CanConcurencyOccure()
+        {
+            return SettingPriorityExecuting == true || SettingCountryExecuting == true;
+        }
 
         public int DefaultRowIndex { get { return 0; } }
 
@@ -414,7 +439,6 @@ namespace DbConfigurator.UI.ViewModel
             {
 
                 _selectedCountry = value;
-                //SetNewCountry();
                 OnPropertyChanged();
             }
         }
@@ -424,7 +448,6 @@ namespace DbConfigurator.UI.ViewModel
             set
             {
                 _selectedPriority = value;
-                //SetNewPriority();
                 OnPropertyChanged();
             }
         }
@@ -436,7 +459,7 @@ namespace DbConfigurator.UI.ViewModel
 
 
 
-        private IDataModel _dataModel;
+        private readonly IDataModel _dataModel;
 
         public AutoMapperConfig AutoMapper { get; }
 

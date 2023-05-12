@@ -182,6 +182,11 @@ namespace DbConfigurator.Model
                 .FirstAsync();
         }
 
+        public bool IsDefaultCountry(int countryId)
+        {
+            return DefaultCountry.Id == countryId;
+        }
+
         public DbConfiguratorDbContext Context
         {
             get { return _context; }

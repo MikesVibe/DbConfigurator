@@ -38,5 +38,6 @@ namespace DbConfigurator.Model
         //Task<DistributionInformationDto> GetDistributionInformationDtoAsync(int id);
         Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync();
         Task<DistributionInformation> GetDistributionInformationByIdAsync(int id);
+        bool IsDefaultCountry(int countryId);
     }
 }
