@@ -101,16 +101,6 @@ namespace DbConfigurator.UI.ViewModel
 
 
             await _dataModel.AddAsync(distributionInformation);
-            //await _dataModel.AddDistributionInformationAsync(distributionInformation);
-            await _dataModel.SaveChangesAsync();
-
-            //Create New Recipients Group
-            //RecipientGroup recipientsGroup = new RecipientGroup
-            //{
-            //    DistributionInformation = distributionInformation
-            //};
-            //await _dataModel.AddAsync(recipientsGroup);
-            
             await _dataModel.SaveChangesAsync();
 
 

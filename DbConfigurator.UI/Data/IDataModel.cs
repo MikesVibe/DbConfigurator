@@ -21,7 +21,6 @@ namespace DbConfigurator.Model
         Priority DefaultPriority { get; }
         Area DefaultArea { get; }
         BuisnessUnit DefaultBuisnessUnit { get; }
-        //ICollection<DistributionInformationWithOnlyIdsDto> DistributionInformationsDto { get; }
         ICollection<AreaDto> AreasDto { get; }
         ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; }
         ICollection<CountryDto> CountriesDto { get; }
@@ -35,7 +34,6 @@ namespace DbConfigurator.Model
         Task<Recipient> GetRecipientAsync(int id);
 
         void Remove<T>(T item) where T : class;
-        //Task<DistributionInformationDto> GetDistributionInformationDtoAsync(int id);
         Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync();
         Task<DistributionInformation> GetDistributionInformationByIdAsync(int id);
         bool IsDefaultCountry(int countryId);
