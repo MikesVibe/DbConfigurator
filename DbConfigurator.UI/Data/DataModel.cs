@@ -56,10 +56,8 @@ namespace DbConfigurator.Model
         {
             var collection = await Context.Set<DistributionInformation>()
                 .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
-                .Include(c => c.RecipientGroup)
-                .ThenInclude(t => t.RecipientsTo)
-                .Include(c => c.RecipientGroup)
-                .ThenInclude(t =>t.RecipientsCc)
+                .Include(t => t.RecipientsTo)
+                .Include(t =>t.RecipientsCc)
                 .Include(p => p.Priority)
                 .ToListAsync();
 
@@ -174,12 +172,10 @@ namespace DbConfigurator.Model
         {
             return await Context.DistributionInformation.Where(d => d.Id == id)
                 .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
-                .Include(c => c.RecipientGroup)
-                .ThenInclude(t => t.RecipientsTo)
-                .Include(c => c.RecipientGroup)
-                .ThenInclude(t => t.RecipientsCc)
+                .Include(t => t.RecipientsTo)
+                .Include(t => t.RecipientsCc)
                 .Include(p => p.Priority)
-                .FirstOrDefaultAsync();
+                .FirstAsync();
         }
 
         public bool IsDefaultCountry(int countryId)

@@ -11,7 +11,7 @@ namespace DbConfigurator.Model
     {
         public int RecipientId { get; set; }
         public Recipient Recipient { get; set;}
-        public int RecipientGroupId { get; set; }
-        public RecipientGroup RecipientGroup { get; set; }
+        public int DistributionInformationId { get; set; }
+        public DistributionInformation RecipientGroup { get; set; }
     }
 }

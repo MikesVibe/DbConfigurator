@@ -24,7 +24,7 @@ namespace DbConfigurator.DataAccess
         public DbSet<BuisnessUnitCountry> BuisnessUnitCountry { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<Priority> Priority { get; set; }
-        public DbSet<RecipientGroup> RecipientGroup { get; set; }
+        //public DbSet<RecipientGroup> RecipientGroup { get; set; }
         public DbSet<RecipientGroupCc> RecipientGroupCc { get; set; }
         public DbSet<RecipientGroupTo> RecipientGroupTo { get; set; }
         public DbSet<Recipient> Recipient { get; set; }
@@ -44,24 +44,24 @@ namespace DbConfigurator.DataAccess
                 .WithMany(e => e.BuisnessUnits)
                 .UsingEntity<BuisnessUnitCountry>();
 
+            ////Setting up joining table for Recipients Groups
+            //modelBuilder.Entity<DistributionInformation>()
+            //    .HasOne(d => d.RecipientGroup)
+            //    .WithOne(r => r.DistributionInformation)
+            //    .HasForeignKey<DistributionInformation>(d => d.RecipientGroupId)
+            //    .IsRequired(false);
+            
+            
             //Setting up joining table for Recipients Groups
             modelBuilder.Entity<DistributionInformation>()
-                .HasOne(d => d.RecipientGroup)
-                .WithOne(r => r.DistributionInformation)
-                .HasForeignKey<DistributionInformation>(d => d.RecipientGroupId)
-                .IsRequired(false);
-
-            modelBuilder.Entity<RecipientGroup>()
                 .HasMany(g => g.RecipientsTo)
                 .WithMany(r => r.RecipientGroupTo)
                 .UsingEntity<RecipientGroupTo>();
-                //.UsingEntity(j => j.ToTable("RecipientsGroupTo"));
 
-            modelBuilder.Entity<RecipientGroup>()
+            modelBuilder.Entity<DistributionInformation>()
                 .HasMany(g => g.RecipientsCc)
                 .WithMany(r => r.RecipientGroupCc)
                 .UsingEntity<RecipientGroupCc>();
-                //.UsingEntity(j => j.ToTable("RecipientsGroupCc"));
 
 
             var bUData = new GenericDataForTabels();

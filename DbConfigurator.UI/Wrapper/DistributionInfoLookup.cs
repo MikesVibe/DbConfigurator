@@ -74,17 +74,17 @@ namespace DbConfigurator.Model
                 }
 
             
-                if (Model.RecipientGroup != null)
-                {
-                    if (Model.RecipientGroup.RecipientsTo!= null)
-                        TO = EnumerableToObservableCollection(Model.RecipientGroup.RecipientsTo);
-                }
+                //if (Model.RecipientGroup != null)
+                //{
+                //    if (Model.RecipientGroup.RecipientsTo!= null)
+                //        TO = EnumerableToObservableCollection(Model.RecipientGroup.RecipientsTo);
+                //}
 
-                if (Model.RecipientGroup != null)
-                {
-                    if (Model.RecipientGroup.RecipientsCc != null)
-                        CC = EnumerableToObservableCollection(Model.RecipientGroup.RecipientsCc);
-                }
+                //if (Model.RecipientGroup != null)
+                //{
+                //    if (Model.RecipientGroup.RecipientsCc != null)
+                //        CC = EnumerableToObservableCollection(Model.RecipientGroup.RecipientsCc);
+                //}
             }
         }
         public int Id
