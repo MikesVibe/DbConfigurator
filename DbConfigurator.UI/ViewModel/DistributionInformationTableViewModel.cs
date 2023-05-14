@@ -115,6 +115,7 @@ namespace DbConfigurator.UI.ViewModel
         protected async override void OnRemoveExecute()
         {
             _dataModel.Remove(_dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First());
+            var deletedDistributionInfo = SelectedDistributionInformation;
             await _dataModel.SaveChangesAsync();
             
             DistributionInformation_ObservableCollection.Remove(SelectedDistributionInformation);
@@ -375,6 +376,7 @@ namespace DbConfigurator.UI.ViewModel
             disInfo?.RecipientsTo.Add(recipient);
             RecipientsToComboBox.Remove(value);
             _selectedRecipientToComboBox = null;
+            await _dataModel.SaveChangesAsync();
         }
 
         public RecipientDto? SelectedRecipientCcComboBox
@@ -399,6 +401,7 @@ namespace DbConfigurator.UI.ViewModel
             disInfo?.RecipientsCc.Add(recipient);
             RecipientsCcComboBox.Remove(value);
             _selectedRecipientCcComboBox = null;
+            await _dataModel.SaveChangesAsync();
         }
 
         public RecipientDto? SelectedRecipientToListView
