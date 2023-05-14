@@ -29,7 +29,6 @@ namespace DbConfigurator.Model
 
         private async void LoadDataFromDatabase()
         {
-            DistributionInformations = await GetAllDistributionInformationAsync();
             Areas = await GetAllAreasAsync();
             BuisnessUnits = await GetAllBuisnessUnitsAsync();
             Countries = await GetAllCountriesAsync();
@@ -45,7 +44,6 @@ namespace DbConfigurator.Model
             CountriesDto = AutoMapper.Mapper.Map<List<CountryDto>>(await GetAllCountriesAsync());
             PrioritiesDto = AutoMapper.Mapper.Map<List<PriorityDto>>(await GetAllPrioritiesAsync());
             RecipientsDto = AutoMapper.Mapper.Map<List<RecipientDto>>(await GetAllRecipientsAsync());
-            DistributionInformationsDto = AutoMapper.Mapper.Map<List<DistributionInformationDto>>(DistributionInformations);
         }
 
         public async Task SaveChangesAsync()

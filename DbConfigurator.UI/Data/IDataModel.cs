@@ -11,7 +11,6 @@ namespace DbConfigurator.Model
     {
         Task SaveChangesAsync();
 
-        ICollection<DistributionInformation> DistributionInformations{ get; }
         ICollection<Area> Areas { get; }
         ICollection<BuisnessUnit> BuisnessUnits { get; }
         ICollection<Country> Countries { get; }
@@ -31,6 +30,7 @@ namespace DbConfigurator.Model
         Task ReloadEntryPriorityAsync(DistributionInformation disInfo);
         Task ReloadEntryCountryAsync(DistributionInformation disInfo);
         Task AddAsync<T>(T item) where T : class;
+        //Task AddDistributionInformationAsync(DistributionInformation item);
         Task<Recipient> GetRecipientAsync(int id);
 
         void Remove<T>(T item) where T : class;
