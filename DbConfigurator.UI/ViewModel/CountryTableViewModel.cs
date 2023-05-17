@@ -34,6 +34,9 @@ namespace DbConfigurator.UI.ViewModel
 
             foreach (var country in countries)
             {
+                if (country.Name == _dataModel.DefaultCountry.Name)
+                    continue;
+
                 var wrapper = AutoMapper.Mapper.Map<CountryDto>(country);
                 Countries_ObservableCollection.Add(wrapper);
             }
