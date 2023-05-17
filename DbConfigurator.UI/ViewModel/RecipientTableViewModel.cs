@@ -25,20 +25,22 @@ namespace DbConfigurator.UI.ViewModel
 {
     public class RecipientTableViewModel : TableViewModelBase, IRecipientTableViewModel
     {
+        private readonly AutoMapperConfig _autoMapper;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IDataModel _dataModel;
+
         public RecipientTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator)
         {
             _dataModel = dataModel;
-            AutoMapper = autoMapper;
+            _autoMapper = autoMapper;
             Recipients_ObservableCollection = new ObservableCollection<RecipientDtoWrapper>();
 
 
 
-
         }
-
 
         public override async Task LoadAsync()
         {
@@ -53,7 +55,7 @@ namespace DbConfigurator.UI.ViewModel
 
             foreach (var recipient in recipients)
             {
-                var mapped = AutoMapper.Mapper.Map<RecipientDto>(recipient);
+                var mapped = _autoMapper.Mapper.Map<RecipientDto>(recipient);
                 var wrapper = new RecipientDtoWrapper(mapped);
                 Recipients_ObservableCollection.Add(wrapper);
                 //wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
@@ -95,7 +97,7 @@ namespace DbConfigurator.UI.ViewModel
             await _dataModel.SaveChangesAsync();
 
             var recipientEntity = await _dataModel.GetRecipientAsync(recipient.Id);
-            var recipientDto = AutoMapper.Mapper.Map<RecipientDto>(recipientEntity);
+            var recipientDto = _autoMapper.Mapper.Map<RecipientDto>(recipientEntity);
             var recipientWrapped = new RecipientDtoWrapper(recipientDto);
 
             Recipients_ObservableCollection.Add(recipientWrapped);
@@ -117,23 +119,43 @@ namespace DbConfigurator.UI.ViewModel
         public RecipientDtoWrapper SelectedRecipient
         {
             get { return _selectedRecipient; }
-            set 
+            set
             {
+                if (value == null)
+                    return;
+
                 _selectedRecipient = value;
+                SelectedRecipientFirstName = SelectedRecipient.FirstName;
+                SelectedRecipientLastName = SelectedRecipient.LastName;
+                SelectedRecipientEmail = SelectedRecipient.Email;
+
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedRecipientFirstName));
+                OnPropertyChanged(nameof(SelectedRecipientLastName));
+                OnPropertyChanged(nameof(SelectedRecipientEmail));
             }
         }
-        public string SelectedRecipientFirstName { get; set; }
+        public string SelectedRecipientFirstName
+        {
+            get { return _selectedRecipientFirstName; }
+            set 
+            {
+                _selectedRecipientFirstName = value;
+                SelectedRecipient.FirstName = value;
+            }
+        }
+
         public string SelectedRecipientLastName { get; set; }
         public string SelectedRecipientEmail { get; set; }
 
 
-        public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }
-        private AutoMapperConfig AutoMapper { get; }
 
+
+        public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }
+
+
+        private string _selectedRecipientFirstName;
         private RecipientDtoWrapper _selectedRecipient;
-        private IEventAggregator _eventAggregator;
-        private IDataModel _dataModel;
 
 
     }

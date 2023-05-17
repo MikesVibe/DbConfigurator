@@ -19,14 +19,14 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        
+
         <DataGrid   x:Name="myDataGrid"
-            CanUserResizeRows="False"
+            CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
             ItemsSource="{Binding Recipients_ObservableCollection}"
             SelectedItem="{Binding SelectedRecipient, Mode=TwoWay}"                    
             SelectedIndex="{Binding DefaultRowIndex, Mode=OneTime}"
-            AutoGenerateColumns="False" FontSize="11" Height="300" Width="818">
-            
+            AutoGenerateColumns="False" FontSize="11" Height="500" Width="818">
+
 
             <DataGrid.Columns >
                 <DataGridTextColumn Header="First Name"  Width="150"
@@ -45,21 +45,21 @@
                     Command="{Binding RemoveCommand}"/>
         </StackPanel>
 
-
-        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Margin="20" Width="200">
-            <StackPanel Orientation="Vertical">
-                <Label Content="First Name:" />
-                <TextBox Width="200" FontSize="16" Text="{Binding SelectedRecipientFirstName}"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" >
+            <StackPanel Orientation="Vertical" Width="200" Margin="20">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="First Name:" />
+                    <TextBox FontSize="14" Text="{Binding SelectedRecipientFirstName, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Last Name:" />
+                    <TextBox FontSize="14" Text="{Binding SelectedRecipientLastName, Mode=TwoWay}"/>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <Label Content="Last Name:" />
-                <TextBox Width="200" FontSize="16"/>
 
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" Width="300" Margin="20">
                 <Label Content="Email:" />
-                <TextBox Width="200" FontSize="16"/>
-
+                <TextBox FontSize="14" Text="{Binding SelectedRecipientEmail, Mode=TwoWay}"/>
             </StackPanel>
         </StackPanel>
 
