@@ -31,11 +31,11 @@ namespace DbConfigurator.UI.ViewModel
         public DistributionInformationTableViewModel(
             IEventAggregator eventAggregator,
             IDataModel dataModel,
-            AutoMapperConfig autoMapperConfig
+            AutoMapperConfig autoMapper
             ) : base(eventAggregator)
         {
             _dataModel = dataModel;
-            AutoMapper = autoMapperConfig;
+            AutoMapper = autoMapper;
 
             DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationDtoWrapper>();
             RecipientsTo_ListView = new ObservableCollection<RecipientDto>();

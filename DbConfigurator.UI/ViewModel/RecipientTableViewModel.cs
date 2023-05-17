@@ -1,4 +1,6 @@
 ﻿using DbConfigurator.Model;
+using DbConfigurator.Model.DTOs;
+using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Wrapper;
 using Microsoft.EntityFrameworkCore;
@@ -24,12 +26,13 @@ namespace DbConfigurator.UI.ViewModel
     public class RecipientTableViewModel : TableViewModelBase, IRecipientTableViewModel
     {
         public RecipientTableViewModel(IDataModel dataModel,
-            IEventAggregator eventAggregator) : base(eventAggregator)
+            IEventAggregator eventAggregator,
+            AutoMapperConfig autoMapper
+            ) : base(eventAggregator)
         {
             _dataModel = dataModel;
-
-
-            Recipients_ObservableCollection = new ObservableCollection<RecipientWrapper>();
+            AutoMapper = autoMapper;
+            Recipients_ObservableCollection = new ObservableCollection<RecipientDtoWrapper>();
 
 
 
@@ -50,7 +53,8 @@ namespace DbConfigurator.UI.ViewModel
 
             foreach (var recipient in recipients)
             {
-                var wrapper = new RecipientWrapper(recipient);
+                var mapped = AutoMapper.Mapper.Map<RecipientDto>(recipient);
+                var wrapper = new RecipientDtoWrapper(mapped);
                 Recipients_ObservableCollection.Add(wrapper);
                 //wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
             }
@@ -61,7 +65,7 @@ namespace DbConfigurator.UI.ViewModel
             {
                 HasChanges = _dataModel.HasChanges();
             }
-            if (e.PropertyName == nameof(RecipientWrapper.HasErrors))
+            if (e.PropertyName == nameof(RecipientDtoWrapper.HasErrors))
             {
                 //((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
@@ -69,9 +73,33 @@ namespace DbConfigurator.UI.ViewModel
 
 
 
-        protected override void OnAddExecute()
+        protected async override void OnAddExecute()
         {
-            //throw new NotImplementedException();
+            //Create New Recipient
+            //var recipient = new Recipient()
+            //{
+            //    FirstName = String.Empty,
+            //    LastName = String.Empty,
+            //    Email = String.Empty
+            //};
+
+            var recipient = new Recipient()
+            {
+                FirstName = "Krzysiu",
+                LastName = "Testwoy",
+                Email = "Krzysiu.Testowy@company.com"
+            };
+
+
+            await _dataModel.AddAsync(recipient);
+            await _dataModel.SaveChangesAsync();
+
+            var recipientEntity = await _dataModel.GetRecipientAsync(recipient.Id);
+            var recipientDto = AutoMapper.Mapper.Map<RecipientDto>(recipientEntity);
+            var recipientWrapped = new RecipientDtoWrapper(recipientDto);
+
+            Recipients_ObservableCollection.Add(recipientWrapped);
+            SelectedRecipient = recipientWrapped;
         }
 
         protected override void OnRemoveExecute()
@@ -86,7 +114,7 @@ namespace DbConfigurator.UI.ViewModel
         }
 
         public int DefaultRowIndex { get { return 0; } }
-        public RecipientWrapper SelectedRecipient
+        public RecipientDtoWrapper SelectedRecipient
         {
             get { return _selectedRecipient; }
             set 
@@ -97,9 +125,10 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-        public ObservableCollection<RecipientWrapper> Recipients_ObservableCollection { get; set; }
+        public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }
+        private AutoMapperConfig AutoMapper { get; }
 
-        private RecipientWrapper _selectedRecipient;
+        private RecipientDtoWrapper _selectedRecipient;
         private IEventAggregator _eventAggregator;
         private IDataModel _dataModel;
 
