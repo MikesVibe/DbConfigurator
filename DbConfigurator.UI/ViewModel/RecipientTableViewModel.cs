@@ -123,6 +123,9 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+        public string SelectedRecipientFirstName { get; set; }
+        public string SelectedRecipientLastName { get; set; }
+        public string SelectedRecipientEmail { get; set; }
 
 
         public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }

@@ -102,7 +102,7 @@
                     <ComboBox Name="CountryComboBox"
                               ItemsSource="{Binding Country_Collection}"
                               SelectedItem="{Binding SelectedCountry}"
-                              DisplayMemberPath="Name" SelectedValuePath="Id">
+                              DisplayMemberPath="CountryName" SelectedValuePath="Id">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding CountryChangedCommand }"/>
