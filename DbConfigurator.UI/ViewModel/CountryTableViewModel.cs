@@ -30,7 +30,7 @@ namespace DbConfigurator.UI.ViewModel
 
         public override async Task LoadAsync()
         {
-            var countries = _dataModel.Countries;
+            var countries = await _dataModel.GetAllCountriesAsync();
 
             foreach (var country in countries)
             {

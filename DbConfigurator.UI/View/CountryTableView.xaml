@@ -18,13 +18,10 @@
         </Grid.ColumnDefinitions>
 
         <DataGrid   x:Name="myDataGrid"
-            CanUserResizeRows="False"
-            ItemsSource="{Binding Countries_ObservableCollection}"
-            SelectedItem="{Binding SelectedCountry, Mode=TwoWay}"                    
-            SelectedIndex="{Binding DefaultRowIndex, Mode=OneTime}"
+            CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
+            ItemsSource="{Binding Countries_ObservableCollection , Mode=TwoWay}"
+            SelectedItem="{Binding SelectedCountry, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"                    
             AutoGenerateColumns="False" FontSize="11" Height="300" Width="818">
-
-
             <DataGrid.Columns >
                 <DataGridTextColumn Header="Area"  Width="200"
                                     Binding="{Binding AreaName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
