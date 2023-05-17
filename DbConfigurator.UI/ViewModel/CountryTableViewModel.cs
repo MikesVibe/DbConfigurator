@@ -1,4 +1,6 @@
 ﻿using DbConfigurator.Model;
+using DbConfigurator.Model.DTOs;
+using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Wrapper;
 using Prism.Commands;
@@ -16,12 +18,13 @@ namespace DbConfigurator.UI.ViewModel
     public class CountryTableViewModel : TableViewModelBase, ICountryTableViewModel
     {
         public CountryTableViewModel(IDataModel dataModel,
-            IEventAggregator eventAggregator
+            IEventAggregator eventAggregator,
+            AutoMapperConfig autoMapper
             ) : base(eventAggregator)
         {
             _dataModel = dataModel;
-
-            Countries_ObservableCollection = new ObservableCollection<CountryLookup>();
+            AutoMapper = autoMapper;
+            Countries_ObservableCollection = new ObservableCollection<CountryDto>();
         }
 
 
@@ -31,7 +34,7 @@ namespace DbConfigurator.UI.ViewModel
 
             foreach (var country in countries)
             {
-                var wrapper = new CountryLookup(country);
+                var wrapper = AutoMapper.Mapper.Map<CountryDto>(country);
                 Countries_ObservableCollection.Add(wrapper);
             }
 
@@ -94,7 +97,7 @@ namespace DbConfigurator.UI.ViewModel
         }
 
         public int DefaultRowIndex { get { return 0; } }
-        public CountryLookup SelectedCountry
+        public CountryDto SelectedCountry
         {
             get { return _selectedCountry; }
             set
@@ -104,10 +107,10 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-        public ObservableCollection<CountryLookup> Countries_ObservableCollection { get; set; }
+        public ObservableCollection<CountryDto> Countries_ObservableCollection { get; set; }
+        private AutoMapperConfig AutoMapper { get; }
 
-
-        private CountryLookup _selectedCountry;
+        private CountryDto _selectedCountry;
         private IDataModel _dataModel;
 
     }

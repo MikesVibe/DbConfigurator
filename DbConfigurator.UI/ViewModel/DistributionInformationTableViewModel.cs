@@ -261,7 +261,7 @@ namespace DbConfigurator.UI.ViewModel
 
 
             //Assign Changed properties to SelectedDistributionInformation variable
-            SelectedDistributionInformation.Country = SelectedCountry.Name;
+            SelectedDistributionInformation.Country = SelectedCountry.CountryName;
             SelectedDistributionInformation.CountryId = SelectedCountry.Id;
 
             SelectedDistributionInformation.Area = SelectedArea.Name;
@@ -474,7 +474,7 @@ namespace DbConfigurator.UI.ViewModel
 
         private readonly IDataModel _dataModel;
 
-        public AutoMapperConfig AutoMapper { get; }
+        private AutoMapperConfig AutoMapper { get; }
 
         private IEventAggregator _eventAggregator;
         private DistributionInformationDtoWrapper _selectedDistributionInformation;

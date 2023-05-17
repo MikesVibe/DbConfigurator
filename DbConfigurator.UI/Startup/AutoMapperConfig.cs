@@ -18,11 +18,15 @@ namespace DbConfigurator.UI.Startup
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Priority, PriorityDto>();
-                cfg.CreateMap<Country, CountryDto>();
-                cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>();
-                cfg.CreateMap<Area, AreaDto>();
                 cfg.CreateMap<Recipient, RecipientDto>();
+                cfg.CreateMap<Priority, PriorityDto>();
+                cfg.CreateMap<Area, AreaDto>();
+                cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>();
+                cfg.CreateMap<Country, CountryDto>()
+                .ForMember(c => c.CountryName, opt => opt.MapFrom(src => src.Name))
+                .ForMember(c => c.CountryShortCode, opt => opt.MapFrom(src => src.ShortCode))
+                .ForMember(c => c.BuisnessUnitName, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Name))
+                .ForMember(c => c.AreaName, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Areas.First().Name));
                 cfg.CreateMap<DistributionInformation, DistributionInformationDto>()
                             .ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
                                 rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
