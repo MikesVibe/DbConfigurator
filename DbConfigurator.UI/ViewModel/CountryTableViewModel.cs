@@ -62,26 +62,11 @@ namespace DbConfigurator.UI.ViewModel
             }
             if (e.PropertyName == nameof(CountryWrapper.HasErrors))
             {
-                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                //((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
         }
 
-        protected override void OnDeleteExecute()
-        {
-            throw new NotImplementedException();
-        }
-        protected override bool OnSaveCanExecute()
-        {
-            return SelectedCountry != null
-                //&& !SelectedCountry.HasErrors
-                && HasChanges;
-        }
-        protected async override void OnSaveExecute()
-        {
-            await _dataModel.SaveChangesAsync();
-            HasChanges = _dataModel.HasChanges();
-            Id = SelectedCountry.Id;
-        }
+
 
         protected override void OnAddExecute()
         {

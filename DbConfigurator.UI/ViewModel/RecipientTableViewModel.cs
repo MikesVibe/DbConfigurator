@@ -63,27 +63,11 @@ namespace DbConfigurator.UI.ViewModel
             }
             if (e.PropertyName == nameof(RecipientWrapper.HasErrors))
             {
-                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                //((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
         }
 
-        protected override void OnDeleteExecute()
-        {
-            throw new NotImplementedException();
-        }
-        protected override bool OnSaveCanExecute()
-        {
-            return SelectedRecipient != null
-                && !SelectedRecipient.HasErrors
-                && HasChanges;
-        }
-        protected async override void OnSaveExecute()
-        {
-            await _dataModel.SaveChangesAsync();
-            HasChanges = _dataModel.HasChanges();
-            Id = SelectedRecipient.Id;
 
-        }
 
         protected override void OnAddExecute()
         {

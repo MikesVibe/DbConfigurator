@@ -77,19 +77,7 @@ namespace DbConfigurator.UI.ViewModel
             Priority_Collection = priorities;
         }
 
-        protected override void OnDeleteExecute()
-        {
-            throw new NotImplementedException();
-        }
-        protected override bool OnSaveCanExecute()
-        {
-            return false;
-        }
-        protected async override void OnSaveExecute()
-        {
-            await _dataModel.SaveChangesAsync();
-            HasChanges = _dataModel.HasChanges();
-        }
+
         protected async override void OnAddExecute()
         {
             //Create New Distribution Infrotmaion
@@ -176,7 +164,7 @@ namespace DbConfigurator.UI.ViewModel
             }
             if (e.PropertyName == nameof(DistributionInformationDtoWrapper.HasErrors))
             {
-                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                //((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
         }
         private void OnSelectionChanged()

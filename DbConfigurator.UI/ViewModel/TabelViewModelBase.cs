@@ -15,8 +15,7 @@ namespace DbConfigurator.UI.ViewModel
         public TableViewModelBase(IEventAggregator eventAggregator)
         {
             EventAggregator = eventAggregator;
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
-            DeleteCommand = new DelegateCommand(OnDeleteExecute);
+
 
             AddCommand = new DelegateCommand(OnAddExecute);
             RemoveCommand = new DelegateCommand(OnRemoveExecute, OnRemoveCanExecute);
@@ -24,9 +23,6 @@ namespace DbConfigurator.UI.ViewModel
 
         public abstract Task LoadAsync();
 
-        protected abstract void OnDeleteExecute();
-        protected abstract bool OnSaveCanExecute();
-        protected abstract void OnSaveExecute();
 
         protected abstract void OnAddExecute();
         protected abstract void OnRemoveExecute();
@@ -46,12 +42,10 @@ namespace DbConfigurator.UI.ViewModel
                 {
                     _hasChanges = value;
                     OnPropertyChanged();
-                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                    //((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
             }
         }
-        public DelegateCommand SaveCommand { get; private set; }
-        public DelegateCommand DeleteCommand { get; private set; }
 
         public DelegateCommand AddCommand { get; private set; }
         public DelegateCommand RemoveCommand { get; private set; }
