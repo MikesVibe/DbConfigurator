@@ -122,6 +122,9 @@ namespace DbConfigurator.UI.ViewModel
             
             DistributionInformation_ObservableCollection.Remove(SelectedDistributionInformation);
             SelectedDistributionInformation = null;
+            RecipientsTo_ListView.Clear();
+            RecipientsCc_ListView.Clear();
+
             ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
 
         }
