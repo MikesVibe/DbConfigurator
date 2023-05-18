@@ -84,7 +84,7 @@ namespace DbConfigurator.Model
             var collection = await Context.Set<Priority>().AsNoTracking().ToListAsync();
             return collection;
         }
-        private async Task<ICollection<Recipient>> GetAllRecipientsAsync()
+        public async Task<ICollection<Recipient>> GetAllRecipientsAsync()
         {
             var collection = await Context.Set<Recipient>().AsNoTracking().ToListAsync();
             return collection;

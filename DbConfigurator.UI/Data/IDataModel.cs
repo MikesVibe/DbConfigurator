@@ -38,5 +38,6 @@ namespace DbConfigurator.Model
         Task<DistributionInformation> GetDistributionInformationByIdAsync(int id);
         bool IsDefaultCountry(int countryId);
         Task<ICollection<Country>> GetAllCountriesAsync();
+        Task<ICollection<Recipient>> GetAllRecipientsAsync();
     }
 }

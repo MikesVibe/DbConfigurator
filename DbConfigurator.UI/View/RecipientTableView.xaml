@@ -45,7 +45,13 @@
                     Command="{Binding RemoveCommand}"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" >
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
             <StackPanel Orientation="Vertical" Width="200" Margin="20">
                 <StackPanel Orientation="Vertical">
                     <Label Content="First Name:" />
@@ -57,11 +63,14 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Orientation="Vertical" Width="300" Margin="20">
+            <StackPanel Grid.Column="1" Orientation="Vertical" Width="300" Margin="20">
                 <Label Content="Email:" />
                 <TextBox FontSize="14" Text="{Binding SelectedRecipientEmail, Mode=TwoWay}"/>
             </StackPanel>
-        </StackPanel>
+
+            <Button Grid.Column="2" Width="150" Height="50" VerticalAlignment="Center" />
+
+        </Grid>
 
     </Grid>
 </UserControl>

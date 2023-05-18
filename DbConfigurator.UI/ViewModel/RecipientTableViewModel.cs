@@ -44,7 +44,7 @@ namespace DbConfigurator.UI.ViewModel
 
         public override async Task LoadAsync()
         {
-            var recipients = _dataModel.Recipients;
+            var recipients = await _dataModel.GetAllRecipientsAsync();
 
             //foreach (var wrapper in Recipients_ObservableCollection)
             //{
@@ -152,7 +152,7 @@ namespace DbConfigurator.UI.ViewModel
 
 
         public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }
-
+        public ICommand TextChangedCommand { get; set; }
 
         private string _selectedRecipientFirstName;
         private RecipientDtoWrapper _selectedRecipient;
