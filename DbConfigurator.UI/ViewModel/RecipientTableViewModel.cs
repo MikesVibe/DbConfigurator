@@ -58,7 +58,7 @@ namespace DbConfigurator.UI.ViewModel
 
         private bool OnSaveCanExecute()
         {
-            return true;
+            return SelectedRecipient != null;
         }
 
         public override async Task LoadAsync()
@@ -116,15 +116,23 @@ namespace DbConfigurator.UI.ViewModel
 
             Recipients_ObservableCollection.Add(recipientWrapped);
             SelectedRecipient = recipientWrapped;
+            
+        
         }
 
-        protected override void OnRemoveExecute()
+        protected async override void OnRemoveExecute()
         {
+            var recipient = await _dataModel.GetRecipientByIdAsync(SelectedRecipient.Id);
+            _dataModel.Remove<Recipient>(recipient);
+            await _dataModel.SaveChangesAsync();
+
+            Recipients_ObservableCollection.Remove(SelectedRecipient);
+            SelectedRecipient = null;
         }
 
         protected override bool OnRemoveCanExecute()
         {
-            return false;
+            return SelectedRecipient != null;
         }
 
         public int DefaultRowIndex { get { return 0; } }
