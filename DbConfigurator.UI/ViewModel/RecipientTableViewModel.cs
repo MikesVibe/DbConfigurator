@@ -46,9 +46,9 @@ namespace DbConfigurator.UI.ViewModel
         {
             //Console.WriteLine("Testing Save button.");
             var recipientEntity = await _dataModel.GetRecipientByIdAsync(SelectedRecipient.Id);
-            recipientEntity.FirstName = SelectedRecipientFirstName;
-            recipientEntity.LastName = SelectedRecipientLastName;
-            recipientEntity.Email = SelectedRecipientEmail;
+            //recipientEntity.FirstName = SelectedRecipientFirstName;
+            //recipientEntity.LastName = SelectedRecipientLastName;
+            //recipientEntity.Email = SelectedRecipientEmail;
             //SelectedRecipient.FirstName = SelectedRecipientFirstName;
             //SelectedRecipient.LastName = SelectedRecipientLastName;
             //SelectedRecipient.Email = SelectedRecipientEmail;
@@ -58,26 +58,26 @@ namespace DbConfigurator.UI.ViewModel
 
         private bool OnSaveCanExecute()
         {
-            return SelectedRecipient != null;
+            return SelectedRecipient != null && !SelectedRecipient.HasErrors;
         }
 
         public override async Task LoadAsync()
         {
             var recipients = await _dataModel.GetAllRecipientsAsync();
 
-            //foreach (var wrapper in Recipients_ObservableCollection)
-            //{
-            //    wrapper.PropertyChanged -= Recipients_ObservableCollection_PropertyChanged;
+            foreach (var wrapper in Recipients_ObservableCollection)
+            {
+                wrapper.PropertyChanged -= Recipients_ObservableCollection_PropertyChanged;
 
-            //}
-            //Recipients_ObservableCollection.Clear();
+            }
+            Recipients_ObservableCollection.Clear();
 
             foreach (var recipient in recipients)
             {
                 var mapped = _autoMapper.Mapper.Map<RecipientDto>(recipient);
                 var wrapper = new RecipientDtoWrapper(mapped);
                 Recipients_ObservableCollection.Add(wrapper);
-                //wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
+                wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
             }
         }
         private void Recipients_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -88,7 +88,7 @@ namespace DbConfigurator.UI.ViewModel
             }
             if (e.PropertyName == nameof(RecipientDtoWrapper.HasErrors))
             {
-                //((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -145,52 +145,52 @@ namespace DbConfigurator.UI.ViewModel
                     return;
 
                 _selectedRecipient = value;
-                SelectedRecipientFirstName = SelectedRecipient.FirstName;
-                SelectedRecipientLastName = SelectedRecipient.LastName;
-                SelectedRecipientEmail = SelectedRecipient.Email;
+                //SelectedRecipientFirstName = SelectedRecipient.FirstName;
+                //SelectedRecipientLastName = SelectedRecipient.LastName;
+                //SelectedRecipientEmail = SelectedRecipient.Email;
 
                 OnPropertyChanged();
             }
         }
-        public string SelectedRecipientFirstName
-        {
-            get { return _selectedRecipientFirstName; }
-            set 
-            {
-                _selectedRecipientFirstName = value;
-                SelectedRecipient.FirstName = value;
-                OnPropertyChanged();
-            }
-        }
+        //public string SelectedRecipientFirstName
+        //{
+        //    get { return _selectedRecipientFirstName; }
+        //    set 
+        //    {
+        //        _selectedRecipientFirstName = value;
+        //        SelectedRecipient.FirstName = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
-        public string SelectedRecipientLastName
-        {
-            get { return _selectedRecipientLastName; }
-            set
-            {
-                _selectedRecipientLastName = value;
-                SelectedRecipient.LastName = value;
-                OnPropertyChanged();
-            }
-        }
-        public string SelectedRecipientEmail
-        {
-            get { return _selectedRecipientEmail; }
-            set
-            {
-                _selectedRecipientEmail = value;
-                SelectedRecipient.Email = value;
-                OnPropertyChanged();
-            }
-        }
+        //public string SelectedRecipientLastName
+        //{
+        //    get { return _selectedRecipientLastName; }
+        //    set
+        //    {
+        //        _selectedRecipientLastName = value;
+        //        SelectedRecipient.LastName = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
+        //public string SelectedRecipientEmail
+        //{
+        //    get { return _selectedRecipientEmail; }
+        //    set
+        //    {
+        //        _selectedRecipientEmail = value;
+        //        SelectedRecipient.Email = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
 
         public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }
         public ICommand SaveCommand { get; set; }
 
-        private string _selectedRecipientFirstName;
-        private string _selectedRecipientLastName;
-        private string _selectedRecipientEmail;
+        //private string _selectedRecipientFirstName;
+        //private string _selectedRecipientLastName;
+        //private string _selectedRecipientEmail;
         private RecipientDtoWrapper _selectedRecipient;
 
     }
