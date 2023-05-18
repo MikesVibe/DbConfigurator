@@ -161,7 +161,7 @@ namespace DbConfigurator.Model
         {
             Context.Set<T>().Remove(item);
         }
-        public async Task<Recipient> GetRecipientAsync(int id)
+        public async Task<Recipient> GetRecipientByIdAsync(int id)
         {
             return await Context.Recipient.Where(r => r.Id == id).FirstAsync();
         }

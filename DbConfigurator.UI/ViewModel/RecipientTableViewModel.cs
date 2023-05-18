@@ -37,9 +37,28 @@ namespace DbConfigurator.UI.ViewModel
             _dataModel = dataModel;
             _autoMapper = autoMapper;
             Recipients_ObservableCollection = new ObservableCollection<RecipientDtoWrapper>();
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
 
 
+        }
 
+        private async void OnSaveExecute()
+        {
+            //Console.WriteLine("Testing Save button.");
+            var recipientEntity = await _dataModel.GetRecipientByIdAsync(SelectedRecipient.Id);
+            recipientEntity.FirstName = SelectedRecipientFirstName;
+            recipientEntity.LastName = SelectedRecipientLastName;
+            recipientEntity.Email = SelectedRecipientEmail;
+            //SelectedRecipient.FirstName = SelectedRecipientFirstName;
+            //SelectedRecipient.LastName = SelectedRecipientLastName;
+            //SelectedRecipient.Email = SelectedRecipientEmail;
+
+            await _dataModel.SaveChangesAsync();
+        }
+
+        private bool OnSaveCanExecute()
+        {
+            return true;
         }
 
         public override async Task LoadAsync()
@@ -78,25 +97,20 @@ namespace DbConfigurator.UI.ViewModel
         protected async override void OnAddExecute()
         {
             //Create New Recipient
-            //var recipient = new Recipient()
-            //{
-            //    FirstName = String.Empty,
-            //    LastName = String.Empty,
-            //    Email = String.Empty
-            //};
-
             var recipient = new Recipient()
             {
-                FirstName = "Krzysiu",
-                LastName = "Testwoy",
-                Email = "Krzysiu.Testowy@company.com"
+                FirstName = String.Empty,
+                LastName = String.Empty,
+                Email = String.Empty
             };
+
+
 
 
             await _dataModel.AddAsync(recipient);
             await _dataModel.SaveChangesAsync();
 
-            var recipientEntity = await _dataModel.GetRecipientAsync(recipient.Id);
+            var recipientEntity = await _dataModel.GetRecipientByIdAsync(recipient.Id);
             var recipientDto = _autoMapper.Mapper.Map<RecipientDto>(recipientEntity);
             var recipientWrapped = new RecipientDtoWrapper(recipientDto);
 
@@ -106,13 +120,11 @@ namespace DbConfigurator.UI.ViewModel
 
         protected override void OnRemoveExecute()
         {
-            //throw new NotImplementedException();
         }
 
         protected override bool OnRemoveCanExecute()
         {
             return false;
-            //throw new NotImplementedException();
         }
 
         public int DefaultRowIndex { get { return 0; } }
@@ -130,9 +142,6 @@ namespace DbConfigurator.UI.ViewModel
                 SelectedRecipientEmail = SelectedRecipient.Email;
 
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(SelectedRecipientFirstName));
-                OnPropertyChanged(nameof(SelectedRecipientLastName));
-                OnPropertyChanged(nameof(SelectedRecipientEmail));
             }
         }
         public string SelectedRecipientFirstName
@@ -142,21 +151,39 @@ namespace DbConfigurator.UI.ViewModel
             {
                 _selectedRecipientFirstName = value;
                 SelectedRecipient.FirstName = value;
+                OnPropertyChanged();
             }
         }
 
-        public string SelectedRecipientLastName { get; set; }
-        public string SelectedRecipientEmail { get; set; }
-
-
+        public string SelectedRecipientLastName
+        {
+            get { return _selectedRecipientLastName; }
+            set
+            {
+                _selectedRecipientLastName = value;
+                SelectedRecipient.LastName = value;
+                OnPropertyChanged();
+            }
+        }
+        public string SelectedRecipientEmail
+        {
+            get { return _selectedRecipientEmail; }
+            set
+            {
+                _selectedRecipientEmail = value;
+                SelectedRecipient.Email = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }
-        public ICommand TextChangedCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
 
         private string _selectedRecipientFirstName;
+        private string _selectedRecipientLastName;
+        private string _selectedRecipientEmail;
         private RecipientDtoWrapper _selectedRecipient;
-
 
     }
 }

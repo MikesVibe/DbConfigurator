@@ -365,7 +365,7 @@ namespace DbConfigurator.UI.ViewModel
             RecipientsTo_ListView.Add(value);
             SelectedDistributionInformation.RecipientsTo.Add(value);
             var disInfo = await _dataModel.GetDistributionInformationByIdAsync(SelectedDistributionInformation.Id);
-            var recipient = await _dataModel.GetRecipientAsync(value.Id);
+            var recipient = await _dataModel.GetRecipientByIdAsync(value.Id);
             disInfo?.RecipientsTo.Add(recipient);
             RecipientsToComboBox.Remove(value);
             _selectedRecipientToComboBox = null;
@@ -390,7 +390,7 @@ namespace DbConfigurator.UI.ViewModel
             RecipientsCc_ListView.Add(value);
             SelectedDistributionInformation.RecipientsCc.Add(value);
             var disInfo = await _dataModel.GetDistributionInformationByIdAsync(SelectedDistributionInformation.Id);
-            var recipient = await _dataModel.GetRecipientAsync(value.Id);
+            var recipient = await _dataModel.GetRecipientByIdAsync(value.Id);
             disInfo?.RecipientsCc.Add(recipient);
             RecipientsCcComboBox.Remove(value);
             _selectedRecipientCcComboBox = null;

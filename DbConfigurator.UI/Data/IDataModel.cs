@@ -31,7 +31,7 @@ namespace DbConfigurator.Model
         Task ReloadEntryCountryAsync(DistributionInformation disInfo);
         Task AddAsync<T>(T item) where T : class;
         //Task AddDistributionInformationAsync(DistributionInformation item);
-        Task<Recipient> GetRecipientAsync(int id);
+        Task<Recipient> GetRecipientByIdAsync(int id);
 
         void Remove<T>(T item) where T : class;
         Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync();

@@ -45,7 +45,7 @@
                     Command="{Binding RemoveCommand}"/>
         </StackPanel>
 
-        <Grid Grid.Row="1" >
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -55,20 +55,21 @@
             <StackPanel Orientation="Vertical" Width="200" Margin="20">
                 <StackPanel Orientation="Vertical">
                     <Label Content="First Name:" />
-                    <TextBox FontSize="14" Text="{Binding SelectedRecipientFirstName, Mode=TwoWay}"/>
+                    <TextBox FontSize="14" Text="{Binding SelectedRecipientFirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Content="Last Name:" />
-                    <TextBox FontSize="14" Text="{Binding SelectedRecipientLastName, Mode=TwoWay}"/>
+                    <TextBox FontSize="14" Text="{Binding SelectedRecipientLastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Vertical" Width="300" Margin="20">
                 <Label Content="Email:" />
-                <TextBox FontSize="14" Text="{Binding SelectedRecipientEmail, Mode=TwoWay}"/>
+                <TextBox FontSize="14" Text="{Binding SelectedRecipientEmail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
             </StackPanel>
 
-            <Button Grid.Column="2" Width="150" Height="50" VerticalAlignment="Center" />
+            <Button Grid.Column="2" Width="150" Height="50" VerticalAlignment="Center" 
+                    Content="Save" Command="{Binding SaveCommand}"/>
 
         </Grid>
 
