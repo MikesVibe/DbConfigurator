@@ -61,13 +61,13 @@ namespace DbConfigurator.Model
 
             return collection;
         }
-        private async Task<ICollection<Area>> GetAllAreasAsync()
+        public async Task<ICollection<Area>> GetAllAreasAsync()
         {
             var collection = await Context.Set<Area>().AsNoTracking().ToListAsync();
 
             return collection;
         }
-        private async Task<ICollection<BuisnessUnit>> GetAllBuisnessUnitsAsync()
+        public async Task<ICollection<BuisnessUnit>> GetAllBuisnessUnitsAsync()
         {
             var collection = await Context.Set<BuisnessUnit>().AsNoTracking().ToListAsync();
 

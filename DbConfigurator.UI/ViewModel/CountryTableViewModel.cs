@@ -23,7 +23,7 @@ namespace DbConfigurator.UI.ViewModel
             ) : base(eventAggregator)
         {
             _dataModel = dataModel;
-            AutoMapper = autoMapper;
+            _autoMapper = autoMapper;
             Countries_ObservableCollection = new ObservableCollection<CountryDto>();
         }
 
@@ -37,9 +37,17 @@ namespace DbConfigurator.UI.ViewModel
                 if (country.Name == _dataModel.DefaultCountry.Name)
                     continue;
 
-                var wrapper = AutoMapper.Mapper.Map<CountryDto>(country);
+                var wrapper = _autoMapper.Mapper.Map<CountryDto>(country);
                 Countries_ObservableCollection.Add(wrapper);
             }
+
+
+            var areas = EnumerableToObservableCollection(_dataModel.AreasDto);
+            Areas_ObservableCollection = areas;
+            var buisnessUnits = EnumerableToObservableCollection(_dataModel.BuisnessUnitsDto);
+            BuisnessUnits_ObservableCollection = buisnessUnits;
+            //var countries = EnumerableToObservableCollection(_dataModel.CountriesDto);
+            //Country_Collection = countries;
 
             //foreach (var wrapper in Countries_ObservableCollection)
             //{
@@ -96,7 +104,10 @@ namespace DbConfigurator.UI.ViewModel
 
 
         public ObservableCollection<CountryDto> Countries_ObservableCollection { get; set; }
-        private AutoMapperConfig AutoMapper { get; }
+        public ObservableCollection<BuisnessUnitDto> BuisnessUnits_ObservableCollection { get; set; }
+        public ObservableCollection<AreaDto> Areas_ObservableCollection { get; set; }
+
+        private AutoMapperConfig _autoMapper { get; }
 
         private CountryDto _selectedCountry;
         private IDataModel _dataModel;

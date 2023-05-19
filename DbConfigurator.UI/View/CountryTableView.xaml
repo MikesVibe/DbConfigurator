@@ -4,13 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DbConfigurator.UI.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -21,16 +19,16 @@
             CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
             ItemsSource="{Binding Countries_ObservableCollection , Mode=TwoWay}"
             SelectedItem="{Binding SelectedCountry, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"                    
-            AutoGenerateColumns="False" FontSize="11" Height="300" Width="818">
+            AutoGenerateColumns="False" FontSize="11" Height="500" Width="818">
             <DataGrid.Columns >
-                <DataGridTextColumn Header="Area"  Width="200"
-                                    Binding="{Binding AreaName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Buisness Unit" Width="100" 
-                                    Binding="{Binding BuisnessUnitName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Country Code" Width="100" 
-                                    Binding="{Binding CountryShortCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <DataGridTextColumn Header="Country" Width="*" 
+                <DataGridTextColumn Header="Country" Width="300" 
                                     Binding="{Binding CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Country Code" Width="*" 
+                                    Binding="{Binding CountryShortCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Buisness Unit" Width="*" 
+                                    Binding="{Binding BuisnessUnitName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Area"  Width="*"
+                                    Binding="{Binding AreaName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1" VerticalAlignment="Top" >
@@ -39,5 +37,37 @@
             <Button Content="Remove" Width="125" Height="45" Margin="10"
                     Command="{Binding RemoveCommand}"/>
         </StackPanel>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal">
+            <StackPanel Orientation="Vertical" Width="200" Margin="20">
+                <Label Content="Country Code:" />
+                <TextBox FontSize="14" Text="{Binding SelectedRecipient.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Width="200" Margin="20">
+                <Label Content="Country Name:" />
+                <TextBox FontSize="14" Text="{Binding SelectedRecipient.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal">
+                <StackPanel Orientation="Vertical" Width="200" Margin="20">
+                    <Label Content="Country Code:" />
+                    <TextBox FontSize="14" Text="{Binding SelectedRecipient.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Width="200" Margin="20">
+                    <Label Content="Country Name:" />
+                    <TextBox FontSize="14" Text="{Binding SelectedRecipient.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <Button Grid.Column="1" Width="150" Height="50" VerticalAlignment="Center" 
+                    Content="Save" Command="{Binding SaveCommand}"/>
+        </Grid>
     </Grid>
 </UserControl>

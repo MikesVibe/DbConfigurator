@@ -39,5 +39,7 @@ namespace DbConfigurator.Model
         bool IsDefaultCountry(int countryId);
         Task<ICollection<Country>> GetAllCountriesAsync();
         Task<ICollection<Recipient>> GetAllRecipientsAsync();
+        Task<ICollection<Area>> GetAllAreasAsync();
+        Task<ICollection<BuisnessUnit>> GetAllBuisnessUnitsAsync();
     }
 }
