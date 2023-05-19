@@ -44,14 +44,9 @@ namespace DbConfigurator.UI.ViewModel
 
         private async void OnSaveExecute()
         {
-            //Console.WriteLine("Testing Save button.");
             var recipientEntity = await _dataModel.GetRecipientByIdAsync(SelectedRecipient.Id);
-            //recipientEntity.FirstName = SelectedRecipientFirstName;
-            //recipientEntity.LastName = SelectedRecipientLastName;
-            //recipientEntity.Email = SelectedRecipientEmail;
-            //SelectedRecipient.FirstName = SelectedRecipientFirstName;
-            //SelectedRecipient.LastName = SelectedRecipientLastName;
-            //SelectedRecipient.Email = SelectedRecipientEmail;
+            _autoMapper.Mapper.Map(SelectedRecipient.Model, recipientEntity);
+
 
             await _dataModel.SaveChangesAsync();
         }
@@ -93,7 +88,6 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-
         protected async override void OnAddExecute()
         {
             //Create New Recipient
@@ -105,8 +99,6 @@ namespace DbConfigurator.UI.ViewModel
             };
 
 
-
-
             await _dataModel.AddAsync(recipient);
             await _dataModel.SaveChangesAsync();
 
@@ -116,8 +108,6 @@ namespace DbConfigurator.UI.ViewModel
 
             Recipients_ObservableCollection.Add(recipientWrapped);
             SelectedRecipient = recipientWrapped;
-            
-        
         }
 
         protected async override void OnRemoveExecute()
@@ -145,52 +135,14 @@ namespace DbConfigurator.UI.ViewModel
                     return;
 
                 _selectedRecipient = value;
-                //SelectedRecipientFirstName = SelectedRecipient.FirstName;
-                //SelectedRecipientLastName = SelectedRecipient.LastName;
-                //SelectedRecipientEmail = SelectedRecipient.Email;
-
                 OnPropertyChanged();
             }
         }
-        //public string SelectedRecipientFirstName
-        //{
-        //    get { return _selectedRecipientFirstName; }
-        //    set 
-        //    {
-        //        _selectedRecipientFirstName = value;
-        //        SelectedRecipient.FirstName = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
 
-        //public string SelectedRecipientLastName
-        //{
-        //    get { return _selectedRecipientLastName; }
-        //    set
-        //    {
-        //        _selectedRecipientLastName = value;
-        //        SelectedRecipient.LastName = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-        //public string SelectedRecipientEmail
-        //{
-        //    get { return _selectedRecipientEmail; }
-        //    set
-        //    {
-        //        _selectedRecipientEmail = value;
-        //        SelectedRecipient.Email = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-
-        public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }
         public ICommand SaveCommand { get; set; }
 
-        //private string _selectedRecipientFirstName;
-        //private string _selectedRecipientLastName;
-        //private string _selectedRecipientEmail;
+        public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }
+
         private RecipientDtoWrapper _selectedRecipient;
 
     }

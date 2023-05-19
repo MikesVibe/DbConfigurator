@@ -18,7 +18,7 @@ namespace DbConfigurator.UI.Startup
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Recipient, RecipientDto>();
+                cfg.CreateMap<Recipient, RecipientDto>().ReverseMap();
                 cfg.CreateMap<Priority, PriorityDto>();
                 cfg.CreateMap<Area, AreaDto>();
                 cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>();
