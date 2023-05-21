@@ -26,7 +26,9 @@ namespace DbConfigurator.UI.Startup
                 .ForMember(c => c.CountryName, opt => opt.MapFrom(src => src.Name))
                 .ForMember(c => c.CountryShortCode, opt => opt.MapFrom(src => src.ShortCode))
                 .ForMember(c => c.BuisnessUnitName, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Name))
-                .ForMember(c => c.AreaName, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Areas.First().Name));
+                .ForMember(c => c.BuisnessUnitId, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Id))
+                .ForMember(c => c.AreaName, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Areas.First().Name))
+                .ForMember(c => c.AreaId, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Areas.First().Id));
                 cfg.CreateMap<DistributionInformation, DistributionInformationDto>()
                             .ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
                                 rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))

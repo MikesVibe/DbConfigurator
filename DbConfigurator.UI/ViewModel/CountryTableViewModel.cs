@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel
 {
@@ -25,27 +26,39 @@ namespace DbConfigurator.UI.ViewModel
             _dataModel = dataModel;
             _autoMapper = autoMapper;
             Countries_ObservableCollection = new ObservableCollection<CountryDto>();
+
+            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
         }
 
+        private void OnSelectionChanged()
+        {
+            SelectedBuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == SelectedCountry.BuisnessUnitId).FirstOrDefault();
+            SelectedArea = Areas_ObservableCollection?.Where(c => c.Id == SelectedCountry.AreaId).FirstOrDefault();
+        }
 
         public override async Task LoadAsync()
         {
-            var countries = await _dataModel.GetAllCountriesAsync();
-
+            var countries = await _dataModel.GetCountriesWithoutDefaultAsync();
             foreach (var country in countries)
             {
-                if (country.Name == _dataModel.DefaultCountry.Name)
-                    continue;
-
                 var wrapper = _autoMapper.Mapper.Map<CountryDto>(country);
                 Countries_ObservableCollection.Add(wrapper);
             }
 
+            var areas = EnumerableToObservableCollection(await _dataModel.GetAreasWithoutDefaultAsync());
+            foreach (var area in areas)
+            {
+                var wrapper = _autoMapper.Mapper.Map<AreaDto>(area);
+                Areas_ObservableCollection.Add(wrapper);
+            }
 
-            var areas = EnumerableToObservableCollection(_dataModel.AreasDto);
-            Areas_ObservableCollection = areas;
-            var buisnessUnits = EnumerableToObservableCollection(_dataModel.BuisnessUnitsDto);
-            BuisnessUnits_ObservableCollection = buisnessUnits;
+            var buisnessUnits = EnumerableToObservableCollection(await _dataModel.GetBuisnessUnitsWithoutDefaultAsync());
+            foreach (var buisnessUnit in buisnessUnits)
+            {
+                var wrapper = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
+                BuisnessUnits_ObservableCollection.Add(wrapper);
+            }
+
             //var countries = EnumerableToObservableCollection(_dataModel.CountriesDto);
             //Country_Collection = countries;
 
@@ -99,17 +112,40 @@ namespace DbConfigurator.UI.ViewModel
             set
             {
                 _selectedCountry = value;
+                OnPropertyChanged();
+            }
+        }
+        public BuisnessUnitDto SelectedBuisnessUnit
+        {
+            get { return _selectedBuisnessUnit; }
+            set
+            {
+                _selectedBuisnessUnit = value;
+                OnPropertyChanged();
+            }
+        }
+        public AreaDto SelectedArea
+        {
+            get { return _selectedArea; }
+            set
+            {
+                _selectedArea = value;
+                OnPropertyChanged();
             }
         }
 
+        public ICommand SelectionChangedCommand { get; set; }
 
-        public ObservableCollection<CountryDto> Countries_ObservableCollection { get; set; }
-        public ObservableCollection<BuisnessUnitDto> BuisnessUnits_ObservableCollection { get; set; }
-        public ObservableCollection<AreaDto> Areas_ObservableCollection { get; set; }
+
+        public ObservableCollection<CountryDto> Countries_ObservableCollection { get; set; } = new ObservableCollection<CountryDto>();
+        public ObservableCollection<BuisnessUnitDto> BuisnessUnits_ObservableCollection { get; set; } = new ObservableCollection<BuisnessUnitDto>();
+        public ObservableCollection<AreaDto> Areas_ObservableCollection { get; set; } = new ObservableCollection<AreaDto>();
 
         private AutoMapperConfig _autoMapper { get; }
 
         private CountryDto _selectedCountry;
+        private BuisnessUnitDto _selectedBuisnessUnit;
+        private AreaDto _selectedArea;
         private IDataModel _dataModel;
 
     }

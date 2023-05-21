@@ -61,6 +61,16 @@ namespace DbConfigurator.Model
 
             return collection;
         }
+        private async Task<ICollection<Priority>> GetAllPrioritiesAsync()
+        {
+            var collection = await Context.Set<Priority>().AsNoTracking().ToListAsync();
+            return collection;
+        }
+        public async Task<ICollection<Recipient>> GetAllRecipientsAsync()
+        {
+            var collection = await Context.Set<Recipient>().AsNoTracking().ToListAsync();
+            return collection;
+        }
         public async Task<ICollection<Area>> GetAllAreasAsync()
         {
             var collection = await Context.Set<Area>().AsNoTracking().ToListAsync();
@@ -79,16 +89,28 @@ namespace DbConfigurator.Model
 
             return collection;
         }
-        private async Task<ICollection<Priority>> GetAllPrioritiesAsync()
+        public async Task<ICollection<Area>> GetAreasWithoutDefaultAsync()
         {
-            var collection = await Context.Set<Priority>().AsNoTracking().ToListAsync();
+            var collection = await Context.Set<Area>().AsNoTracking().Where(a => a.Id != DefaultArea.Id).ToListAsync();
+
             return collection;
         }
-        public async Task<ICollection<Recipient>> GetAllRecipientsAsync()
+        public async Task<ICollection<BuisnessUnit>> GetBuisnessUnitsWithoutDefaultAsync()
         {
-            var collection = await Context.Set<Recipient>().AsNoTracking().ToListAsync();
+            var collection = await Context.Set<BuisnessUnit>().AsNoTracking().Where(a => a.Id != DefaultBuisnessUnit.Id).ToListAsync();
+
             return collection;
         }
+        public async Task<ICollection<Country>> GetCountriesWithoutDefaultAsync()
+        {
+            var collection = await Context.Set<Country>()
+                .Include(c => c.BuisnessUnits)
+                .ThenInclude(bu => bu.Areas)
+                .AsNoTracking().Where(c => c.Id != DefaultCountry.Id).ToListAsync();
+
+            return collection;
+        }
+
         private async Task<Area> GetDefaultArea()
         {
             var area = await Context.Set<Area>().Where(a => a.Id == 99)
@@ -180,6 +202,8 @@ namespace DbConfigurator.Model
         {
             return DefaultCountry.Id == countryId;
         }
+
+
 
         public DbConfiguratorDbContext Context
         {
