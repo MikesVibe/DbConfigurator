@@ -22,7 +22,7 @@ namespace DbConfigurator.UI.Startup
                 cfg.CreateMap<Priority, PriorityDto>();
                 cfg.CreateMap<Area, AreaDto>();
                 cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>();
-                cfg.CreateMap<Country, CountryDto>()
+                cfg.CreateMap<Country, RegionDto>()
                 .ForMember(c => c.CountryName, opt => opt.MapFrom(src => src.Name))
                 .ForMember(c => c.CountryShortCode, opt => opt.MapFrom(src => src.ShortCode))
                 .ForMember(c => c.BuisnessUnitName, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Name))

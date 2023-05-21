@@ -17,8 +17,8 @@
 
         <DataGrid   x:Name="myDataGrid"
             CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
-            ItemsSource="{Binding Countries_ObservableCollection , Mode=TwoWay}"
-            SelectedItem="{Binding SelectedCountry, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"                    
+            ItemsSource="{Binding Regions_ObservableCollection, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedRegion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                    
             AutoGenerateColumns="False" FontSize="11" Height="500" Width="818">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
@@ -56,11 +56,11 @@
             <StackPanel Grid.Row="1" HorizontalAlignment="Left" Orientation="Vertical" Width="200" Margin="20">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Country Name:" />
-                    <TextBox FontSize="14" Text="{Binding SelectedCountry.CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox FontSize="14" Text="{Binding SelectedRegion.CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Content="Country Code:" />
-                    <TextBox FontSize="14" Text="{Binding SelectedCountry.CountryShortCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox FontSize="14" Text="{Binding SelectedRegion.CountryShortCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </StackPanel>
 

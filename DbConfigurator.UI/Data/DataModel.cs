@@ -41,7 +41,7 @@ namespace DbConfigurator.Model
 
             AreasDto = AutoMapper.Mapper.Map<List<AreaDto>>(await GetAllAreasAsync());
             BuisnessUnitsDto = AutoMapper.Mapper.Map<List<BuisnessUnitDto>>(await GetAllBuisnessUnitsAsync());
-            CountriesDto = AutoMapper.Mapper.Map<List<CountryDto>>(await GetAllCountriesAsync());
+            CountriesDto = AutoMapper.Mapper.Map<List<RegionDto>>(await GetAllCountriesAsync());
             PrioritiesDto = AutoMapper.Mapper.Map<List<PriorityDto>>(await GetAllPrioritiesAsync());
             RecipientsDto = AutoMapper.Mapper.Map<List<RecipientDto>>(await GetAllRecipientsAsync());
         }
@@ -140,7 +140,7 @@ namespace DbConfigurator.Model
         public ICollection<DistributionInformationDto> DistributionInformationsDto { get; private set; }
         public ICollection<AreaDto> AreasDto { get; private set; }
         public ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; private set; }
-        public ICollection<CountryDto> CountriesDto { get; private set; }
+        public ICollection<RegionDto> CountriesDto { get; private set; }
         public ICollection<PriorityDto> PrioritiesDto { get; private set; }
         public ICollection<RecipientDto> RecipientsDto { get; private set; }
 

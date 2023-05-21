@@ -310,7 +310,7 @@ namespace DbConfigurator.UI.ViewModel
         }
         public ObservableCollection<AreaDto> Area_Collection { get; set; }
         public ObservableCollection<BuisnessUnitDto> BuisnessUnit_Collection { get; set; }
-        public ObservableCollection<CountryDto> Country_Collection { get; set; }
+        public ObservableCollection<RegionDto> Country_Collection { get; set; }
         public ObservableCollection<PriorityDto> Priority_Collection { get; private set; }
 
         public ObservableCollection<RecipientDto> RecipientsToComboBox
@@ -433,7 +433,7 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public CountryDto? SelectedCountry
+        public RegionDto? SelectedCountry
         {
             get { return _selectedCountry; }
             set
@@ -474,7 +474,7 @@ namespace DbConfigurator.UI.ViewModel
         private ObservableCollection<RecipientDto> _recipientsCcComboBox;
         private AreaDto? _selectedArea;
         private BuisnessUnitDto? _selectedBuisnessUnit;
-        private CountryDto? _selectedCountry;
+        private RegionDto? _selectedCountry;
         private PriorityDto? _selectedPriority;
         private RecipientDto? _selectedRecipientToComboBox;
         private RecipientDto? _selectedRecipientCcComboBox;
