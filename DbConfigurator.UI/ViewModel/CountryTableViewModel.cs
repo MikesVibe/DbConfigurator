@@ -38,8 +38,8 @@ namespace DbConfigurator.UI.ViewModel
 
         private void OnSelectionChanged()
         {
-            SelectedBuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == SelectedRegion.BuisnessUnitId).FirstOrDefault();
-            SelectedArea = Areas_ObservableCollection?.Where(c => c.Id == SelectedRegion.AreaId).FirstOrDefault();
+            //SelectedBuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == SelectedRegion.BuisnessUnitId).FirstOrDefault();
+            //SelectedArea = Areas_ObservableCollection?.Where(c => c.Id == SelectedRegion.AreaId).FirstOrDefault();
         }
 
         public override async Task LoadAsync()

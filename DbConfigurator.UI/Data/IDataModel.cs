@@ -23,7 +23,7 @@ namespace DbConfigurator.Model
         BuisnessUnit DefaultBuisnessUnit { get; }
         ICollection<AreaDto> AreasDto { get; }
         ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; }
-        ICollection<RegionDto> CountriesDto { get; }
+        ICollection<CountryDto> CountriesDto { get; }
         ICollection<PriorityDto> PrioritiesDto { get; }
         ICollection<RecipientDto> RecipientsDto { get; }
 

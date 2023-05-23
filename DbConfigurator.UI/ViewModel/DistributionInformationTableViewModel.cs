@@ -171,10 +171,10 @@ namespace DbConfigurator.UI.ViewModel
             PopulateComboBoxCc();
 
             //Setting selected items in comboBoxes
-            //SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
-            //SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-            //SelectedArea = Area_Collection?.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-            //SelectedPriority = Priority_Collection?.Where(c => c.Id == SelectedDistributionInformation.PriorityId).FirstOrDefault();
+            SelectedArea = Area_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.Area.Id).FirstOrDefault();
+            SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.BuisnessUnit.Id).FirstOrDefault();
+            SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.Country.Id).FirstOrDefault();
+            SelectedPriority = Priority_Collection?.Where(c => c.Id == SelectedDistributionInformation.Priority.Id).FirstOrDefault();
 
             //Setting Items in ListViews
             RecipientsTo_ListView = EnumerableToObservableCollection(SelectedDistributionInformation.RecipientsTo);
@@ -207,21 +207,21 @@ namespace DbConfigurator.UI.ViewModel
 
             SettingCountryExecuting = true;
 
-            //Get distribution information entity from database
-            var disInfoDtoWrapper = SelectedDistributionInformation;
-            var distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
+            ////Get distribution information entity from database
+            //var disInfoDtoWrapper = SelectedDistributionInformation;
+            //var distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
 
-            //Change countryId for entity, save changes to database and reload data in distributionInfoEntity
-            distributionInfoEntity.Region.CountryId = SelectedCountry.Id;
-            await _dataModel.SaveChangesAsync();
-            distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
+            ////Change countryId for entity, save changes to database and reload data in distributionInfoEntity
+            //distributionInfoEntity.Region.CountryId = SelectedCountry.Id;
+            //await _dataModel.SaveChangesAsync();
+            //distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
 
-            //Map entity to DTO
-            var disInfoMapped = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInfoEntity);
+            ////Map entity to DTO
+            //var disInfoMapped = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInfoEntity);
 
-            int buisnessUnitId = 0;
-            int areaId = 0;
-            //Get Area and BuisnessUnit which are conected with country
+            //int buisnessUnitId = 0;
+            //int areaId = 0;
+            ////Get Area and BuisnessUnit which are conected with country
             //if (_dataModel.IsDefaultCountry(disInfoMapped.CountryId))
             //{
             //    buisnessUnitId = _dataModel.DefaultBuisnessUnit.Id;
@@ -233,17 +233,17 @@ namespace DbConfigurator.UI.ViewModel
             //    areaId = distributionInfoEntity.Region.Area.Id;
             //}
 
-            //Assign Area and BuisnessUnit to DistributionInformation Entity and save changes to databse
-            distributionInfoEntity.Region.AreaId = areaId;
-            distributionInfoEntity.Region.BuisnessUnitId = buisnessUnitId;
-            await _dataModel.SaveChangesAsync();
+            ////Assign Area and BuisnessUnit to DistributionInformation Entity and save changes to databse
+            //distributionInfoEntity.Region.AreaId = areaId;
+            //distributionInfoEntity.Region.BuisnessUnitId = buisnessUnitId;
+            //await _dataModel.SaveChangesAsync();
 
-            //Select proper BuisnessUnit and Area in comboBoxes
-            SelectedBuisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == buisnessUnitId).First();
-            SelectedArea = Area_Collection.Where(a => a.Id == areaId).First();
+            ////Select proper BuisnessUnit and Area in comboBoxes
+            //SelectedBuisnessUnit = BuisnessUnit_Collection.Where(b => b.Id == buisnessUnitId).First();
+            //SelectedArea = Area_Collection.Where(a => a.Id == areaId).First();
 
 
-            //Assign Changed properties to SelectedDistributionInformation variable
+            ////Assign Changed properties to SelectedDistributionInformation variable
             //SelectedDistributionInformation.Country = SelectedCountry.CountryName;
             //SelectedDistributionInformation.CountryId = SelectedCountry.Id;
 
@@ -262,29 +262,29 @@ namespace DbConfigurator.UI.ViewModel
                 return;
 
             //Prevents concurency between threads
-            if (CanConcurencyOccure())
-                return;
+            //if (CanConcurencyOccure())
+            //    return;
 
-            SettingPriorityExecuting = true;
+            //SettingPriorityExecuting = true;
 
 
-            //Get distribution information entity from database
-            var disInfoDtoWrapper = SelectedDistributionInformation;
-            var distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
+            ////Get distribution information entity from database
+            //var disInfoDtoWrapper = SelectedDistributionInformation;
+            //var distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
 
-            //Change countryId for entity, save changes to database and reload data in distributionInfoEntity
-            distributionInfoEntity.PriorityId = SelectedPriority.Id;
-            await _dataModel.SaveChangesAsync();
-            distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
+            ////Change countryId for entity, save changes to database and reload data in distributionInfoEntity
+            //distributionInfoEntity.PriorityId = SelectedPriority.Id;
+            //await _dataModel.SaveChangesAsync();
+            //distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
 
-            //Map entity to DTO
-            var disInfoMapped = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInfoEntity);
+            ////Map entity to DTO
+            //var disInfoMapped = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInfoEntity);
 
-            //Assign Changed properties to SelectedDistributionInformation variable
-            //SelectedDistributionInformation.Priority = disInfoMapped.Priority;
-            //SelectedDistributionInformation.PriorityId = disInfoMapped.PriorityId;
+            ////Assign Changed properties to SelectedDistributionInformation variable
+            ////SelectedDistributionInformation.Priority = disInfoMapped.Priority;
+            ////SelectedDistributionInformation.PriorityId = disInfoMapped.PriorityId;
 
-            SettingPriorityExecuting = false;
+            //SettingPriorityExecuting = false;
         }
 
         private bool CanConcurencyOccure()
@@ -305,7 +305,7 @@ namespace DbConfigurator.UI.ViewModel
         }
         public ObservableCollection<AreaDto> Area_Collection { get; set; }
         public ObservableCollection<BuisnessUnitDto> BuisnessUnit_Collection { get; set; }
-        public ObservableCollection<RegionDto> Country_Collection { get; set; }
+        public ObservableCollection<CountryDto> Country_Collection { get; set; }
         public ObservableCollection<PriorityDto> Priority_Collection { get; private set; }
 
         public ObservableCollection<RecipientDto> RecipientsToComboBox
@@ -428,7 +428,7 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public RegionDto? SelectedCountry
+        public CountryDto? SelectedCountry
         {
             get { return _selectedCountry; }
             set
@@ -469,7 +469,7 @@ namespace DbConfigurator.UI.ViewModel
         private ObservableCollection<RecipientDto> _recipientsCcComboBox;
         private AreaDto? _selectedArea;
         private BuisnessUnitDto? _selectedBuisnessUnit;
-        private RegionDto? _selectedCountry;
+        private CountryDto? _selectedCountry;
         private PriorityDto? _selectedPriority;
         private RecipientDto? _selectedRecipientToComboBox;
         private RecipientDto? _selectedRecipientCcComboBox;

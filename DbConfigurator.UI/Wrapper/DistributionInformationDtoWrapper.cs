@@ -40,6 +40,14 @@ namespace DbConfigurator.UI.Wrapper
                 SetValue<RegionDto>(value);
             }
         }
+        public PriorityDto Priority
+        {
+            get { return GetValue<PriorityDto>(); }
+            set
+            {
+                SetValue<PriorityDto>(value);
+            }
+        }
 
         //public int AreaId
         //{
