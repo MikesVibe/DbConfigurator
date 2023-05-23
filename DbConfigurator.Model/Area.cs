@@ -16,8 +16,9 @@ namespace DbConfigurator.Model
         [MaxLength(250)]
         public string Name { get; set; }
 
-        public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
-        public ICollection<DistributionInformation> DistributionInformations { get; set; }
+        //public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
+        //public ICollection<DistributionInformation> DistributionInformations { get; set; }
+        public ICollection<Region> Regions { get; set; }
 
     }
 }

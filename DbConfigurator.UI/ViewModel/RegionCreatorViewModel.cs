@@ -16,7 +16,7 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public class RegionCreatorViewModel : TableViewModelBase, ICountryTableViewModel
+    public class RegionCreatorViewModel : TableViewModelBase, IRegionCreatorTableViewModel
     {
         private readonly AutoMapperConfig _autoMapper;
         private readonly IEventAggregator _eventAggregator;
@@ -125,6 +125,15 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+        public CountryDto SelectedCountry
+        {
+            get { return _selectedCountry; }
+            set
+            {
+                _selectedCountry = value;
+                OnPropertyChanged();
+            }
+        }
         public BuisnessUnitDto SelectedBuisnessUnit
         {
             get { return _selectedBuisnessUnit; }
@@ -149,6 +158,8 @@ namespace DbConfigurator.UI.ViewModel
 
 
         public ObservableCollection<RegionDto> Regions_ObservableCollection { get; set; } = new ObservableCollection<RegionDto>();
+
+        public ObservableCollection<CountryDto> Countries_ObservableCollection { get; set; } = new ObservableCollection<CountryDto>();
         public ObservableCollection<BuisnessUnitDto> BuisnessUnits_ObservableCollection { get; set; } = new ObservableCollection<BuisnessUnitDto>();
         public ObservableCollection<AreaDto> Areas_ObservableCollection { get; set; } = new ObservableCollection<AreaDto>();
 
@@ -156,6 +167,6 @@ namespace DbConfigurator.UI.ViewModel
         private RegionDto _selectedRegion;
         private BuisnessUnitDto _selectedBuisnessUnit;
         private AreaDto _selectedArea;
-
+        private CountryDto _selectedCountry;
     }
 }

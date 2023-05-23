@@ -18,10 +18,11 @@ namespace DbConfigurator.DataAccess
 
         }
         public DbSet<DistributionInformation> DistributionInformation { get; set; }
+        public DbSet<Region> Region { get; set; }
         public DbSet<Area> Area { get; set; }
-        public DbSet<AreaBuisnessUnit> AreaBuisnessUnit { get; set; }
+        //public DbSet<AreaBuisnessUnit> AreaBuisnessUnit { get; set; }
         public DbSet<BuisnessUnit> BuisnessUnit { get; set; }
-        public DbSet<BuisnessUnitCountry> BuisnessUnitCountry { get; set; }
+        //public DbSet<BuisnessUnitCountry> BuisnessUnitCountry { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<Priority> Priority { get; set; }
         public DbSet<RecipientGroupCc> RecipientGroupCc { get; set; }
@@ -30,17 +31,17 @@ namespace DbConfigurator.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Setting up joining table for Area and BuisnessUnit
-            modelBuilder.Entity<Area>()
-                .HasMany(e => e.BuisnessUnits)
-                .WithMany(e => e.Areas)
-                .UsingEntity<AreaBuisnessUnit>();
+            ////Setting up joining table for Area and BuisnessUnit
+            //modelBuilder.Entity<Area>()
+            //    .HasMany(e => e.BuisnessUnits)
+            //    .WithMany(e => e.Areas)
+            //    .UsingEntity<AreaBuisnessUnit>();
 
-            //Setting up joining table for BuisnessUnit and Country
-            modelBuilder.Entity<BuisnessUnit>()
-                .HasMany(e => e.Countries)
-                .WithMany(e => e.BuisnessUnits)
-                .UsingEntity<BuisnessUnitCountry>();   
+            ////Setting up joining table for BuisnessUnit and Country
+            //modelBuilder.Entity<BuisnessUnit>()
+            //    .HasMany(e => e.Countries)
+            //    .WithMany(e => e.BuisnessUnits)
+            //    .UsingEntity<BuisnessUnitCountry>();   
             
             //Setting up joining table for Recipients Groups
             modelBuilder.Entity<DistributionInformation>()
@@ -65,16 +66,16 @@ namespace DbConfigurator.DataAccess
                     });
             }
 
-            foreach (var areaBuisnessUnit in bUData.AreaBuisnessUnits.ToList())
-            {
-                modelBuilder.Entity<AreaBuisnessUnit>().HasData(
-                    new AreaBuisnessUnit
-                    {
-                        Id = areaBuisnessUnit.Id,
-                        AreaId = areaBuisnessUnit.AreaId,
-                        BuisnessUnitId = areaBuisnessUnit.BuisnessUnitId
-                    });
-            }
+            //foreach (var areaBuisnessUnit in bUData.AreaBuisnessUnits.ToList())
+            //{
+            //    modelBuilder.Entity<AreaBuisnessUnit>().HasData(
+            //        new AreaBuisnessUnit
+            //        {
+            //            Id = areaBuisnessUnit.Id,
+            //            AreaId = areaBuisnessUnit.AreaId,
+            //            BuisnessUnitId = areaBuisnessUnit.BuisnessUnitId
+            //        });
+            //}
 
             foreach (var buisnessUnit in bUData.BuisnessUnits.ToList())
             {
@@ -86,16 +87,16 @@ namespace DbConfigurator.DataAccess
                     });
             }
 
-            foreach (var buisnessUnitCountry in bUData.BuisnessUnitCountries.ToList())
-            {
-                modelBuilder.Entity<BuisnessUnitCountry>().HasData(
-                    new BuisnessUnitCountry
-                    {
-                        Id = buisnessUnitCountry.Id,
-                        BuisnessUnitId = buisnessUnitCountry.BuisnessUnitId,
-                        CountryId = buisnessUnitCountry.CountryId
-                    });
-            }
+            //foreach (var buisnessUnitCountry in bUData.BuisnessUnitCountries.ToList())
+            //{
+            //    modelBuilder.Entity<BuisnessUnitCountry>().HasData(
+            //        new BuisnessUnitCountry
+            //        {
+            //            Id = buisnessUnitCountry.Id,
+            //            BuisnessUnitId = buisnessUnitCountry.BuisnessUnitId,
+            //            CountryId = buisnessUnitCountry.CountryId
+            //        });
+            //}
 
             foreach (var country in bUData.Countries.ToList())
             {

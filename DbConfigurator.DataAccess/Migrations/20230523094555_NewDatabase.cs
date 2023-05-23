@@ -7,7 +7,7 @@
 namespace DbConfigurator.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMigration : Migration
+    public partial class NewDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -81,65 +81,32 @@ namespace DbConfigurator.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RecipientGroup",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DistributionInformationId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RecipientGroup", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AreaBuisnessUnit",
+                name: "Region",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AreaId = table.Column<int>(type: "int", nullable: false),
-                    BuisnessUnitId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AreaBuisnessUnit", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AreaBuisnessUnit_Area_AreaId",
-                        column: x => x.AreaId,
-                        principalTable: "Area",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AreaBuisnessUnit_BuisnessUnit_BuisnessUnitId",
-                        column: x => x.BuisnessUnitId,
-                        principalTable: "BuisnessUnit",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BuisnessUnitCountry",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     BuisnessUnitId = table.Column<int>(type: "int", nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BuisnessUnitCountry", x => x.Id);
+                    table.PrimaryKey("PK_Region", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BuisnessUnitCountry_BuisnessUnit_BuisnessUnitId",
+                        name: "FK_Region_Area_AreaId",
+                        column: x => x.AreaId,
+                        principalTable: "Area",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Region_BuisnessUnit_BuisnessUnitId",
                         column: x => x.BuisnessUnitId,
                         principalTable: "BuisnessUnit",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BuisnessUnitCountry_Country_CountryId",
+                        name: "FK_Region_Country_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Country",
                         principalColumn: "Id",
@@ -152,33 +119,12 @@ namespace DbConfigurator.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AreaId = table.Column<int>(type: "int", nullable: false),
-                    BuisnessUnitId = table.Column<int>(type: "int", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: false),
-                    PriorityId = table.Column<int>(type: "int", nullable: false),
-                    RecipientGroupId = table.Column<int>(type: "int", nullable: true)
+                    RegionId = table.Column<int>(type: "int", nullable: false),
+                    PriorityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DistributionInformation", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DistributionInformation_Area_AreaId",
-                        column: x => x.AreaId,
-                        principalTable: "Area",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DistributionInformation_BuisnessUnit_BuisnessUnitId",
-                        column: x => x.BuisnessUnitId,
-                        principalTable: "BuisnessUnit",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DistributionInformation_Country_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Country",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DistributionInformation_Priority_PriorityId",
                         column: x => x.PriorityId,
@@ -186,10 +132,11 @@ namespace DbConfigurator.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DistributionInformation_RecipientGroup_RecipientGroupId",
-                        column: x => x.RecipientGroupId,
-                        principalTable: "RecipientGroup",
-                        principalColumn: "Id");
+                        name: "FK_DistributionInformation_Region_RegionId",
+                        column: x => x.RegionId,
+                        principalTable: "Region",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,15 +144,15 @@ namespace DbConfigurator.DataAccess.Migrations
                 columns: table => new
                 {
                     RecipientId = table.Column<int>(type: "int", nullable: false),
-                    RecipientGroupId = table.Column<int>(type: "int", nullable: false)
+                    DistributionInformationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecipientGroupCc", x => new { x.RecipientGroupId, x.RecipientId });
+                    table.PrimaryKey("PK_RecipientGroupCc", x => new { x.DistributionInformationId, x.RecipientId });
                     table.ForeignKey(
-                        name: "FK_RecipientGroupCc_RecipientGroup_RecipientGroupId",
-                        column: x => x.RecipientGroupId,
-                        principalTable: "RecipientGroup",
+                        name: "FK_RecipientGroupCc_DistributionInformation_DistributionInformationId",
+                        column: x => x.DistributionInformationId,
+                        principalTable: "DistributionInformation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -221,15 +168,15 @@ namespace DbConfigurator.DataAccess.Migrations
                 columns: table => new
                 {
                     RecipientId = table.Column<int>(type: "int", nullable: false),
-                    RecipientGroupId = table.Column<int>(type: "int", nullable: false)
+                    DistributionInformationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecipientGroupTo", x => new { x.RecipientGroupId, x.RecipientId });
+                    table.PrimaryKey("PK_RecipientGroupTo", x => new { x.DistributionInformationId, x.RecipientId });
                     table.ForeignKey(
-                        name: "FK_RecipientGroupTo_RecipientGroup_RecipientGroupId",
-                        column: x => x.RecipientGroupId,
-                        principalTable: "RecipientGroup",
+                        name: "FK_RecipientGroupTo_DistributionInformation_DistributionInformationId",
+                        column: x => x.DistributionInformationId,
+                        principalTable: "DistributionInformation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -375,180 +322,15 @@ namespace DbConfigurator.DataAccess.Migrations
                     { 99, "ANY" }
                 });
 
-            migrationBuilder.InsertData(
-                table: "AreaBuisnessUnit",
-                columns: new[] { "Id", "AreaId", "BuisnessUnitId" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 2, 1, 2 },
-                    { 3, 2, 3 },
-                    { 4, 2, 4 },
-                    { 5, 3, 5 },
-                    { 6, 3, 6 },
-                    { 7, 3, 7 },
-                    { 8, 4, 8 },
-                    { 9, 4, 9 },
-                    { 10, 4, 10 },
-                    { 11, 5, 11 },
-                    { 12, 5, 12 },
-                    { 13, 5, 13 },
-                    { 14, 1, 99 },
-                    { 15, 2, 99 },
-                    { 16, 3, 99 },
-                    { 17, 4, 99 },
-                    { 18, 5, 99 },
-                    { 19, 99, 99 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "BuisnessUnitCountry",
-                columns: new[] { "Id", "BuisnessUnitId", "CountryId" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 2, 1, 2 },
-                    { 3, 1, 3 },
-                    { 4, 1, 4 },
-                    { 5, 1, 5 },
-                    { 6, 2, 6 },
-                    { 7, 2, 7 },
-                    { 8, 2, 8 },
-                    { 9, 2, 9 },
-                    { 10, 2, 10 },
-                    { 11, 2, 11 },
-                    { 12, 2, 12 },
-                    { 13, 3, 13 },
-                    { 14, 4, 14 },
-                    { 15, 4, 15 },
-                    { 16, 4, 16 },
-                    { 17, 4, 17 },
-                    { 18, 4, 18 },
-                    { 19, 4, 19 },
-                    { 20, 4, 20 },
-                    { 21, 4, 21 },
-                    { 22, 4, 22 },
-                    { 23, 4, 23 },
-                    { 24, 4, 24 },
-                    { 25, 4, 25 },
-                    { 26, 4, 26 },
-                    { 27, 4, 27 },
-                    { 28, 4, 28 },
-                    { 29, 4, 29 },
-                    { 30, 5, 30 },
-                    { 31, 5, 31 },
-                    { 32, 5, 32 },
-                    { 33, 5, 33 },
-                    { 34, 5, 34 },
-                    { 35, 5, 35 },
-                    { 36, 5, 36 },
-                    { 37, 6, 37 },
-                    { 38, 6, 38 },
-                    { 39, 6, 39 },
-                    { 40, 6, 40 },
-                    { 41, 6, 41 },
-                    { 42, 6, 42 },
-                    { 43, 6, 43 },
-                    { 44, 6, 44 },
-                    { 45, 6, 45 },
-                    { 46, 6, 46 },
-                    { 47, 6, 47 },
-                    { 48, 6, 48 },
-                    { 49, 6, 49 },
-                    { 50, 7, 50 },
-                    { 51, 8, 51 },
-                    { 52, 8, 52 },
-                    { 53, 8, 53 },
-                    { 54, 8, 54 },
-                    { 55, 8, 55 },
-                    { 56, 8, 56 },
-                    { 57, 8, 57 },
-                    { 58, 8, 58 },
-                    { 59, 8, 59 },
-                    { 60, 8, 60 },
-                    { 61, 8, 61 },
-                    { 62, 8, 62 },
-                    { 63, 9, 63 },
-                    { 64, 9, 64 },
-                    { 65, 9, 65 },
-                    { 66, 9, 66 },
-                    { 67, 9, 67 },
-                    { 68, 9, 68 },
-                    { 69, 9, 69 },
-                    { 70, 9, 70 },
-                    { 71, 9, 71 },
-                    { 72, 10, 72 },
-                    { 73, 10, 73 },
-                    { 74, 11, 74 },
-                    { 75, 12, 75 },
-                    { 76, 12, 76 },
-                    { 77, 12, 77 },
-                    { 78, 13, 78 },
-                    { 79, 13, 79 },
-                    { 80, 13, 80 },
-                    { 81, 13, 81 },
-                    { 82, 1, 99 },
-                    { 83, 2, 99 },
-                    { 84, 3, 99 },
-                    { 85, 4, 99 },
-                    { 86, 5, 99 },
-                    { 87, 6, 99 },
-                    { 88, 7, 99 },
-                    { 89, 8, 99 },
-                    { 90, 9, 99 },
-                    { 91, 10, 99 },
-                    { 92, 11, 99 },
-                    { 93, 12, 99 },
-                    { 94, 13, 99 },
-                    { 95, 99, 99 }
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AreaBuisnessUnit_AreaId",
-                table: "AreaBuisnessUnit",
-                column: "AreaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AreaBuisnessUnit_BuisnessUnitId",
-                table: "AreaBuisnessUnit",
-                column: "BuisnessUnitId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BuisnessUnitCountry_BuisnessUnitId",
-                table: "BuisnessUnitCountry",
-                column: "BuisnessUnitId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BuisnessUnitCountry_CountryId",
-                table: "BuisnessUnitCountry",
-                column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DistributionInformation_AreaId",
-                table: "DistributionInformation",
-                column: "AreaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DistributionInformation_BuisnessUnitId",
-                table: "DistributionInformation",
-                column: "BuisnessUnitId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DistributionInformation_CountryId",
-                table: "DistributionInformation",
-                column: "CountryId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_DistributionInformation_PriorityId",
                 table: "DistributionInformation",
                 column: "PriorityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DistributionInformation_RecipientGroupId",
+                name: "IX_DistributionInformation_RegionId",
                 table: "DistributionInformation",
-                column: "RecipientGroupId",
-                unique: true,
-                filter: "[RecipientGroupId] IS NOT NULL");
+                column: "RegionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipientGroupCc_RecipientId",
@@ -559,25 +341,43 @@ namespace DbConfigurator.DataAccess.Migrations
                 name: "IX_RecipientGroupTo_RecipientId",
                 table: "RecipientGroupTo",
                 column: "RecipientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Region_AreaId",
+                table: "Region",
+                column: "AreaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Region_BuisnessUnitId",
+                table: "Region",
+                column: "BuisnessUnitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Region_CountryId",
+                table: "Region",
+                column: "CountryId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AreaBuisnessUnit");
+                name: "RecipientGroupCc");
 
             migrationBuilder.DropTable(
-                name: "BuisnessUnitCountry");
+                name: "RecipientGroupTo");
 
             migrationBuilder.DropTable(
                 name: "DistributionInformation");
 
             migrationBuilder.DropTable(
-                name: "RecipientGroupCc");
+                name: "Recipient");
 
             migrationBuilder.DropTable(
-                name: "RecipientGroupTo");
+                name: "Priority");
+
+            migrationBuilder.DropTable(
+                name: "Region");
 
             migrationBuilder.DropTable(
                 name: "Area");
@@ -587,15 +387,6 @@ namespace DbConfigurator.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Country");
-
-            migrationBuilder.DropTable(
-                name: "Priority");
-
-            migrationBuilder.DropTable(
-                name: "RecipientGroup");
-
-            migrationBuilder.DropTable(
-                name: "Recipient");
         }
     }
 }

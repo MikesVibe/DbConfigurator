@@ -13,29 +13,20 @@ namespace DbConfigurator.Model
         public DistributionInformation()
         {
         }
-        public DistributionInformation(Area area, BuisnessUnit buisnessUnit, Country country, Priority priority) 
+        public DistributionInformation(Region region, Priority priority) 
         {
-            Area = area;
-            BuisnessUnit = buisnessUnit;  
-            Country = country;
+            Region = region;
             Priority = priority;
         }
         [Required]
         public int Id { get; set; }
-        [Required]
-        public int AreaId { get; set; }
-        public Area Area { get; set; }
-        [Required]
-        public int BuisnessUnitId { get; set; }
-        public BuisnessUnit BuisnessUnit { get; set; }
-        [Required]
-        public int CountryId { get; set; }
-        public Country Country { get; set; }
+        public Region Region { get; set; }
+        public int RegionId { get; set; }
+
         [Required]
         public int PriorityId { get; set; }
         public Priority Priority { get; set; }
-        //public int? RecipientGroupId { get; set; }
-        //public RecipientGroup? RecipientGroup { get; set; }
+
 
         public ICollection<Recipient> RecipientsTo { get; set; }
         public ICollection<Recipient> RecipientsCc { get; set; }

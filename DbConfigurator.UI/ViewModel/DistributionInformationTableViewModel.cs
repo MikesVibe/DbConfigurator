@@ -85,7 +85,15 @@ namespace DbConfigurator.UI.ViewModel
             BuisnessUnit defaultBuisnessUnit = _dataModel.DefaultBuisnessUnit;
             Country defaultCountry = _dataModel.DefaultCountry;
             Priority defaultPriotrity = _dataModel.DefaultPriority;
-            var distributionInformation = new DistributionInformation(defaultArea, defaultBuisnessUnit, defaultCountry, defaultPriotrity);
+
+            var region = new Region
+            {
+                Area = defaultArea,
+                BuisnessUnit = defaultBuisnessUnit,
+                Country = defaultCountry
+            };
+
+            var distributionInformation = new DistributionInformation(region, defaultPriotrity);
 
 
             await _dataModel.AddAsync(distributionInformation);
@@ -217,7 +225,7 @@ namespace DbConfigurator.UI.ViewModel
             var distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
 
             //Change countryId for entity, save changes to database and reload data in distributionInfoEntity
-            distributionInfoEntity.CountryId = SelectedCountry.Id;
+            distributionInfoEntity.Region.CountryId = SelectedCountry.Id;
             await _dataModel.SaveChangesAsync();
             distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(disInfoDtoWrapper.Id);
 
@@ -234,13 +242,13 @@ namespace DbConfigurator.UI.ViewModel
             }
             else
             {
-                buisnessUnitId = distributionInfoEntity.Country.BuisnessUnits.First().Id;
-                areaId = distributionInfoEntity.Country.BuisnessUnits.First().Areas.First().Id;
+                buisnessUnitId = distributionInfoEntity.Region.BuisnessUnit.Id;
+                areaId = distributionInfoEntity.Region.Area.Id;
             }
 
             //Assign Area and BuisnessUnit to DistributionInformation Entity and save changes to databse
-            distributionInfoEntity.AreaId = areaId;
-            distributionInfoEntity.BuisnessUnitId = buisnessUnitId;
+            distributionInfoEntity.Region.AreaId = areaId;
+            distributionInfoEntity.Region.BuisnessUnitId = buisnessUnitId;
             await _dataModel.SaveChangesAsync();
 
             //Select proper BuisnessUnit and Area in comboBoxes

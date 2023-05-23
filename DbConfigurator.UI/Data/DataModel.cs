@@ -53,7 +53,7 @@ namespace DbConfigurator.Model
         public async Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync()
         {
             var collection = await Context.Set<DistributionInformation>()
-                .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
+                //.Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
                 .Include(t => t.RecipientsTo)
                 .Include(t =>t.RecipientsCc)
                 .Include(p => p.Priority)
@@ -85,7 +85,8 @@ namespace DbConfigurator.Model
         }
         public async Task<ICollection<Country>> GetAllCountriesAsync()
         {
-            var collection = await Context.Set<Country>().Include(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas).AsNoTracking().ToListAsync();
+            var collection = await Context.Set<Country>().ToListAsync();
+                //.Include(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas).AsNoTracking().ToListAsync();
 
             return collection;
         }
@@ -104,8 +105,8 @@ namespace DbConfigurator.Model
         public async Task<ICollection<Country>> GetCountriesWithoutDefaultAsync()
         {
             var collection = await Context.Set<Country>()
-                .Include(c => c.BuisnessUnits)
-                .ThenInclude(bu => bu.Areas)
+                //.Include(c => c.BuisnessUnits)
+                //.ThenInclude(bu => bu.Areas)
                 .AsNoTracking().Where(c => c.Id != DefaultCountry.Id).ToListAsync();
 
             return collection;
@@ -167,12 +168,12 @@ namespace DbConfigurator.Model
 
         public async Task ReloadEntryCountryAsync(DistributionInformation disInfo)
         {
-            await Context.Entry(disInfo).Reference(d => d.Country).LoadAsync();
-            await Context.Entry(disInfo.Country).Collection(c => c.BuisnessUnits).LoadAsync();
-            foreach (var buisnessUnit in disInfo.Country.BuisnessUnits)
-            {
-                await Context.Entry(buisnessUnit).Collection(bu => bu.Areas).LoadAsync();
-            }
+            //await Context.Entry(disInfo).Reference(d => d.Country).LoadAsync();
+            //await Context.Entry(disInfo.Country).Collection(c => c.BuisnessUnits).LoadAsync();
+            //foreach (var buisnessUnit in disInfo.Country.BuisnessUnits)
+            //{
+            //    await Context.Entry(buisnessUnit).Collection(bu => bu.Areas).LoadAsync();
+            //}
         }
 
         public async Task AddAsync<T>(T item) where T : class
@@ -191,7 +192,7 @@ namespace DbConfigurator.Model
         public async Task<DistributionInformation> GetDistributionInformationByIdAsync(int id)
         {
             return await Context.DistributionInformation.Where(d => d.Id == id)
-                .Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
+                //.Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
                 .Include(t => t.RecipientsTo)
                 .Include(t => t.RecipientsCc)
                 .Include(p => p.Priority)

@@ -12,7 +12,6 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Reflection.Metadata;
 using System.Windows;
-using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
 
 namespace DbConfigurator.UI
 {

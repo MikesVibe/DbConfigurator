@@ -21,8 +21,10 @@ namespace DbConfigurator.Model
         [MaxLength(3)]
         public string ShortCode{ get; set; }
 
-        public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
-        public ICollection<DistributionInformation> DistributionInformations { get; set; }
+
+        public ICollection<Region> Regions { get; set; }
+        //public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
+        //public ICollection<DistributionInformation> DistributionInformations { get; set; }
 
     }
 }

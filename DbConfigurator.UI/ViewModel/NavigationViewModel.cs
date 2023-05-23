@@ -34,8 +34,8 @@ namespace DbConfigurator.UI.ViewModel
                 new NavigationItemViewModel(1, "Recipients", nameof(RecipientTableViewModel), _eventAggregator));
             NavigationItems_ObservableCollection.Add(
                 new NavigationItemViewModel(2, "Regions", nameof(RegionCreatorViewModel), _eventAggregator));
-            //NavigationItems_ObservableCollection.Add(
-            //  new NavigationItemViewModel(3, "", nameof(RegionCreatorViewModel), _eventAggregator));
+            NavigationItems_ObservableCollection.Add(
+              new NavigationItemViewModel(3, "Yas", nameof(CountryTableViewModel), _eventAggregator));
         }
 
 
