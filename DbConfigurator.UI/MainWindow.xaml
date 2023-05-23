@@ -21,7 +21,9 @@
         <DataTemplate DataType="{x:Type viewModel:DistributionInformationTableViewModel}">
             <view:DistributionInformationTableView/>
         </DataTemplate>
-
+        <DataTemplate DataType="{x:Type viewModel:RegionCreatorViewModel}">
+            <view:RegionCreatorView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
