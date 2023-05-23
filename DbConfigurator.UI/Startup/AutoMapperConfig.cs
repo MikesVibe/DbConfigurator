@@ -34,9 +34,9 @@ namespace DbConfigurator.UI.Startup
                                 rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
                             .ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
                                 rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()))
-                            //.ForMember(d => d.Area, opt => opt.MapFrom(a => a.Area.Name))
-                            //.ForMember(d => d.BuisnessUnit, opt => opt.MapFrom(a => a.BuisnessUnit.Name))
-                            //.ForMember(d => d.Country, opt => opt.MapFrom(a => a.Country.Name))
+                            .ForMember(d => d.Area, opt => opt.MapFrom(a => a.Region.Area.Name))
+                            .ForMember(d => d.BuisnessUnit, opt => opt.MapFrom(a => a.Region.BuisnessUnit.Name))
+                            .ForMember(d => d.Country, opt => opt.MapFrom(a => a.Region.Country.Name))
                             .ForMember(d => d.Priority, opt => opt.MapFrom(a => a.Priority.Name));
 
             });

@@ -53,8 +53,10 @@ namespace DbConfigurator.Model
         public async Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync()
         {
             var collection = await Context.Set<DistributionInformation>()
-                //.Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
-                .Include(t => t.RecipientsTo)
+                //.Include(c => c.Country).ThenInclcsdsude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
+                .Include(t => t.Region).ThenInclude(r => r.Area)
+                .Include(t => t.Region).ThenInclude(r => r.BuisnessUnit)
+                .Include(t => t.Region).ThenInclude(r => r.Country)
                 .Include(t =>t.RecipientsCc)
                 .Include(p => p.Priority)
                 .ToListAsync();
@@ -193,6 +195,7 @@ namespace DbConfigurator.Model
         {
             return await Context.DistributionInformation.Where(d => d.Id == id)
                 //.Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
+                .Include(r => r.Region)
                 .Include(t => t.RecipientsTo)
                 .Include(t => t.RecipientsCc)
                 .Include(p => p.Priority)
