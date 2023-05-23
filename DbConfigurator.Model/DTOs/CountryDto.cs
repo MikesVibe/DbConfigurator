@@ -10,6 +10,6 @@ namespace DbConfigurator.Model.DTOs
     {
         public int Id { get; set; }
         public string CountryName { get; set; }
-        public string ShortCode { get; set; }
+        public string CountryShortCode { get; set; }
     }
 }

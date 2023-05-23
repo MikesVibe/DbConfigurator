@@ -24,78 +24,95 @@ namespace DbConfigurator.UI.Wrapper
                 SetValue<int>(value);
             }
         }
-        public int AreaId
+        //public int AreaId
+        //{
+        //    get { return GetValue<int>(); }
+        //    set
+        //    {
+        //        SetValue<int>(value);
+        //    }
+        //}
+        public RegionDto Region
         {
-            get { return GetValue<int>(); }
+            get { return GetValue<RegionDto>(); }
             set
             {
-                SetValue<int>(value);
+                SetValue<RegionDto>(value);
             }
         }
-        public int BuisnessUnitId
-        {
-            get { return GetValue<int>(); }
-            set
-            {
-                SetValue<int>(value);
-            }
-        }
-        public int CountryId
-        {
-            get { return GetValue<int>(); }
-            set
-            {
-                SetValue<int>(value);
-            }
-        }
-        public int PriorityId
-        {
-            get { return GetValue<int>(); }
-            set
-            {
-                SetValue<int>(value);
-            }
-        }
-        public int RecipientsGroupId
-        {
-            get { return GetValue<int>(); }
-            set
-            {
-                SetValue<int>(value);
-            }
-        }
-        public string Area
-        {
-            get { return GetValue<string>(); }
-            set
-            {
-                SetValue<string>(value);
-            }
-        }
-        public string BuisnessUnit
-        {
-            get { return GetValue<string>(); }
-            set
-            {
-                SetValue<string>(value);
-            }
-        }
-        public string Country
-        {
-            get { return GetValue<string>(); }
-            set
-            {
-                SetValue<string>(value);
-            }
-        }
-        public string Priority
-        {
-            get { return GetValue<string>(); }
-            set
-            {
-                SetValue<string>(value);
-            }
-        }
+
+        //public int AreaId
+        //{
+        //    get { return GetValue<int>(); }
+        //    set
+        //    {
+        //        SetValue<int>(value);
+        //    }
+        //}
+        //public int BuisnessUnitId
+        //{
+        //    get { return GetValue<int>(); }
+        //    set
+        //    {
+        //        SetValue<int>(value);
+        //    }
+        //}
+        //public int CountryId
+        //{
+        //    get { return GetValue<int>(); }
+        //    set
+        //    {
+        //        SetValue<int>(value);
+        //    }
+        //}
+        //public int PriorityId
+        //{
+        //    get { return GetValue<int>(); }
+        //    set
+        //    {
+        //        SetValue<int>(value);
+        //    }
+        //}
+        //public int RecipientsGroupId
+        //{
+        //    get { return GetValue<int>(); }
+        //    set
+        //    {
+        //        SetValue<int>(value);
+        //    }
+        //}
+        //public string Area
+        //{
+        //    get { return GetValue<string>(); }
+        //    set
+        //    {
+        //        SetValue<string>(value);
+        //    }
+        //}
+        //public string BuisnessUnit
+        //{
+        //    get { return GetValue<string>(); }
+        //    set
+        //    {
+        //        SetValue<string>(value);
+        //    }
+        //}
+        //public string Country
+        //{
+        //    get { return GetValue<string>(); }
+        //    set
+        //    {
+        //        SetValue<string>(value);
+        //    }
+        //}
+        //public string Priority
+        //{
+        //    get { return GetValue<string>(); }
+        //    set
+        //    {
+        //        SetValue<string>(value);
+        //    }
+        //}
         public ObservableCollection<RecipientDto> RecipientsTo
         {
             get { return GetValue<ObservableCollection<RecipientDto>>(); }

@@ -19,6 +19,7 @@ namespace DbConfigurator.Model
         Country DefaultCountry { get; }
         Priority DefaultPriority { get; }
         Area DefaultArea { get; }
+        Region DefaultRegion { get; }
         BuisnessUnit DefaultBuisnessUnit { get; }
         ICollection<AreaDto> AreasDto { get; }
         ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; }

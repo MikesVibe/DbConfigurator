@@ -81,25 +81,12 @@ namespace DbConfigurator.UI.ViewModel
         protected async override void OnAddExecute()
         {
             //Create New Distribution Infrotmaion
-            Area defaultArea = _dataModel.DefaultArea;
-            BuisnessUnit defaultBuisnessUnit = _dataModel.DefaultBuisnessUnit;
-            Country defaultCountry = _dataModel.DefaultCountry;
-            Priority defaultPriotrity = _dataModel.DefaultPriority;
-
-            var region = new Region
-            {
-                Area = defaultArea,
-                BuisnessUnit = defaultBuisnessUnit,
-                Country = defaultCountry
-            };
-
-            var distributionInformation = new DistributionInformation(region, defaultPriotrity);
-
+            var defaultPriotrity = _dataModel.DefaultPriority;
+            var defaultRegion = _dataModel.DefaultRegion;
+            var distributionInformation = new DistributionInformation(defaultRegion, defaultPriotrity);
 
             await _dataModel.AddAsync(distributionInformation);
             await _dataModel.SaveChangesAsync();
-
-
 
             var distributionInformationEntity = await _dataModel.GetDistributionInformationByIdAsync(distributionInformation.Id);
             var distributionInformationDto = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInformationEntity);
@@ -184,10 +171,10 @@ namespace DbConfigurator.UI.ViewModel
             PopulateComboBoxCc();
 
             //Setting selected items in comboBoxes
-            SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
-            SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
-            SelectedArea = Area_Collection?.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
-            SelectedPriority = Priority_Collection?.Where(c => c.Id == SelectedDistributionInformation.PriorityId).FirstOrDefault();
+            //SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.CountryId).FirstOrDefault();
+            //SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.BuisnessUnitId).FirstOrDefault();
+            //SelectedArea = Area_Collection?.Where(c => c.Id == SelectedDistributionInformation.AreaId).FirstOrDefault();
+            //SelectedPriority = Priority_Collection?.Where(c => c.Id == SelectedDistributionInformation.PriorityId).FirstOrDefault();
 
             //Setting Items in ListViews
             RecipientsTo_ListView = EnumerableToObservableCollection(SelectedDistributionInformation.RecipientsTo);
@@ -235,16 +222,16 @@ namespace DbConfigurator.UI.ViewModel
             int buisnessUnitId = 0;
             int areaId = 0;
             //Get Area and BuisnessUnit which are conected with country
-            if (_dataModel.IsDefaultCountry(disInfoMapped.CountryId))
-            {
-                buisnessUnitId = _dataModel.DefaultBuisnessUnit.Id;
-                areaId = _dataModel.DefaultArea.Id;
-            }
-            else
-            {
-                buisnessUnitId = distributionInfoEntity.Region.BuisnessUnit.Id;
-                areaId = distributionInfoEntity.Region.Area.Id;
-            }
+            //if (_dataModel.IsDefaultCountry(disInfoMapped.CountryId))
+            //{
+            //    buisnessUnitId = _dataModel.DefaultBuisnessUnit.Id;
+            //    areaId = _dataModel.DefaultArea.Id;
+            //}
+            //else
+            //{
+            //    buisnessUnitId = distributionInfoEntity.Region.BuisnessUnit.Id;
+            //    areaId = distributionInfoEntity.Region.Area.Id;
+            //}
 
             //Assign Area and BuisnessUnit to DistributionInformation Entity and save changes to databse
             distributionInfoEntity.Region.AreaId = areaId;
@@ -257,14 +244,14 @@ namespace DbConfigurator.UI.ViewModel
 
 
             //Assign Changed properties to SelectedDistributionInformation variable
-            SelectedDistributionInformation.Country = SelectedCountry.CountryName;
-            SelectedDistributionInformation.CountryId = SelectedCountry.Id;
+            //SelectedDistributionInformation.Country = SelectedCountry.CountryName;
+            //SelectedDistributionInformation.CountryId = SelectedCountry.Id;
 
-            SelectedDistributionInformation.Area = SelectedArea.Name;
-            SelectedDistributionInformation.AreaId = SelectedArea.Id;
+            //SelectedDistributionInformation.Area = SelectedArea.Name;
+            //SelectedDistributionInformation.AreaId = SelectedArea.Id;
 
-            SelectedDistributionInformation.BuisnessUnit = SelectedBuisnessUnit.Name;
-            SelectedDistributionInformation.BuisnessUnitId = SelectedBuisnessUnit.Id;
+            //SelectedDistributionInformation.BuisnessUnit = SelectedBuisnessUnit.Name;
+            //SelectedDistributionInformation.BuisnessUnitId = SelectedBuisnessUnit.Id;
 
 
             SettingCountryExecuting = false;
@@ -294,8 +281,8 @@ namespace DbConfigurator.UI.ViewModel
             var disInfoMapped = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInfoEntity);
 
             //Assign Changed properties to SelectedDistributionInformation variable
-            SelectedDistributionInformation.Priority = disInfoMapped.Priority;
-            SelectedDistributionInformation.PriorityId = disInfoMapped.PriorityId;
+            //SelectedDistributionInformation.Priority = disInfoMapped.Priority;
+            //SelectedDistributionInformation.PriorityId = disInfoMapped.PriorityId;
 
             SettingPriorityExecuting = false;
         }

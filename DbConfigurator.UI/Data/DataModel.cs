@@ -38,10 +38,11 @@ namespace DbConfigurator.Model
             DefaultBuisnessUnit = await GetDefaultBuisnessUnit();
             DefaultCountry = await GetDefaultCountry();
             DefaultPriority = await GetDefaultPriority();
+            DefaultRegion = await GetDefaultRegion();
 
             AreasDto = AutoMapper.Mapper.Map<List<AreaDto>>(await GetAllAreasAsync());
             BuisnessUnitsDto = AutoMapper.Mapper.Map<List<BuisnessUnitDto>>(await GetAllBuisnessUnitsAsync());
-            CountriesDto = AutoMapper.Mapper.Map<List<RegionDto>>(await GetAllCountriesAsync());
+            //CountriesDto = AutoMapper.Mapper.Map<List<CountryDto>>(await GetAllCountriesAsync());
             PrioritiesDto = AutoMapper.Mapper.Map<List<PriorityDto>>(await GetAllPrioritiesAsync());
             RecipientsDto = AutoMapper.Mapper.Map<List<RecipientDto>>(await GetAllRecipientsAsync());
         }
@@ -137,6 +138,12 @@ namespace DbConfigurator.Model
             var priority = await Context.Set<Priority>().Where(c => c.Id == 99)
                 .FirstOrDefaultAsync();
             return priority;
+        }   
+        private async Task<Region> GetDefaultRegion()
+        {
+            var region = await Context.Set<Region>().Where(c => c.Id == 99)
+                .FirstOrDefaultAsync();
+            return region;
         }
 
 
@@ -157,6 +164,8 @@ namespace DbConfigurator.Model
         public BuisnessUnit DefaultBuisnessUnit { get; private set; }
         public Country DefaultCountry { get; private set; }
         public Priority DefaultPriority { get; private set; }
+        public Region DefaultRegion { get; private set; }
+
 
         public bool HasChanges()
         {
