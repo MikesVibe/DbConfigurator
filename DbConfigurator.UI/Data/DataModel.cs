@@ -99,7 +99,9 @@ namespace DbConfigurator.Model
         public async Task<IEnumerable<Country>> GetCountriesAsync(int buisnessUnitId)
         {
             var regionsWithBuisnessUnitId = GetRegionsAsQueryable().Where(i => i.BuisnessUnitId == buisnessUnitId);
-            var countriesIdList = await regionsWithBuisnessUnitId.Select(r => r.Id).ToListAsync();
+
+            var testList = regionsWithBuisnessUnitId.ToList();
+            var countriesIdList = await regionsWithBuisnessUnitId.Select(r => r.CountryId).ToListAsync();
 
             var countries = GetCountriesAsQueryable().Where(c => countriesIdList.Contains(c.Id));
 
@@ -138,6 +140,14 @@ namespace DbConfigurator.Model
             var collection = await GetRegionsAsQueryable().ToListAsync();
 
             return collection;
+        }
+        public async Task<Region?> GetRegionAsync(int areaId, int buisnessUnitId, int countryId)
+        {
+            return await GetRegionsAsQueryable()
+                .Where(r => 
+                r.AreaId == areaId && 
+                r.BuisnessUnitId == buisnessUnitId && 
+                r.CountryId == countryId).FirstOrDefaultAsync();
         }
 
         private async Task<Area> GetDefaultArea()
