@@ -1,3 +1,4 @@
+using DbConfigurator.Model.Entities;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections;

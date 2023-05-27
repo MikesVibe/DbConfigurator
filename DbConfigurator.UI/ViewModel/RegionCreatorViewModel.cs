@@ -48,26 +48,26 @@ namespace DbConfigurator.UI.ViewModel
 
         public override async Task LoadAsync()
         {
-            var countries = await _dataModel.GetCountriesWithoutDefaultAsync();
-            foreach (var country in countries)
-            {
-                var wrapper = _autoMapper.Mapper.Map<RegionDto>(country);
-                Regions_ObservableCollection.Add(wrapper);
-            }
+            //var countries = await _dataModel.GetCountriesWithoutDefaultAsync();
+            //foreach (var country in countries)
+            //{
+            //    var wrapper = _autoMapper.Mapper.Map<RegionDto>(country);
+            //    Regions_ObservableCollection.Add(wrapper);
+            //}
 
-            var areas = EnumerableToObservableCollection(await _dataModel.GetAreasWithoutDefaultAsync());
-            foreach (var area in areas)
-            {
-                var wrapper = _autoMapper.Mapper.Map<AreaDto>(area);
-                Areas_ObservableCollection.Add(wrapper);
-            }
+            //var areas = EnumerableToObservableCollection(await _dataModel.GetAreasWithoutDefaultAsync());
+            //foreach (var area in areas)
+            //{
+            //    var wrapper = _autoMapper.Mapper.Map<AreaDto>(area);
+            //    Areas_ObservableCollection.Add(wrapper);
+            //}
 
-            var buisnessUnits = EnumerableToObservableCollection(await _dataModel.GetBuisnessUnitsWithoutDefaultAsync());
-            foreach (var buisnessUnit in buisnessUnits)
-            {
-                var wrapper = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
-                BuisnessUnits_ObservableCollection.Add(wrapper);
-            }
+            //var buisnessUnits = EnumerableToObservableCollection(await _dataModel.GetBuisnessUnitsWithoutDefaultAsync());
+            //foreach (var buisnessUnit in buisnessUnits)
+            //{
+            //    var wrapper = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
+            //    BuisnessUnits_ObservableCollection.Add(wrapper);
+            //}
 
             //var countries = EnumerableToObservableCollection(_dataModel.CountriesDto);
             //Country_Collection = countries;

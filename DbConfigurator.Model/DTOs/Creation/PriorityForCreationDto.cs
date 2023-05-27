@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.DataAccess.Models
+namespace DbConfigurator.Model.DTOs.Creation
 {
-    internal class AreaWithIdDto
+    public class PriorityForCreationDto
     {
-        public AreaWithIdDto(int id, string name)
+        public PriorityForCreationDto(int id, string name)
         {
             Id = id;
             Name = name;

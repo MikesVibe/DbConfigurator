@@ -5,20 +5,27 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DbConfigurator.Model.Entities;
 
 namespace DbConfigurator.Model
 {
-    public class Area
+    public class Country
     {
         [Required]
         public int Id { get; set; }
+
         [Required]
-        [MaxLength(250)]
+        [MaxLength(50)]
         public string Name { get; set; }
 
+        [Required]
+        [MaxLength(3)]
+        public string ShortCode{ get; set; }
+
+
+        public ICollection<Region> Regions { get; set; }
         //public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
         //public ICollection<DistributionInformation> DistributionInformations { get; set; }
-        public ICollection<Region> Regions { get; set; }
 
     }
 }

@@ -1,30 +1,23 @@
-﻿using System;
+﻿using DbConfigurator.Model.Entities;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.Model
 {
-    public class Country
+    public class BuisnessUnit
     {
         [Required]
         public int Id { get; set; }
-
         [Required]
-        [MaxLength(50)]
+        [MaxLength(250)]
         public string Name { get; set; }
 
-        [Required]
-        [MaxLength(3)]
-        public string ShortCode{ get; set; }
-
-
-        public ICollection<Region> Regions { get; set; }
-        //public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
+        //public ICollection<Area> Areas { get; set; }
+        //public ICollection<Country> Countries { get; set; }
         //public ICollection<DistributionInformation> DistributionInformations { get; set; }
+        public ICollection<Region> Regions { get; set; }
 
     }
 }

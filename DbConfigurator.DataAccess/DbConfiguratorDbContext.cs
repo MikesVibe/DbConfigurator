@@ -1,4 +1,5 @@
 using DbConfigurator.Model;
+using DbConfigurator.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
@@ -53,8 +54,6 @@ namespace DbConfigurator.DataAccess
                         Name = area.Name
                     });
             }
-
-
 
             foreach (var buisnessUnit in bUData.BuisnessUnits.ToList())
             {

@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs;
+using DbConfigurator.Model.Entities;
 using Microsoft.VisualBasic;
 using System.Collections;
 using System.Collections.Generic;

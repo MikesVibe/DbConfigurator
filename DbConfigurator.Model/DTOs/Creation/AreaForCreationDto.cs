@@ -4,19 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.DataAccess.Models
+namespace DbConfigurator.Model.DTOs.Creation
 {
-    internal class CountryWithIdDto
+    public class AreaForCreationDto
     {
-        public CountryWithIdDto(int id, string name, string countryCode)
+        public AreaForCreationDto(int id, string name)
         {
             Id = id;
             Name = name;
-            ShortCode = countryCode;
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public string ShortCode { get; set; }
     }
 }

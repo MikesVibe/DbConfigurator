@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs;
+using DbConfigurator.Model.Entities;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Wrapper;

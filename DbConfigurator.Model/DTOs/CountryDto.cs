@@ -9,7 +9,7 @@ namespace DbConfigurator.Model.DTOs
     public class CountryDto
     {
         public int Id { get; set; }
-        public string CountryName { get; set; }
-        public string CountryShortCode { get; set; }
+        public string CountryName { get; set; } = string.Empty;
+        public string CountryShortCode { get; set; } = string.Empty;
     }
 }
