@@ -44,7 +44,7 @@ namespace DbConfigurator.UI.ViewModel
             RecipientsCc_ListView = new ObservableCollection<RecipientDto>();
 
 
-            PopulateComboBoxesWithData();
+            SaveCommand = new DelegateCommand(OnSaveCommand);
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecuteAsync, OnRemoveRecipientToCanExecute);
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecuteAsync, OnRemovRecipientCCeCanExecute);
@@ -55,10 +55,17 @@ namespace DbConfigurator.UI.ViewModel
 
         }
 
-
+        private void OnSaveCommand()
+        {
+            //SelectedDistributionInformation
+            //_dataModel.SaveChangesAsync();
+        }
 
         public async override Task LoadAsync()
         {
+            await PopulateComboBoxesWithData();
+
+
             DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationDtoWrapper>();
             var distributionInformation = await _dataModel.GetAllDistributionInformationAsync();
 
@@ -71,18 +78,45 @@ namespace DbConfigurator.UI.ViewModel
             }
         }
 
-        private void PopulateComboBoxesWithData()
+        private async Task PopulateComboBoxesWithData()
         {
             var areas = EnumerableToObservableCollection(_dataModel.AreasDto);
             Area_Collection = areas;
-            var buisnessUnits = EnumerableToObservableCollection(_dataModel.BuisnessUnitsDto);
-            BuisnessUnit_Collection = buisnessUnits;
-            var countries = EnumerableToObservableCollection(_dataModel.CountriesDto);
-            Country_Collection = countries;
+            await PopulateBuisnessUnitCombobox();
+            await PopulateCountryCombobox();
             var priorities = EnumerableToObservableCollection(_dataModel.PrioritiesDto);
             Priority_Collection = priorities;
         }
+        private async Task PopulateBuisnessUnitCombobox(int? areaId = null)
+        {
+            IEnumerable<BuisnessUnit> avilableBuisnessUnits;
+            if (areaId == null)
+                avilableBuisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
+            else
+                avilableBuisnessUnits = await _dataModel.GetBuisnessUnitsAsync((int)areaId);
 
+            BuisnessUnit_Collection.Clear();
+            foreach (var bu in avilableBuisnessUnits)
+            {
+                var mapped = AutoMapper.Mapper.Map<BuisnessUnitDto>(bu);
+                BuisnessUnit_Collection.Add(mapped);
+            }
+        }
+        private async Task PopulateCountryCombobox(int? buisnessUnitId = null)
+        {
+            IEnumerable<Country> countries;
+            if (buisnessUnitId == null)
+                countries = await _dataModel.GetAllCountriesAsync();
+            else
+                countries = await _dataModel.GetCountriesAsync((int)buisnessUnitId);
+
+            Country_Collection.Clear();
+            foreach (var country in countries)
+            {
+                var mapped = AutoMapper.Mapper.Map<CountryDto>(country);
+                Country_Collection.Add(mapped);
+            }
+        }
 
         protected async override void OnAddExecute()
         {
@@ -108,7 +142,7 @@ namespace DbConfigurator.UI.ViewModel
             //_dataModel.Remove(_dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First());
             var deletedDistributionInfo = SelectedDistributionInformation;
             await _dataModel.SaveChangesAsync();
-            
+
             DistributionInformation_ObservableCollection.Remove(SelectedDistributionInformation);
             SelectedDistributionInformation = null;
             RecipientsTo_ListView.Clear();
@@ -196,11 +230,13 @@ namespace DbConfigurator.UI.ViewModel
         }
         private void SelectCountryComboBox()
         {
-            SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.Country.Id).FirstOrDefault();
+            SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.Country.Id).FirstOrDefault() ??
+                Country_Collection?.FirstOrDefault();
         }
         private void SelectBuisnessUnitComboBox()
         {
-            SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.BuisnessUnit.Id).FirstOrDefault();
+            SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.BuisnessUnit.Id).FirstOrDefault() ??
+                BuisnessUnit_Collection?.FirstOrDefault();
         }
         private void SelectAreaComboBox()
         {
@@ -227,21 +263,16 @@ namespace DbConfigurator.UI.ViewModel
             //Prevents concurency between threads
             if (CanConcurencyOccure())
                 return;
-            
+
             SettingNewAreaExecuting = true;
-
-            var avilableBuisnessUnits = await _dataModel.GetBuisnessUnitsAsync(SelectedArea.Id);
-
-            BuisnessUnit_Collection.Clear();
-            foreach(var bu in avilableBuisnessUnits)
-            {
-                var mapped = AutoMapper.Mapper.Map<BuisnessUnitDto>(bu);
-                BuisnessUnit_Collection.Add(mapped);
-            }
-            SelectBuisnessUnitComboBox();
-
+            await PopulateBuisnessUnitCombobox(SelectedArea.Id);
             SettingNewAreaExecuting = false;
+
+            SelectBuisnessUnitComboBox();
         }
+
+
+
         private async void SetNewBuisnessUnit()
         {
             if (SelectedBuisnessUnit == null || SelectedDistributionInformation == null)
@@ -252,18 +283,10 @@ namespace DbConfigurator.UI.ViewModel
                 return;
 
             SettingNewBuisnessUnitExecuting = true;
-
-            var avilableCountries = await _dataModel.GetCountriesAsync(SelectedBuisnessUnit.Id);
-
-            Country_Collection.Clear();
-            foreach (var country in avilableCountries)
-            {
-                var mapped = AutoMapper.Mapper.Map<CountryDto>(country);
-                Country_Collection.Add(mapped);
-            }
-            SelectCountryComboBox();
-
+            await PopulateCountryCombobox(SelectedBuisnessUnit.Id);
             SettingNewBuisnessUnitExecuting = false;
+
+            SelectCountryComboBox();
         }
         private async void SetNewCountry()
         {
@@ -335,7 +358,7 @@ namespace DbConfigurator.UI.ViewModel
             //    return;
 
             SettingNewPriorityExecuting = true;
-             
+
 
             ////Get distribution information entity from database
             //var disInfoDtoWrapper = SelectedDistributionInformation;
@@ -358,7 +381,7 @@ namespace DbConfigurator.UI.ViewModel
 
         private bool CanConcurencyOccure()
         {
-            return 
+            return
                 SettingNewPriorityExecuting == true ||
                 SettingNewCountryExecuting == true ||
                 SettingNewBuisnessUnitExecuting == true ||
@@ -376,10 +399,10 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<AreaDto> Area_Collection { get; set; }
-        public ObservableCollection<BuisnessUnitDto> BuisnessUnit_Collection { get; set; }
-        public ObservableCollection<CountryDto> Country_Collection { get; set; }
-        public ObservableCollection<PriorityDto> Priority_Collection { get; private set; }
+        public ObservableCollection<AreaDto> Area_Collection { get; set; } = new ObservableCollection<AreaDto>();
+        public ObservableCollection<BuisnessUnitDto> BuisnessUnit_Collection { get; set; } = new ObservableCollection<BuisnessUnitDto>();
+        public ObservableCollection<CountryDto> Country_Collection { get; set; } = new ObservableCollection<CountryDto>();
+        public ObservableCollection<PriorityDto> Priority_Collection { get; private set; } = new ObservableCollection<PriorityDto>();
 
         public ObservableCollection<RecipientDto> RecipientsToComboBox
         {
@@ -393,7 +416,7 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-        public ObservableCollection<DistributionInformationDtoWrapper> DistributionInformation_ObservableCollection { get; set; }
+        public ObservableCollection<DistributionInformationDtoWrapper> DistributionInformation_ObservableCollection { get; set; } = new ObservableCollection<DistributionInformationDtoWrapper>();
         public ObservableCollection<RecipientDto> RecipientsTo_ListView
         {
             get { return _recipientsTo_ListView; }
@@ -520,6 +543,7 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+        public ICommand SaveCommand { get; set; }
         public ICommand SelectionChangedCommand { get; set; }
         public ICommand RemoveCcRecipientCommand { get; set; }
         public ICommand RemoveToRecipientCommand { get; set; }

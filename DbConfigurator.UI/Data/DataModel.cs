@@ -99,7 +99,7 @@ namespace DbConfigurator.Model
         public async Task<IEnumerable<Country>> GetCountriesAsync(int buisnessUnitId)
         {
             var regionsWithBuisnessUnitId = GetRegionsAsQueryable().Where(i => i.BuisnessUnitId == buisnessUnitId);
-            var countriesIdList = await regionsWithBuisnessUnitId.Select(r => r.BuisnessUnitId).ToListAsync();
+            var countriesIdList = await regionsWithBuisnessUnitId.Select(r => r.Id).ToListAsync();
 
             var countries = GetCountriesAsQueryable().Where(c => countriesIdList.Contains(c.Id));
 
