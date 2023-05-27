@@ -2,9 +2,9 @@
 using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs;
 using DbConfigurator.Model.Entities;
+using DbConfigurator.Model.Wrapper;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.View;
-using DbConfigurator.UI.Wrapper;
 using Microsoft.EntityFrameworkCore.Update.Internal;
 using Microsoft.VisualBasic;
 using Prism.Commands;
@@ -226,16 +226,25 @@ namespace DbConfigurator.UI.ViewModel
         }
         private void SelectCountryComboBox()
         {
+            if (SelectedDistributionInformation.Region.Country == null)
+                return;
+
             SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.Country.Id).FirstOrDefault() ??
                 Country_Collection?.FirstOrDefault();
         }
         private void SelectBuisnessUnitComboBox()
         {
+            if (SelectedDistributionInformation.Region.BuisnessUnit == null)
+                return;
+
             SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.BuisnessUnit.Id).FirstOrDefault() ??
                 BuisnessUnit_Collection?.FirstOrDefault();
         }
         private void SelectAreaComboBox()
         {
+            if (SelectedDistributionInformation.Region.Area == null)
+                return;
+
             SelectedArea = Area_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.Area.Id).FirstOrDefault();
         }
 

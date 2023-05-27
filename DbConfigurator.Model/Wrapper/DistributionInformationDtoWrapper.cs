@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Wrapper
+namespace DbConfigurator.Model.Wrapper
 {
     public class DistributionInformationDtoWrapper : ModelWrapper<DistributionInformationDto>
     {

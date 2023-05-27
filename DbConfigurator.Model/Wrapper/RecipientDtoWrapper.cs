@@ -1,15 +1,16 @@
 ﻿using DbConfigurator.Model;
+using DbConfigurator.Model.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Wrapper
+namespace DbConfigurator.Model.Wrapper
 {
-    public class CountryWrapper : ModelWrapper<Country>
+    public class RecipientDtoWrapper : ModelWrapper<RecipientDto>
     {
-        public CountryWrapper(Country model) : base(model)
+        public RecipientDtoWrapper(RecipientDto model) : base(model)
         {
         }
 
@@ -17,7 +18,7 @@ namespace DbConfigurator.UI.Wrapper
         {
             get { return GetValue<int>(); }
         }
-        public string Name
+        public string FirstName
         {
             get { return GetValue<string>(); }
             set
@@ -25,7 +26,7 @@ namespace DbConfigurator.UI.Wrapper
                 SetValue<string>(value);
             }
         }
-        public string ShortCode
+        public string LastName
         {
             get { return GetValue<string>(); }
             set
@@ -33,8 +34,14 @@ namespace DbConfigurator.UI.Wrapper
                 SetValue<string>(value);
             }
         }
-        public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
-        public ICollection<DistributionInformation> DistributionInformations { get; set; }
+        public string Email
+        {
+            get { return GetValue<string>(); }
+            set
+            {
+                SetValue<string>(value);
+            }
+        }
 
     }
 }

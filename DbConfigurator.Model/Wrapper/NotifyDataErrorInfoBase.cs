@@ -1,30 +1,37 @@
-﻿using DbConfigurator.UI.ViewModel;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Wrapper
+namespace DbConfigurator.Model.Wrapper
 {
-    public class NotifyDataErrorInfoBase : ViewModelBase, INotifyDataErrorInfo
+    public class NotifyDataErrorInfoBase : INotifyDataErrorInfo ,INotifyPropertyChanged
     {
         private Dictionary<string, List<string>> _errorsByPropertyName =
             new Dictionary<string, List<string>>();
+        
         public bool HasErrors => _errorsByPropertyName.Any();
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-        public IEnumerable GetErrors(string propertyName)
+        
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public IEnumerable GetErrors(string? propertyName)
         {
-            return _errorsByPropertyName.ContainsKey(propertyName)
+            if (propertyName == null)
+                return "";
+
+            return _errorsByPropertyName.ContainsKey((string)propertyName)
                 ? _errorsByPropertyName[propertyName]
-                : null;
+                : "";
         }
         protected void OnErrorsChanged(string propertyName)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            base.OnPropertyChanged(nameof(HasErrors));
+            OnPropertyChanged(nameof(HasErrors));
         }
         protected void AddError(string propertyName, string error)
         {
@@ -45,6 +52,10 @@ namespace DbConfigurator.UI.Wrapper
                 _errorsByPropertyName.Remove(propertyName);
                 OnErrorsChanged(propertyName);
             }
+        }
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

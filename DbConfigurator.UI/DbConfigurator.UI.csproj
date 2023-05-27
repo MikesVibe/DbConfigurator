@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="bin\**" />
+    <Compile Remove="Wrapper\**" />
     <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="Wrapper\**" />
     <None Remove="bin\**" />
+    <None Remove="Wrapper\**" />
     <Page Remove="bin\**" />
+    <Page Remove="Wrapper\**" />
   </ItemGroup>
 
   <ItemGroup>
