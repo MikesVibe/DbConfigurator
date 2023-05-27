@@ -5,6 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DbConfigurator.UI.View" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" >
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="AmericasColor" Color="#ACB9CA" />
+        <SolidColorBrush x:Key="CentralEuropeColor" Color="#FFD966" />
+        <SolidColorBrush x:Key="GrowingMarketsColor" Color="#C9C9C9" />
+        <SolidColorBrush x:Key="NorthernEuropeColor" Color="#548235" />
+        <SolidColorBrush x:Key="SouthernEuropeColor" Color="#9BC2E6" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -20,6 +28,27 @@
             ItemsSource="{Binding Regions_ObservableCollection, Mode=TwoWay}"
             SelectedItem="{Binding SelectedRegion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                    
             AutoGenerateColumns="False" FontSize="11" Height="500" Width="818">
+            <!--<DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Area.Name}" Value="Americas">
+                            <Setter Property="Background" Value="{StaticResource AmericasColor}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Area.Name}" Value="Central Europe">
+                            <Setter Property="Background" Value="{StaticResource CentralEuropeColor}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Area.Name}" Value="Growing Markets">
+                            <Setter Property="Background" Value="{StaticResource GrowingMarketsColor}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Area.Name}" Value="Northern Europe">
+                            <Setter Property="Background" Value="{StaticResource NorthernEuropeColor}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Area.Name}" Value="Southern Europe">
+                            <Setter Property="Background" Value="{StaticResource SouthernEuropeColor}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>-->
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding SelectionChangedCommand }"/>
@@ -28,13 +57,13 @@
             <DataGrid.Columns >
 
                 <DataGridTextColumn Header="Area"  Width="*"
-                                    Binding="{Binding AreaName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    Binding="{Binding Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Buisness Unit" Width="*" 
-                                    Binding="{Binding BuisnessUnitName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    Binding="{Binding BuisnessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Country" Width="300" 
-                                    Binding="{Binding CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    Binding="{Binding Country.CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Country Code" Width="*" 
-                                    Binding="{Binding CountryShortCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    Binding="{Binding Country.CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1" VerticalAlignment="Top" >

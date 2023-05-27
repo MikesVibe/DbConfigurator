@@ -25,7 +25,7 @@ namespace DbConfigurator.UI.Startup
                 cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>();
                 cfg.CreateMap<Country, CountryDto>()
                 .ForMember(c => c.CountryName, opt => opt.MapFrom(src => src.Name))
-                .ForMember(c => c.CountryShortCode, opt => opt.MapFrom(src => src.ShortCode));
+                .ForMember(c => c.CountryCode, opt => opt.MapFrom(src => src.ShortCode));
                 cfg.CreateMap<Region, RegionDto>();
 
 

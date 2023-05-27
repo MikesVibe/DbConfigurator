@@ -46,8 +46,8 @@ namespace DbConfigurator.UI.Startup
                  .Keyed<ITabelViewModel>(nameof(CountryTableViewModel));
             builder.RegisterType<DistributionInformationTableViewModel>()
                  .Keyed<ITabelViewModel>(nameof(DistributionInformationTableViewModel));
-            builder.RegisterType<RegionCreatorViewModel>()
-                 .Keyed<ITabelViewModel>(nameof(RegionCreatorViewModel));
+            builder.RegisterType<RegionTableViewModel>()
+                 .Keyed<ITabelViewModel>(nameof(RegionTableViewModel));
 
 
 

@@ -16,13 +16,13 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public class RegionCreatorViewModel : TableViewModelBase, IRegionCreatorTableViewModel
+    public class RegionTableViewModel : TableViewModelBase, IRegionCreatorTableViewModel
     {
         private readonly AutoMapperConfig _autoMapper;
         private readonly IEventAggregator _eventAggregator;
         private readonly IDataModel _dataModel;
 
-        public RegionCreatorViewModel(IDataModel dataModel,
+        public RegionTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
             AutoMapperConfig autoMapper 
             ) : base(eventAggregator)
@@ -48,12 +48,12 @@ namespace DbConfigurator.UI.ViewModel
 
         public override async Task LoadAsync()
         {
-            //var countries = await _dataModel.GetCountriesWithoutDefaultAsync();
-            //foreach (var country in countries)
-            //{
-            //    var wrapper = _autoMapper.Mapper.Map<RegionDto>(country);
-            //    Regions_ObservableCollection.Add(wrapper);
-            //}
+            var regions = await _dataModel.GetRegionsWithoutDefaultAsync();
+            foreach (var region in regions)
+            {
+                var wrapper = _autoMapper.Mapper.Map<RegionDto>(region);
+                Regions_ObservableCollection.Add(wrapper);
+            }
 
             //var areas = EnumerableToObservableCollection(await _dataModel.GetAreasWithoutDefaultAsync());
             //foreach (var area in areas)

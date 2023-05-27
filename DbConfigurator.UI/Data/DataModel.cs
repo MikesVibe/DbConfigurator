@@ -133,6 +133,12 @@ namespace DbConfigurator.Model
 
             return collection;
         }
+        public async Task<ICollection<Region>> GetRegionsWithoutDefaultAsync()
+        {
+            var collection = await GetRegionsAsQueryable().ToListAsync();
+
+            return collection;
+        }
 
         private async Task<Area> GetDefaultArea()
         {

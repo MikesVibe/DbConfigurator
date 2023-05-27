@@ -21,7 +21,7 @@
         <DataTemplate DataType="{x:Type viewModel:DistributionInformationTableViewModel}">
             <view:DistributionInformationTableView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:RegionCreatorViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:RegionTableViewModel}">
             <view:RegionCreatorView/>
         </DataTemplate>
     </Window.Resources>
