@@ -88,6 +88,11 @@
                               ItemsSource="{Binding Area_Collection}"
                               SelectedItem="{Binding SelectedArea}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding AreaChangedCommand }"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
@@ -95,7 +100,13 @@
                     <ComboBox Name="CountryClusterComboBox"
                               ItemsSource="{Binding BuisnessUnit_Collection}"
                               SelectedItem="{Binding SelectedBuisnessUnit, Mode=TwoWay}"
-                              DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                              DisplayMemberPath="Name" SelectedValuePath="Id">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding BuisnessUnitChangedCommand }"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Content="Country:" />

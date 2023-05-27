@@ -86,6 +86,24 @@ namespace DbConfigurator.Model
 
             return collection;
         }
+        public async Task<IEnumerable<BuisnessUnit>> GetBuisnessUnitsAsync(int areaId)
+        {
+            var regionsWithAreaId = GetRegionsAsQueryable().Where(i => i.AreaId == areaId);
+            var buisnessUnitsIdList = await regionsWithAreaId.Select(r => r.BuisnessUnitId).ToListAsync();
+
+            var buisnessUnits = GetBuisnessUnitsAsQueryable().Where(b => buisnessUnitsIdList.Contains(b.Id));
+
+            return await buisnessUnits.ToListAsync();
+        }
+        public async Task<IEnumerable<Country>> GetCountriesAsync(int buisnessUnitId)
+        {
+            var regionsWithBuisnessUnitId = GetRegionsAsQueryable().Where(i => i.BuisnessUnitId == buisnessUnitId);
+            var countriesIdList = await regionsWithBuisnessUnitId.Select(r => r.BuisnessUnitId).ToListAsync();
+
+            var countries = GetCountriesAsQueryable().Where(c => countriesIdList.Contains(c.Id));
+
+            return await countries.ToListAsync();
+        }
         public async Task<ICollection<Country>> GetAllCountriesAsync()
         {
             var collection = await Context.Set<Country>().ToListAsync();
@@ -216,7 +234,28 @@ namespace DbConfigurator.Model
             return DefaultCountry.Id == countryId;
         }
 
-
+        public async Task<IEnumerable<Region>> GetRegionsByAreaIdAsync(int id)
+        {
+            return  await Context.Set<Region>().Where(r => r.Area.Id == id).ToListAsync();
+        }
+        private IQueryable<Region> GetRegionsAsQueryable()
+        {
+            return Context.Set<Region>()
+                .Include(r => r.Area)
+                .Include(r => r.BuisnessUnit)
+                .Include(r => r.Country)
+                .AsQueryable();
+        }
+        private IQueryable<BuisnessUnit> GetBuisnessUnitsAsQueryable()
+        {
+            return Context.Set<BuisnessUnit>()
+                .AsQueryable();
+        }
+        private IQueryable<Country> GetCountriesAsQueryable()
+        {
+            return Context.Set<Country>()
+                .AsQueryable();
+        }
 
         public DbConfiguratorDbContext Context
         {

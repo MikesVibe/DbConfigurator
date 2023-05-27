@@ -25,8 +25,10 @@ namespace DbConfigurator.UI.ViewModel
     public class DistributionInformationTableViewModel : TableViewModelBase, IDistributionInformationTableView
     {
         private readonly object balanceLock = new object();
-        private bool SettingPriorityExecuting = false;
-        private bool SettingCountryExecuting = false;
+        private bool SettingNewAreaExecuting = false;
+        private bool SettingNewBuisnessUnitExecuting = false;
+        private bool SettingNewCountryExecuting = false;
+        private bool SettingNewPriorityExecuting = false;
 
         public DistributionInformationTableViewModel(
             IEventAggregator eventAggregator,
@@ -47,9 +49,13 @@ namespace DbConfigurator.UI.ViewModel
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecuteAsync, OnRemoveRecipientToCanExecute);
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecuteAsync, OnRemovRecipientCCeCanExecute);
             PriorityChangedCommand = new DelegateCommand(SetNewPriority);
+            AreaChangedCommand = new DelegateCommand(SetNewArea);
+            BuisnessUnitChangedCommand = new DelegateCommand(SetNewBuisnessUnit);
             CountryChangedCommand = new DelegateCommand(SetNewCountry);
 
         }
+
+
 
         public async override Task LoadAsync()
         {
@@ -171,10 +177,10 @@ namespace DbConfigurator.UI.ViewModel
             PopulateComboBoxCc();
 
             //Setting selected items in comboBoxes
-            SelectedArea = Area_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.Area.Id).FirstOrDefault();
-            SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.BuisnessUnit.Id).FirstOrDefault();
-            SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.Country.Id).FirstOrDefault();
-            SelectedPriority = Priority_Collection?.Where(c => c.Id == SelectedDistributionInformation.Priority.Id).FirstOrDefault();
+            SelectAreaComboBox();
+            SelectBuisnessUnitComboBox();
+            SelectCountryComboBox();
+            SelectPriorityComboBox();
 
             //Setting Items in ListViews
             RecipientsTo_ListView = EnumerableToObservableCollection(SelectedDistributionInformation.RecipientsTo);
@@ -182,6 +188,23 @@ namespace DbConfigurator.UI.ViewModel
 
 
             ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
+        }
+
+        private void SelectPriorityComboBox()
+        {
+            SelectedPriority = Priority_Collection?.Where(c => c.Id == SelectedDistributionInformation.Priority.Id).FirstOrDefault();
+        }
+        private void SelectCountryComboBox()
+        {
+            SelectedCountry = Country_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.Country.Id).FirstOrDefault();
+        }
+        private void SelectBuisnessUnitComboBox()
+        {
+            SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.BuisnessUnit.Id).FirstOrDefault();
+        }
+        private void SelectAreaComboBox()
+        {
+            SelectedArea = Area_Collection?.Where(c => c.Id == SelectedDistributionInformation.Region.Area.Id).FirstOrDefault();
         }
 
         private void PopulateComboBoxTo()
@@ -196,6 +219,52 @@ namespace DbConfigurator.UI.ViewModel
             RecipientsCcComboBox = EnumerableToObservableCollection(recipients.Where(p => !SelectedDistributionInformation.RecipientsCc.Any(p2 => p2.Id == p.Id)));
         }
 
+        private async void SetNewArea()
+        {
+            if (SelectedArea == null || SelectedDistributionInformation == null)
+                return;
+
+            //Prevents concurency between threads
+            if (CanConcurencyOccure())
+                return;
+            
+            SettingNewAreaExecuting = true;
+
+            var avilableBuisnessUnits = await _dataModel.GetBuisnessUnitsAsync(SelectedArea.Id);
+
+            BuisnessUnit_Collection.Clear();
+            foreach(var bu in avilableBuisnessUnits)
+            {
+                var mapped = AutoMapper.Mapper.Map<BuisnessUnitDto>(bu);
+                BuisnessUnit_Collection.Add(mapped);
+            }
+            SelectBuisnessUnitComboBox();
+
+            SettingNewAreaExecuting = false;
+        }
+        private async void SetNewBuisnessUnit()
+        {
+            if (SelectedBuisnessUnit == null || SelectedDistributionInformation == null)
+                return;
+
+            //Prevents concurency between threads
+            if (CanConcurencyOccure())
+                return;
+
+            SettingNewBuisnessUnitExecuting = true;
+
+            var avilableCountries = await _dataModel.GetCountriesAsync(SelectedBuisnessUnit.Id);
+
+            Country_Collection.Clear();
+            foreach (var country in avilableCountries)
+            {
+                var mapped = AutoMapper.Mapper.Map<CountryDto>(country);
+                Country_Collection.Add(mapped);
+            }
+            SelectCountryComboBox();
+
+            SettingNewBuisnessUnitExecuting = false;
+        }
         private async void SetNewCountry()
         {
             if (SelectedDistributionInformation == null || SelectedCountry == null)
@@ -205,7 +274,7 @@ namespace DbConfigurator.UI.ViewModel
             if (CanConcurencyOccure())
                 return;
 
-            SettingCountryExecuting = true;
+            SettingNewCountryExecuting = true;
 
             ////Get distribution information entity from database
             //var disInfoDtoWrapper = SelectedDistributionInformation;
@@ -222,7 +291,7 @@ namespace DbConfigurator.UI.ViewModel
             //int buisnessUnitId = 0;
             //int areaId = 0;
             ////Get Area and BuisnessUnit which are conected with country
-            //if (_dataModel.IsDefaultCountry(disInfoMapped.CountryId))
+            //if (_dataModel.IsDefaultCountry(disInfoMapped.Region.Country.Id))
             //{
             //    buisnessUnitId = _dataModel.DefaultBuisnessUnit.Id;
             //    areaId = _dataModel.DefaultArea.Id;
@@ -244,17 +313,17 @@ namespace DbConfigurator.UI.ViewModel
 
 
             ////Assign Changed properties to SelectedDistributionInformation variable
-            //SelectedDistributionInformation.Country = SelectedCountry.CountryName;
-            //SelectedDistributionInformation.CountryId = SelectedCountry.Id;
+            //SelectedDistributionInformation.Region.Country.CountryName = SelectedCountry.CountryName;
+            //SelectedDistributionInformation.Region.Country.Id = SelectedCountry.Id;
 
-            //SelectedDistributionInformation.Area = SelectedArea.Name;
-            //SelectedDistributionInformation.AreaId = SelectedArea.Id;
+            //SelectedDistributionInformation.Region.Area.Name = SelectedArea.Name;
+            //SelectedDistributionInformation.Region.Area.Id = SelectedArea.Id;
 
-            //SelectedDistributionInformation.BuisnessUnit = SelectedBuisnessUnit.Name;
-            //SelectedDistributionInformation.BuisnessUnitId = SelectedBuisnessUnit.Id;
+            //SelectedDistributionInformation.Region.BuisnessUnit.Name = SelectedBuisnessUnit.Name;
+            //SelectedDistributionInformation.Region.BuisnessUnit.Id = SelectedBuisnessUnit.Id;
 
 
-            SettingCountryExecuting = false;
+            SettingNewCountryExecuting = false;
         }
         private async void SetNewPriority()
         {
@@ -265,8 +334,8 @@ namespace DbConfigurator.UI.ViewModel
             //if (CanConcurencyOccure())
             //    return;
 
-            //SettingPriorityExecuting = true;
-
+            SettingNewPriorityExecuting = true;
+             
 
             ////Get distribution information entity from database
             //var disInfoDtoWrapper = SelectedDistributionInformation;
@@ -284,12 +353,16 @@ namespace DbConfigurator.UI.ViewModel
             ////SelectedDistributionInformation.Priority = disInfoMapped.Priority;
             ////SelectedDistributionInformation.PriorityId = disInfoMapped.PriorityId;
 
-            //SettingPriorityExecuting = false;
+            SettingNewPriorityExecuting = false;
         }
 
         private bool CanConcurencyOccure()
         {
-            return SettingPriorityExecuting == true || SettingCountryExecuting == true;
+            return 
+                SettingNewPriorityExecuting == true ||
+                SettingNewCountryExecuting == true ||
+                SettingNewBuisnessUnitExecuting == true ||
+                SettingNewAreaExecuting == true;
         }
 
         public int DefaultRowIndex { get { return 0; } }
@@ -451,6 +524,8 @@ namespace DbConfigurator.UI.ViewModel
         public ICommand RemoveCcRecipientCommand { get; set; }
         public ICommand RemoveToRecipientCommand { get; set; }
         public ICommand PriorityChangedCommand { get; set; }
+        public ICommand AreaChangedCommand { get; set; }
+        public ICommand BuisnessUnitChangedCommand { get; set; }
         public ICommand CountryChangedCommand { get; set; }
 
 
