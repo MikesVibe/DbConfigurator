@@ -21,9 +21,7 @@ namespace DbConfigurator.DataAccess
         public DbSet<DistributionInformation> DistributionInformation { get; set; }
         public DbSet<Region> Region { get; set; }
         public DbSet<Area> Area { get; set; }
-        //public DbSet<AreaBuisnessUnit> AreaBuisnessUnit { get; set; }
         public DbSet<BuisnessUnit> BuisnessUnit { get; set; }
-        //public DbSet<BuisnessUnitCountry> BuisnessUnitCountry { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<Priority> Priority { get; set; }
         public DbSet<RecipientGroupCc> RecipientGroupCc { get; set; }
@@ -71,8 +69,8 @@ namespace DbConfigurator.DataAccess
                     new Country
                     {
                         Id = country.Id,
-                        Name = country.Name,
-                        ShortCode = country.ShortCode
+                        Name = country.CountryName,
+                        ShortCode = country.CountryCode
                     });
             }
 

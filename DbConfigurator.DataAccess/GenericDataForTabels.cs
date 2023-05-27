@@ -1,6 +1,5 @@
 ﻿using AutoMapper.Configuration;
 using DbConfigurator.DataAccess;
-using DbConfigurator.DataAccess.Models;
 using DbConfigurator.Model;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
