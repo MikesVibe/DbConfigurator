@@ -56,11 +56,12 @@ namespace DbConfigurator.Model
         {
             var collection = await Context.Set<DistributionInformation>()
                 //.Include(c => c.Country).ThenInclcsdsude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
-                .Include(t => t.Region).ThenInclude(r => r.Area)
-                .Include(t => t.Region).ThenInclude(r => r.BuisnessUnit)
-                .Include(t => t.Region).ThenInclude(r => r.Country)
-                .Include(t =>t.RecipientsCc)
-                .Include(p => p.Priority)
+                .Include(d => d.Region).ThenInclude(r => r.Area)
+                .Include(d => d.Region).ThenInclude(r => r.BuisnessUnit)
+                .Include(d => d.Region).ThenInclude(r => r.Country)
+                .Include(d => d.RecipientsTo)
+                .Include(d => d.RecipientsCc)
+                .Include(d => d.Priority)
                 .ToListAsync();
 
             return collection;

@@ -63,8 +63,6 @@ namespace DbConfigurator.UI.ViewModel
         {
             await PopulateComboBoxesWithData();
 
-
-            DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationDtoWrapper>();
             var distributionInformation = await _dataModel.GetAllDistributionInformationAsync();
 
 
