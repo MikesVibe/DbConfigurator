@@ -4,6 +4,11 @@ namespace DbConfigurator.DataAccess
 {
     public interface ISeeder
     {
-        Task Seed();
+        Task<bool> AnyDistributionInformationAsync();
+        Task<bool> AnyRecipientInDatabaseAsync();
+        Task<bool> AnyRegionInDatabaseAsync();
+        Task SeedDistributionInformation();
+        Task SeedRecipients();
+        Task SeedRegions(string regionsAsJson);
     }
 }
