@@ -1,0 +1,497 @@
+[
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "NAO",
+    "Country": "Canada"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "NAO",
+    "Country": "Guatemala"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "NAO",
+    "Country": "Mexico"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "NAO",
+    "Country": "Puerto Rico"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "NAO",
+    "Country": "USA"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "SAM",
+    "Country": "Argentina"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "SAM",
+    "Country": "Brazil"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "SAM",
+    "Country": "Chile"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "SAM",
+    "Country": "Colombia"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "SAM",
+    "Country": "Peru"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "SAM",
+    "Country": "Uruguay"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "SAM",
+    "Country": "Venezuela"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "GER",
+    "Country": "Germany"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Poland"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Russian Federation"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Austria"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Bulgaria"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Switzerland"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Cyprus"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Czech Republic"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Greece"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Croatia"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Hungary"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Israel"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Kasakhstan"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Romania"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Serbia"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Slovakia"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "Ukraine"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "MEK",
+    "Country": "United Arab Emirates"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "MEK",
+    "Country": "Egypt"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "MEK",
+    "Country": "Iran"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "MEK",
+    "Country": "Lebanon"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "MEK",
+    "Country": "Qatar"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "MEK",
+    "Country": "Saudi Arabia"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "MEK",
+    "Country": "Turkey"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Burkina Faso"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Benin"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Cote d'Ivoire"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Algeria"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Gabon"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Ivory Coast"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Morocco"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Madagascar"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Mali"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Mauritius"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Senegal"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "Tunisia"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "South Africa"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "IND",
+    "Country": "India"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "Australia"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "People Rep China"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "Hong Kong"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "Indonesia"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "Japan"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "Korea"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "Malaysia"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "New Zealand"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "Philippines"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "Singapore"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "Thailand"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "Taiwan"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "BTN",
+    "Country": "Belgium"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "BTN",
+    "Country": "Denmark"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "BTN",
+    "Country": "Estonia"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "BTN",
+    "Country": "Finland"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "BTN",
+    "Country": "Lithuania"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "BTN",
+    "Country": "Luxembourg"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "BTN",
+    "Country": "Netherlands"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "BTN",
+    "Country": "Norway"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "BTN",
+    "Country": "Sweden"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "UK&I",
+    "Country": "United Kingdom"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "UK&I",
+    "Country": "Ireland"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "ITA",
+    "Country": "Italy"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "IBE",
+    "Country": "Andorra"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "IBE",
+    "Country": "Spain"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "IBE",
+    "Country": "Portugal"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "FRA",
+    "Country": "France"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "FRA",
+    "Country": "Morocco"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "FRA",
+    "Country": "New Caledonia"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "FRA",
+    "Country": "French Polynesia"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "NAO",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "SAM",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "GER",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "CEE",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "MEK",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "AFR",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "IND",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "APAC",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "BTN",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "UK&I",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "ITA",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "IBE",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "FRA",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Americas",
+    "BuisnessUnit": "ANY",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Central Europe",
+    "BuisnessUnit": "ANY",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Growing Markets",
+    "BuisnessUnit": "ANY",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Northern Europe",
+    "BuisnessUnit": "ANY",
+    "Country": "ANY"
+  },
+  {
+    "Area": "Southern Europe",
+    "BuisnessUnit": "ANY",
+    "Country": "ANY"
+  }
+]

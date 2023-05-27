@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Reflection.Metadata;
@@ -38,14 +39,11 @@ namespace DbConfigurator.UI
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+
 #if DEBUG
             if (!await _seeder.AnyRegionInDatabaseAsync())
             {
-                var parser = new CSVParser("Regions.csv");
-                var regions = parser.Parse().ToList();
-
-
-                var regionsAsJason = JsonConvert.SerializeObject(regions);
+                var regionsAsJason = File.ReadAllText("Regions.json");
 
                 await _seeder.SeedRegions(regionsAsJason);
             }
