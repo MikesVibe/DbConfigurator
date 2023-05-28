@@ -52,5 +52,7 @@ namespace DbConfigurator.Model
         Task<IEnumerable<Country>> GetCountriesAsync(int buisnessUnitId);
         Task<ICollection<Region>> GetAllRegionsAsync();
         Task<Region?> GetRegionAsync(int areaId, int buisnessUnitId, int countryId);
+        Region? GetRegionById(int id);
+        void SaveChanges();
     }
 }

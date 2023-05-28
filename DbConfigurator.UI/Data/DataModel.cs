@@ -52,6 +52,11 @@ namespace DbConfigurator.Model
         {
             await Context.SaveChangesAsync();
         }
+        public void SaveChanges()
+        {
+            Context.SaveChanges();
+        }
+
         public async Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync()
         {
             var collection = await Context.Set<DistributionInformation>()
@@ -235,7 +240,6 @@ namespace DbConfigurator.Model
         {
             return await Context.Recipient.Where(r => r.Id == id).FirstAsync();
         }
-
         public async Task<DistributionInformation> GetDistributionInformationByIdAsync(int id)
         {
             return await Context.DistributionInformation.Where(d => d.Id == id)
@@ -246,6 +250,11 @@ namespace DbConfigurator.Model
                 .Include(p => p.Priority)
                 .FirstAsync();
         }
+        public Region? GetRegionById(int id)
+        {
+            return GetRegionsAsQueryable().Where(r => r.Id == id).FirstOrDefault();
+        }
+
 
         public bool IsDefaultCountry(int countryId)
         {

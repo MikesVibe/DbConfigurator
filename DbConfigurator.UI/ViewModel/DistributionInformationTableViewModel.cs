@@ -36,10 +36,10 @@ namespace DbConfigurator.UI.ViewModel
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecuteAsync, OnRemoveRecipientToCanExecute);
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecuteAsync, OnRemovRecipientCCeCanExecute);
-            PriorityChangedCommand = new DelegateCommand(SetNewPriority);
+            PriorityChangedCommand = new DelegateCommand(OnPriorityChanged);
             AreaChangedCommand = new DelegateCommand(SetNewArea);
-            BuisnessUnitChangedCommand = new DelegateCommand(SetNewBuisnessUnit);
-            CountryChangedCommand = new DelegateCommand(SetNewCountry);
+            BuisnessUnitChangedCommand = new DelegateCommand(OnBuisnessUnitChanged);
+            CountryChangedCommand = new DelegateCommand(OnCountryChanged);
 
         }
 
@@ -268,7 +268,7 @@ namespace DbConfigurator.UI.ViewModel
 
 
 
-        private async void SetNewBuisnessUnit()
+        private async void OnBuisnessUnitChanged()
         {
             if (SelectedBuisnessUnit == null || SelectedDistributionInformation == null)
                 return;
@@ -283,7 +283,7 @@ namespace DbConfigurator.UI.ViewModel
 
             SelectCountryComboBox();
         }
-        private async void SetNewCountry()
+        private async void OnCountryChanged()
         {
             if (SelectedDistributionInformation == null || SelectedCountry == null || SelectedArea == null || SelectedBuisnessUnit == null)
                 return;
@@ -306,7 +306,7 @@ namespace DbConfigurator.UI.ViewModel
 
             AwaitingComboboxPopulation = false;
         }
-        private async void SetNewPriority()
+        private async void OnPriorityChanged()
         {
             if (SelectedDistributionInformation == null || SelectedPriority == null)
                 return;

@@ -5,13 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DbConfigurator.UI.View" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" >
-    <UserControl.Resources>
-        <SolidColorBrush x:Key="AmericasColor" Color="#ACB9CA" />
-        <SolidColorBrush x:Key="CentralEuropeColor" Color="#FFD966" />
-        <SolidColorBrush x:Key="GrowingMarketsColor" Color="#C9C9C9" />
-        <SolidColorBrush x:Key="NorthernEuropeColor" Color="#548235" />
-        <SolidColorBrush x:Key="SouthernEuropeColor" Color="#9BC2E6" />
-    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -28,27 +21,6 @@
             ItemsSource="{Binding Regions_ObservableCollection, Mode=TwoWay}"
             SelectedItem="{Binding SelectedRegion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                    
             AutoGenerateColumns="False" FontSize="11" Height="500" Width="818">
-            <!--<DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Area.Name}" Value="Americas">
-                            <Setter Property="Background" Value="{StaticResource AmericasColor}" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Area.Name}" Value="Central Europe">
-                            <Setter Property="Background" Value="{StaticResource CentralEuropeColor}" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Area.Name}" Value="Growing Markets">
-                            <Setter Property="Background" Value="{StaticResource GrowingMarketsColor}" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Area.Name}" Value="Northern Europe">
-                            <Setter Property="Background" Value="{StaticResource NorthernEuropeColor}" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Area.Name}" Value="Southern Europe">
-                            <Setter Property="Background" Value="{StaticResource SouthernEuropeColor}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>-->
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding SelectionChangedCommand }"/>
@@ -73,15 +45,11 @@
                     Command="{Binding RemoveCommand}"/>
         </StackPanel>
 
-
-
         <Grid Grid.Row="1" Margin="0 20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-
-
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical"  Margin="20" Width="150">
@@ -90,6 +58,11 @@
                               ItemsSource="{Binding Areas_ObservableCollection}"
                               SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectedAreaChanged }"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"  Margin="20" Width="150">
@@ -97,14 +70,26 @@
                     <ComboBox Name="CountryClusterComboBox"
                               ItemsSource="{Binding BuisnessUnits_ObservableCollection}"
                               SelectedItem="{Binding SelectedBuisnessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                              DisplayMemberPath="Name" SelectedValuePath="Id">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectedBuisnessUnitChanged }"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical"  Margin="20" Width="150">
                     <Label Content="Country:" />
                     <ComboBox Name="CountryComboBox"
                               ItemsSource="{Binding Countries_ObservableCollection }"
                               SelectedItem="{Binding SelectedCountry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="CountryName" SelectedValuePath="Id"/>
+                              DisplayMemberPath="CountryName" SelectedValuePath="Id">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectedCountryChanged }"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
                 </StackPanel>
             </StackPanel>
 
