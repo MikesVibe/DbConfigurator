@@ -104,7 +104,7 @@ namespace DbConfigurator.UI.ViewModel
             }
         }
 
-        protected async override void OnAddExecute()
+        protected override async void OnAddExecute()
         {
             //Create New Distribution Infrotmaion
             var defaultPriotrity = _dataModel.DefaultPriority;

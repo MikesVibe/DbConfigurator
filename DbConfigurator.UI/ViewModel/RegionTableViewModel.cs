@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs;
+using DbConfigurator.Model.Entities;
 using DbConfigurator.Model.Wrapper;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
@@ -24,7 +25,7 @@ namespace DbConfigurator.UI.ViewModel
 
         public RegionTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
-            AutoMapperConfig autoMapper 
+            AutoMapperConfig autoMapper
             ) : base(eventAggregator)
         {
             _dataModel = dataModel;
@@ -42,8 +43,9 @@ namespace DbConfigurator.UI.ViewModel
 
         private void OnSelectionChanged()
         {
-            //SelectedBuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == SelectedRegion.BuisnessUnitId).FirstOrDefault();
-            //SelectedArea = Areas_ObservableCollection?.Where(c => c.Id == SelectedRegion.AreaId).FirstOrDefault();
+            SelectedArea = Areas_ObservableCollection?.Where(c => c.Id == SelectedRegion.Area.Id).FirstOrDefault();
+            SelectedBuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == SelectedRegion.BuisnessUnit.Id).FirstOrDefault();
+            SelectedCountry = Countries_ObservableCollection?.Where(c => c.Id == SelectedRegion.Country.Id).FirstOrDefault();
         }
 
         public override async Task LoadAsync()
@@ -90,9 +92,27 @@ namespace DbConfigurator.UI.ViewModel
 
 
 
-        protected override void OnAddExecute()
+        protected override async void OnAddExecute()
         {
-            //throw new NotImplementedException();
+            //Create New Region
+            var defaultArea = _dataModel.DefaultArea;
+            var defaultBuisnessUnit = _dataModel.DefaultBuisnessUnit;
+            var defaultCountry = _dataModel.DefaultCountry;
+            var region = new Region
+            {
+                Area = defaultArea,
+                BuisnessUnit = defaultBuisnessUnit,
+                Country = defaultCountry
+            };
+
+            await _dataModel.AddAsync(region);
+            await _dataModel.SaveChangesAsync();
+
+            var regionDto = _autoMapper.Mapper.Map<RegionDto>(region);
+            //var wrappedRegion = new RegionWrapper(distributionInformationDto);
+
+            Regions_ObservableCollection.Add(regionDto);
+            SelectedRegion = regionDto;
         }
 
         protected override void OnRemoveExecute()

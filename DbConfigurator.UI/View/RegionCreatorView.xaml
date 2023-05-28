@@ -104,7 +104,7 @@
                     <ComboBox Name="CountryComboBox"
                               ItemsSource="{Binding Countries_ObservableCollection }"
                               SelectedItem="{Binding SelectedCountry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                              DisplayMemberPath="CountryName" SelectedValuePath="Id"/>
                 </StackPanel>
             </StackPanel>
 
