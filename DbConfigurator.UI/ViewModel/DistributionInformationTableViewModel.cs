@@ -1,23 +1,14 @@
-﻿using DbConfigurator.DataAccess;
-using DbConfigurator.Model;
+﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs;
-using DbConfigurator.Model.Entities;
 using DbConfigurator.Model.Wrapper;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.View;
-using Microsoft.EntityFrameworkCore.Update.Internal;
-using Microsoft.VisualBasic;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Net;
-using System.Runtime;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -25,7 +16,6 @@ namespace DbConfigurator.UI.ViewModel
 {
     public class DistributionInformationTableViewModel : TableViewModelBase, IDistributionInformationTableView
     {
-        private readonly object balanceLock = new object();
         private bool AwaitingComboboxPopulation = false;
 
         public DistributionInformationTableViewModel(
