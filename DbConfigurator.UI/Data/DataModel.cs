@@ -143,7 +143,7 @@ namespace DbConfigurator.Model
         }
         public async Task<ICollection<Region>> GetAllRegionsAsync()
         {
-            var collection = await GetRegionsAsQueryable().ToListAsync();
+            var collection = await GetRegionsAsQueryable().OrderBy(r => r.Id).ToListAsync();
 
             return collection;
         }

@@ -16,7 +16,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid   x:Name="myDataGrid"
+        <DataGrid x:Name="myDataGrid"
             CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
             ItemsSource="{Binding Regions_ObservableCollection, Mode=TwoWay}"
             SelectedItem="{Binding SelectedRegion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                    
@@ -27,7 +27,8 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <DataGrid.Columns >
-
+                <!--<DataGridTextColumn Header="Id"  Width="*"
+                                    Binding="{Binding Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
                 <DataGridTextColumn Header="Area"  Width="*"
                                     Binding="{Binding Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Buisness Unit" Width="*" 
@@ -45,56 +46,51 @@
                     Command="{Binding RemoveCommand}"/>
         </StackPanel>
 
-        <Grid Grid.Row="1" Margin="0 20">
+        <Grid VerticalAlignment="Center" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <StackPanel Orientation="Vertical"  Margin="20" Width="150">
-                    <Label Content="Area:" />
-                    <ComboBox Name="AreaComboBox" 
+            <StackPanel Orientation="Vertical"  Margin="20" Width="150" >
+                <Label Content="Area:" />
+                <ComboBox Name="AreaComboBox" 
                               ItemsSource="{Binding Areas_ObservableCollection}"
                               SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding SelectedAreaChanged }"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"  Margin="20" Width="150">
-                    <Label Content="Country Cluster:" />
-                    <ComboBox Name="CountryClusterComboBox"
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectedAreaChanged }"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical"  Margin="20" Width="150" Grid.Column="1">
+                <Label Content="Buisness Unit:" />
+                <ComboBox Name="CountryClusterComboBox"
                               ItemsSource="{Binding BuisnessUnits_ObservableCollection}"
                               SelectedItem="{Binding SelectedBuisnessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding SelectedBuisnessUnitChanged }"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"  Margin="20" Width="150">
-                    <Label Content="Country:" />
-                    <ComboBox Name="CountryComboBox"
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectedBuisnessUnitChanged }"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical"  Margin="20" Width="150" Grid.Column="2">
+                <Label Content="Country:" />
+                <ComboBox Name="CountryComboBox"
                               ItemsSource="{Binding Countries_ObservableCollection }"
                               SelectedItem="{Binding SelectedCountry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="CountryName" SelectedValuePath="Id">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding SelectedCountryChanged }"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
-                </StackPanel>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectedCountryChanged }"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
             </StackPanel>
-
-            <Button Grid.Column="1" Width="150" Height="50" VerticalAlignment="Center"
-                    Content="Save" Command="{Binding SaveCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

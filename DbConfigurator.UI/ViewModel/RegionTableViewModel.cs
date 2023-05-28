@@ -90,9 +90,14 @@ namespace DbConfigurator.UI.ViewModel
 
         private void OnSelectionChanged()
         {
-            SelectedArea = Areas_ObservableCollection?.Where(c => c.Id == SelectedRegion.Area.Id).FirstOrDefault();
-            SelectedBuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == SelectedRegion.BuisnessUnit.Id).FirstOrDefault();
-            SelectedCountry = Countries_ObservableCollection?.Where(c => c.Id == SelectedRegion.Country.Id).FirstOrDefault();
+            if (SelectedRegion != null)
+            {
+                SelectedArea = Areas_ObservableCollection.Where(c => c.Id == SelectedRegion.Area.Id).FirstOrDefault();
+                SelectedBuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == SelectedRegion.BuisnessUnit.Id).FirstOrDefault();
+                SelectedCountry = Countries_ObservableCollection?.Where(c => c.Id == SelectedRegion.Country.Id).FirstOrDefault();
+            }
+
+            RemoveCommand.RaiseCanExecuteChanged();
         }
 
         public override async Task LoadAsync()
@@ -105,21 +110,21 @@ namespace DbConfigurator.UI.ViewModel
                 Regions_ObservableCollection.Add(wrapped);
             }
 
-            var areas = EnumerableToObservableCollection(await _dataModel.GetAllAreasAsync());
+            var areas = await _dataModel.GetAllAreasAsync();
             foreach (var area in areas)
             {
                 var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
                 Areas_ObservableCollection.Add(mapped);
             }
 
-            var buisnessUnits = EnumerableToObservableCollection(await _dataModel.GetAllBuisnessUnitsAsync());
+            var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
             foreach (var buisnessUnit in buisnessUnits)
             {
                 var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
                 BuisnessUnits_ObservableCollection.Add(mapped);
             }
 
-            var countries = EnumerableToObservableCollection(await _dataModel.GetAllCountriesAsync());
+            var countries = await _dataModel.GetAllCountriesAsync();
             foreach (var country in countries)
             {
                 var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
@@ -165,13 +170,16 @@ namespace DbConfigurator.UI.ViewModel
 
         protected override void OnRemoveExecute()
         {
-            //throw new NotImplementedException();
+            var regionEntity = _dataModel.GetRegionById(SelectedRegion.Id);
+            _dataModel.Remove(regionEntity!);
+            _dataModel.SaveChanges();
+            Regions_ObservableCollection.Remove(SelectedRegion);
+            SelectedRegion = null;
         }
 
         protected override bool OnRemoveCanExecute()
         {
-            return false;
-            //throw new NotImplementedException();
+            return SelectedRegion != null;
         }
 
         public ICommand SelectionChangedCommand { get; set; }
@@ -183,7 +191,7 @@ namespace DbConfigurator.UI.ViewModel
 
         public int DefaultRowIndex { get { return 0; } }
 
-        public RegionDtoWrapper SelectedRegion
+        public RegionDtoWrapper? SelectedRegion
         {
             get { return _selectedRegion; }
             set
@@ -192,7 +200,7 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public AreaDto SelectedArea
+        public AreaDto? SelectedArea
         {
             get { return _selectedArea; }
             set
@@ -201,7 +209,7 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public BuisnessUnitDto SelectedBuisnessUnit
+        public BuisnessUnitDto? SelectedBuisnessUnit
         {
             get { return _selectedBuisnessUnit; }
             set
@@ -210,7 +218,7 @@ namespace DbConfigurator.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public CountryDto SelectedCountry
+        public CountryDto? SelectedCountry
         {
             get { return _selectedCountry; }
             set
@@ -225,9 +233,9 @@ namespace DbConfigurator.UI.ViewModel
         public ObservableCollection<BuisnessUnitDto> BuisnessUnits_ObservableCollection { get; set; } = new ObservableCollection<BuisnessUnitDto>();
         public ObservableCollection<AreaDto> Areas_ObservableCollection { get; set; } = new ObservableCollection<AreaDto>();
 
-        private RegionDtoWrapper _selectedRegion;
-        private BuisnessUnitDto _selectedBuisnessUnit;
-        private AreaDto _selectedArea;
-        private CountryDto _selectedCountry;
+        private RegionDtoWrapper? _selectedRegion;
+        private BuisnessUnitDto? _selectedBuisnessUnit;
+        private AreaDto? _selectedArea;
+        private CountryDto? _selectedCountry;
     }
 }
