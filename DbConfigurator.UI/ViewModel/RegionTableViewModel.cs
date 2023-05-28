@@ -48,42 +48,33 @@ namespace DbConfigurator.UI.ViewModel
 
         public override async Task LoadAsync()
         {
-            var regions = await _dataModel.GetRegionsWithoutDefaultAsync();
+            var regions = await _dataModel.GetAllRegionsAsync();
             foreach (var region in regions)
             {
                 var wrapper = _autoMapper.Mapper.Map<RegionDto>(region);
                 Regions_ObservableCollection.Add(wrapper);
             }
 
-            //var areas = EnumerableToObservableCollection(await _dataModel.GetAreasWithoutDefaultAsync());
-            //foreach (var area in areas)
-            //{
-            //    var wrapper = _autoMapper.Mapper.Map<AreaDto>(area);
-            //    Areas_ObservableCollection.Add(wrapper);
-            //}
+            var areas = EnumerableToObservableCollection(await _dataModel.GetAllAreasAsync());
+            foreach (var area in areas)
+            {
+                var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
+                Areas_ObservableCollection.Add(mapped);
+            }
 
-            //var buisnessUnits = EnumerableToObservableCollection(await _dataModel.GetBuisnessUnitsWithoutDefaultAsync());
-            //foreach (var buisnessUnit in buisnessUnits)
-            //{
-            //    var wrapper = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
-            //    BuisnessUnits_ObservableCollection.Add(wrapper);
-            //}
+            var buisnessUnits = EnumerableToObservableCollection(await _dataModel.GetAllBuisnessUnitsAsync());
+            foreach (var buisnessUnit in buisnessUnits)
+            {
+                var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
+                BuisnessUnits_ObservableCollection.Add(mapped);
+            }
 
-            //var countries = EnumerableToObservableCollection(_dataModel.CountriesDto);
-            //Country_Collection = countries;
-
-            //foreach (var wrapper in Countries_ObservableCollection)
-            //{
-            //    wrapper.PropertyChanged -= Country_ObservableCollection_PropertyChanged;
-            //}
-            //Countries_ObservableCollection.Clear();
-
-            //foreach (var country in countries)
-            //{
-            //    var wrapper = new CountryWrapper(country);
-            //    Countries_ObservableCollection.Add(wrapper);
-            //    wrapper.PropertyChanged += Country_ObservableCollection_PropertyChanged;
-            //}
+            var countries = EnumerableToObservableCollection(await _dataModel.GetAllCountriesAsync());
+            foreach (var country in countries)
+            {
+                var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
+                Countries_ObservableCollection.Add(mapped);
+            }
         }
         private void Country_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

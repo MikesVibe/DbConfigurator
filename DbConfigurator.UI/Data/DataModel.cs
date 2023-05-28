@@ -136,7 +136,7 @@ namespace DbConfigurator.Model
 
             return collection;
         }
-        public async Task<ICollection<Region>> GetRegionsWithoutDefaultAsync()
+        public async Task<ICollection<Region>> GetAllRegionsAsync()
         {
             var collection = await GetRegionsAsQueryable().ToListAsync();
 
