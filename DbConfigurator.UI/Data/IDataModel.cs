@@ -29,10 +29,8 @@ namespace DbConfigurator.Model
         ICollection<RecipientDto> RecipientsDto { get; }
 
         bool HasChanges();
-        Task ReloadEntryPriorityAsync(DistributionInformation disInfo);
-        Task ReloadEntryCountryAsync(DistributionInformation disInfo);
+
         Task AddAsync<T>(T item) where T : class;
-        //Task AddDistributionInformationAsync(DistributionInformation item);
         Task<Recipient> GetRecipientByIdAsync(int id);
 
         void Remove<T>(T item) where T : class;
