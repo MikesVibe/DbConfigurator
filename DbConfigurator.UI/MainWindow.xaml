@@ -24,6 +24,9 @@
         <DataTemplate DataType="{x:Type viewModel:RegionTableViewModel}">
             <view:RegionCreatorView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:CreationTableViewModel}">
+            <view:CreationTableView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
