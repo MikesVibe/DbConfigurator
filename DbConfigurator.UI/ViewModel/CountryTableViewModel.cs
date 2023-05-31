@@ -95,7 +95,7 @@ namespace DbConfigurator.UI.ViewModel
 
 
 
-        protected override void OnAddExecute()
+        protected override void OnAddAreaExecute()
         {
             //throw new NotImplementedException();
         }

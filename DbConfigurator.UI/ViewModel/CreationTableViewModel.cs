@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs;
 using DbConfigurator.UI.Startup;
+using DbConfigurator.UI.Windows;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -39,9 +40,27 @@ namespace DbConfigurator.UI.ViewModel
 
         }
 
-        protected override void OnAddExecute()
+        protected override void OnAddAreaExecute()
         {
-            throw new NotImplementedException();
+            AddAreaViewModel viewModel = new AddAreaViewModel();
+            AddAreaWindow addAreaWindow = new AddAreaWindow();
+            addAreaWindow.DataContext = viewModel;
+            viewModel.Window = addAreaWindow;
+
+            bool? result = addAreaWindow.ShowDialog();
+
+            if (result == true)
+            {
+                // User clicked the Add button
+                // Perform any actions with the entered area name here
+                string areaName = viewModel.AreaName;
+                // ...
+            }
+            else
+            {
+                // User clicked the Cancel button or closed the window
+                // Handle cancellation logic here
+            }
         }
 
         protected override bool OnRemoveCanExecute()

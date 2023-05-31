@@ -145,7 +145,7 @@ namespace DbConfigurator.UI.ViewModel
 
 
 
-        protected override async void OnAddExecute()
+        protected override async void OnAddAreaExecute()
         {
             //Create New Region
             var defaultArea = _dataModel.DefaultArea;

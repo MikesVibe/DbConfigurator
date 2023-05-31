@@ -89,7 +89,7 @@ namespace DbConfigurator.UI.ViewModel
         }
 
 
-        protected async override void OnAddExecute()
+        protected async override void OnAddAreaExecute()
         {
             //Create New Recipient
             var recipient = new Recipient()
