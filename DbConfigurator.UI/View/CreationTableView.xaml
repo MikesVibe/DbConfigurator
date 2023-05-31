@@ -47,7 +47,7 @@
                 </DataGrid>
                 <StackPanel VerticalAlignment="Top" >
                     <Button Content="+" Width="40" Height="40" Margin="10"
-                    Command="{Binding AddCommand}"/>
+                    Command="{Binding AddBuisnessUnitCommand}"/>
                     <Button Content="-" Width="40" Height="40" Margin="10"
                     Command="{Binding RemoveCommand}"/>
                 </StackPanel>
@@ -70,7 +70,7 @@
                 </DataGrid>
                 <StackPanel VerticalAlignment="Top" >
                     <Button Content="+" Width="40" Height="40" Margin="10"
-                    Command="{Binding AddCommand}"/>
+                    Command="{Binding AddCountryCommand}"/>
                     <Button Content="-" Width="40" Height="40" Margin="10"
                     Command="{Binding RemoveCommand}"/>
                 </StackPanel>
