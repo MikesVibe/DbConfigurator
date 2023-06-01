@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="DbConfigurator" Height="750" Width="1200"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        ResizeMode="CanMinimize">
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:CountryTableViewModel}">

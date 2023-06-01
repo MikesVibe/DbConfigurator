@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
         mc:Ignorable="d"
-        Title="BuisnessUnit" Height="300" Width="400">
+        Title="BuisnessUnit" Height="300" Width="400"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
