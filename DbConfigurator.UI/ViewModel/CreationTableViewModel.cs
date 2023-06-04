@@ -22,8 +22,11 @@ namespace DbConfigurator.UI.ViewModel
 
         public ICommand AddCountryCommand { get; set; }
         public ICommand AddBuisnessUnitCommand { get; set; }
+        public ICommand OpenRegionDetailsCommand { get; set; }
 
-        public ObservableCollection<CountryDto> Countries { get; set; } = new ObservableCollection<CountryDto>();
+        public ObservableCollection<CountryDto> Countries { get; set; } = new();
+        public ObservableCollection<BuisnessUnitDto> BuisnessUnits { get; set; } = new();
+        public ObservableCollection<AreaDto> Areas { get; set; } = new();
 
         public CreationTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
@@ -35,6 +38,14 @@ namespace DbConfigurator.UI.ViewModel
 
             AddBuisnessUnitCommand = new DelegateCommand(OnAddBuisnessUnitExecute);
             AddCountryCommand = new DelegateCommand(OnAddCountryExecute);
+            OpenRegionDetailsCommand = new DelegateCommand(OnOpenRegionDetailsCommand);
+        }
+
+        private void OnOpenRegionDetailsCommand()
+        {
+            AddAreaWindow areaWindow = new();
+            AddAreaViewModel areaViewModel = new();
+
         }
 
         public override async Task LoadAsync()
@@ -46,6 +57,19 @@ namespace DbConfigurator.UI.ViewModel
                 Countries.Add(mapped);
             }
 
+            var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
+            foreach (var buisnessUnit in buisnessUnits)
+            {
+                var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
+                BuisnessUnits.Add(mapped);
+            }
+
+            var areas = await _dataModel.GetAllAreasAsync();
+            foreach (var area in areas)
+            {
+                var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
+                Areas.Add(mapped);
+            }
 
         }
 
