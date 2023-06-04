@@ -219,6 +219,10 @@ namespace DbConfigurator.Model
         {
             await Context.Set<T>().AddAsync(item);
         }
+        public void Add<T>(T item) where T : class
+        {
+            Context.Set<T>().Add(item);
+        }
         public void Remove<T>(T item) where T : class
         {
             Context.Set<T>().Remove(item);

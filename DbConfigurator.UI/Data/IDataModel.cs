@@ -52,5 +52,6 @@ namespace DbConfigurator.Model
         Task<Region?> GetRegionAsync(int areaId, int buisnessUnitId, int countryId);
         Region? GetRegionById(int id);
         void SaveChanges();
+        void Add<T>(T item) where T : class;
     }
 }

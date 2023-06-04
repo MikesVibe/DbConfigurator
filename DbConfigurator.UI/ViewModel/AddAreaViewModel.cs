@@ -1,4 +1,8 @@
-﻿using DbConfigurator.UI.Windows;
+﻿using DbConfigurator.Model.DTOs;
+using DbConfigurator.Model.Entities;
+using DbConfigurator.Model.Wrapper;
+using DbConfigurator.UI.Windows;
+using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,27 +17,33 @@ namespace DbConfigurator.UI.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string _areaName;
-        public string AreaName
-        {
-            get { return _areaName; }
-            set
-            {
-                _areaName = value;
-                OnPropertyChanged(nameof(AreaName));
-            }
-        }
+        public AreaDtoWrapper Area { get; set; }
+
+        //private string _areaName;
+        //public string AreaName
+        //{
+        //    get { return _areaName; }
+        //    set
+        //    {
+        //        _areaName = value;
+        //        OnPropertyChanged(nameof(AreaName));
+        //    }
+        //}
 
         public ICommand AddCommand { get; }
         public ICommand CancelCommand { get; }
 
         public AddAreaViewModel()
         {
-            //AddCommand = new RelayCommand(Add, CanAdd);
+            AreaDto area = new();
+            Area = new(area);
+            Area.Name = "";
+
+            AddCommand = new DelegateCommand(Add, CanAdd);
             //CancelCommand = new RelayCommand(Cancel);
         }
 
-        private void Add(object parameter)
+        private void Add()
         {
             // Add button click logic here
             // Perform any desired operations with the entered area name
@@ -41,11 +51,11 @@ namespace DbConfigurator.UI.ViewModel
             CloseWindow(true);
         }
 
-        private bool CanAdd(object parameter)
+        private bool CanAdd()
         {
             // Enable or disable the Add button based on any conditions
             // For example, you can check if the area name is not empty
-            return !string.IsNullOrEmpty(AreaName);
+            return true;  //!string.IsNullOrEmpty(Area.Name);
         }
 
         private void Cancel(object parameter)

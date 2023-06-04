@@ -1,8 +1,10 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs;
+using DbConfigurator.Model.Entities;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Windows;
+using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -56,8 +58,8 @@ namespace DbConfigurator.UI.ViewModel
                 var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
                 Countries.Add(mapped);
             }
-
             var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
+            
             foreach (var buisnessUnit in buisnessUnits)
             {
                 var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
@@ -84,10 +86,17 @@ namespace DbConfigurator.UI.ViewModel
 
             if (result == true)
             {
-                // User clicked the Add button
-                // Perform any actions with the entered area name here
-                string areaName = viewModel.AreaName;
-                // ...
+                string areaName = viewModel.Area.Name;
+                var area = new Area
+                { 
+                    Name = areaName
+                };
+                _dataModel.Add(area);
+                _dataModel.SaveChanges();
+                var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
+                Areas.Add(mapped);
+
+
             }
             else
             {
