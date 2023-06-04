@@ -84,25 +84,21 @@ namespace DbConfigurator.UI.ViewModel
 
             bool? result = addAreaWindow.ShowDialog();
 
-            if (result == true)
+            //
+            if (result == false)
+                return;
+            
+            
+            string areaName = viewModel.Area.Name;
+            var area = new Area
             {
-                string areaName = viewModel.Area.Name;
-                var area = new Area
-                { 
-                    Name = areaName
-                };
-                _dataModel.Add(area);
-                _dataModel.SaveChanges();
-                var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-                Areas.Add(mapped);
+                Name = areaName
+            };
+            _dataModel.Add(area);
+            _dataModel.SaveChanges();
+            var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
+            Areas.Add(mapped);
 
-
-            }
-            else
-            {
-                // User clicked the Cancel button or closed the window
-                // Handle cancellation logic here
-            }
         }
 
         private void OnAddBuisnessUnitExecute()
