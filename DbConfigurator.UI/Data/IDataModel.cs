@@ -53,5 +53,6 @@ namespace DbConfigurator.Model
         Region? GetRegionById(int id);
         void SaveChanges();
         void Add<T>(T item) where T : class;
+        Area? GetAreaById(int id);
     }
 }

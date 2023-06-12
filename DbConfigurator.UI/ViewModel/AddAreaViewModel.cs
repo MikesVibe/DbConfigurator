@@ -39,7 +39,7 @@ namespace DbConfigurator.UI.ViewModel
 
         private bool CanAdd()
         {
-            return !Area.HasErrors;
+            return true;
         }
 
         private void CloseWindow(bool dialogResult)

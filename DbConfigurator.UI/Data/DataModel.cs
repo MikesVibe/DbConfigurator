@@ -245,7 +245,10 @@ namespace DbConfigurator.Model
         {
             return GetRegionsAsQueryable().Where(r => r.Id == id).FirstOrDefault();
         }
-
+        public Area? GetAreaById(int id)
+        {
+            return _context.Area.Where(a => a.Id == id).FirstOrDefault();
+        }
 
         public bool IsDefaultCountry(int countryId)
         {
