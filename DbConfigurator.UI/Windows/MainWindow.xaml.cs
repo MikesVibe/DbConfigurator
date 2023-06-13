@@ -1,23 +1,22 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
 using DbConfigurator.UI.ViewModel;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
-using System.Reflection.Metadata;
-using System.Text.Json.Serialization;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
-namespace DbConfigurator.UI
+namespace DbConfigurator.UI.Windows
 {
     public partial class MainWindow : Window
     {

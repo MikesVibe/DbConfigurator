@@ -38,7 +38,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             builder.RegisterType<AutoMapperConfig>().AsSelf().SingleInstance();
 
-            builder.RegisterType<MainWindow>().AsSelf();
+            builder.RegisterType<Windows.MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
 
@@ -48,8 +48,6 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
             builder.RegisterType<RecipientTableViewModel>()
                 .Keyed<ITabelViewModel>(nameof(RecipientTableViewModel));
-            builder.RegisterType<CountryTableViewModel>()
-                 .Keyed<ITabelViewModel>(nameof(CountryTableViewModel));
             builder.RegisterType<DistributionInformationTableViewModel>()
                  .Keyed<ITabelViewModel>(nameof(DistributionInformationTableViewModel));
             builder.RegisterType<RegionTableViewModel>()

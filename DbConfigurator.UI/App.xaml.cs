@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
-using DbConfigurator.UI;
 using DbConfigurator.UI.Startup;
+using DbConfigurator.UI.Windows;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

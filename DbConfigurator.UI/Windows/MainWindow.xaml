@@ -1,9 +1,9 @@
-﻿<Window x:Class="DbConfigurator.UI.MainWindow"
+﻿<Window x:Class="DbConfigurator.UI.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DbConfigurator" 
+        xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
         xmlns:view="clr-namespace:DbConfigurator.UI.View"
         xmlns:addView="clr-namespace:DbConfigurator.UI.View.Add"
         xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel"
@@ -13,17 +13,14 @@
         ResizeMode="CanMinimize">
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:CountryTableViewModel}">
-            <view:CountryTableView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:RecipientTableViewModel}">
-            <view:RecipientTableView/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:DistributionInformationTableViewModel}">
             <view:DistributionInformationTableView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:RegionTableViewModel}">
             <view:RegionCreatorView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:RecipientTableViewModel}">
+            <view:RecipientTableView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:CreationTableViewModel}">
             <view:CreationTableView/>
