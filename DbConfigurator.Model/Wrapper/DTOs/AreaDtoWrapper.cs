@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.Model.Wrapper
+namespace DbConfigurator.Model.Wrapper.DTOs
 {
     public class AreaDtoWrapper : ModelWrapper<AreaDto>
     {
@@ -13,12 +13,10 @@ namespace DbConfigurator.Model.Wrapper
         {
         }
 
-        
         public string Name
         {
             get { return GetValue<string>(); }
-            set { SetValue<string>(value); }
+            set { SetValue(value); }
         }
-
     }
 }

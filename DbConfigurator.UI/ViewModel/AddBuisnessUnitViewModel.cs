@@ -1,5 +1,7 @@
 ﻿using DbConfigurator.Model.DTOs;
+using DbConfigurator.Model.Entities;
 using DbConfigurator.Model.Wrapper;
+using DbConfigurator.Model.Wrapper.DTOs;
 using DbConfigurator.UI.Windows;
 using System;
 using System.Collections.Generic;
@@ -11,34 +13,18 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    class AddBuisnessUnitViewModel : EditingViewModelBase
+    public class AddBuisnessUnitViewModel : EditingViewModelBase
     {
-        public BuisnessUnitDto BuisnessUnit { get; set; }
+        public BuisnessUnitDtoWrapper BuisnessUnit { get; set; }
 
-
-        public ICommand AddCommand { get; }
-        public ICommand CancelCommand { get; }
 
         public AddBuisnessUnitViewModel()
         {
-
+            BuisnessUnitDto buisnessUnit = new();
+            BuisnessUnit = new(buisnessUnit);
+            BuisnessUnit.Name = "";
         }
 
-        private void Add(object parameter)
-        {
-
-            CloseWindow(true);
-        }
-
-        private bool CanAdd(object parameter)
-        {
-            return true;
-        }
-
-        private void Cancel(object parameter)
-        {
-
-        }
 
         private void CloseWindow(bool dialogResult)
         {

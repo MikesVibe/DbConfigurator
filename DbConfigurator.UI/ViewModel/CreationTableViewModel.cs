@@ -126,29 +126,26 @@ namespace DbConfigurator.UI.ViewModel
             {
                 Name = buisnessUnitName
             };
+            _dataModel.Add(buisnessUnit);
+            _dataModel.SaveChanges();
+            var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
+            BuisnessUnits.Add(mapped);
         }
 
         private void OnAddCountryExecute()
         {
-            AddCountryViewModel viewModel = new AddCountryViewModel();
-            AddCountryWindow addAreaWindow = new AddCountryWindow();
-            addAreaWindow.DataContext = viewModel;
-            viewModel.Window = addAreaWindow;
+            var addCountryViewModel = new AddCountryViewModel();
 
-            bool? result = addAreaWindow.ShowDialog();
+            bool? result = _dialogService.ShowDialog(addCountryViewModel);
 
-            if (result == true)
-            {
-                // User clicked the Add button
-                // Perform any actions with the entered area name here
-                string areaName = viewModel.AreaName;
-                // ...
-            }
-            else
-            {
-                // User clicked the Cancel button or closed the window
-                // Handle cancellation logic here
-            }
+            //if (result == false)
+            //    return;
+
+            //string buisnessUnitName = addbuisnessUnitViewModel.BuisnessUnit.Name;
+            //var buisnessUnit = new BuisnessUnit
+            //{
+            //    Name = buisnessUnitName
+            //};
         }
 
         protected override bool OnRemoveCanExecute()

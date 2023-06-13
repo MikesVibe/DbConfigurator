@@ -39,7 +39,6 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
-            builder.RegisterType<EditingViewModelBase>().AsSelf();
 
             builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
 

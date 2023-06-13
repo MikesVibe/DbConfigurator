@@ -1,6 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs;
 using DbConfigurator.Model.Entities;
-using DbConfigurator.Model.Wrapper;
+using DbConfigurator.Model.Wrapper.DTOs;
 using DbConfigurator.UI.Windows;
 using Prism.Commands;
 using System;
@@ -14,15 +14,9 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public class AddAreaViewModel : IEditingViewModel, INotifyPropertyChanged
+    public class AddAreaViewModel : EditingViewModelBase, IEditingViewModel, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public AreaDtoWrapper Area { get; set; }
-
-        public ICommand AddCommand { get; }
-        public ICommand CancelCommand { get; }
-        public Action<bool> CloseAction { get; set; }
 
         public AddAreaViewModel()
         {
@@ -30,18 +24,6 @@ namespace DbConfigurator.UI.ViewModel
             Area = new(area);
             Area.Name = "";
 
-            AddCommand = new DelegateCommand(Add, CanAdd);
-            CancelCommand = new DelegateCommand(() => CloseWindow(false));
-        }
-
-        private void Add()
-        {
-            CloseWindow(true);
-        }
-
-        private bool CanAdd()
-        {
-            return true;
         }
 
         private void CloseWindow(bool dialogResult)
@@ -49,10 +31,6 @@ namespace DbConfigurator.UI.ViewModel
             CloseAction?.Invoke(dialogResult);
         }
 
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
     }
 }
