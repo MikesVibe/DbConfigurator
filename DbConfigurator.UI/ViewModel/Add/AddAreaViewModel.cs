@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.Model.DTOs;
 using DbConfigurator.Model.Entities;
 using DbConfigurator.Model.Wrapper.DTOs;
+using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.Windows;
 using Prism.Commands;
 using System;

@@ -4,6 +4,7 @@ using DbConfigurator.Model.Entities;
 using DbConfigurator.Model.Wrapper;
 using DbConfigurator.Model.Wrapper.DTOs;
 using DbConfigurator.UI.Startup;
+using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;

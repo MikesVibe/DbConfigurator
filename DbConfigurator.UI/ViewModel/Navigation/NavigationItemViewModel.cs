@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.UI.Event;
+using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DbConfigurator.UI.ViewModel
+namespace DbConfigurator.UI.ViewModel.Navigation
 {
     public class NavigationItemViewModel : ViewModelBase
     {
@@ -38,7 +39,7 @@ namespace DbConfigurator.UI.ViewModel
         public string DisplayMember
         {
             get { return _displayMember; }
-            set 
+            set
             {
                 _displayMember = value;
                 OnPropertyChanged();

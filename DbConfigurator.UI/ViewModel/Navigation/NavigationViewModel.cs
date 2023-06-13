@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
 
-namespace DbConfigurator.UI.ViewModel
+namespace DbConfigurator.UI.ViewModel.Navigation
 {
     public class NavigationViewModel : ViewModelBase, INavigationViewModel
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DbConfigurator.UI.ViewModel
+namespace DbConfigurator.UI.ViewModel.Base
 {
     public abstract class EditingViewModelBase : ViewModelBase, IEditingViewModel, INotifyPropertyChanged
     {
@@ -18,7 +18,7 @@ namespace DbConfigurator.UI.ViewModel
         public Action<bool>? CloseAction { get; set; }
 
         public EditingViewModelBase()
-        { 
+        {
             AddCommand = new DelegateCommand(Add, CanAdd);
             CancelCommand = new DelegateCommand(Cancel);
         }

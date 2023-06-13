@@ -8,6 +8,7 @@ using Autofac.Features.Indexed;
 using DbConfigurator.Model;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Startup;
+using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -58,15 +59,11 @@ namespace DbConfigurator.UI.ViewModel
             SelectedTableViewModel = tabelViewModel;
             _openTableReady = true;
         }
-
-
         public INavigationViewModel NavigationViewModel
         {
             get { return _navigationViewModel; }
             set { _navigationViewModel = value; }
         }
-
-
         public ITabelViewModel SelectedTableViewModel
         {
             get { return _selectedTableViewModel; }
@@ -77,14 +74,10 @@ namespace DbConfigurator.UI.ViewModel
             }
         }
 
-
-
         public async Task LoadAsync()
         {
             await NavigationViewModel.LoadAsync();
         }
-
-
 
         public ObservableCollection<ITabelViewModel> TableViewModels { get; }
 
@@ -93,8 +86,5 @@ namespace DbConfigurator.UI.ViewModel
         private INavigationViewModel _navigationViewModel;
         private ITabelViewModel _selectedTableViewModel;
         private bool _openTableReady = true;
-
-
-
     }
 }

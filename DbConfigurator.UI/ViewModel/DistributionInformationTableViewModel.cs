@@ -2,6 +2,7 @@
 using DbConfigurator.Model.DTOs;
 using DbConfigurator.Model.Wrapper;
 using DbConfigurator.UI.Startup;
+using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
 using Prism.Events;
 using System;

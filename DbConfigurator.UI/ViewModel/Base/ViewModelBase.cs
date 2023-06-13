@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.ViewModel
+namespace DbConfigurator.UI.ViewModel.Base
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

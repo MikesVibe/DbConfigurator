@@ -6,6 +6,7 @@ using DbConfigurator.UI.Services;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Interfaces;
+using DbConfigurator.UI.ViewModel.Navigation;
 using DbConfigurator.UI.Windows;
 using Microsoft.EntityFrameworkCore;
 using Prism.Events;

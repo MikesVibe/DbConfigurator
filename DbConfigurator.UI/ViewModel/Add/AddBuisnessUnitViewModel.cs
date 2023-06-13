@@ -3,6 +3,7 @@ using DbConfigurator.Model.DTOs;
 using DbConfigurator.Model.Entities;
 using DbConfigurator.Model.Wrapper;
 using DbConfigurator.Model.Wrapper.DTOs;
+using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.Windows;
 using System;
 using System.Collections.Generic;
