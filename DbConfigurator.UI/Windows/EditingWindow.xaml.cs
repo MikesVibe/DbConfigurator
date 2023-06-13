@@ -20,14 +20,18 @@ namespace DbConfigurator.UI.Windows
     /// </summary>
     public partial class EditingWindow : Window
     {
-        private EditingViewModel _editingViewModel;
-        public EditingWindow(EditingViewModel editingViewModel)
+        public EditingWindow(IEditingViewModel editingViewModel)
         {
             InitializeComponent();
-            
-            //DataContext = new EditingViewModel();
-            _editingViewModel = editingViewModel;
-            DataContext = _editingViewModel;
+            DataContext = editingViewModel;
+
+            editingViewModel.CloseAction = new Action<bool>(CloseWindow);
+        }
+
+        private void CloseWindow(bool dialogResult)
+        {
+            this.DialogResult = dialogResult;
+            this.Close();
         }
     }
 }

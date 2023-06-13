@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel
@@ -21,6 +22,7 @@ namespace DbConfigurator.UI.ViewModel
 
         public ICommand AddCommand { get; }
         public ICommand CancelCommand { get; }
+        public Action<bool> CloseAction { get; set; }
 
         public AddAreaViewModel()
         {
@@ -44,16 +46,20 @@ namespace DbConfigurator.UI.ViewModel
 
         private void CloseWindow(bool dialogResult)
         {
-            // Close the window and set the dialog result
-            if (Window != null)
-            {
-                Window.DialogResult = dialogResult;
-                Window.Close();
-            }
-        }
+            CloseAction?.Invoke(dialogResult);
 
-        // Reference to the window
-        public AddAreaWindow Window { get; set; }
+            //Window.DialogResult = dialogResult;
+            //Application.Current.MainWindow.DialogResult = dialogResult;
+            //Application.Current.MainWindow.Close();
+
+            //// Close the window and set the dialog result
+            //if (Window != null)
+            //{
+            //    Window.DialogResult = dialogResult;
+            //    Window.Close();
+            //}
+        }
+        //public Window Window { get; set; }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

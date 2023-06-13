@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs;
 using DbConfigurator.Model.Entities;
+using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Windows;
@@ -22,7 +23,7 @@ namespace DbConfigurator.UI.ViewModel
         private readonly IDataModel _dataModel;
         private readonly Func<EditingWindow> _editingWindowCreator;
         private readonly AutoMapperConfig _autoMapper;
-
+        private IDialogService _dialogService;
         //private readonly EditingWindow _editingWindow = new();
 
 
@@ -40,13 +41,14 @@ namespace DbConfigurator.UI.ViewModel
         public CreationTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
             Func<EditingWindow> editingWindowCreator,
+            IDialogService dialogService,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator)
         {
             _dataModel = dataModel;
             _editingWindowCreator = editingWindowCreator;
             _autoMapper = autoMapper;
-
+            _dialogService = dialogService;
             //_editingWindow.Visibility = System.Windows.Visibility.Hidden;
 
             AreaDoubleClickedCommand = new DelegateCommand(OnAreaDoubleClickedExecute);
@@ -59,8 +61,8 @@ namespace DbConfigurator.UI.ViewModel
 
         private void OnAreaDoubleClickedExecute()
         {
-            AddAreaWindow areaWindow = new();
-            AddAreaViewModel areaViewModel = new();
+            //AddAreaWindow areaWindow = new();
+            //AddAreaViewModel areaViewModel = new();
         }
         private void OnAreaSelectionChangedExecute()
         {
@@ -94,28 +96,23 @@ namespace DbConfigurator.UI.ViewModel
 
         protected override void OnAddAreaExecute()
         {
-            var editingWindow = _editingWindowCreator();
-            bool? result = editingWindow.ShowDialog();
+            var addAreaViewModel = new AddAreaViewModel();
 
-            //AddAreaViewModel viewModel = new AddAreaViewModel();
-            //editingWindow.DataContext = viewModel;
+            bool? result = _dialogService.ShowDialog(addAreaViewModel);
 
+            if (result == false)
+                return;
 
-            //if (result == false)
-            //    return;
+            string areaName = addAreaViewModel.Area.Name;
+            var area = new Area
+            {
+                Name = areaName
+            };
 
-            //string areaName = viewModel.Area.Name;
-            //var area = new Area
-            //{
-            //    Name = areaName
-            //};
-
-
-            //_dataModel.Add(area);
-            //_dataModel.SaveChanges();
-            //var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-            //Areas.Add(mapped);
-
+            _dataModel.Add(area);
+            _dataModel.SaveChanges();
+            var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
+            Areas.Add(mapped);
         }
 
         private void OnAddBuisnessUnitExecute()

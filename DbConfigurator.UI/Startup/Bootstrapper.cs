@@ -2,6 +2,7 @@
 using Autofac.Core;
 using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
+using DbConfigurator.UI.Services;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Windows;
@@ -32,6 +33,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterType<DataModel>().As<IDataModel>().SingleInstance();
             builder.RegisterType<Seeder>().As<ISeeder>().SingleInstance();
+            builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             builder.RegisterType<AutoMapperConfig>().AsSelf().SingleInstance();
 
             builder.RegisterType<MainWindow>().AsSelf();

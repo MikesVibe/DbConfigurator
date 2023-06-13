@@ -14,8 +14,7 @@
             <addView:AddAreaView/>
         </DataTemplate>
     </Window.Resources>
-
     <Grid>
-        <addView:AddAreaView  Content="{Binding SelectedEditingViewModel}"/>
+        <ContentControl Content="{Binding}" />
     </Grid>
 </Window>
