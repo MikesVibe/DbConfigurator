@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:addView="clr-namespace:DbConfigurator.UI.View.Add"
-        xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel"
+        xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel.Add"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
         mc:Ignorable="d"
         Title="EditingWindow" Height="450" Width="800">
@@ -16,7 +16,9 @@
         <DataTemplate DataType="{x:Type viewModel:AddBuisnessUnitViewModel}">
             <addView:AddBuisnessUnitView/>
         </DataTemplate>
-
+        <DataTemplate DataType="{x:Type viewModel:AddCountryViewModel}">
+            <addView:AddCountryView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <ContentControl Content="{Binding}" />

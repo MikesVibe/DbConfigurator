@@ -60,7 +60,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModel\Add\" />
     <Folder Include="ViewModel\Edit\" />
     <Folder Include="View\Edit\" />
   </ItemGroup>

@@ -4,6 +4,7 @@ using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.ViewModel;
+using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Windows;
 using Microsoft.EntityFrameworkCore;
