@@ -135,14 +135,20 @@ namespace DbConfigurator.UI.ViewModel
 
             bool? result = _dialogService.ShowDialog(addCountryViewModel);
 
-            //if (result == false)
-            //    return;
+            if (result == false)
+                return;
 
-            //string buisnessUnitName = addbuisnessUnitViewModel.BuisnessUnit.Name;
-            //var buisnessUnit = new BuisnessUnit
-            //{
-            //    Name = buisnessUnitName
-            //};
+            var countryDtoWrapper = addCountryViewModel.Country;
+            var countryEntity = new Country
+            {
+                Name = countryDtoWrapper.CountryName,
+                ShortCode = countryDtoWrapper.CountryCode
+            };
+
+            _dataModel.Add(countryEntity);
+            _dataModel.SaveChanges();
+            var mapped = _autoMapper.Mapper.Map<CountryDto>(countryEntity);
+            Countries.Add(mapped);
         }
 
         protected override bool OnRemoveCanExecute()
@@ -161,6 +167,5 @@ namespace DbConfigurator.UI.ViewModel
             _dataModel.SaveChanges();
             SelectedArea = null;
         }
-
     }
 }
