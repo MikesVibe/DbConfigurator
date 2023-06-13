@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public class AddAreaViewModel : INotifyPropertyChanged
+    public class AddAreaViewModel : IEditingViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

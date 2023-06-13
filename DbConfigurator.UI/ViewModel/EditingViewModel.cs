@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    class EditingViewModel : ViewModelBase
+    public class EditingViewModel : ViewModelBase
     {
+        public EditingViewModel(IEditingViewModel editingViewModel) 
+        {
+            _selectedEditingViewModel = editingViewModel;
+        }
+
         public IEditingViewModel? SelectedEditingViewModel 
         { 
             get

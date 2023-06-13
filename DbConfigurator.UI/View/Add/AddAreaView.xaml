@@ -7,6 +7,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Create Area" FontSize="30" HorizontalAlignment="Center" Margin="10"/>
+        <StackPanel Grid.Row="1" Margin="10" Width="340">
+            <Label Content="Area Name:" FontSize="20"/>
+            <TextBox x:Name="areaTextBox" FontSize="20"
+                      Text="{Binding Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal"  HorizontalAlignment="Center" >
+            <Button Content="Add" Margin="20" Width="150" Height="60" 
+                    Command="{Binding AddCommand}"/>
+            <Button Content="Cancel" Margin="20" Width="150" Height="60"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -20,7 +20,11 @@ namespace DbConfigurator.UI.ViewModel
     public class CreationTableViewModel : TableViewModelBase
     {
         private readonly IDataModel _dataModel;
+        private readonly Func<EditingWindow> _editingWindowCreator;
         private readonly AutoMapperConfig _autoMapper;
+
+        //private readonly EditingWindow _editingWindow = new();
+
 
         public ICommand AddCountryCommand { get; set; }
         public ICommand AddBuisnessUnitCommand { get; set; }
@@ -35,12 +39,15 @@ namespace DbConfigurator.UI.ViewModel
 
         public CreationTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
+            Func<EditingWindow> editingWindowCreator,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator)
         {
             _dataModel = dataModel;
+            _editingWindowCreator = editingWindowCreator;
             _autoMapper = autoMapper;
 
+            //_editingWindow.Visibility = System.Windows.Visibility.Hidden;
 
             AreaDoubleClickedCommand = new DelegateCommand(OnAreaDoubleClickedExecute);
             AreaSelectionChangedCommand = new DelegateCommand(OnAreaSelectionChangedExecute);
@@ -87,25 +94,27 @@ namespace DbConfigurator.UI.ViewModel
 
         protected override void OnAddAreaExecute()
         {
-            AddAreaViewModel viewModel = new AddAreaViewModel();
-            AddAreaWindow addAreaWindow = new AddAreaWindow();
-            addAreaWindow.DataContext = viewModel;
-            viewModel.Window = addAreaWindow;
+            var editingWindow = _editingWindowCreator();
+            bool? result = editingWindow.ShowDialog();
 
-            bool? result = addAreaWindow.ShowDialog();
+            //AddAreaViewModel viewModel = new AddAreaViewModel();
+            //editingWindow.DataContext = viewModel;
 
-            if (result == false)
-                return;
-            
-            string areaName = viewModel.Area.Name;
-            var area = new Area
-            {
-                Name = areaName
-            };
-            _dataModel.Add(area);
-            _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-            Areas.Add(mapped);
+
+            //if (result == false)
+            //    return;
+
+            //string areaName = viewModel.Area.Name;
+            //var area = new Area
+            //{
+            //    Name = areaName
+            //};
+
+
+            //_dataModel.Add(area);
+            //_dataModel.SaveChanges();
+            //var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
+            //Areas.Add(mapped);
 
         }
 

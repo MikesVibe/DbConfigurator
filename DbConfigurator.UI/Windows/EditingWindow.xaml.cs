@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DbConfigurator.UI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,14 @@ namespace DbConfigurator.UI.Windows
     /// </summary>
     public partial class EditingWindow : Window
     {
-        public EditingWindow()
+        private EditingViewModel _editingViewModel;
+        public EditingWindow(EditingViewModel editingViewModel)
         {
             InitializeComponent();
+            
+            //DataContext = new EditingViewModel();
+            _editingViewModel = editingViewModel;
+            DataContext = _editingViewModel;
         }
     }
 }

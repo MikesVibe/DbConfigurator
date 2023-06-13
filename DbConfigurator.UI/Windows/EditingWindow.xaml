@@ -16,6 +16,6 @@
     </Window.Resources>
 
     <Grid>
-        <addView:AddAreaView Grid.Column="1"  Content="{Binding SelectedTableViewModel}"/>
+        <addView:AddAreaView  Content="{Binding SelectedEditingViewModel}"/>
     </Grid>
 </Window>

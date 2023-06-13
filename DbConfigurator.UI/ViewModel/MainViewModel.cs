@@ -24,10 +24,10 @@ namespace DbConfigurator.UI.ViewModel
             IEventAggregator eventAggregator
             )
         {
-            _tabelViewModelCreator = tabelViewModelCreator;
+            _tableViewModelCreator = tabelViewModelCreator;
             _eventAggregator = eventAggregator;
 
-            TabelViewModels = new ObservableCollection<ITabelViewModel>();
+            TableViewModels = new ObservableCollection<ITabelViewModel>();
 
             _eventAggregator.GetEvent<OpenTabelViewEvent>()
                 .Subscribe(OnOpenTabelView);
@@ -42,24 +42,23 @@ namespace DbConfigurator.UI.ViewModel
 
             _openTableReady = false;
 
-            var tabelViewModel = TabelViewModels
+            var tabelViewModel = TableViewModels
              .SingleOrDefault(vm => vm.Id == args.Id &&
              vm.GetType().Name == args.ViewModelName);
 
 
             if (tabelViewModel == null)
             {
-                tabelViewModel = _tabelViewModelCreator[args.ViewModelName];
+                tabelViewModel = _tableViewModelCreator[args.ViewModelName];
                 await tabelViewModel.LoadAsync();
 
-                TabelViewModels.Add(tabelViewModel);
+                TableViewModels.Add(tabelViewModel);
             }
 
             SelectedTableViewModel = tabelViewModel;
             _openTableReady = true;
         }
 
-        public ObservableCollection<IRecipientTableViewModel> TableViewModels { get; }
 
         public INavigationViewModel NavigationViewModel
         {
@@ -87,9 +86,9 @@ namespace DbConfigurator.UI.ViewModel
 
 
 
-        public ObservableCollection<ITabelViewModel> TabelViewModels { get; }
+        public ObservableCollection<ITabelViewModel> TableViewModels { get; }
 
-        private IIndex<string, ITabelViewModel> _tabelViewModelCreator;
+        private IIndex<string, ITabelViewModel> _tableViewModelCreator;
         private IEventAggregator _eventAggregator;
         private INavigationViewModel _navigationViewModel;
         private ITabelViewModel _selectedTableViewModel;

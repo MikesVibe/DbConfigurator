@@ -4,6 +4,7 @@ using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Interfaces;
+using DbConfigurator.UI.Windows;
 using Microsoft.EntityFrameworkCore;
 using Prism.Events;
 using System;
@@ -35,6 +36,8 @@ namespace DbConfigurator.UI.Startup
 
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
+            builder.RegisterType<EditingWindow>().AsSelf();
+            builder.RegisterType<EditingViewModel>().AsSelf();
 
             builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
 
@@ -50,6 +53,8 @@ namespace DbConfigurator.UI.Startup
                  .Keyed<ITabelViewModel>(nameof(RegionTableViewModel));
             builder.RegisterType<CreationTableViewModel>()
                  .Keyed<ITabelViewModel>(nameof(CreationTableViewModel));
+
+            builder.RegisterType<AddAreaViewModel>().As<IEditingViewModel>();
 
 
 
