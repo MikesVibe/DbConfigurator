@@ -47,19 +47,7 @@ namespace DbConfigurator.UI.ViewModel
         private void CloseWindow(bool dialogResult)
         {
             CloseAction?.Invoke(dialogResult);
-
-            //Window.DialogResult = dialogResult;
-            //Application.Current.MainWindow.DialogResult = dialogResult;
-            //Application.Current.MainWindow.Close();
-
-            //// Close the window and set the dialog result
-            //if (Window != null)
-            //{
-            //    Window.DialogResult = dialogResult;
-            //    Window.Close();
-            //}
         }
-        //public Window Window { get; set; }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

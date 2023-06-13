@@ -25,7 +25,7 @@ namespace DbConfigurator.UI.Windows
             InitializeComponent();
             DataContext = editingViewModel;
 
-            editingViewModel.CloseAction = new Action<bool>(CloseWindow);
+            editingViewModel.CloseAction = new(CloseWindow);
         }
 
         private void CloseWindow(bool dialogResult)

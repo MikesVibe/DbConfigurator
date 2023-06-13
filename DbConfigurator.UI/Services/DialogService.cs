@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
+
     public class DialogService : IDialogService
     {
         public bool? ShowDialog(IEditingViewModel viewModel)

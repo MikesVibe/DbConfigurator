@@ -13,6 +13,10 @@
         <DataTemplate DataType="{x:Type viewModel:AddAreaViewModel}">
             <addView:AddAreaView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AddBuisnessUnitViewModel}">
+            <addView:AddBuisnessUnitView/>
+        </DataTemplate>
+
     </Window.Resources>
     <Grid>
         <ContentControl Content="{Binding}" />

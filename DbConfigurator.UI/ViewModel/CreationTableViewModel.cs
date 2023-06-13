@@ -24,8 +24,6 @@ namespace DbConfigurator.UI.ViewModel
         private readonly Func<EditingWindow> _editingWindowCreator;
         private readonly AutoMapperConfig _autoMapper;
         private IDialogService _dialogService;
-        //private readonly EditingWindow _editingWindow = new();
-
 
         public ICommand AddCountryCommand { get; set; }
         public ICommand AddBuisnessUnitCommand { get; set; }
@@ -61,8 +59,7 @@ namespace DbConfigurator.UI.ViewModel
 
         private void OnAreaDoubleClickedExecute()
         {
-            //AddAreaWindow areaWindow = new();
-            //AddAreaViewModel areaViewModel = new();
+
         }
         private void OnAreaSelectionChangedExecute()
         {
@@ -117,25 +114,18 @@ namespace DbConfigurator.UI.ViewModel
 
         private void OnAddBuisnessUnitExecute()
         {
-            AddBuisnessUnitViewModel viewModel = new AddBuisnessUnitViewModel();
-            AddBuisnessUnitWindow addAreaWindow = new AddBuisnessUnitWindow();
-            addAreaWindow.DataContext = viewModel;
-            viewModel.Window = addAreaWindow;
+            var addbuisnessUnitViewModel = new AddBuisnessUnitViewModel();
 
-            bool? result = addAreaWindow.ShowDialog();
+            bool? result = _dialogService.ShowDialog(addbuisnessUnitViewModel);
 
-            if (result == true)
+            if (result == false)
+                return;
+
+            string buisnessUnitName = addbuisnessUnitViewModel.BuisnessUnit.Name;
+            var buisnessUnit = new BuisnessUnit
             {
-                // User clicked the Add button
-                // Perform any actions with the entered area name here
-                string areaName = viewModel.AreaName;
-                // ...
-            }
-            else
-            {
-                // User clicked the Cancel button or closed the window
-                // Handle cancellation logic here
-            }
+                Name = buisnessUnitName
+            };
         }
 
         private void OnAddCountryExecute()

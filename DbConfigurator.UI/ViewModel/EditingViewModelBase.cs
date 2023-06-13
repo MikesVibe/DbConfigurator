@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public class EditingViewModel : ViewModelBase
+    public class EditingViewModelBase : ViewModelBase, IEditingViewModel
     {
-        public EditingViewModel()
-        {
-        }
+        public Action<bool> CloseAction { get; set; }
+
     }
 }
