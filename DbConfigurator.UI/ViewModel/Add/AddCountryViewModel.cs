@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Add
 {
-    public class AddCountryViewModel : EditingViewModelBase, INotifyPropertyChanged
+    public class AddCountryViewModel : EditingViewModelBase, IEditingViewModel, INotifyPropertyChanged
     {
         public CountryDtoWrapper Country { get; set; }
 
@@ -20,9 +20,5 @@ namespace DbConfigurator.UI.ViewModel.Add
             Country.CountryName = "";
         }
 
-        private void CloseWindow(bool dialogResult)
-        {
-
-        }
     }
 }

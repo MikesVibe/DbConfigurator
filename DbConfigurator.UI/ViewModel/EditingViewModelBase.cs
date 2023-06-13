@@ -15,7 +15,7 @@ namespace DbConfigurator.UI.ViewModel
         public ICommand AddCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public Action<bool> CloseAction { get; set; }
+        public Action<bool>? CloseAction { get; set; }
 
         public EditingViewModelBase()
         { 
@@ -23,16 +23,16 @@ namespace DbConfigurator.UI.ViewModel
             CancelCommand = new DelegateCommand(Cancel);
         }
 
-        public void Add()
+        protected virtual void Add()
         {
             CloseAction?.Invoke(true);
         }
-        public bool CanAdd()
+        protected virtual bool CanAdd()
         {
             return true;
         }
 
-        public void Cancel()
+        protected virtual void Cancel()
         {
             CloseAction?.Invoke(false);
         }

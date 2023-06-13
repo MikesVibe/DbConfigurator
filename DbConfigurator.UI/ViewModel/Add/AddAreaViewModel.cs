@@ -26,11 +26,5 @@ namespace DbConfigurator.UI.ViewModel.Add
 
         }
 
-        private void CloseWindow(bool dialogResult)
-        {
-            CloseAction?.Invoke(dialogResult);
-        }
-
-
     }
 }

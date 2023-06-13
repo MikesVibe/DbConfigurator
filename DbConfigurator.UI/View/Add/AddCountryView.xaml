@@ -17,16 +17,20 @@
         <Label Grid.Row="0" Content="Create Country" FontSize="30" HorizontalAlignment="Center" Margin="10"/>
         <StackPanel Grid.Row="1" Margin="10" Width="340">
             <Label Content="Country Name:" FontSize="20"/>
-            <TextBox x:Name="countryNameTextBox" FontSize="20" />
+            <TextBox x:Name="countryNameTextBox" FontSize="20" 
+                     Text="{Binding Country.CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Margin="10" Width="340">
             <Label Content="Country Code:" FontSize="20"/>
-            <TextBox x:Name="countryCodeTextBox" FontSize="20" />
+            <TextBox x:Name="countryCodeTextBox" FontSize="20"
+                     Text="{Binding Country.CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal"  HorizontalAlignment="Center" >
-            <Button Content="Add" Margin="20" Width="150" Height="60"/>
-            <Button Content="Cancel" Margin="20" Width="150" Height="60"/>
+            <Button Content="Add" Margin="20" Width="150" Height="60" 
+                    Command="{Binding AddCommand}"/>
+            <Button Content="Cancel" Margin="20" Width="150" Height="60"
+                    Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

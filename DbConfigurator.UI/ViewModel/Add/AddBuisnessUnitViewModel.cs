@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Add
 {
-    public class AddBuisnessUnitViewModel : EditingViewModelBase
+    public class AddBuisnessUnitViewModel : EditingViewModelBase, IEditingViewModel, INotifyPropertyChanged
     {
         public BuisnessUnitDtoWrapper BuisnessUnit { get; set; }
 
@@ -24,11 +24,10 @@ namespace DbConfigurator.UI.ViewModel.Add
             BuisnessUnit = new(buisnessUnit);
             BuisnessUnit.Name = "";
         }
-
-        private void CloseWindow(bool dialogResult)
+        
+        protected override bool CanAdd()
         {
-
+            return true;
         }
-
     }
 }

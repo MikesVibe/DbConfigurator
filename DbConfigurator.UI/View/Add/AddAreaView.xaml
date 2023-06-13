@@ -23,7 +23,8 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal"  HorizontalAlignment="Center" >
             <Button Content="Add" Margin="20" Width="150" Height="60" 
                     Command="{Binding AddCommand}"/>
-            <Button Content="Cancel" Margin="20" Width="150" Height="60"/>
+            <Button Content="Cancel" Margin="20" Width="150" Height="60"
+                    Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>
