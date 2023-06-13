@@ -21,7 +21,6 @@ namespace DbConfigurator.UI.ViewModel
     public class CreationTableViewModel : TableViewModelBase
     {
         private readonly IDataModel _dataModel;
-        private readonly Func<EditingWindow> _editingWindowCreator;
         private readonly AutoMapperConfig _autoMapper;
         private IDialogService _dialogService;
 
@@ -38,16 +37,13 @@ namespace DbConfigurator.UI.ViewModel
 
         public CreationTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
-            Func<EditingWindow> editingWindowCreator,
             IDialogService dialogService,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator)
         {
             _dataModel = dataModel;
-            _editingWindowCreator = editingWindowCreator;
             _autoMapper = autoMapper;
             _dialogService = dialogService;
-            //_editingWindow.Visibility = System.Windows.Visibility.Hidden;
 
             AreaDoubleClickedCommand = new DelegateCommand(OnAreaDoubleClickedExecute);
             AreaSelectionChangedCommand = new DelegateCommand(OnAreaSelectionChangedExecute);
