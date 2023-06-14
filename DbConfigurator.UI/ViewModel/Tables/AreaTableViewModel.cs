@@ -52,7 +52,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             }
         }
 
-        protected override void OnAddAreaExecute()
+        protected override void OnAddExecute()
         {
             var addAreaViewModel = new AddAreaViewModel();
 

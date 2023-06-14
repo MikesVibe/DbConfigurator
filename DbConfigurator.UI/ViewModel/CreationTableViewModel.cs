@@ -26,10 +26,10 @@ namespace DbConfigurator.UI.ViewModel
 
 
         public ITabelViewModel AreaTableViewModel { get; set; }
+        public ITabelViewModel BuisnessUnitTableViewModel { get; set; }
 
 
         public ObservableCollection<CountryDto> Countries { get; set; } = new();
-        public ObservableCollection<BuisnessUnitDto> BuisnessUnits { get; set; } = new();
 
         public CreationTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
@@ -42,6 +42,7 @@ namespace DbConfigurator.UI.ViewModel
             _dialogService = dialogService;
             
             AreaTableViewModel = new AreaTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
+            BuisnessUnitTableViewModel = new BuisnessUnitTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
 
 
             AddBuisnessUnitCommand = new DelegateCommand(OnAddBuisnessUnitExecute);
@@ -58,14 +59,8 @@ namespace DbConfigurator.UI.ViewModel
                 var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
                 Countries.Add(mapped);
             }
-            var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
 
-            foreach (var buisnessUnit in buisnessUnits)
-            {
-                var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
-                BuisnessUnits.Add(mapped);
-            }
-
+            await BuisnessUnitTableViewModel.LoadAsync();
             await AreaTableViewModel.LoadAsync();
 
         }
@@ -74,22 +69,7 @@ namespace DbConfigurator.UI.ViewModel
 
         private void OnAddBuisnessUnitExecute()
         {
-            var addbuisnessUnitViewModel = new AddBuisnessUnitViewModel();
 
-            bool? result = _dialogService.ShowDialog(addbuisnessUnitViewModel);
-
-            if (result == false)
-                return;
-
-            string buisnessUnitName = addbuisnessUnitViewModel.BuisnessUnit.Name;
-            var buisnessUnit = new BuisnessUnit
-            {
-                Name = buisnessUnitName
-            };
-            _dataModel.Add(buisnessUnit);
-            _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
-            BuisnessUnits.Add(mapped);
         }
 
         private void OnAddCountryExecute()
@@ -124,7 +104,7 @@ namespace DbConfigurator.UI.ViewModel
 
         }
 
-        protected override void OnAddAreaExecute()
+        protected override void OnAddExecute()
         {
         }
     }

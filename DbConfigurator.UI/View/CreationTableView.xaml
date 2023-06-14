@@ -19,9 +19,9 @@
             </Grid.ColumnDefinitions>
 
             <local:AreaTableView Grid.Column="0" DataContext="{Binding AreaTableViewModel}"/>
-            <!--<local:BuisnessUnitTableView Grid.Column="1"/>
+            <local:BuisnessUnitTableView Grid.Column="1" DataContext="{Binding BuisnessUnitTableViewModel}"/>
 
-            <local:CountryTableView Grid.Row="1" Grid.ColumnSpan="2"/>-->
+            <local:CountryTableView Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding CountryTableViewModel}"/>
 
         </Grid>
     </Grid>

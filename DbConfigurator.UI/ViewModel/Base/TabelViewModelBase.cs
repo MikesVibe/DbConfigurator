@@ -13,14 +13,14 @@ namespace DbConfigurator.UI.ViewModel.Base
             EventAggregator = eventAggregator;
 
 
-            AddCommand = new DelegateCommand(OnAddAreaExecute);
+            AddCommand = new DelegateCommand(OnAddExecute);
             RemoveCommand = new DelegateCommand(OnRemoveExecute, OnRemoveCanExecute);
         }
 
         public abstract Task LoadAsync();
 
 
-        protected abstract void OnAddAreaExecute();
+        protected abstract void OnAddExecute();
         protected abstract void OnRemoveExecute();
         protected abstract bool OnRemoveCanExecute();
 
