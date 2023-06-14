@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DbConfigurator.UI.View" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:DbConfigurator.UI.View"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -14,74 +15,11 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-
-                <StackPanel Orientation="Horizontal" Margin="20">
-                    <DataGrid x:Name="myDataGridV2"
-                            CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
-                            ItemsSource="{Binding Areas, Mode=TwoWay}"
-                            SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
-                            AutoGenerateColumns="False" FontSize="11" Height="200" Width="390">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseDoubleClick">
-                                <i:InvokeCommandAction Command="{Binding AreaDoubleClickedCommand }"/>
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding AreaSelectionChangedCommand }"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <DataGrid.Columns >
-                            <DataGridTextColumn Header="Area" Width="*" 
-                                    Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <StackPanel VerticalAlignment="Top" >
-                        <Button Content="+" Width="40" Height="40" Margin="10"
-                    Command="{Binding AddCommand}"/>
-                        <Button Content="-" Width="40" Height="40" Margin="10"
-                    Command="{Binding RemoveCommand}"/>
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="20">
-                    <DataGrid x:Name="myDataGridV3"
-            CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
-            ItemsSource="{Binding BuisnessUnits, Mode=TwoWay}"
-            SelectedItem="{Binding SelectedRegion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                    
-            AutoGenerateColumns="False" FontSize="11" Height="200" Width="390">
-                        <DataGrid.Columns >
-                            <DataGridTextColumn Header="Buisness Unit" Width="*" 
-                                    Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <StackPanel VerticalAlignment="Top" >
-                        <Button Content="+" Width="40" Height="40" Margin="10"
-                    Command="{Binding AddBuisnessUnitCommand}"/>
-                        <Button Content="-" Width="40" Height="40" Margin="10"
-                    Command="{Binding RemoveCommand}"/>
-                    </StackPanel>
-                </StackPanel>
-
-
+                <local:AreaTableView Grid.Column="0"/>
+                <local:BuisnessUnitTableView Grid.Column="1"/>
             </Grid>
-            <StackPanel Orientation="Horizontal" Margin="20">
-                <DataGrid   x:Name="myDataGrid"
-            CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
-            ItemsSource="{Binding Countries, Mode=TwoWay}"
-            SelectedItem="{Binding SelectedRegion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                    
-            AutoGenerateColumns="False" FontSize="11" Height="400" Width="880" HorizontalScrollBarVisibility="Disabled">
-                    <DataGrid.Columns >
-                        <DataGridTextColumn Header="Country" Width="430" 
-                                    Binding="{Binding CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <DataGridTextColumn Header="Country Code" Width="430" 
-                                    Binding="{Binding CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <StackPanel VerticalAlignment="Top" >
-                    <Button Content="+" Width="40" Height="40" Margin="10"
-                    Command="{Binding AddCountryCommand}"/>
-                    <Button Content="-" Width="40" Height="40" Margin="10"
-                    Command="{Binding RemoveCommand}"/>
-                </StackPanel>
-            </StackPanel>
+            
+            <local:CountryTableView/>
         </StackPanel>
     </Grid>
 </UserControl>
