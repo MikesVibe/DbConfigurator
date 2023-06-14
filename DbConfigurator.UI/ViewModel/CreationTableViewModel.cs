@@ -21,15 +21,11 @@ namespace DbConfigurator.UI.ViewModel
         private readonly AutoMapperConfig _autoMapper;
         private IDialogService _dialogService;
 
-        public ICommand AddCountryCommand { get; set; }
-        public ICommand AddBuisnessUnitCommand { get; set; }
-
-
         public ITabelViewModel AreaTableViewModel { get; set; }
         public ITabelViewModel BuisnessUnitTableViewModel { get; set; }
+        public ITabelViewModel CountryTableViewModel { get; set; }
 
 
-        public ObservableCollection<CountryDto> Countries { get; set; } = new();
 
         public CreationTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
@@ -43,55 +39,14 @@ namespace DbConfigurator.UI.ViewModel
             
             AreaTableViewModel = new AreaTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
             BuisnessUnitTableViewModel = new BuisnessUnitTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
-
-
-            AddBuisnessUnitCommand = new DelegateCommand(OnAddBuisnessUnitExecute);
-            AddCountryCommand = new DelegateCommand(OnAddCountryExecute);
+            CountryTableViewModel = new CountryTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
         }
-
-
 
         public override async Task LoadAsync()
         {
-            var countries = await _dataModel.GetAllCountriesAsync();
-            foreach (var country in countries)
-            {
-                var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
-                Countries.Add(mapped);
-            }
-
-            await BuisnessUnitTableViewModel.LoadAsync();
             await AreaTableViewModel.LoadAsync();
-
-        }
-
-
-
-        private void OnAddBuisnessUnitExecute()
-        {
-
-        }
-
-        private void OnAddCountryExecute()
-        {
-            var addCountryViewModel = new AddCountryViewModel();
-
-            bool? result = _dialogService.ShowDialog(addCountryViewModel);
-
-            if (result == false)
-                return;
-
-            var countryDtoWrapper = addCountryViewModel.Country;
-            var countryEntity = new Country
-            {
-                Name = countryDtoWrapper.CountryName,
-                ShortCode = countryDtoWrapper.CountryCode
-            };
-
-            _dataModel.Add(countryEntity);
-            _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<CountryDto>(countryEntity);
-            Countries.Add(mapped);
+            await BuisnessUnitTableViewModel.LoadAsync();
+            await CountryTableViewModel.LoadAsync();
         }
 
         protected override bool OnRemoveCanExecute()
