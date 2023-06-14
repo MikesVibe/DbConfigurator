@@ -1,12 +1,5 @@
-﻿using DbConfigurator.Model;
-using DbConfigurator.Model.DTOs;
-using System;
-using System.Collections.Generic;
+﻿using DbConfigurator.Model.DTOs;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.Model.Wrapper
 {

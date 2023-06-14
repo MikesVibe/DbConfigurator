@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.Model.Wrapper
 {
     public class ModelWrapper<T> : NotifyDataErrorInfoBase
     {
-        public ModelWrapper(T model) 
+        public ModelWrapper(T model)
         {
             Model = model;
         }
@@ -21,7 +17,7 @@ namespace DbConfigurator.Model.Wrapper
         {
             return (TValue)typeof(T).GetProperty(propertyName).GetValue(Model);
         }
-    
+
         protected virtual void SetValue<TValue>(TValue value, [CallerMemberName] string propertyName = null)
         {
             typeof(T).GetProperty(propertyName)?.SetValue(Model, value);
@@ -43,9 +39,9 @@ namespace DbConfigurator.Model.Wrapper
 
             Validator.TryValidateProperty(currentValue, context, results);
 
-            foreach(var result in results) 
+            foreach (var result in results)
             {
-                if(result.ErrorMessage != null)
+                if (result.ErrorMessage != null)
                     AddError(propertyName, result.ErrorMessage);
             }
         }

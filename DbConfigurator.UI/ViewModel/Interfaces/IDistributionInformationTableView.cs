@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public interface IDistributionInformationTableView : ITabelViewModel 
+    public interface IDistributionInformationTableView : ITabelViewModel
     {
     }
 }

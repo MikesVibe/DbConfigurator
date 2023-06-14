@@ -3,14 +3,9 @@ using DbConfigurator.Model.DTOs.Creation;
 using DbConfigurator.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
 
 namespace DbConfigurator.DataAccess
 {
@@ -75,7 +70,7 @@ namespace DbConfigurator.DataAccess
         {
             await _dbConfiguratorDbContext.Set<DistributionInformation>().AddRangeAsync(
                 new DistributionInformation
-                { 
+                {
                     RegionId = 1,
                     PriorityId = 1,
                 },

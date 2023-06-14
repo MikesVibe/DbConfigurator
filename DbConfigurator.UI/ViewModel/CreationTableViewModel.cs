@@ -5,16 +5,9 @@ using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
-using DbConfigurator.UI.ViewModel.Interfaces;
-using DbConfigurator.UI.Windows;
-using Microsoft.EntityFrameworkCore;
 using Prism.Commands;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -66,14 +59,14 @@ namespace DbConfigurator.UI.ViewModel
 
         public override async Task LoadAsync()
         {
-            var countries = await _dataModel.GetAllCountriesAsync(); 
-            foreach(var country in countries)
+            var countries = await _dataModel.GetAllCountriesAsync();
+            foreach (var country in countries)
             {
                 var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
                 Countries.Add(mapped);
             }
             var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
-            
+
             foreach (var buisnessUnit in buisnessUnits)
             {
                 var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);

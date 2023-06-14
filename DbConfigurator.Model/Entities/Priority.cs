@@ -1,13 +1,5 @@
-﻿using DbConfigurator.Model;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Printing;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.Model
 {

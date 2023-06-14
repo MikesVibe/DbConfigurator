@@ -1,11 +1,5 @@
-﻿using DbConfigurator.Model;
-using DbConfigurator.Model.Entities;
-using System;
+﻿using DbConfigurator.Model.Entities;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.Model.Wrapper
 {
@@ -22,8 +16,8 @@ namespace DbConfigurator.Model.Wrapper
         }
         public string Name
         {
-            get {   return GetValue<string>();  }
-            set {   SetValue<string>(value);    }
+            get { return GetValue<string>(); }
+            set { SetValue<string>(value); }
         }
         public int AreaId
         {

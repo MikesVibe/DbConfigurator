@@ -1,11 +1,6 @@
-﻿using System;
+﻿using DbConfigurator.Model.Entities;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DbConfigurator.Model.Entities;
 
 namespace DbConfigurator.Model
 {
@@ -20,7 +15,7 @@ namespace DbConfigurator.Model
 
         [Required]
         [MaxLength(3)]
-        public string ShortCode{ get; set; }
+        public string ShortCode { get; set; }
 
 
         public ICollection<Region> Regions { get; set; }

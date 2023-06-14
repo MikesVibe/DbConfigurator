@@ -4,18 +4,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.Model.Wrapper
 {
-    public class NotifyDataErrorInfoBase : INotifyDataErrorInfo ,INotifyPropertyChanged
+    public class NotifyDataErrorInfoBase : INotifyDataErrorInfo, INotifyPropertyChanged
     {
         private Dictionary<string, List<string>> _errorsByPropertyName =
             new Dictionary<string, List<string>>();
-        
+
         public bool HasErrors => _errorsByPropertyName.Any();
-        
+
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
         public event PropertyChangedEventHandler? PropertyChanged;
 

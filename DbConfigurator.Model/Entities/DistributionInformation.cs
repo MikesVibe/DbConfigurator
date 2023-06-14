@@ -1,11 +1,6 @@
 using DbConfigurator.Model.Entities;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Printing;
 
 namespace DbConfigurator.Model
 {
@@ -14,7 +9,7 @@ namespace DbConfigurator.Model
         public DistributionInformation()
         {
         }
-        public DistributionInformation(Region region, Priority priority) 
+        public DistributionInformation(Region region, Priority priority)
         {
             Region = region;
             Priority = priority;

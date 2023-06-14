@@ -3,13 +3,8 @@ using DbConfigurator.Model.DTOs;
 using DbConfigurator.Model.Entities;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.VisualBasic;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.Model
@@ -103,7 +98,7 @@ namespace DbConfigurator.Model
         public async Task<ICollection<Country>> GetAllCountriesAsync()
         {
             var collection = await Context.Set<Country>().ToListAsync();
-                //.Include(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas).AsNoTracking().ToListAsync();
+            //.Include(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas).AsNoTracking().ToListAsync();
 
             return collection;
         }
@@ -131,9 +126,9 @@ namespace DbConfigurator.Model
         public async Task<Region?> GetRegionAsync(int areaId, int buisnessUnitId, int countryId)
         {
             return await GetRegionsAsQueryable()
-                .Where(r => 
-                r.AreaId == areaId && 
-                r.BuisnessUnitId == buisnessUnitId && 
+                .Where(r =>
+                r.AreaId == areaId &&
+                r.BuisnessUnitId == buisnessUnitId &&
                 r.CountryId == countryId).FirstOrDefaultAsync();
         }
         public async Task<IEnumerable<BuisnessUnit>> GetBuisnessUnitsAsync(int areaId)
@@ -180,7 +175,7 @@ namespace DbConfigurator.Model
             var priority = await Context.Set<Priority>().Where(c => c.Id == 99)
                 .FirstOrDefaultAsync();
             return priority;
-        }   
+        }
         private async Task<Region> GetDefaultRegion()
         {
             var region = await Context.Set<Region>().Where(c => c.Id == 99)
@@ -257,7 +252,7 @@ namespace DbConfigurator.Model
 
         public async Task<IEnumerable<Region>> GetRegionsByAreaIdAsync(int id)
         {
-            return  await Context.Set<Region>().Where(r => r.Area.Id == id).ToListAsync();
+            return await Context.Set<Region>().Where(r => r.Area.Id == id).ToListAsync();
         }
         private IQueryable<Region> GetRegionsAsQueryable()
         {

@@ -1,18 +1,5 @@
-﻿using AutoMapper.Configuration;
-using DbConfigurator.DataAccess;
-using DbConfigurator.Model;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using System;
+﻿using DbConfigurator.Model.DTOs.Creation;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
-using static System.Net.WebRequestMethods;
-using System.Numerics;
-using System.Windows.Documents;
-using System.Windows.Input;
-using DbConfigurator.Model.DTOs.Creation;
 
 namespace DbConfigurator.DataAccess
 {

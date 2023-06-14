@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac.Features.Indexed;
-using DbConfigurator.Model;
+﻿using Autofac.Features.Indexed;
 using DbConfigurator.UI.Event;
-using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Prism.Events;
-using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel
 {

@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.DataAccess
 {
@@ -13,7 +10,7 @@ namespace DbConfigurator.DataAccess
         public bool Equals(AreaBuisnessUnitForParserDto? x, AreaBuisnessUnitForParserDto? y)
         {
             //Check whether the compared objects reference the same data.
-            if (Object.ReferenceEquals(x, y)) 
+            if (Object.ReferenceEquals(x, y))
                 return true;
 
             //Check whether any of the compared objects is null.

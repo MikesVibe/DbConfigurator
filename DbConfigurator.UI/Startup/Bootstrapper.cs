@@ -8,21 +8,13 @@ using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.ViewModel.Navigation;
 using DbConfigurator.UI.Windows;
-using Microsoft.EntityFrameworkCore;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Startup
 {
     public class Bootstrapper
     {
-        public static IContainer Container 
+        public static IContainer Container
         {
             get { return _container; }
             set { _container = value; }

@@ -1,11 +1,4 @@
-﻿using DbConfigurator.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DbConfigurator.Model.Wrapper
+﻿namespace DbConfigurator.Model.Wrapper
 {
     public class PriorityWrapper : ModelWrapper<Priority>
     {

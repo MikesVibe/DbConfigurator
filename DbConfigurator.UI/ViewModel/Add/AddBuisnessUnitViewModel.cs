@@ -1,17 +1,7 @@
-﻿using DbConfigurator.Model;
-using DbConfigurator.Model.DTOs;
-using DbConfigurator.Model.Entities;
-using DbConfigurator.Model.Wrapper;
+﻿using DbConfigurator.Model.DTOs;
 using DbConfigurator.Model.Wrapper.DTOs;
 using DbConfigurator.UI.ViewModel.Base;
-using DbConfigurator.UI.Windows;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Add
 {
@@ -25,7 +15,7 @@ namespace DbConfigurator.UI.ViewModel.Add
             BuisnessUnit = new(buisnessUnit);
             BuisnessUnit.Name = "";
         }
-        
+
         protected override bool CanAdd()
         {
             return true;

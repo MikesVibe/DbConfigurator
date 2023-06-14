@@ -1,14 +1,8 @@
 using DbConfigurator.Model;
 using DbConfigurator.Model.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Configuration;
-using System.Diagnostics.Metrics;
 using System.Linq;
-using static DbConfigurator.DataAccess.DbConfiguratorDbContext;
 
 namespace DbConfigurator.DataAccess
 {
@@ -77,8 +71,8 @@ namespace DbConfigurator.DataAccess
             foreach (var priority in bUData.Priorities.ToList())
             {
                 modelBuilder.Entity<Priority>().HasData(
-                    new Priority 
-                    { 
+                    new Priority
+                    {
                         Id = priority.Id,
                         Name = priority.Name
                     });

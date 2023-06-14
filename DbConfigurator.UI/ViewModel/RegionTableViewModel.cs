@@ -9,11 +9,9 @@ using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -44,12 +42,12 @@ namespace DbConfigurator.UI.ViewModel
 
         private void OnSelectedCountryChanged()
         {
-            if(SelectedRegion == null || SelectedCountry == null)
+            if (SelectedRegion == null || SelectedCountry == null)
                 return;
 
             SelectedRegion.Country = SelectedCountry;
             var regionEntity = _dataModel.GetRegionById(SelectedRegion.Id);
-            if(regionEntity == null)
+            if (regionEntity == null)
                 throw new ArgumentNullException(nameof(regionEntity));
 
             regionEntity.CountryId = SelectedCountry.Id;
