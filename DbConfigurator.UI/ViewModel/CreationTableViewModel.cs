@@ -5,6 +5,8 @@ using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
+using DbConfigurator.UI.ViewModel.Interfaces;
+using DbConfigurator.UI.ViewModel.Tables;
 using Prism.Commands;
 using Prism.Events;
 using System.Collections.ObjectModel;
@@ -21,14 +23,13 @@ namespace DbConfigurator.UI.ViewModel
 
         public ICommand AddCountryCommand { get; set; }
         public ICommand AddBuisnessUnitCommand { get; set; }
-        public ICommand AreaDoubleClickedCommand { get; set; }
-        public ICommand AreaSelectionChangedCommand { get; set; }
 
-        public AreaDto? SelectedArea { get; set; }
+
+        public ITabelViewModel AreaTableViewModel { get; set; }
+
 
         public ObservableCollection<CountryDto> Countries { get; set; } = new();
         public ObservableCollection<BuisnessUnitDto> BuisnessUnits { get; set; } = new();
-        public ObservableCollection<AreaDto> Areas { get; set; } = new();
 
         public CreationTableViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
@@ -39,23 +40,15 @@ namespace DbConfigurator.UI.ViewModel
             _dataModel = dataModel;
             _autoMapper = autoMapper;
             _dialogService = dialogService;
+            
+            AreaTableViewModel = new AreaTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
 
-            AreaDoubleClickedCommand = new DelegateCommand(OnAreaDoubleClickedExecute);
-            AreaSelectionChangedCommand = new DelegateCommand(OnAreaSelectionChangedExecute);
 
             AddBuisnessUnitCommand = new DelegateCommand(OnAddBuisnessUnitExecute);
             AddCountryCommand = new DelegateCommand(OnAddCountryExecute);
         }
 
 
-        private void OnAreaDoubleClickedExecute()
-        {
-
-        }
-        private void OnAreaSelectionChangedExecute()
-        {
-            ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
-        }
 
         public override async Task LoadAsync()
         {
@@ -73,35 +66,11 @@ namespace DbConfigurator.UI.ViewModel
                 BuisnessUnits.Add(mapped);
             }
 
-            var areas = await _dataModel.GetAllAreasAsync();
-            foreach (var area in areas)
-            {
-                var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-                Areas.Add(mapped);
-            }
+            await AreaTableViewModel.LoadAsync();
 
         }
 
-        protected override void OnAddAreaExecute()
-        {
-            var addAreaViewModel = new AddAreaViewModel();
 
-            bool? result = _dialogService.ShowDialog(addAreaViewModel);
-
-            if (result == false)
-                return;
-
-            string areaName = addAreaViewModel.Area.Name;
-            var area = new Area
-            {
-                Name = areaName
-            };
-
-            _dataModel.Add(area);
-            _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-            Areas.Add(mapped);
-        }
 
         private void OnAddBuisnessUnitExecute()
         {
@@ -147,19 +116,16 @@ namespace DbConfigurator.UI.ViewModel
 
         protected override bool OnRemoveCanExecute()
         {
-            return SelectedArea != null;
+            return false;
         }
 
         protected override void OnRemoveExecute()
         {
-            if (SelectedArea == null)
-                return;
 
-            var area = _dataModel.GetAreaById(SelectedArea.Id);
-            Areas.Remove(SelectedArea);
-            _dataModel.Remove(area!);
-            _dataModel.SaveChanges();
-            SelectedArea = null;
+        }
+
+        protected override void OnAddAreaExecute()
+        {
         }
     }
 }
