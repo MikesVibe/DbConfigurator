@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Interfaces
 {
-    public interface IMainViewModel
+    public interface IMainPanelViewModel
     {
+        Task LoadAsync();
+
+        bool HasChanges { get; }
+        int Id { get; }
     }
 }

@@ -4,6 +4,7 @@ using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
+using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -14,13 +15,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DbConfigurator.UI.ViewModel
+namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class DistributionInformationTableViewModel : TableViewModelBase, IDistributionInformationTableView
+    public class DistributionInformationPanelViewModel : TableViewModelBase, IMainPanelViewModel
     {
         private bool AwaitingComboboxPopulation = false;
 
-        public DistributionInformationTableViewModel(
+        public DistributionInformationPanelViewModel(
             IEventAggregator eventAggregator,
             IDataModel dataModel,
             AutoMapperConfig autoMapper

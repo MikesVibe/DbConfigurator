@@ -13,14 +13,14 @@ namespace DbConfigurator.UI.ViewModel
     {
         public MainViewModel(
             INavigationViewModel navigationViewModel,
-            IIndex<string, ITableViewModel> tabelViewModelCreator,
+            IIndex<string, IMainPanelViewModel> tabelViewModelCreator,
             IEventAggregator eventAggregator
             )
         {
-            _tableViewModelCreator = tabelViewModelCreator;
+            _mainViewModelCreator = tabelViewModelCreator;
             _eventAggregator = eventAggregator;
 
-            TableViewModels = new ObservableCollection<ITableViewModel>();
+            MainViewModels = new ObservableCollection<IMainPanelViewModel>();
 
             _eventAggregator.GetEvent<OpenTabelViewEvent>()
                 .Subscribe(OnOpenTabelView);
@@ -35,17 +35,17 @@ namespace DbConfigurator.UI.ViewModel
 
             _openTableReady = false;
 
-            var tabelViewModel = TableViewModels
+            var tabelViewModel = MainViewModels
              .SingleOrDefault(vm => vm.Id == args.Id &&
              vm.GetType().Name == args.ViewModelName);
 
 
             if (tabelViewModel == null)
             {
-                tabelViewModel = _tableViewModelCreator[args.ViewModelName];
+                tabelViewModel = _mainViewModelCreator[args.ViewModelName];
                 await tabelViewModel.LoadAsync();
 
-                TableViewModels.Add(tabelViewModel);
+                MainViewModels.Add(tabelViewModel);
             }
 
             SelectedTableViewModel = tabelViewModel;
@@ -56,12 +56,12 @@ namespace DbConfigurator.UI.ViewModel
             get { return _navigationViewModel; }
             set { _navigationViewModel = value; }
         }
-        public ITableViewModel SelectedTableViewModel
+        public IMainPanelViewModel SelectedTableViewModel
         {
-            get { return _selectedTableViewModel; }
+            get { return _selectedMainViewModel; }
             set
             {
-                _selectedTableViewModel = value;
+                _selectedMainViewModel = value;
                 OnPropertyChanged();
             }
         }
@@ -71,12 +71,12 @@ namespace DbConfigurator.UI.ViewModel
             await NavigationViewModel.LoadAsync();
         }
 
-        public ObservableCollection<ITableViewModel> TableViewModels { get; }
+        public ObservableCollection<IMainPanelViewModel> MainViewModels { get; }
 
-        private IIndex<string, ITableViewModel> _tableViewModelCreator;
+        private IIndex<string, IMainPanelViewModel> _mainViewModelCreator;
         private IEventAggregator _eventAggregator;
         private INavigationViewModel _navigationViewModel;
-        private ITableViewModel _selectedTableViewModel;
+        private IMainPanelViewModel _selectedMainViewModel;
         private bool _openTableReady = true;
     }
 }

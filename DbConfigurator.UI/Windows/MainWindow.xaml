@@ -14,16 +14,16 @@
         ResizeMode="CanMinimize">
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:DistributionInformationTableViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:DistributionInformationPanelViewModel}">
             <table:DistributionInformationTableView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:RegionTableViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:RegionPanelViewModel}">
             <table:RegionTableView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:RecipientTableViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:RecipientPanelViewModel}">
             <table:RecipientTableView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:CreationTableViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:CreationPanelViewModel}">
             <table:CreationTableView/>
         </DataTemplate>
     </Window.Resources>

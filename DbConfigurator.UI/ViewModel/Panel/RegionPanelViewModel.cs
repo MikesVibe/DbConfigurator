@@ -15,15 +15,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DbConfigurator.UI.ViewModel
+namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class RegionTableViewModel : TableViewModelBase, IRegionCreatorTableViewModel
+    public class RegionPanelViewModel : TableViewModelBase, IMainPanelViewModel
     {
         private readonly AutoMapperConfig _autoMapper;
-        private readonly IEventAggregator _eventAggregator;
         private readonly IDataModel _dataModel;
 
-        public RegionTableViewModel(IDataModel dataModel,
+        public RegionPanelViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator)
@@ -32,7 +31,6 @@ namespace DbConfigurator.UI.ViewModel
             _autoMapper = autoMapper;
             Regions_ObservableCollection = new ObservableCollection<RegionDtoWrapper>();
 
-            SaveCommand = new DelegateCommand(OnSaveExecute);
 
             SelectedAreaChanged = new DelegateCommand(OnSelectedAreaChanged);
             SelectedBuisnessUnitChanged = new DelegateCommand(OnSelectedBuisnessUnitChanged);
@@ -79,11 +77,6 @@ namespace DbConfigurator.UI.ViewModel
 
             regionEntity.AreaId = SelectedArea.Id;
             _dataModel.SaveChanges();
-        }
-
-        private void OnSaveExecute()
-        {
-
         }
 
         protected override void OnSelectionChangedExecute()
@@ -180,7 +173,6 @@ namespace DbConfigurator.UI.ViewModel
             return SelectedRegion != null;
         }
 
-        public ICommand SaveCommand { get; set; }
 
         public ICommand SelectedAreaChanged { get; set; }
         public ICommand SelectedBuisnessUnitChanged { get; set; }

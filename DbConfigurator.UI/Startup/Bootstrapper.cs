@@ -7,6 +7,7 @@ using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.ViewModel.Navigation;
+using DbConfigurator.UI.ViewModel.Panel;
 using DbConfigurator.UI.Windows;
 using Prism.Events;
 
@@ -38,14 +39,15 @@ namespace DbConfigurator.UI.Startup
 
             //View Models
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
-            builder.RegisterType<RecipientTableViewModel>()
-                .Keyed<ITableViewModel>(nameof(RecipientTableViewModel));
-            builder.RegisterType<DistributionInformationTableViewModel>()
-                 .Keyed<ITableViewModel>(nameof(DistributionInformationTableViewModel));
-            builder.RegisterType<RegionTableViewModel>()
-                 .Keyed<ITableViewModel>(nameof(RegionTableViewModel));
-            builder.RegisterType<CreationTableViewModel>()
-                 .Keyed<ITableViewModel>(nameof(CreationTableViewModel));
+
+            builder.RegisterType<RecipientPanelViewModel>()
+                .Keyed<IMainPanelViewModel>(nameof(RecipientPanelViewModel));
+            builder.RegisterType<DistributionInformationPanelViewModel>()
+                 .Keyed<IMainPanelViewModel>(nameof(DistributionInformationPanelViewModel));
+            builder.RegisterType<RegionPanelViewModel>()
+                 .Keyed<IMainPanelViewModel>(nameof(RegionPanelViewModel));
+            builder.RegisterType<CreationPanelViewModel>()
+                 .Keyed<IMainPanelViewModel>(nameof(CreationPanelViewModel));
 
             builder.RegisterType<AddAreaViewModel>().As<IEditingViewModel>();
 

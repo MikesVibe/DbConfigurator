@@ -13,15 +13,14 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DbConfigurator.UI.ViewModel
+namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class RecipientTableViewModel : TableViewModelBase, IRecipientTableViewModel
+    public class RecipientPanelViewModel : TableViewModelBase, IRecipientTableViewModel, IMainPanelViewModel
     {
         private readonly AutoMapperConfig _autoMapper;
-        private readonly IEventAggregator _eventAggregator;
         private readonly IDataModel _dataModel;
 
-        public RecipientTableViewModel(IDataModel dataModel,
+        public RecipientPanelViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator)
@@ -85,9 +84,9 @@ namespace DbConfigurator.UI.ViewModel
             //Create New Recipient
             var recipient = new Recipient()
             {
-                FirstName = String.Empty,
-                LastName = String.Empty,
-                Email = String.Empty
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                Email = string.Empty
             };
 
 
@@ -105,7 +104,7 @@ namespace DbConfigurator.UI.ViewModel
         protected async override void OnRemoveExecute()
         {
             var recipient = await _dataModel.GetRecipientByIdAsync(SelectedRecipient.Id);
-            _dataModel.Remove<Recipient>(recipient);
+            _dataModel.Remove(recipient);
             await _dataModel.SaveChangesAsync();
 
             Recipients_ObservableCollection.Remove(SelectedRecipient);

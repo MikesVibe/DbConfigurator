@@ -7,9 +7,9 @@ using DbConfigurator.UI.ViewModel.Tables;
 using Prism.Events;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.ViewModel
+namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class CreationTableViewModel : TableViewModelBase
+    public class CreationPanelViewModel : IMainPanelViewModel
     {
         private readonly IDataModel _dataModel;
         private readonly AutoMapperConfig _autoMapper;
@@ -19,13 +19,15 @@ namespace DbConfigurator.UI.ViewModel
         public ITableViewModel BuisnessUnitTableViewModel { get; set; }
         public ITableViewModel CountryTableViewModel { get; set; }
 
+        public bool HasChanges { get; set; }
 
+        public int Id { get; set; }
 
-        public CreationTableViewModel(IDataModel dataModel,
+        public CreationPanelViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
             IDialogService dialogService,
             AutoMapperConfig autoMapper
-            ) : base(eventAggregator)
+            )
         {
             _dataModel = dataModel;
             _autoMapper = autoMapper;
@@ -36,25 +38,11 @@ namespace DbConfigurator.UI.ViewModel
             CountryTableViewModel = new CountryTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
         }
 
-        public override async Task LoadAsync()
+        public async Task LoadAsync()
         {
             await AreaTableViewModel.LoadAsync();
             await BuisnessUnitTableViewModel.LoadAsync();
             await CountryTableViewModel.LoadAsync();
-        }
-
-        protected override bool OnRemoveCanExecute()
-        {
-            return false;
-        }
-
-        protected override void OnRemoveExecute()
-        {
-
-        }
-
-        protected override void OnAddExecute()
-        {
         }
     }
 }
