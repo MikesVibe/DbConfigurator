@@ -30,6 +30,9 @@ namespace DbConfigurator.UI.Startup
 
                 cfg.CreateMap<Area, AreaTableItem>();
                 cfg.CreateMap<BuisnessUnit, BuisnessUnitTableItem>();
+                cfg.CreateMap<Country, CountryTableItem>()
+                    .ForMember(c => c.CountryName, opt => opt.MapFrom(src => src.Name))
+                    .ForMember(c => c.CountryCode, opt => opt.MapFrom(src => src.ShortCode));
 
             });
 

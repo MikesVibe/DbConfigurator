@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Model.Entities.Table;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
@@ -18,11 +19,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
         private readonly AutoMapperConfig _autoMapper;
         private IDialogService _dialogService;
 
-        public ObservableCollection<CountryDto> Countries { get; set; } = new();
-
-        public CountryDto? SelectedCountry { get; set; }
-
-
         public CountryTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IDataModel dataModel, AutoMapperConfig autoMapper)
             : base(eventAggregator)
         {
@@ -36,8 +32,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var countries = await _dataModel.GetAllCountriesAsync();
             foreach (var country in countries)
             {
-                var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
-                Countries.Add(mapped);
+                var mapped = _autoMapper.Mapper.Map<CountryTableItem>(country);
+                Items.Add(mapped);
             }
         }
 
@@ -59,17 +55,12 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             _dataModel.Add(countryEntity);
             _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<CountryDto>(countryEntity);
-            Countries.Add(mapped);
+            var mapped = _autoMapper.Mapper.Map<CountryTableItem>(countryEntity);
+            Items.Add(mapped);
         }
 
         protected override void OnRemoveExecute()
         {
-        }
-
-        protected override bool OnRemoveCanExecute()
-        {
-            return SelectedCountry is not null;
         }
     }
 }
