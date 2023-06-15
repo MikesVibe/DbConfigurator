@@ -6,7 +6,6 @@ using DbConfigurator.UI.Services;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Interfaces;
-using DbConfigurator.UI.ViewModel.Navigation;
 using DbConfigurator.UI.ViewModel.Panel;
 using DbConfigurator.UI.Windows;
 using Prism.Events;
@@ -38,7 +37,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
 
             //View Models
-            builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
+            builder.RegisterType<NavigationPanelViewModel>().As<INavigationPanelViewModel>();
 
             builder.RegisterType<RecipientPanelViewModel>()
                 .Keyed<IMainPanelViewModel>(nameof(RecipientPanelViewModel));

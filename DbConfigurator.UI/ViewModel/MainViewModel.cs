@@ -12,20 +12,19 @@ namespace DbConfigurator.UI.ViewModel
     public class MainViewModel : ViewModelBase
     {
         public MainViewModel(
-            INavigationViewModel navigationViewModel,
+            INavigationPanelViewModel navigationViewModel,
             IIndex<string, IMainPanelViewModel> tabelViewModelCreator,
             IEventAggregator eventAggregator
             )
         {
             _mainViewModelCreator = tabelViewModelCreator;
             _eventAggregator = eventAggregator;
+            _navigationViewModel = navigationViewModel;
 
             MainViewModels = new ObservableCollection<IMainPanelViewModel>();
 
             _eventAggregator.GetEvent<OpenTabelViewEvent>()
                 .Subscribe(OnOpenTabelView);
-
-            NavigationViewModel = navigationViewModel;
         }
 
         private async void OnOpenTabelView(OpenTabelViewEventArgs args)
@@ -48,15 +47,15 @@ namespace DbConfigurator.UI.ViewModel
                 MainViewModels.Add(tabelViewModel);
             }
 
-            SelectedTableViewModel = tabelViewModel;
+            SelectedMainPanelViewModel = tabelViewModel;
             _openTableReady = true;
         }
-        public INavigationViewModel NavigationViewModel
+        public INavigationPanelViewModel NavigationViewModel
         {
             get { return _navigationViewModel; }
             set { _navigationViewModel = value; }
         }
-        public IMainPanelViewModel SelectedTableViewModel
+        public IMainPanelViewModel? SelectedMainPanelViewModel
         {
             get { return _selectedMainViewModel; }
             set
@@ -75,8 +74,8 @@ namespace DbConfigurator.UI.ViewModel
 
         private IIndex<string, IMainPanelViewModel> _mainViewModelCreator;
         private IEventAggregator _eventAggregator;
-        private INavigationViewModel _navigationViewModel;
-        private IMainPanelViewModel _selectedMainViewModel;
+        private INavigationPanelViewModel _navigationViewModel;
+        private IMainPanelViewModel? _selectedMainViewModel;
         private bool _openTableReady = true;
     }
 }

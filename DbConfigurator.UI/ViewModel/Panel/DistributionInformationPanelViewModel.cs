@@ -20,6 +20,8 @@ namespace DbConfigurator.UI.ViewModel.Panel
     public class DistributionInformationPanelViewModel : TableViewModelBase, IMainPanelViewModel
     {
         private bool AwaitingComboboxPopulation = false;
+        private readonly IDataModel _dataModel;
+        private AutoMapperConfig AutoMapper { get; }
 
         public DistributionInformationPanelViewModel(
             IEventAggregator eventAggregator,
@@ -35,7 +37,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
             RecipientsCc_ListView = new ObservableCollection<RecipientDto>();
 
 
-            SaveCommand = new DelegateCommand(OnSaveCommand);
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecuteAsync, OnRemoveRecipientToCanExecute);
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecuteAsync, OnRemovRecipientCCeCanExecute);
             PriorityChangedCommand = new DelegateCommand(OnPriorityChanged);
@@ -493,7 +494,7 @@ namespace DbConfigurator.UI.ViewModel.Panel
                 OnPropertyChanged();
             }
         }
-        public ICommand SaveCommand { get; set; }
+
         public ICommand RemoveCcRecipientCommand { get; set; }
         public ICommand RemoveToRecipientCommand { get; set; }
         public ICommand PriorityChangedCommand { get; set; }
@@ -503,11 +504,8 @@ namespace DbConfigurator.UI.ViewModel.Panel
 
 
 
-        private readonly IDataModel _dataModel;
 
-        private AutoMapperConfig AutoMapper { get; }
 
-        private IEventAggregator _eventAggregator;
         private DistributionInformationDtoWrapper _selectedDistributionInformation;
 
         private ObservableCollection<RecipientDto> _recipientsTo_ListView;

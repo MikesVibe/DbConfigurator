@@ -7,23 +7,23 @@
         xmlns:view="clr-namespace:DbConfigurator.UI.View"
         xmlns:table="clr-namespace:DbConfigurator.UI.View.Table"
         xmlns:addView="clr-namespace:DbConfigurator.UI.View.Add"
-        xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel"
+        xmlns:panel="clr-namespace:DbConfigurator.UI.ViewModel.Panel"
         mc:Ignorable="d"
         Title="DbConfigurator" Height="750" Width="1200"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:DistributionInformationPanelViewModel}">
+        <DataTemplate DataType="{x:Type panel:DistributionInformationPanelViewModel}">
             <table:DistributionInformationTableView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:RegionPanelViewModel}">
+        <DataTemplate DataType="{x:Type panel:RegionPanelViewModel}">
             <table:RegionTableView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:RecipientPanelViewModel}">
+        <DataTemplate DataType="{x:Type panel:RecipientPanelViewModel}">
             <table:RecipientTableView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:CreationPanelViewModel}">
+        <DataTemplate DataType="{x:Type panel:CreationPanelViewModel}">
             <table:CreationTableView/>
         </DataTemplate>
     </Window.Resources>
@@ -40,7 +40,7 @@
         <view:NavigationView Grid.Column="0" Margin="10"
             DataContext="{Binding NavigationViewModel}"/>
 
-        <ContentControl Grid.Column="1"  Content="{Binding SelectedTableViewModel}"/>
+        <ContentControl Grid.Column="1"  Content="{Binding SelectedMainPanelViewModel}"/>
 
     </Grid>
 </Window>

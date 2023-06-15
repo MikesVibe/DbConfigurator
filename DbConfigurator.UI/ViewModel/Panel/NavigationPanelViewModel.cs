@@ -1,20 +1,19 @@
 ﻿using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
-using DbConfigurator.UI.ViewModel.Panel;
+using DbConfigurator.UI.ViewModel.Navigation;
 using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.ViewModel.Navigation
+namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class NavigationViewModel : ViewModelBase, INavigationViewModel
+    public class NavigationPanelViewModel : ViewModelBase, INavigationPanelViewModel
     {
-        public NavigationViewModel(IEventAggregator eventAggregator)
+        public NavigationPanelViewModel(IEventAggregator eventAggregator)
         {
             NavigationItems_ObservableCollection = new ObservableCollection<NavigationItemViewModel>();
 
             _eventAggregator = eventAggregator;
-
         }
 
 
@@ -33,11 +32,8 @@ namespace DbConfigurator.UI.ViewModel.Navigation
                 new NavigationItemViewModel(2, "Regions", nameof(RegionPanelViewModel), _eventAggregator));
             NavigationItems_ObservableCollection.Add(
                    new NavigationItemViewModel(3, "Create", nameof(CreationPanelViewModel), _eventAggregator));
-
         }
 
-
         private IEventAggregator _eventAggregator;
-
     }
 }
