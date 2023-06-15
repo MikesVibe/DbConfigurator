@@ -72,7 +72,12 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         protected override bool OnRemoveCanExecute()
         {
-            return false;
+            return SelectedBuisnessUnit is not null;
+        }
+
+        protected override void OnSelectionChangedExecute()
+        {
+            base.OnSelectionChangedExecute();
         }
     }
 }

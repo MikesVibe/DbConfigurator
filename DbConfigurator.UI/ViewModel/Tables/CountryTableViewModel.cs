@@ -23,6 +23,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public ObservableCollection<CountryDto> Countries { get; set; } = new();
 
+        public CountryDto? SelectedCountry { get; set; }
 
 
         public CountryTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IDataModel dataModel, AutoMapperConfig autoMapper)
@@ -71,7 +72,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         protected override bool OnRemoveCanExecute()
         {
-            return false;
+            return SelectedCountry is not null;
         }
     }
 }

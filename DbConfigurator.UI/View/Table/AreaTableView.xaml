@@ -14,11 +14,8 @@
                             SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                             AutoGenerateColumns="False" FontSize="11" Height="200" Width="390">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding AreaDoubleClickedCommand }"/>
-                    </i:EventTrigger>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding AreaSelectionChangedCommand }"/>
+                        <i:InvokeCommandAction Command="{Binding SelectionChangedCommand }"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <DataGrid.Columns >

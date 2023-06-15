@@ -26,8 +26,11 @@
             SelectedItem="{Binding SelectedRecipient, Mode=TwoWay}"                    
             SelectedIndex="{Binding DefaultRowIndex, Mode=OneTime}"
             AutoGenerateColumns="False" FontSize="11" Height="500" Width="818">
-
-
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectionChangedCommand }"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <DataGrid.Columns >
                 <DataGridTextColumn Header="First Name"  Width="150"
                                     Binding="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

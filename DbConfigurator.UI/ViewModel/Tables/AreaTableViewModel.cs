@@ -25,8 +25,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         private IDialogService _dialogService;
 
         public ObservableCollection<AreaDto> Areas { get; set; } = new();
-        public ICommand AreaDoubleClickedCommand { get; set; }
-        public ICommand AreaSelectionChangedCommand { get; set; }
+        //public ICommand AreaDoubleClickedCommand { get; set; }
         public AreaDto? SelectedArea { get; set; }
 
 
@@ -38,8 +37,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             _autoMapper = autoMapper;
             _dialogService = dialogService;
 
-            AreaDoubleClickedCommand = new DelegateCommand(OnAreaDoubleClickedExecute);
-            AreaSelectionChangedCommand = new DelegateCommand(OnAreaSelectionChangedExecute);
+            //AreaDoubleClickedCommand = new DelegateCommand(OnAreaDoubleClickedExecute);
         }
 
         public override async Task LoadAsync()
@@ -84,20 +82,10 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 return;
 
             var area = _dataModel.GetAreaById(SelectedArea.Id);
-            //Areas.Remove(SelectedArea);
+            Areas.Remove(SelectedArea);
             _dataModel.Remove(area!);
             _dataModel.SaveChanges();
             SelectedArea = null;
-        }
-
-
-        private void OnAreaDoubleClickedExecute()
-        {
-
-        }
-        private void OnAreaSelectionChangedExecute()
-        {
-            ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
         }
 
     }

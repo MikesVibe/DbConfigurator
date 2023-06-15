@@ -34,7 +34,6 @@ namespace DbConfigurator.UI.ViewModel
 
 
             SaveCommand = new DelegateCommand(OnSaveCommand);
-            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecuteAsync, OnRemoveRecipientToCanExecute);
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecuteAsync, OnRemovRecipientCCeCanExecute);
             PriorityChangedCommand = new DelegateCommand(OnPriorityChanged);
@@ -189,7 +188,7 @@ namespace DbConfigurator.UI.ViewModel
                 //((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
         }
-        private void OnSelectionChanged()
+        protected override void OnSelectionChangedExecute()
         {
             if (SelectedDistributionInformation == null)
                 return;
@@ -208,7 +207,7 @@ namespace DbConfigurator.UI.ViewModel
             RecipientsCc_ListView = EnumerableToObservableCollection(SelectedDistributionInformation.RecipientsCc);
 
 
-            ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
+            base.OnSelectionChangedExecute();
         }
 
         private void SelectPriorityComboBox()
@@ -493,7 +492,6 @@ namespace DbConfigurator.UI.ViewModel
             }
         }
         public ICommand SaveCommand { get; set; }
-        public ICommand SelectionChangedCommand { get; set; }
         public ICommand RemoveCcRecipientCommand { get; set; }
         public ICommand RemoveToRecipientCommand { get; set; }
         public ICommand PriorityChangedCommand { get; set; }

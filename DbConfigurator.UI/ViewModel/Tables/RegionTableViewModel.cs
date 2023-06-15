@@ -32,7 +32,6 @@ namespace DbConfigurator.UI.ViewModel
             _autoMapper = autoMapper;
             Regions_ObservableCollection = new ObservableCollection<RegionDtoWrapper>();
 
-            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
             SaveCommand = new DelegateCommand(OnSaveExecute);
 
             SelectedAreaChanged = new DelegateCommand(OnSelectedAreaChanged);
@@ -87,7 +86,7 @@ namespace DbConfigurator.UI.ViewModel
 
         }
 
-        private void OnSelectionChanged()
+        protected override void OnSelectionChangedExecute()
         {
             if (SelectedRegion != null)
             {
@@ -96,7 +95,7 @@ namespace DbConfigurator.UI.ViewModel
                 SelectedCountry = Countries_ObservableCollection?.Where(c => c.Id == SelectedRegion.Country.Id).FirstOrDefault();
             }
 
-            RemoveCommand.RaiseCanExecuteChanged();
+            base.OnSelectionChangedExecute();
         }
 
         public override async Task LoadAsync()
@@ -181,7 +180,6 @@ namespace DbConfigurator.UI.ViewModel
             return SelectedRegion != null;
         }
 
-        public ICommand SelectionChangedCommand { get; set; }
         public ICommand SaveCommand { get; set; }
 
         public ICommand SelectedAreaChanged { get; set; }

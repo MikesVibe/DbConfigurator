@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Events;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
@@ -12,10 +13,12 @@ namespace DbConfigurator.UI.ViewModel.Base
         {
             EventAggregator = eventAggregator;
 
-
             AddCommand = new DelegateCommand(OnAddExecute);
             RemoveCommand = new DelegateCommand(OnRemoveExecute, OnRemoveCanExecute);
+
+            SelectionChangedCommand = new DelegateCommand(OnSelectionChangedExecute);
         }
+
 
         public abstract Task LoadAsync();
 
@@ -23,6 +26,10 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected abstract void OnAddExecute();
         protected abstract void OnRemoveExecute();
         protected abstract bool OnRemoveCanExecute();
+        protected virtual void OnSelectionChangedExecute()
+        {
+            ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
+        }
 
         public int Id
         {
@@ -43,9 +50,9 @@ namespace DbConfigurator.UI.ViewModel.Base
             }
         }
 
-        public DelegateCommand AddCommand { get; private set; }
-        public DelegateCommand RemoveCommand { get; private set; }
-
+        public ICommand AddCommand { get; private set; }
+        public ICommand RemoveCommand { get; private set; }
+        public ICommand SelectionChangedCommand { get; set; }
 
         protected readonly IEventAggregator EventAggregator;
 
