@@ -9,12 +9,20 @@
 
   <ItemGroup>
     <Compile Remove="bin\**" />
+    <Compile Remove="ViewModel\Edit\**" />
+    <Compile Remove="View\Edit\**" />
     <Compile Remove="Wrapper\**" />
     <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="ViewModel\Edit\**" />
+    <EmbeddedResource Remove="View\Edit\**" />
     <EmbeddedResource Remove="Wrapper\**" />
     <None Remove="bin\**" />
+    <None Remove="ViewModel\Edit\**" />
+    <None Remove="View\Edit\**" />
     <None Remove="Wrapper\**" />
     <Page Remove="bin\**" />
+    <Page Remove="ViewModel\Edit\**" />
+    <Page Remove="View\Edit\**" />
     <Page Remove="Wrapper\**" />
   </ItemGroup>
 
@@ -57,11 +65,6 @@
     <None Update="Regions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModel\Edit\" />
-    <Folder Include="View\Edit\" />
   </ItemGroup>
 
 </Project>

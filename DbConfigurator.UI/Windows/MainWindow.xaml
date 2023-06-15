@@ -4,8 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
-        xmlns:view="clr-namespace:DbConfigurator.UI.View"
-        xmlns:table="clr-namespace:DbConfigurator.UI.View.Table"
+        xmlns:test="clr-namespace:DbConfigurator.UI.View.Panel"
         xmlns:addView="clr-namespace:DbConfigurator.UI.View.Add"
         xmlns:panel="clr-namespace:DbConfigurator.UI.ViewModel.Panel"
         mc:Ignorable="d"
@@ -15,16 +14,16 @@
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type panel:DistributionInformationPanelViewModel}">
-            <table:DistributionInformationTableView/>
+            <test:DistributionInformationPanelView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type panel:RegionPanelViewModel}">
-            <table:RegionTableView/>
+            <test:RegionPanelView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type panel:RecipientPanelViewModel}">
-            <table:RecipientTableView/>
+            <test:RecipientPanelView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type panel:CreationPanelViewModel}">
-            <table:CreationTableView/>
+            <test:CreationPanelView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -37,7 +36,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <view:NavigationView Grid.Column="0" Margin="10"
+        <test:NavigationPanelView Grid.Column="0" Margin="10"
             DataContext="{Binding NavigationViewModel}"/>
 
         <ContentControl Grid.Column="1"  Content="{Binding SelectedMainPanelViewModel}"/>
