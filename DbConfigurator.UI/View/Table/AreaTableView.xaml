@@ -10,8 +10,8 @@
         <StackPanel Orientation="Horizontal" Margin="20">
             <DataGrid x:Name="myDataGridV2"
                             CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
-                            ItemsSource="{Binding Areas, Mode=TwoWay}"
-                            SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                            ItemsSource="{Binding Items, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                             AutoGenerateColumns="False" FontSize="11" Height="200" Width="390">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">

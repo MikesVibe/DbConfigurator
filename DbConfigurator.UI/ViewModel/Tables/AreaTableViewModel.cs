@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Model.Entities.Table;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
@@ -18,18 +19,12 @@ namespace DbConfigurator.UI.ViewModel.Tables
         private readonly AutoMapperConfig _autoMapper;
         private IDialogService _dialogService;
 
-        public ObservableCollection<AreaDto> Areas { get; set; } = new();
-        public AreaDto? SelectedArea { get; set; }
-
-
-
         public AreaTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IDataModel dataModel, AutoMapperConfig autoMapper)
             : base(eventAggregator)
         {
             _dataModel = dataModel;
             _autoMapper = autoMapper;
             _dialogService = dialogService;
-
         }
 
         public override async Task LoadAsync()
@@ -37,8 +32,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var areas = await _dataModel.GetAllAreasAsync();
             foreach (var area in areas)
             {
-                var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-                Areas.Add(mapped);
+                var mapped = _autoMapper.Mapper.Map<AreaTableItem>(area);
+                Items.Add(mapped);
             }
         }
 
@@ -59,31 +54,27 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             _dataModel.Add(area);
             _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-            Areas.Add(mapped);
+            var mapped = _autoMapper.Mapper.Map<AreaTableItem>(area);
+            Items.Add(mapped);
         }
 
-        protected override bool OnRemoveCanExecute()
-        {
-            return SelectedArea != null;
-        }
 
         protected override void OnRemoveExecute()
         {
-            if (SelectedArea == null)
+            if (SelectedItem is null)
                 return;
 
-            var area = _dataModel.GetAreaById(SelectedArea.Id);
+            var area = _dataModel.GetAreaById(SelectedItem.Id);
             if (area is null)
             {
                 //Log some error mesage here
                 return;
             }
 
-            Areas.Remove(SelectedArea);
             _dataModel.Remove(area);
             _dataModel.SaveChanges();
-            SelectedArea = null;
+
+            base.OnRemoveExecute();
         }
 
     }

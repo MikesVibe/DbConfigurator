@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Model.Entities.Table;
 using System.Linq;
 
 namespace DbConfigurator.UI.Startup
@@ -13,31 +14,21 @@ namespace DbConfigurator.UI.Startup
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Recipient, RecipientDto>().ReverseMap();
-                cfg.CreateMap<Priority, PriorityDto>();
+                cfg.CreateMap<Region, RegionDto>();
                 cfg.CreateMap<Area, AreaDto>();
                 cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>();
                 cfg.CreateMap<Country, CountryDto>()
                 .ForMember(c => c.CountryName, opt => opt.MapFrom(src => src.Name))
                 .ForMember(c => c.CountryCode, opt => opt.MapFrom(src => src.ShortCode));
-                cfg.CreateMap<Region, RegionDto>();
-
-
-                //.ForMember(c => c.BuisnessUnitName, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Name))
-                //.ForMember(c => c.BuisnessUnitId, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Id))
-                //.ForMember(c => c.AreaName, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Areas.First().Name))
-                //.ForMember(c => c.AreaId, opt => opt.MapFrom(bu => bu.BuisnessUnits.First().Areas.First().Id));
+                cfg.CreateMap<Priority, PriorityDto>();
+                cfg.CreateMap<Recipient, RecipientDto>().ReverseMap();
                 cfg.CreateMap<DistributionInformation, DistributionInformationDto>()
                             .ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
                                 rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
                             .ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
                                 rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
 
-                //.ForMember(d => d.Area, opt => opt.MapFrom(a => a.Region.Area.Name))
-                //.ForMember(d => d.BuisnessUnit, opt => opt.MapFrom(a => a.Region.BuisnessUnit.Name))
-                //.ForMember(d => d.Country, opt => opt.MapFrom(a => a.Region.Country.Name))
-                //.ForMember(d => d.Priority, opt => opt.MapFrom(a => a.Priority.Name));
-
+                cfg.CreateMap<Area, AreaTableItem>();
             });
 
             Mapper = config.CreateMapper();
