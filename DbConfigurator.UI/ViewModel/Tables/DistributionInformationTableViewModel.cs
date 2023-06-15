@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.Model;
-using DbConfigurator.Model.DTOs;
-using DbConfigurator.Model.Wrapper;
+using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;

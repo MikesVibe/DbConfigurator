@@ -1,17 +1,11 @@
 ﻿using DbConfigurator.Model;
-using DbConfigurator.Model.DTOs;
-using DbConfigurator.Model.Entities;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.ViewModel.Tables;
-using Prism.Commands;
 using Prism.Events;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel
 {
@@ -36,7 +30,7 @@ namespace DbConfigurator.UI.ViewModel
             _dataModel = dataModel;
             _autoMapper = autoMapper;
             _dialogService = dialogService;
-            
+
             AreaTableViewModel = new AreaTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
             BuisnessUnitTableViewModel = new BuisnessUnitTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
             CountryTableViewModel = new CountryTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);

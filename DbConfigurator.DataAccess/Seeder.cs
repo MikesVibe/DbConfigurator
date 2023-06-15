@@ -1,6 +1,5 @@
-﻿using DbConfigurator.Model;
-using DbConfigurator.Model.DTOs.Creation;
-using DbConfigurator.Model.Entities;
+﻿using DbConfigurator.Model.DTOs.Creation;
+using DbConfigurator.Model.Entities.Core;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections.Generic;

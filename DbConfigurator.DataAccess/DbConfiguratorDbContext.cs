@@ -1,5 +1,4 @@
-using DbConfigurator.Model;
-using DbConfigurator.Model.Entities;
+using DbConfigurator.Model.Entities.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using System.Linq;

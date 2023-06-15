@@ -1,19 +1,14 @@
-﻿using DbConfigurator.Model.DTOs;
-using DbConfigurator.Model;
+﻿using DbConfigurator.Model;
+using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
+using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
-using Prism.Commands;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using DbConfigurator.UI.ViewModel.Add;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
@@ -25,7 +20,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public ObservableCollection<BuisnessUnitDto> BuisnessUnits { get; set; } = new();
 
-        public BuisnessUnitDto? SelectedBuisnessUnit{ get; set; }
+        public BuisnessUnitDto? SelectedBuisnessUnit { get; set; }
 
 
         public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IDataModel dataModel, AutoMapperConfig autoMapper)
@@ -68,6 +63,20 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         protected override void OnRemoveExecute()
         {
+            if (SelectedBuisnessUnit is null)
+                return;
+
+            var buisnessUnit = _dataModel.GetAreaById(SelectedBuisnessUnit.Id);
+            if (buisnessUnit is null)
+            {
+                //Log some error mesage here
+                return;
+            }
+
+            BuisnessUnits.Remove(SelectedBuisnessUnit);
+            _dataModel.Remove(buisnessUnit);
+            _dataModel.SaveChanges();
+            SelectedBuisnessUnit = null;
         }
 
         protected override bool OnRemoveCanExecute()

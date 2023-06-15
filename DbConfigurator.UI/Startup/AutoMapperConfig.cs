@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using DbConfigurator.Model;
-using DbConfigurator.Model.DTOs;
-using DbConfigurator.Model.Entities;
+using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using System.Linq;
 
 namespace DbConfigurator.UI.Startup

@@ -1,20 +1,14 @@
 ﻿using DbConfigurator.Model;
-using DbConfigurator.Model.DTOs;
-using DbConfigurator.Model.Entities;
+using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
-using Prism.Commands;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
@@ -25,7 +19,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
         private IDialogService _dialogService;
 
         public ObservableCollection<AreaDto> Areas { get; set; } = new();
-        //public ICommand AreaDoubleClickedCommand { get; set; }
         public AreaDto? SelectedArea { get; set; }
 
 
@@ -37,7 +30,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             _autoMapper = autoMapper;
             _dialogService = dialogService;
 
-            //AreaDoubleClickedCommand = new DelegateCommand(OnAreaDoubleClickedExecute);
         }
 
         public override async Task LoadAsync()
@@ -82,8 +74,14 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 return;
 
             var area = _dataModel.GetAreaById(SelectedArea.Id);
+            if (area is null)
+            {
+                //Log some error mesage here
+                return;
+            }
+
             Areas.Remove(SelectedArea);
-            _dataModel.Remove(area!);
+            _dataModel.Remove(area);
             _dataModel.SaveChanges();
             SelectedArea = null;
         }

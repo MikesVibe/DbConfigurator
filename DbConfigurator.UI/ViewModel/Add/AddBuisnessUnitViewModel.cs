@@ -1,5 +1,5 @@
-﻿using DbConfigurator.Model.DTOs;
-using DbConfigurator.Model.Wrapper.DTOs;
+﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.ViewModel.Base;
 using System.ComponentModel;
 

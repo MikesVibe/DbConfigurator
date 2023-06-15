@@ -1,6 +1,6 @@
 ﻿using DbConfigurator.DataAccess;
-using DbConfigurator.Model.DTOs;
-using DbConfigurator.Model.Entities;
+using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
