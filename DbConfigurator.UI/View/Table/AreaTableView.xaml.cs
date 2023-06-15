@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DbConfigurator.UI.View
+namespace DbConfigurator.UI.View.Table
 {
     /// <summary>
-    /// Interaction logic for BuisnessUnitTableView.xaml
+    /// Interaction logic for AreaTableView.xaml
     /// </summary>
-    public partial class BuisnessUnitTableView : UserControl
+    public partial class AreaTableView : UserControl
     {
-        public BuisnessUnitTableView()
+        public AreaTableView()
         {
             InitializeComponent();
         }

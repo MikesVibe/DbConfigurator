@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
         xmlns:view="clr-namespace:DbConfigurator.UI.View"
+        xmlns:table="clr-namespace:DbConfigurator.UI.View.Table"
         xmlns:addView="clr-namespace:DbConfigurator.UI.View.Add"
         xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel"
         mc:Ignorable="d"
@@ -14,16 +15,16 @@
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:DistributionInformationTableViewModel}">
-            <view:DistributionInformationTableView/>
+            <table:DistributionInformationTableView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:RegionTableViewModel}">
-            <view:RegionCreatorView/>
+            <table:RegionTableView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:RecipientTableViewModel}">
-            <view:RecipientTableView/>
+            <table:RecipientTableView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:CreationTableViewModel}">
-            <view:CreationTableView/>
+            <table:CreationTableView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -39,7 +40,7 @@
         <view:NavigationView Grid.Column="0" Margin="10"
             DataContext="{Binding NavigationViewModel}"/>
 
-        <view:RecipientTableView Grid.Column="1"  Content="{Binding SelectedTableViewModel}"/>
+        <table:RecipientTableView Grid.Column="1"  Content="{Binding SelectedTableViewModel}"/>
 
     </Grid>
 </Window>

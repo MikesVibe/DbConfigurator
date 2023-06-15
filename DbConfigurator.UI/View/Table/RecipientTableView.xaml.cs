@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DbConfigurator.UI.View
+namespace DbConfigurator.UI.View.Table
 {
     /// <summary>
     /// Interaction logic for DetailsView.xaml
