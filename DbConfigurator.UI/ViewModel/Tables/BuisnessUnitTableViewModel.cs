@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
-    public class BuisnessUnitTableViewModel : TableViewModelBase, ITabelViewModel
+    public class BuisnessUnitTableViewModel : TableViewModelBase, ITableViewModel
     {
         private readonly IDataModel _dataModel;
         private readonly AutoMapperConfig _autoMapper;

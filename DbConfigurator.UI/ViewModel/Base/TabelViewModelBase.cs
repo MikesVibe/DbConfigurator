@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class TableViewModelBase : ViewModelBase, ITabelViewModel
+    public abstract class TableViewModelBase : ViewModelBase, ITableViewModel
     {
 
         public TableViewModelBase(IEventAggregator eventAggregator)

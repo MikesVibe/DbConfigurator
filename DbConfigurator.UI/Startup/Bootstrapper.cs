@@ -39,13 +39,13 @@ namespace DbConfigurator.UI.Startup
             //View Models
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
             builder.RegisterType<RecipientTableViewModel>()
-                .Keyed<ITabelViewModel>(nameof(RecipientTableViewModel));
+                .Keyed<ITableViewModel>(nameof(RecipientTableViewModel));
             builder.RegisterType<DistributionInformationTableViewModel>()
-                 .Keyed<ITabelViewModel>(nameof(DistributionInformationTableViewModel));
+                 .Keyed<ITableViewModel>(nameof(DistributionInformationTableViewModel));
             builder.RegisterType<RegionTableViewModel>()
-                 .Keyed<ITabelViewModel>(nameof(RegionTableViewModel));
+                 .Keyed<ITableViewModel>(nameof(RegionTableViewModel));
             builder.RegisterType<CreationTableViewModel>()
-                 .Keyed<ITabelViewModel>(nameof(CreationTableViewModel));
+                 .Keyed<ITableViewModel>(nameof(CreationTableViewModel));
 
             builder.RegisterType<AddAreaViewModel>().As<IEditingViewModel>();
 

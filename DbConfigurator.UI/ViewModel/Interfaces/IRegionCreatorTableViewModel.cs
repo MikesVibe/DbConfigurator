@@ -1,6 +1,6 @@
 ﻿namespace DbConfigurator.UI.ViewModel.Interfaces
 {
-    public interface IRegionCreatorTableViewModel : ITabelViewModel
+    public interface IRegionCreatorTableViewModel : ITableViewModel
     {
     }
 }

@@ -15,9 +15,9 @@ namespace DbConfigurator.UI.ViewModel
         private readonly AutoMapperConfig _autoMapper;
         private IDialogService _dialogService;
 
-        public ITabelViewModel AreaTableViewModel { get; set; }
-        public ITabelViewModel BuisnessUnitTableViewModel { get; set; }
-        public ITabelViewModel CountryTableViewModel { get; set; }
+        public ITableViewModel AreaTableViewModel { get; set; }
+        public ITableViewModel BuisnessUnitTableViewModel { get; set; }
+        public ITableViewModel CountryTableViewModel { get; set; }
 
 
 

@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.UI.ViewModel.Interfaces
 {
-    public interface ITabelViewModel
+    public interface ITableViewModel
     {
         Task LoadAsync();
 

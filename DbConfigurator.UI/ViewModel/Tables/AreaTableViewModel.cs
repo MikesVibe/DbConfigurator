@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
-    public class AreaTableViewModel : TableViewModelBase, ITabelViewModel
+    public class AreaTableViewModel : TableViewModelBase, ITableViewModel
     {
         private readonly IDataModel _dataModel;
         private readonly AutoMapperConfig _autoMapper;

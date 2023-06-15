@@ -13,14 +13,14 @@ namespace DbConfigurator.UI.ViewModel
     {
         public MainViewModel(
             INavigationViewModel navigationViewModel,
-            IIndex<string, ITabelViewModel> tabelViewModelCreator,
+            IIndex<string, ITableViewModel> tabelViewModelCreator,
             IEventAggregator eventAggregator
             )
         {
             _tableViewModelCreator = tabelViewModelCreator;
             _eventAggregator = eventAggregator;
 
-            TableViewModels = new ObservableCollection<ITabelViewModel>();
+            TableViewModels = new ObservableCollection<ITableViewModel>();
 
             _eventAggregator.GetEvent<OpenTabelViewEvent>()
                 .Subscribe(OnOpenTabelView);
@@ -56,7 +56,7 @@ namespace DbConfigurator.UI.ViewModel
             get { return _navigationViewModel; }
             set { _navigationViewModel = value; }
         }
-        public ITabelViewModel SelectedTableViewModel
+        public ITableViewModel SelectedTableViewModel
         {
             get { return _selectedTableViewModel; }
             set
@@ -71,12 +71,12 @@ namespace DbConfigurator.UI.ViewModel
             await NavigationViewModel.LoadAsync();
         }
 
-        public ObservableCollection<ITabelViewModel> TableViewModels { get; }
+        public ObservableCollection<ITableViewModel> TableViewModels { get; }
 
-        private IIndex<string, ITabelViewModel> _tableViewModelCreator;
+        private IIndex<string, ITableViewModel> _tableViewModelCreator;
         private IEventAggregator _eventAggregator;
         private INavigationViewModel _navigationViewModel;
-        private ITabelViewModel _selectedTableViewModel;
+        private ITableViewModel _selectedTableViewModel;
         private bool _openTableReady = true;
     }
 }
