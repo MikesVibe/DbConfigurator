@@ -29,6 +29,8 @@ namespace DbConfigurator.UI.Startup
                                 rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
 
                 cfg.CreateMap<Area, AreaTableItem>();
+                cfg.CreateMap<BuisnessUnit, BuisnessUnitTableItem>();
+
             });
 
             Mapper = config.CreateMapper();

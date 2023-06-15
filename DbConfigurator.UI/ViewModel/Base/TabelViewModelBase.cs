@@ -28,7 +28,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected abstract void OnAddExecute();
         protected virtual void OnRemoveExecute()
         {
-            Items.Remove(SelectedItem);
+            Items.Remove(SelectedItem!);
             SelectedItem = null;
         }
         protected virtual bool OnRemoveCanExecute()

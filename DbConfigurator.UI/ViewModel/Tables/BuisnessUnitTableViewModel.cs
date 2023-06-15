@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Model.Entities.Table;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
@@ -18,10 +19,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
         private readonly AutoMapperConfig _autoMapper;
         private IDialogService _dialogService;
 
-        public ObservableCollection<BuisnessUnitDto> BuisnessUnits { get; set; } = new();
-
-        public BuisnessUnitDto? SelectedBuisnessUnit { get; set; }
-
 
         public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IDataModel dataModel, AutoMapperConfig autoMapper)
             : base(eventAggregator)
@@ -36,8 +33,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
             foreach (var buisnessUnit in buisnessUnits)
             {
-                var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
-                BuisnessUnits.Add(mapped);
+                var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
+                Items.Add(mapped);
             }
         }
 
@@ -57,31 +54,25 @@ namespace DbConfigurator.UI.ViewModel.Tables
             };
             _dataModel.Add(buisnessUnit);
             _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
-            BuisnessUnits.Add(mapped);
+            var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
+            Items.Add(mapped);
         }
 
         protected override void OnRemoveExecute()
         {
-            if (SelectedBuisnessUnit is null)
+            if (SelectedItem is null)
                 return;
+            //FIX here: diferent method from _dataModel needed
+            //var buisnessUnit = _dataModel.GetAreaById(SelectedItem.Id);
+            //if (buisnessUnit is null)
+            //{
+            //    //Log some error mesage here
+            //    return;
+            //}
 
-            var buisnessUnit = _dataModel.GetAreaById(SelectedBuisnessUnit.Id);
-            if (buisnessUnit is null)
-            {
-                //Log some error mesage here
-                return;
-            }
-
-            BuisnessUnits.Remove(SelectedBuisnessUnit);
-            _dataModel.Remove(buisnessUnit);
-            _dataModel.SaveChanges();
-            SelectedBuisnessUnit = null;
-        }
-
-        protected override bool OnRemoveCanExecute()
-        {
-            return SelectedBuisnessUnit is not null;
+            //_dataModel.Remove(buisnessUnit);
+            //_dataModel.SaveChanges();
+            //base.OnRemoveExecute();
         }
 
         protected override void OnSelectionChangedExecute()
