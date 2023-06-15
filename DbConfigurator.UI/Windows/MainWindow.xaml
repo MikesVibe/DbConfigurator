@@ -40,7 +40,7 @@
         <view:NavigationView Grid.Column="0" Margin="10"
             DataContext="{Binding NavigationViewModel}"/>
 
-        <table:RecipientTableView Grid.Column="1"  Content="{Binding SelectedTableViewModel}"/>
+        <ContentControl Grid.Column="1"  Content="{Binding SelectedTableViewModel}"/>
 
     </Grid>
 </Window>
