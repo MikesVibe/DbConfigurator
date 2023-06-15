@@ -62,17 +62,17 @@ namespace DbConfigurator.UI.ViewModel.Tables
         {
             if (SelectedItem is null)
                 return;
-            //FIX here: diferent method from _dataModel needed
-            //var buisnessUnit = _dataModel.GetAreaById(SelectedItem.Id);
-            //if (buisnessUnit is null)
-            //{
-            //    //Log some error mesage here
-            //    return;
-            //}
 
-            //_dataModel.Remove(buisnessUnit);
-            //_dataModel.SaveChanges();
-            //base.OnRemoveExecute();
+            var buisnessUnit = _dataModel.GetBuisnessUnitsById(SelectedItem.Id);
+            if (buisnessUnit is null)
+            {
+                //Log some error mesage here
+                return;
+            }
+
+            _dataModel.Remove(buisnessUnit);
+            _dataModel.SaveChanges();
+            base.OnRemoveExecute();
         }
 
         protected override void OnSelectionChangedExecute()
