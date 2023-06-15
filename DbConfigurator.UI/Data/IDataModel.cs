@@ -52,5 +52,6 @@ namespace DbConfigurator.Model
         void Add<T>(T item) where T : class;
         Area? GetAreaById(int id);
         BuisnessUnit? GetBuisnessUnitsById(int id);
+        Country? GetCountriesById(int id);
     }
 }

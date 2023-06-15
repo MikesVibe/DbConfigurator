@@ -61,6 +61,19 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         protected override void OnRemoveExecute()
         {
+            if (SelectedItem is null)
+                return;
+
+            var country = _dataModel.GetCountriesById(SelectedItem.Id);
+            if (country is null)
+            {
+                //Log some error mesage here
+                return;
+            }
+
+            _dataModel.Remove(country);
+            _dataModel.SaveChanges();
+            base.OnRemoveExecute();
         }
     }
 }
