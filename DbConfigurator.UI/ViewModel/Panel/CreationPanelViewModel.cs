@@ -17,10 +17,7 @@ namespace DbConfigurator.UI.ViewModel.Panel
         public ITableViewModel BuisnessUnitTable { get; set; }
         public ITableViewModel CountryTable { get; set; }
 
-        public CreationPanelViewModel(IDataModel dataModel,
-            IEventAggregator eventAggregator,
-            IDialogService dialogService,
-            AutoMapperConfig autoMapper,
+        public CreationPanelViewModel(
             IIndex<string, ITableViewModel> tableViewModelCreator
             )
         {
@@ -32,8 +29,8 @@ namespace DbConfigurator.UI.ViewModel.Panel
         public override async Task LoadAsync()
         {
             await AreaTable.LoadAsync();
-            //await BuisnessUnitTableViewModel.LoadAsync();
-            //await CountryTableViewModel.LoadAsync();
+            await BuisnessUnitTable.LoadAsync();
+            await CountryTable.LoadAsync();
         }
     }
 }

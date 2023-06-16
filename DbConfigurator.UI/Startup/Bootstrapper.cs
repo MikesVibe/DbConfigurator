@@ -37,9 +37,10 @@ namespace DbConfigurator.UI.Startup
 
             builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
 
-            //View Models
+            //Navigation Panel
             builder.RegisterType<NavigationPanelViewModel>().As<INavigationPanelViewModel>();
 
+            //Main Panels
             builder.RegisterType<RecipientPanelViewModel>()
                 .Keyed<IMainPanelViewModel>(nameof(RecipientPanelViewModel));
             builder.RegisterType<DistributionInformationPanelViewModel>()
@@ -49,8 +50,13 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<CreationPanelViewModel>()
                  .Keyed<IMainPanelViewModel>(nameof(CreationPanelViewModel));
 
+            //Table View Models
             builder.RegisterType<AreaTableViewModel>()
                  .Keyed<ITableViewModel>(nameof(AreaTableViewModel));
+            builder.RegisterType<BuisnessUnitTableViewModel>()
+                 .Keyed<ITableViewModel>(nameof(BuisnessUnitTableViewModel));
+            builder.RegisterType<CountryTableViewModel>()
+                 .Keyed<ITableViewModel>(nameof(CountryTableViewModel));
 
 
             builder.RegisterType<AddAreaViewModel>().As<IEditingViewModel>();
