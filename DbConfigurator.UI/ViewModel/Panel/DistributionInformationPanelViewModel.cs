@@ -1,8 +1,11 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Model.Entities.Table;
 using DbConfigurator.Model.Entities.Wrapper;
+using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
+using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
@@ -21,22 +24,26 @@ namespace DbConfigurator.UI.ViewModel.Panel
     {
         private bool AwaitingComboboxPopulation = false;
         private readonly IDataModel _dataModel;
-        private AutoMapperConfig AutoMapper { get; }
+        private readonly IDialogService _dialogService;
+        private readonly AutoMapperConfig _autoMapper;
 
         public DistributionInformationPanelViewModel(
+            IDialogService dialogService,
             IEventAggregator eventAggregator,
             IDataModel dataModel,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator)
         {
+            _dialogService = dialogService;
             _dataModel = dataModel;
-            AutoMapper = autoMapper;
+            _autoMapper = autoMapper;
 
             DistributionInformation_ObservableCollection = new ObservableCollection<DistributionInformationDtoWrapper>();
+            
+            
+            
             RecipientsTo_ListView = new ObservableCollection<RecipientDto>();
             RecipientsCc_ListView = new ObservableCollection<RecipientDto>();
-
-
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecuteAsync, OnRemoveRecipientToCanExecute);
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecuteAsync, OnRemovRecipientCCeCanExecute);
             PriorityChangedCommand = new DelegateCommand(OnPriorityChanged);
@@ -44,12 +51,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
             BuisnessUnitChangedCommand = new DelegateCommand(OnBuisnessUnitChanged);
             CountryChangedCommand = new DelegateCommand(OnCountryChanged);
 
-        }
-
-        private void OnSaveCommand()
-        {
-            //SelectedDistributionInformation
-            //_dataModel.SaveChangesAsync();
         }
 
         public async override Task LoadAsync()
@@ -61,7 +62,7 @@ namespace DbConfigurator.UI.ViewModel.Panel
 
             foreach (var dis in distributionInformation)
             {
-                var mapped = AutoMapper.Mapper.Map<DistributionInformationDto>(dis);
+                var mapped = _autoMapper.Mapper.Map<DistributionInformationDto>(dis);
                 var wrapped = new DistributionInformationDtoWrapper(mapped);
                 DistributionInformation_ObservableCollection.Add(wrapped);
             }
@@ -87,7 +88,7 @@ namespace DbConfigurator.UI.ViewModel.Panel
             BuisnessUnit_Collection.Clear();
             foreach (var bu in avilableBuisnessUnits)
             {
-                var mapped = AutoMapper.Mapper.Map<BuisnessUnitDto>(bu);
+                var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(bu);
                 BuisnessUnit_Collection.Add(mapped);
             }
         }
@@ -102,7 +103,7 @@ namespace DbConfigurator.UI.ViewModel.Panel
             Country_Collection.Clear();
             foreach (var country in countries)
             {
-                var mapped = AutoMapper.Mapper.Map<CountryDto>(country);
+                var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
                 Country_Collection.Add(mapped);
             }
         }
@@ -123,6 +124,25 @@ namespace DbConfigurator.UI.ViewModel.Panel
 
             DistributionInformation_ObservableCollection.Add(wrappedDisInfo);
             SelectedDistributionInformation = wrappedDisInfo;
+
+
+
+            //DO NOT REMOVE (This is for future update)
+            //var distributionInformationViewModel = new AddDistibutionInformationViewModel();
+            //bool? result = _dialogService.ShowDialog(distributionInformationViewModel);
+
+            //if (result == false)
+            //    return;
+
+            //var distributionInformation = new DistributionInformation
+            //{
+            //    Name = areaName
+            //};
+
+            //_dataModel.Add(distributionInformation);
+            //_dataModel.SaveChanges();
+            //var mapped = _autoMapper.Mapper.Map<DistributionInformationTableItem>(distributionInformation);
+            //Items.Add(mapped);
         }
         protected async override void OnRemoveExecute()
         {
@@ -301,7 +321,7 @@ namespace DbConfigurator.UI.ViewModel.Panel
             if (region == null)
                 throw new ArgumentNullException(nameof(region));
 
-            var mapped = AutoMapper.Mapper.Map<RegionDto>(region);
+            var mapped = _autoMapper.Mapper.Map<RegionDto>(region);
             SelectedDistributionInformation.Region = mapped;
             var distributionInformation = await _dataModel.GetDistributionInformationByIdAsync(SelectedDistributionInformation.Id);
             distributionInformation.RegionId = region.Id;

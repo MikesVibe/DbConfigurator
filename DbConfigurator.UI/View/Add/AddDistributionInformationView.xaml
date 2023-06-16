@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="DbConfigurator.UI.View.Add.AddDistributionInformationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DbConfigurator.UI.View.Add" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel HorizontalAlignment="Left" Margin="20" Width="200">
+            <StackPanel Orientation="Vertical">
+                <Label Content="Area:" />
+                <ComboBox Name="AreaComboBox" 
+                              ItemsSource="{Binding Area_Collection}"
+                              SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              DisplayMemberPath="Name" SelectedValuePath="Id">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding AreaChangedCommand }"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <Label Content="Country Cluster:" />
+                <ComboBox Name="CountryClusterComboBox"
+                              ItemsSource="{Binding BuisnessUnit_Collection}"
+                              SelectedItem="{Binding SelectedBuisnessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              DisplayMemberPath="Name" SelectedValuePath="Id">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding BuisnessUnitChangedCommand }"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <Label Content="Country:" />
+                <ComboBox Name="CountryComboBox"
+                              ItemsSource="{Binding Country_Collection}"
+                              SelectedItem="{Binding SelectedCountry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              DisplayMemberPath="CountryName" SelectedValuePath="Id">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding CountryChangedCommand }"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical">
+                <Label Content="Priority:" />
+                <ComboBox  Name="PriorityComboBox" 
+                              ItemsSource="{Binding Priority_Collection}"
+                              SelectedItem="{Binding SelectedPriority}"
+                              DisplayMemberPath="Name" SelectedValuePath="Id">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding PriorityChangedCommand }"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+
+
+
+        <StackPanel Grid.Column="1" Margin="20">
+            <StackPanel Orientation="Vertical" >
+                <Label Content="To:" />
+                <ComboBox Name="ToComboBox" Width="250" HorizontalAlignment="Left" 
+                              ItemsSource="{Binding RecipientsToComboBox}"
+                              SelectedItem="{Binding SelectedRecipientToComboBox}"
+                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
+
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <ListBox Name="ToListBox" Height="250"  Width="250"  Margin="0,5,0,0"
+                         ItemsSource="{Binding RecipientsTo_ListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedItem="{Binding SelectedRecipientToListView}"
+                         DisplayMemberPath="Email" SelectedValuePath="Id"/>
+                    <Button Content="-"
+                                Command="{Binding RemoveToRecipientCommand}"
+                                FontSize="24" Width="30" Height="30" Margin="7,7,0,0"
+                                VerticalAlignment="Top" Padding="0,-7,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Margin="20">
+            <StackPanel Orientation="Vertical">
+                <Label Content="Cc:" />
+                <ComboBox Name="CcComboBox" Width="250" HorizontalAlignment="Left" 
+                              ItemsSource="{Binding RecipientsCcComboBox}"
+                              SelectedItem="{Binding SelectedRecipientCcComboBox}"
+                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <ListBox Name="CcListBox" Height="250" Width="250" 
+                             ItemsSource="{Binding RecipientsCc_ListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             SelectedItem="{Binding SelectedRecipientCcListView}"
+                             DisplayMemberPath="Email" SelectedValuePath="Id"/>
+                    <Button Content="-" 
+                                Command="{Binding RemoveCcRecipientCommand}"
+                                FontSize="24" Width="30" Height="30" Margin="7,7,0,0"
+                                VerticalAlignment="Top" Padding="0,-7,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

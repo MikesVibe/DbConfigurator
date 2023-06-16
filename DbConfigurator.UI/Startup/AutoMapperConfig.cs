@@ -34,6 +34,12 @@ namespace DbConfigurator.UI.Startup
                     .ForMember(c => c.CountryName, opt => opt.MapFrom(src => src.Name))
                     .ForMember(c => c.CountryCode, opt => opt.MapFrom(src => src.ShortCode));
 
+                cfg.CreateMap<DistributionInformation, DistributionInformationTableItem>()
+                    .ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
+                        rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
+                    .ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
+                        rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
+
             });
 
             Mapper = config.CreateMapper();

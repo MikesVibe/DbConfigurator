@@ -19,6 +19,9 @@
         <DataTemplate DataType="{x:Type viewModel:AddCountryViewModel}">
             <addView:AddCountryView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AddDistibutionInformationViewModel}">
+            <addView:AddDistributionInformationView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <ContentControl Content="{Binding}" />
