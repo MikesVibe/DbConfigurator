@@ -7,6 +7,7 @@ using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.ViewModel.Panel;
+using DbConfigurator.UI.ViewModel.Tables;
 using DbConfigurator.UI.Windows;
 using Prism.Events;
 
@@ -47,6 +48,10 @@ namespace DbConfigurator.UI.Startup
                  .Keyed<IMainPanelViewModel>(nameof(RegionPanelViewModel));
             builder.RegisterType<CreationPanelViewModel>()
                  .Keyed<IMainPanelViewModel>(nameof(CreationPanelViewModel));
+
+            builder.RegisterType<AreaTableViewModel>()
+                 .Keyed<ITableViewModel>(nameof(AreaTableViewModel));
+
 
             builder.RegisterType<AddAreaViewModel>().As<IEditingViewModel>();
 

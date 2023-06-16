@@ -1,48 +1,39 @@
-﻿using DbConfigurator.Model;
+﻿using Autofac.Features.Indexed;
+using DbConfigurator.Model;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.ViewModel.Tables;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Prism.Events;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class CreationPanelViewModel : IMainPanelViewModel
+    public class CreationPanelViewModel : MainPanelViewModelBase, IMainPanelViewModel
     {
-        private readonly IDataModel _dataModel;
-        private readonly AutoMapperConfig _autoMapper;
-        private IDialogService _dialogService;
-
-        public ITableViewModel AreaTableViewModel { get; set; }
-        public ITableViewModel BuisnessUnitTableViewModel { get; set; }
-        public ITableViewModel CountryTableViewModel { get; set; }
-
-        public bool HasChanges { get; set; }
-
-        public int Id { get; set; }
+        public ITableViewModel AreaTable { get; set; }
+        public ITableViewModel BuisnessUnitTable { get; set; }
+        public ITableViewModel CountryTable { get; set; }
 
         public CreationPanelViewModel(IDataModel dataModel,
             IEventAggregator eventAggregator,
             IDialogService dialogService,
-            AutoMapperConfig autoMapper
+            AutoMapperConfig autoMapper,
+            IIndex<string, ITableViewModel> tableViewModelCreator
             )
         {
-            _dataModel = dataModel;
-            _autoMapper = autoMapper;
-            _dialogService = dialogService;
-
-            AreaTableViewModel = new AreaTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
-            BuisnessUnitTableViewModel = new BuisnessUnitTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
-            CountryTableViewModel = new CountryTableViewModel(eventAggregator, dialogService, dataModel, autoMapper);
+            AreaTable = tableViewModelCreator[nameof(AreaTableViewModel)];
+            BuisnessUnitTable = tableViewModelCreator[nameof(BuisnessUnitTableViewModel)];
+            CountryTable = tableViewModelCreator[nameof(CountryTableViewModel)];
         }
 
-        public async Task LoadAsync()
+        public override async Task LoadAsync()
         {
-            await AreaTableViewModel.LoadAsync();
-            await BuisnessUnitTableViewModel.LoadAsync();
-            await CountryTableViewModel.LoadAsync();
+            await AreaTable.LoadAsync();
+            //await BuisnessUnitTableViewModel.LoadAsync();
+            //await CountryTableViewModel.LoadAsync();
         }
     }
 }

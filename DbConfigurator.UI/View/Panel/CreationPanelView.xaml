@@ -18,10 +18,10 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <table:AreaTableView Grid.Column="0" DataContext="{Binding AreaTableViewModel}"/>
-            <table:BuisnessUnitTableView Grid.Column="1" DataContext="{Binding BuisnessUnitTableViewModel}"/>
+            <table:AreaTableView Grid.Column="0" DataContext="{Binding AreaTable}"/>
+            <table:BuisnessUnitTableView Grid.Column="1" DataContext="{Binding BuisnessUnitTable}"/>
 
-            <table:CountryTableView Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding CountryTableViewModel}"/>
+            <table:CountryTableView Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding CountryTable}"/>
 
         </Grid>
     </Grid>
