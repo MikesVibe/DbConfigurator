@@ -11,11 +11,13 @@ namespace DbConfigurator.UI.ViewModel.Add
 
         public AddAreaViewModel()
         {
-            AreaDto area = new();
-            Area = new(area);
+            AreaDto areaDto = new();
+            Area = new(areaDto);
             Area.Name = "";
-
         }
-
+        public AddAreaViewModel(AreaDto areaDto)
+        {
+            Area = new(areaDto);
+        }
     }
 }

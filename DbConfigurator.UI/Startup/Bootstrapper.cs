@@ -58,6 +58,14 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<CountryTableViewModel>()
                  .Keyed<ITableViewModel>(nameof(CountryTableViewModel));
 
+            //Editing View Models
+            builder.RegisterType<AddAreaViewModel>()
+                 .Keyed<IEditingViewModel>(nameof(AddAreaViewModel));
+            builder.RegisterType<AddBuisnessUnitViewModel>()
+                 .Keyed<IEditingViewModel>(nameof(AddBuisnessUnitViewModel));
+            builder.RegisterType<AddCountryViewModel>()
+                 .Keyed<IEditingViewModel>(nameof(AddCountryViewModel));
+
 
             builder.RegisterType<AddAreaViewModel>().As<IEditingViewModel>();
 

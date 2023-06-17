@@ -27,56 +27,56 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public override async Task LoadAsync()
         {
-            var countries = await _dataModel.GetAllCountriesAsync();
-            foreach (var country in countries)
-            {
-                var mapped = _autoMapper.Mapper.Map<CountryTableItem>(country);
-                Items.Add(mapped);
-            }
+            //var countries = await _dataModel.GetAllCountriesAsync();
+            //foreach (var country in countries)
+            //{
+            //    var mapped = _autoMapper.Mapper.Map<CountryTableItem>(country);
+            //    Items.Add(mapped);
+            //}
         }
 
         protected override void OnAddExecute()
         {
-            var addCountryViewModel = new AddCountryViewModel();
+            //var addCountryViewModel = new AddCountryViewModel();
 
-            bool? result = DialogService.ShowDialog(addCountryViewModel);
+            //bool? result = DialogService.ShowDialog(addCountryViewModel);
 
-            if (result == false)
-                return;
+            //if (result == false)
+            //    return;
 
-            var countryDtoWrapper = addCountryViewModel.Country;
-            var countryEntity = new Country
-            {
-                Name = countryDtoWrapper.CountryName,
-                ShortCode = countryDtoWrapper.CountryCode
-            };
+            //var countryDtoWrapper = addCountryViewModel.Country;
+            //var countryEntity = new Country
+            //{
+            //    Name = countryDtoWrapper.CountryName,
+            //    ShortCode = countryDtoWrapper.CountryCode
+            //};
 
-            _dataModel.Add(countryEntity);
-            _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<CountryTableItem>(countryEntity);
-            Items.Add(mapped);
+            //_dataModel.Add(countryEntity);
+            //_dataModel.SaveChanges();
+            //var mapped = _autoMapper.Mapper.Map<CountryTableItem>(countryEntity);
+            //Items.Add(mapped);
         }
 
         protected override void OnEditExecute()
         {
-            var addCountryViewModel = new AddCountryViewModel();
+            //var addCountryViewModel = new AddCountryViewModel();
 
-            bool? result = DialogService.ShowDialog(addCountryViewModel);
+            //bool? result = DialogService.ShowDialog(addCountryViewModel);
 
-            if (result == false)
-                return;
+            //if (result == false)
+            //    return;
 
-            var countryDtoWrapper = addCountryViewModel.Country;
-            var countryEntity = new Country
-            {
-                Name = countryDtoWrapper.CountryName,
-                ShortCode = countryDtoWrapper.CountryCode
-            };
+            //var countryDtoWrapper = addCountryViewModel.Country;
+            //var countryEntity = new Country
+            //{
+            //    Name = countryDtoWrapper.CountryName,
+            //    ShortCode = countryDtoWrapper.CountryCode
+            //};
 
-            _dataModel.Add(countryEntity);
-            _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<CountryTableItem>(countryEntity);
-            Items.Add(mapped);
+            //_dataModel.Add(countryEntity);
+            //_dataModel.SaveChanges();
+            //var mapped = _autoMapper.Mapper.Map<CountryTableItem>(countryEntity);
+            //Items.Add(mapped);
         }
 
         protected override void OnRemoveExecute()

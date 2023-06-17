@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.Entities.Table;
+using DbConfigurator.Model.Entities.Wrapper.Table;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
@@ -52,6 +53,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected virtual void OnSelectionChangedExecute()
         {
             ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)EditCommand).RaiseCanExecuteChanged();
         }
 
         public int Id
@@ -72,8 +74,8 @@ namespace DbConfigurator.UI.ViewModel.Base
                 }
             }
         }
-        public ObservableCollection<ITableItem> Items { get; set; } = new();
-        public ITableItem? SelectedItem { get; set; }
+        public ObservableCollection<ITableItemWrapper> Items { get; set; } = new();
+        public ITableItemWrapper? SelectedItem { get; set; }
 
         public ICommand AddCommand { get; private set; }
         public ICommand EditCommand { get; private set; }

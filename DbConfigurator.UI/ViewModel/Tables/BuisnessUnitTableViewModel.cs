@@ -27,32 +27,32 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public override async Task LoadAsync()
         {
-            var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
-            foreach (var buisnessUnit in buisnessUnits)
-            {
-                var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
-                Items.Add(mapped);
-            }
+            //var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
+            //foreach (var buisnessUnit in buisnessUnits)
+            //{
+            //    var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
+            //    Items.Add(mapped);
+            //}
         }
 
         protected override void OnAddExecute()
         {
-            var addbuisnessUnitViewModel = new AddBuisnessUnitViewModel();
+            //var addbuisnessUnitViewModel = new AddBuisnessUnitViewModel();
 
-            bool? result = DialogService.ShowDialog(addbuisnessUnitViewModel);
+            //bool? result = DialogService.ShowDialog(addbuisnessUnitViewModel);
 
-            if (result == false)
-                return;
+            //if (result == false)
+            //    return;
 
-            string buisnessUnitName = addbuisnessUnitViewModel.BuisnessUnit.Name;
-            var buisnessUnit = new BuisnessUnit
-            {
-                Name = buisnessUnitName
-            };
-            _dataModel.Add(buisnessUnit);
-            _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
-            Items.Add(mapped);
+            //string buisnessUnitName = addbuisnessUnitViewModel.BuisnessUnit.Name;
+            //var buisnessUnit = new BuisnessUnit
+            //{
+            //    Name = buisnessUnitName
+            //};
+            //_dataModel.Add(buisnessUnit);
+            //_dataModel.SaveChanges();
+            //var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
+            //Items.Add(mapped);
         }
 
         protected override void OnEditExecute()

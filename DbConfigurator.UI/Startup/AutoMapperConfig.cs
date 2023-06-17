@@ -2,6 +2,8 @@
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Table;
+using DbConfigurator.Model.Entities.Wrapper;
+using DbConfigurator.Model.Entities.Wrapper.Table;
 using System.Linq;
 
 namespace DbConfigurator.UI.Startup
@@ -14,12 +16,12 @@ namespace DbConfigurator.UI.Startup
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Region, RegionDto>();
-                cfg.CreateMap<Area, AreaDto>();
-                cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>();
+                cfg.CreateMap<Region, RegionDto>().ReverseMap();
+                cfg.CreateMap<Area, AreaDto>().ReverseMap();
+                cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>().ReverseMap();
                 cfg.CreateMap<Country, CountryDto>()
                 .ForMember(c => c.CountryName, opt => opt.MapFrom(src => src.Name))
-                .ForMember(c => c.CountryCode, opt => opt.MapFrom(src => src.ShortCode));
+                .ForMember(c => c.CountryCode, opt => opt.MapFrom(src => src.ShortCode)).ReverseMap();
                 cfg.CreateMap<Priority, PriorityDto>();
                 cfg.CreateMap<Recipient, RecipientDto>().ReverseMap();
                 cfg.CreateMap<DistributionInformation, DistributionInformationDto>()
@@ -39,6 +41,11 @@ namespace DbConfigurator.UI.Startup
                         rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
                     .ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
                         rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
+
+                cfg.CreateMap<AreaTableItem, AreaDto>();
+
+
+                cfg.CreateMap<Area, AreaTableItemWrapper>();
 
             });
 
