@@ -21,7 +21,7 @@
             <table:AreaTableView Grid.Column="0" DataContext="{Binding AreaTable}"/>
             <table:BuisnessUnitTableView Grid.Column="1" DataContext="{Binding BuisnessUnitTable}"/>
 
-            <table:CountryTableView Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding CountryTable}"/>
+            <table:CountryTableView  Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding CountryTable}"/>
 
         </Grid>
     </Grid>
