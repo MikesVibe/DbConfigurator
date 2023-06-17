@@ -24,7 +24,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
     {
         private bool AwaitingComboboxPopulation = false;
         private readonly IDataModel _dataModel;
-        private readonly IDialogService _dialogService;
         private readonly AutoMapperConfig _autoMapper;
 
         public DistributionInformationPanelViewModel(
@@ -32,9 +31,8 @@ namespace DbConfigurator.UI.ViewModel.Panel
             IEventAggregator eventAggregator,
             IDataModel dataModel,
             AutoMapperConfig autoMapper
-            ) : base(eventAggregator)
+            ) : base(eventAggregator, dialogService)
         {
-            _dialogService = dialogService;
             _dataModel = dataModel;
             _autoMapper = autoMapper;
 

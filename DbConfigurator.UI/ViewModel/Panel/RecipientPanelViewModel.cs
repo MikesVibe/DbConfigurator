@@ -2,6 +2,7 @@
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
+using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
@@ -20,16 +21,16 @@ namespace DbConfigurator.UI.ViewModel.Panel
         private readonly AutoMapperConfig _autoMapper;
         private readonly IDataModel _dataModel;
 
-        public RecipientPanelViewModel(IDataModel dataModel,
+        public RecipientPanelViewModel(
             IEventAggregator eventAggregator,
+            IDialogService dialogService,
+            IDataModel dataModel,
             AutoMapperConfig autoMapper
-            ) : base(eventAggregator)
+            ) : base(eventAggregator, dialogService)
         {
             _dataModel = dataModel;
             _autoMapper = autoMapper;
             Recipients_ObservableCollection = new ObservableCollection<RecipientDtoWrapper>();
-
-
         }
 
 

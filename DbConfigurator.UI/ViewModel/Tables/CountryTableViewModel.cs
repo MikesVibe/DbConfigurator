@@ -17,14 +17,12 @@ namespace DbConfigurator.UI.ViewModel.Tables
     {
         private readonly IDataModel _dataModel;
         private readonly AutoMapperConfig _autoMapper;
-        private IDialogService _dialogService;
 
         public CountryTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IDataModel dataModel, AutoMapperConfig autoMapper)
-            : base(eventAggregator)
+            : base(eventAggregator, dialogService)
         {
             _dataModel = dataModel;
             _autoMapper = autoMapper;
-            _dialogService = dialogService;
         }
 
         public override async Task LoadAsync()
@@ -41,7 +39,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         {
             var addCountryViewModel = new AddCountryViewModel();
 
-            bool? result = _dialogService.ShowDialog(addCountryViewModel);
+            bool? result = DialogService.ShowDialog(addCountryViewModel);
 
             if (result == false)
                 return;
@@ -63,7 +61,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         {
             var addCountryViewModel = new AddCountryViewModel();
 
-            bool? result = _dialogService.ShowDialog(addCountryViewModel);
+            bool? result = DialogService.ShowDialog(addCountryViewModel);
 
             if (result == false)
                 return;

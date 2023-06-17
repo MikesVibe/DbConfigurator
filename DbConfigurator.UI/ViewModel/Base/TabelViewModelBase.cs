@@ -1,4 +1,6 @@
 ﻿using DbConfigurator.Model.Entities.Table;
+using DbConfigurator.UI.Services;
+using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
@@ -11,10 +13,14 @@ namespace DbConfigurator.UI.ViewModel.Base
 {
     public abstract class TableViewModelBase : ViewModelBase, ITableViewModel
     {
+        protected readonly IDialogService DialogService;
+        protected readonly IEventAggregator EventAggregator;
 
-        public TableViewModelBase(IEventAggregator eventAggregator)
+
+        public TableViewModelBase(IEventAggregator eventAggregator, IDialogService dialogService)
         {
             EventAggregator = eventAggregator;
+            DialogService = dialogService;
 
             AddCommand = new DelegateCommand(OnAddExecute);
             EditCommand = new DelegateCommand(OnEditExecute, OnEditCanExecute);
@@ -74,7 +80,6 @@ namespace DbConfigurator.UI.ViewModel.Base
         public ICommand RemoveCommand { get; private set; }
         public ICommand SelectionChangedCommand { get; set; }
 
-        protected readonly IEventAggregator EventAggregator;
 
         private int _id;
         private bool _hasChanges;
