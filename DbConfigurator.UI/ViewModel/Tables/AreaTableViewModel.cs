@@ -58,6 +58,10 @@ namespace DbConfigurator.UI.ViewModel.Tables
             Items.Add(mapped);
         }
 
+        protected override void OnEditExecute()
+        {
+            throw new System.NotImplementedException();
+        }
 
         protected override void OnRemoveExecute()
         {

@@ -59,6 +59,28 @@ namespace DbConfigurator.UI.ViewModel.Tables
             Items.Add(mapped);
         }
 
+        protected override void OnEditExecute()
+        {
+            var addCountryViewModel = new AddCountryViewModel();
+
+            bool? result = _dialogService.ShowDialog(addCountryViewModel);
+
+            if (result == false)
+                return;
+
+            var countryDtoWrapper = addCountryViewModel.Country;
+            var countryEntity = new Country
+            {
+                Name = countryDtoWrapper.CountryName,
+                ShortCode = countryDtoWrapper.CountryCode
+            };
+
+            _dataModel.Add(countryEntity);
+            _dataModel.SaveChanges();
+            var mapped = _autoMapper.Mapper.Map<CountryTableItem>(countryEntity);
+            Items.Add(mapped);
+        }
+
         protected override void OnRemoveExecute()
         {
             if (SelectedItem is null)

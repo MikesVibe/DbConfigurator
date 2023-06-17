@@ -116,6 +116,11 @@ namespace DbConfigurator.UI.ViewModel.Panel
             return SelectedRecipient != null;
         }
 
+        protected override void OnEditExecute()
+        {
+            throw new NotImplementedException();
+        }
+
         public int DefaultRowIndex { get { return 0; } }
         public RecipientDtoWrapper SelectedRecipient
         {

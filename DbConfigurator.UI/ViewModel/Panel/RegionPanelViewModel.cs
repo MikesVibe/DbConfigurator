@@ -173,6 +173,10 @@ namespace DbConfigurator.UI.ViewModel.Panel
             return SelectedRegion != null;
         }
 
+        protected override void OnEditExecute()
+        {
+            throw new NotImplementedException();
+        }
 
         public ICommand SelectedAreaChanged { get; set; }
         public ICommand SelectedBuisnessUnitChanged { get; set; }

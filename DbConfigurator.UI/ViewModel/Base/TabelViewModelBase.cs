@@ -2,6 +2,7 @@
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -16,16 +17,23 @@ namespace DbConfigurator.UI.ViewModel.Base
             EventAggregator = eventAggregator;
 
             AddCommand = new DelegateCommand(OnAddExecute);
+            EditCommand = new DelegateCommand(OnEditExecute, OnEditCanExecute);
             RemoveCommand = new DelegateCommand(OnRemoveExecute, OnRemoveCanExecute);
 
             SelectionChangedCommand = new DelegateCommand(OnSelectionChangedExecute);
         }
 
 
+
         public abstract Task LoadAsync();
 
 
         protected abstract void OnAddExecute();
+        protected abstract void OnEditExecute();
+        protected virtual bool OnEditCanExecute()
+        {
+            return SelectedItem is not null;
+        }
         protected virtual void OnRemoveExecute()
         {
             Items.Remove(SelectedItem!);
@@ -62,6 +70,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         public ITableItem? SelectedItem { get; set; }
 
         public ICommand AddCommand { get; private set; }
+        public ICommand EditCommand { get; private set; }
         public ICommand RemoveCommand { get; private set; }
         public ICommand SelectionChangedCommand { get; set; }
 

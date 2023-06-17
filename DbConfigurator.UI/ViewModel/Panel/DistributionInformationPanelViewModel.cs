@@ -119,7 +119,7 @@ namespace DbConfigurator.UI.ViewModel.Panel
             await _dataModel.SaveChangesAsync();
 
             var distributionInformationEntity = await _dataModel.GetDistributionInformationByIdAsync(distributionInformation.Id);
-            var distributionInformationDto = AutoMapper.Mapper.Map<DistributionInformationDto>(distributionInformationEntity);
+            var distributionInformationDto = _autoMapper.Mapper.Map<DistributionInformationDto>(distributionInformationEntity);
             var wrappedDisInfo = new DistributionInformationDtoWrapper(distributionInformationDto);
 
             DistributionInformation_ObservableCollection.Add(wrappedDisInfo);
@@ -457,6 +457,11 @@ namespace DbConfigurator.UI.ViewModel.Panel
             RecipientsCcComboBox.Remove(value);
             _selectedRecipientCcComboBox = null;
             await _dataModel.SaveChangesAsync();
+        }
+
+        protected override void OnEditExecute()
+        {
+            throw new NotImplementedException();
         }
 
         public RecipientDto? SelectedRecipientToListView
