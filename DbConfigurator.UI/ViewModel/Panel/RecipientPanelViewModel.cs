@@ -28,24 +28,11 @@ namespace DbConfigurator.UI.ViewModel.Panel
             _dataModel = dataModel;
             _autoMapper = autoMapper;
             Recipients_ObservableCollection = new ObservableCollection<RecipientDtoWrapper>();
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
 
 
         }
 
-        private async void OnSaveExecute()
-        {
-            var recipientEntity = await _dataModel.GetRecipientByIdAsync(SelectedRecipient.Id);
-            _autoMapper.Mapper.Map(SelectedRecipient.Model, recipientEntity);
 
-
-            await _dataModel.SaveChangesAsync();
-        }
-
-        private bool OnSaveCanExecute()
-        {
-            return SelectedRecipient != null && !SelectedRecipient.HasErrors;
-        }
 
         public override async Task LoadAsync()
         {
@@ -68,14 +55,14 @@ namespace DbConfigurator.UI.ViewModel.Panel
         }
         private void Recipients_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!HasChanges)
-            {
-                HasChanges = _dataModel.HasChanges();
-            }
-            if (e.PropertyName == nameof(RecipientDtoWrapper.HasErrors))
-            {
-                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            }
+            //if (!HasChanges)
+            //{
+            //    HasChanges = _dataModel.HasChanges();
+            //}
+            //if (e.PropertyName == nameof(RecipientDtoWrapper.HasErrors))
+            //{
+            //    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            //}
         }
 
 
@@ -111,11 +98,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
             SelectedRecipient = null;
         }
 
-        protected override bool OnRemoveCanExecute()
-        {
-            return SelectedRecipient != null;
-        }
-
         protected override void OnEditExecute()
         {
             throw new NotImplementedException();
@@ -134,8 +116,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
                 OnPropertyChanged();
             }
         }
-
-        public ICommand SaveCommand { get; set; }
 
         public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }
 
