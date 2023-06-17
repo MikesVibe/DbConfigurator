@@ -244,7 +244,7 @@ namespace DbConfigurator.Model
         {
             return _context.Area.Where(a => a.Id == id).FirstOrDefault();
         }
-        public BuisnessUnit? GetBuisnessUnitsById(int id)
+        public BuisnessUnit? GetBuisnessUnitById(int id)
         {
             return _context.BuisnessUnit.Where(a => a.Id == id).FirstOrDefault();
         }

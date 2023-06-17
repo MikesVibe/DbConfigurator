@@ -2,6 +2,7 @@
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Table;
+using DbConfigurator.Model.Entities.Wrapper.Table;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
@@ -27,37 +28,48 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public override async Task LoadAsync()
         {
-            //var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
-            //foreach (var buisnessUnit in buisnessUnits)
-            //{
-            //    var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
-            //    Items.Add(mapped);
-            //}
+            var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
+            foreach (var buisnessUnit in buisnessUnits)
+            {
+                var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
+                var wrapped = new BuisnessUnitTableItemWrapper(mapped);
+                Items.Add(wrapped);
+            }
         }
 
         protected override void OnAddExecute()
         {
-            //var addbuisnessUnitViewModel = new AddBuisnessUnitViewModel();
+            var addbuisnessUnitViewModel = new AddBuisnessUnitViewModel();
 
-            //bool? result = DialogService.ShowDialog(addbuisnessUnitViewModel);
+            bool? result = DialogService.ShowDialog(addbuisnessUnitViewModel);
 
-            //if (result == false)
-            //    return;
+            if (result == false)
+                return;
 
-            //string buisnessUnitName = addbuisnessUnitViewModel.BuisnessUnit.Name;
-            //var buisnessUnit = new BuisnessUnit
-            //{
-            //    Name = buisnessUnitName
-            //};
-            //_dataModel.Add(buisnessUnit);
-            //_dataModel.SaveChanges();
-            //var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
-            //Items.Add(mapped);
+            var buisnessUnit = _autoMapper.Mapper.Map<BuisnessUnit>(addbuisnessUnitViewModel.BuisnessUnit.Model);
+
+            _dataModel.Add(buisnessUnit);
+            _dataModel.SaveChanges();
+            var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
+            var wrapped = new BuisnessUnitTableItemWrapper(mapped);
+            Items.Add(wrapped);
         }
 
         protected override void OnEditExecute()
         {
-            throw new System.NotImplementedException();
+            var buisnessUnitDto = _autoMapper.Mapper.Map<BuisnessUnitDto>(SelectedItem!.Model);
+            var buisnessUnitViewModel = new AddBuisnessUnitViewModel(buisnessUnitDto);
+
+            bool? result = DialogService.ShowDialog(buisnessUnitViewModel);
+
+            if (result == false)
+                return;
+
+            var buisnessUnitEntity = _dataModel.GetBuisnessUnitById(SelectedItem!.Id);
+            _autoMapper.Mapper.Map(buisnessUnitViewModel.BuisnessUnit.Model, buisnessUnitEntity);
+
+            _dataModel.SaveChanges();
+            _autoMapper.Mapper.Map(buisnessUnitEntity, SelectedItem);
         }
 
         protected override void OnRemoveExecute()
@@ -65,7 +77,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (SelectedItem is null)
                 return;
 
-            var buisnessUnit = _dataModel.GetBuisnessUnitsById(SelectedItem.Id);
+            var buisnessUnit = _dataModel.GetBuisnessUnitById(SelectedItem.Id);
             if (buisnessUnit is null)
             {
                 //Log some error mesage here

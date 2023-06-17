@@ -15,7 +15,10 @@ namespace DbConfigurator.UI.ViewModel.Add
             BuisnessUnit = new(buisnessUnit);
             BuisnessUnit.Name = "";
         }
-
+        public AddBuisnessUnitViewModel(BuisnessUnitDto buisnessUnitDto)
+        {
+            BuisnessUnit = new(buisnessUnitDto);
+        }
         protected override bool CanAdd()
         {
             return true;
