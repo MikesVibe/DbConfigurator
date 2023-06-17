@@ -10,11 +10,11 @@ namespace DbConfigurator.Model.Entities.Core
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string CountryName { get; set; }
 
         [Required]
         [MaxLength(3)]
-        public string ShortCode { get; set; }
+        public string CountryCode { get; set; }
 
 
         public ICollection<Region> Regions { get; set; }

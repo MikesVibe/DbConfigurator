@@ -62,8 +62,8 @@ namespace DbConfigurator.DataAccess
                     new Country
                     {
                         Id = country.Id,
-                        Name = country.CountryName,
-                        ShortCode = country.CountryCode
+                        CountryName = country.CountryName,
+                        CountryCode = country.CountryCode
                     });
             }
 

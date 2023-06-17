@@ -53,7 +53,7 @@ namespace DbConfigurator.DataAccess
             {
                 var area = areas.Where(a => a.Name == region.Area).First();
                 var buisnessUnit = buisnessUnits.Where(bu => bu.Name == region.BuisnessUnit).First();
-                var country = countries.Where(c => c.Name == region.Country).First();
+                var country = countries.Where(c => c.CountryName == region.Country).First();
 
                 regions.Add(new Region { Area = area, BuisnessUnit = buisnessUnit, Country = country });
             }
