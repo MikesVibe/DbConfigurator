@@ -7,10 +7,14 @@
              mc:Ignorable="d" >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="310"/>
+            <ColumnDefinition Width="310"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="310"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
         <StackPanel HorizontalAlignment="Left" Margin="20 20 10 20" Width="200">
             <StackPanel Orientation="Vertical">
@@ -52,7 +56,6 @@
                     </i:Interaction.Triggers>
                 </ComboBox>
             </StackPanel>
-
             <StackPanel Orientation="Vertical">
                 <Label Content="Priority:" />
                 <ComboBox  Name="PriorityComboBox" 
@@ -68,49 +71,50 @@
             </StackPanel>
         </StackPanel>
 
-
-
-        <StackPanel Grid.Column="1" Margin="10 20 10 20 ">
-            <StackPanel Orientation="Vertical" >
-                <Label Content="To:" />
-                <ComboBox Name="ToComboBox" Width="250" HorizontalAlignment="Left" 
+        <StackPanel Orientation="Vertical" Grid.Column="1">
+            <Label Content="To:" />
+            <ComboBox Name="ToComboBox" Width="250" HorizontalAlignment="Left" 
                               ItemsSource="{Binding RecipientsToComboBox}"
                               SelectedItem="{Binding SelectedRecipientToComboBox}"
                               DisplayMemberPath="Email" SelectedValuePath="Id"/>
 
 
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <ListBox Name="ToListBox" Height="250"  Width="250"  Margin="0,5,0,0"
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <ListBox Name="ToListBox" Height="250"  Width="250"  Margin="0,5,0,0"
                          ItemsSource="{Binding RecipientsTo_ListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding SelectedRecipientToListView}"
                          DisplayMemberPath="Email" SelectedValuePath="Id"/>
-                    <Button Content="-"
+                <Button Content="-"
                                 Command="{Binding RemoveToRecipientCommand}"
                                 FontSize="24" Width="30" Height="30" Margin="7,7,0,0"
                                 VerticalAlignment="Top" Padding="0,-7,0,0"/>
-                </StackPanel>
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Column="2" Margin="10 20 20 20">
-            <StackPanel Orientation="Vertical">
-                <Label Content="Cc:" />
-                <ComboBox Name="CcComboBox" Width="250" HorizontalAlignment="Left" 
+        <StackPanel Orientation="Vertical" Grid.Column="2">
+            <Label Content="Cc:" />
+            <ComboBox Name="CcComboBox" Width="250" HorizontalAlignment="Left" 
                               ItemsSource="{Binding RecipientsCcComboBox}"
                               SelectedItem="{Binding SelectedRecipientCcComboBox}"
                               DisplayMemberPath="Email" SelectedValuePath="Id"/>
 
-                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <ListBox Name="CcListBox" Height="250" Width="250" 
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <ListBox Name="CcListBox" Height="250" Width="250" 
                              ItemsSource="{Binding RecipientsCc_ListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              SelectedItem="{Binding SelectedRecipientCcListView}"
                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
-                    <Button Content="-" 
+                <Button Content="-" 
                                 Command="{Binding RemoveCcRecipientCommand}"
                                 FontSize="24" Width="30" Height="30" Margin="7,7,0,0"
                                 VerticalAlignment="Top" Padding="0,-7,0,0"/>
-                </StackPanel>
             </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal"  HorizontalAlignment="Center" >
+            <Button Content="Add" Margin="40" Width="200" Height="60" 
+                    Command="{Binding AddCommand}"/>
+            <Button Content="Cancel" Margin="40" Width="200" Height="60"
+                    Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>
