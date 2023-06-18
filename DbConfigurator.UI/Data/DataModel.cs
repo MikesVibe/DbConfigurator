@@ -1,8 +1,10 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Data;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,12 +15,13 @@ namespace DbConfigurator.Model
     {
         public DataModel(
             DbConfiguratorDbContext dbConfiguratorDbContext,
-            AutoMapperConfig autoMapperConfig
+            AutoMapperConfig autoMapperConfig,
+            RegionsRepository regionsRepository
             )
         {
             Context = dbConfiguratorDbContext;
             AutoMapper = autoMapperConfig;
-
+            RegionsRepository = regionsRepository;
 
             LoadDataFromDatabase();
         }
@@ -93,6 +96,18 @@ namespace DbConfigurator.Model
         {
             var collection = await Context.Set<Recipient>().AsNoTracking().ToListAsync();
             return collection;
+        }
+
+        public async Task<List<RegionDto>> GetAllRegionsDtoAsync()
+        {
+            List<RegionDto> toReturn = new();
+            var regions = await GetRegionsAsQueryable().OrderBy(r => r.Id).ToListAsync();
+            foreach (var region in regions)
+            {
+                toReturn.Add(AutoMapper.Mapper.Map<RegionDto>(region));
+            }
+
+            return toReturn;
         }
 
         public async Task<ICollection<Country>> GetAllCountriesAsync()
@@ -286,7 +301,12 @@ namespace DbConfigurator.Model
             set { _context = value; }
         }
 
+        public RegionsRepository RegionsRepository { get; set; }
+        
+        
         private AutoMapperConfig AutoMapper { get; set; }
+
+
 
 
         private DbConfiguratorDbContext _context;

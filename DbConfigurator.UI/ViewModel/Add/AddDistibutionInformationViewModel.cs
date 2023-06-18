@@ -1,5 +1,8 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model;
+using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
 using System;
@@ -9,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DbConfigurator.UI.Extensions;
 
 namespace DbConfigurator.UI.ViewModel.Add
 {
@@ -16,45 +20,30 @@ namespace DbConfigurator.UI.ViewModel.Add
     {
         public DistributionInformationDto DistributionInformation { get; set; }
 
-        public AddDistibutionInformationViewModel()
-        {
-            DistributionInformation = new();
-            
-        }
-        public AddDistibutionInformationViewModel(DistributionInformationDto areaDto)
-        {
-            DistributionInformation = areaDto;
 
-            RecipientsTo_ListView = new ObservableCollection<RecipientDto>();
-            RecipientsCc_ListView = new ObservableCollection<RecipientDto>();
+        public AddDistibutionInformationViewModel(
+            IDataModel dataModel,
+            AutoMapperConfig autoMapper
+            )
+        {
+            _dataModel = dataModel;
+            _autoMapper = autoMapper;
+            DistributionInformation = new();
+
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecuteAsync, OnRemoveRecipientToCanExecute);
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecuteAsync, OnRemovRecipientCCeCanExecute);
             PriorityChangedCommand = new DelegateCommand(OnPriorityChanged);
-            AreaChangedCommand = new DelegateCommand(SetNewArea);
+            AreaChangedCommand = new DelegateCommand(OnAreaChanged);
             BuisnessUnitChangedCommand = new DelegateCommand(OnBuisnessUnitChanged);
             CountryChangedCommand = new DelegateCommand(OnCountryChanged);
+
         }
 
-        private void SelectPriorityComboBox()
+        public async Task LoadAsync()
         {
-            SelectedPriority = Priority_Collection?.Where(c => c.Id == DistributionInformation.Priority.Id).FirstOrDefault();
+            await PopulateComboBoxesWithData();
         }
-        private void SelectCountryComboBox()
-        {
-            if (DistributionInformation.Region.Country == null)
-                return;
 
-            SelectedCountry = Country_Collection?.Where(c => c.Id == DistributionInformation.Region.Country.Id).FirstOrDefault() ??
-                Country_Collection?.FirstOrDefault();
-        }
-        private void SelectBuisnessUnitComboBox()
-        {
-            if (DistributionInformation.Region.BuisnessUnit == null)
-                return;
-
-            SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == DistributionInformation.Region.BuisnessUnit.Id).FirstOrDefault() ??
-                BuisnessUnit_Collection?.FirstOrDefault();
-        }
         private void SelectAreaComboBox()
         {
             if (DistributionInformation.Region.Area == null)
@@ -62,22 +51,42 @@ namespace DbConfigurator.UI.ViewModel.Add
 
             SelectedArea = Area_Collection?.Where(c => c.Id == DistributionInformation.Region.Area.Id).FirstOrDefault();
         }
+        private void SelectBuisnessUnitComboBox()
+        {
+            if (DistributionInformation.Region is null || DistributionInformation.Region.BuisnessUnit is null)
+                return;
+
+            SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == DistributionInformation.Region.BuisnessUnit.Id).FirstOrDefault() ??
+                BuisnessUnit_Collection?.FirstOrDefault();
+        }
+        private void SelectCountryComboBox()
+        {
+            if (DistributionInformation.Region is null || DistributionInformation.Region.Country is null)
+                return;
+
+            SelectedCountry = Country_Collection?.Where(c => c.Id == DistributionInformation.Region.Country.Id).FirstOrDefault() ??
+                Country_Collection?.FirstOrDefault();
+        }
+        private void SelectPriorityComboBox()
+        {
+            SelectedPriority = Priority_Collection?.Where(c => c.Id == DistributionInformation.Priority.Id).FirstOrDefault();
+        }
 
         private void PopulateComboBoxTo()
         {
-            //var allRecipients = _dataModel.RecipientsDto;
-            //var recipientsDtoAfterFiltration = allRecipients.Where(p => !DistributionInformation.RecipientsTo.Any(p2 => p2.Id == p.Id)).ToList();
-            //RecipientsToComboBox = EnumerableToObservableCollection(recipientsDtoAfterFiltration);
+            var allRecipients = _dataModel.RecipientsDto;
+            var recipientsDtoAfterFiltration = allRecipients.Where(p => !DistributionInformation.RecipientsTo.Any(p2 => p2.Id == p.Id)).ToList();
+            RecipientsToComboBox = EnumerableToObservableCollection(recipientsDtoAfterFiltration);
         }
         private void PopulateComboBoxCc()
         {
-            //var recipients = EnumerableToObservableCollection(_dataModel.RecipientsDto);
-            //RecipientsCcComboBox = EnumerableToObservableCollection(recipients.Where(p => !DistributionInformation.RecipientsCc.Any(p2 => p2.Id == p.Id)));
+            var recipients = EnumerableToObservableCollection(_dataModel.RecipientsDto);
+            RecipientsCcComboBox = EnumerableToObservableCollection(recipients.Where(p => !DistributionInformation.RecipientsCc.Any(p2 => p2.Id == p.Id)));
         }
 
-        private async void SetNewArea()
+        private async void OnAreaChanged()
         {
-            if (SelectedArea == null || DistributionInformation == null)
+            if (SelectedArea is null || DistributionInformation is null)
                 return;
 
             //Prevents concurency between threads
@@ -85,12 +94,57 @@ namespace DbConfigurator.UI.ViewModel.Add
                 return;
 
             AwaitingComboboxPopulation = true;
-            //await PopulateBuisnessUnitCombobox(SelectedArea.Id);
+            await PopulateBuisnessUnitCombobox(SelectedArea.Id);
             AwaitingComboboxPopulation = false;
 
             SelectBuisnessUnitComboBox();
         }
 
+        public async Task PopulateComboBoxesWithData()
+        {
+            Area_Collection.Clear();
+            BuisnessUnit_Collection.Clear();
+            Country_Collection.Clear();
+            Priority_Collection.Clear();
+
+            await PopulateAreaCombobox();
+            await PopulateBuisnessUnitCombobox();
+            await PopulateCountryCombobox();
+            await PopulatePriorityCombobox();
+
+            //Filling Recipients
+            PopulateComboBoxTo();
+            PopulateComboBoxCc();
+        }
+
+        private async Task PopulateAreaCombobox()
+        {
+            List<AreaDto> areas = await _dataModel.RegionsRepository.GetAreasDtoAsync();
+            Area_Collection = areas.ToObservableCollection();
+        }
+        private async Task PopulateBuisnessUnitCombobox(int? areaId = null)
+        {
+            var buisnessUnits =  await _dataModel.RegionsRepository.GetBuisnessUnitsDtoAsync(areaId);
+            BuisnessUnit_Collection.Clear();
+            foreach (var buisnessUnit in buisnessUnits)
+            {
+                BuisnessUnit_Collection.Add(buisnessUnit);
+            }
+        }
+        private async Task PopulateCountryCombobox(int? buisnessUnitId = null)
+        {
+            var countries = await _dataModel.RegionsRepository.GetCountriesDtoAsync(buisnessUnitId);
+            Country_Collection.Clear();
+            foreach (var country in countries)
+            {
+                Country_Collection.Add(country);
+            }
+        }
+        private async Task PopulatePriorityCombobox()
+        {
+            var priorities = _dataModel.PrioritiesDto;
+            Priority_Collection = priorities.ToObservableCollection();
+        }
 
 
         private async void OnBuisnessUnitChanged()
@@ -103,57 +157,37 @@ namespace DbConfigurator.UI.ViewModel.Add
                 return;
 
             AwaitingComboboxPopulation = true;
-            //await PopulateCountryCombobox(SelectedBuisnessUnit.Id);
+            await PopulateCountryCombobox(SelectedBuisnessUnit.Id);
             AwaitingComboboxPopulation = false;
 
             SelectCountryComboBox();
         }
         private async void OnCountryChanged()
         {
-            //if (DistributionInformation == null || SelectedCountry == null || SelectedArea == null || SelectedBuisnessUnit == null)
-            //    return;
+            if (DistributionInformation == null || SelectedCountry == null || SelectedArea == null || SelectedBuisnessUnit == null)
+                return;
 
-            ////Prevents concurency between threads
-            //if (CanConcurencyOccure())
-            //    return;
+            //Prevents concurency between threads
+            if (CanConcurencyOccure())
+                return;
 
-            //AwaitingComboboxPopulation = true;
+            AwaitingComboboxPopulation = true;
 
-            //var region = await _dataModel.GetRegionAsync(SelectedArea.Id, SelectedBuisnessUnit.Id, SelectedCountry.Id);
-            //if (region == null)
-            //    throw new ArgumentNullException(nameof(region));
+            var region = await _dataModel.GetRegionAsync(SelectedArea.Id, SelectedBuisnessUnit.Id, SelectedCountry.Id);
+            if (region == null)
+                throw new ArgumentNullException(nameof(region));
 
-            //var mapped = _autoMapper.Mapper.Map<RegionDto>(region);
-            //DistributionInformation.Region = mapped;
-            //var distributionInformation = await _dataModel.GetDistributionInformationByIdAsync(DistributionInformation.Id);
-            //distributionInformation.RegionId = region.Id;
-            //await _dataModel.SaveChangesAsync();
+            var mapped = _autoMapper.Mapper.Map<RegionDto>(region);
+            DistributionInformation.Region = mapped;
 
-            //AwaitingComboboxPopulation = false;
+            AwaitingComboboxPopulation = false;
         }
-        private async void OnPriorityChanged()
+        private void OnPriorityChanged()
         {
-            //if (DistributionInformation == null || SelectedPriority == null)
-            //    return;
+            if (DistributionInformation is null || SelectedPriority is null)
+                return;
 
-            ////Prevents concurency between threads
-            //if (CanConcurencyOccure())
-            //    return;
-
-            //AwaitingComboboxPopulation = true;
-
-
-            //DistributionInformation.Priority = SelectedPriority;
-
-            ////Get distribution information entity from database
-            //var distributionInfoEntity = await _dataModel.GetDistributionInformationByIdAsync(DistributionInformation.Id);
-
-            ////Change countryId for entity, save changes to database and reload data in distributionInfoEntity
-            //distributionInfoEntity.PriorityId = SelectedPriority.Id;
-            //await _dataModel.SaveChangesAsync();
-
-
-            //AwaitingComboboxPopulation = false;
+            DistributionInformation.Priority = SelectedPriority;
         }
 
         private bool CanConcurencyOccure()
@@ -161,37 +195,31 @@ namespace DbConfigurator.UI.ViewModel.Add
             return AwaitingComboboxPopulation;
         }
 
-        protected async void OnRemoveRecipientToExecuteAsync()
+        protected void OnRemoveRecipientToExecuteAsync()
         {
-            //if (SelectedRecipientToListView == null)
-            //    return;
-            //var disInfo = await _dataModel.GetDistributionInformationByIdAsync(DistributionInformation.Id);
-            //var recipientToRemove = disInfo?.RecipientsTo.Where(r => r.Id == SelectedRecipientToListView.Id).First();
-            //disInfo?.RecipientsTo.Remove(recipientToRemove!);
-            //DistributionInformation.RecipientsTo.Remove(SelectedRecipientToListView);
-            //RecipientsTo_ListView.Remove(SelectedRecipientToListView);
-            //PopulateComboBoxTo();
-            //SelectedRecipientToListView = null;
-            //((DelegateCommand)RemoveToRecipientCommand).RaiseCanExecuteChanged();
+            if (SelectedRecipientToListView is null)
+                return;
+            DistributionInformation.RecipientsTo.Remove(SelectedRecipientToListView);
+            RecipientsTo_ListView.Remove(SelectedRecipientToListView);
+            PopulateComboBoxTo();
+            SelectedRecipientToListView = null;
+            ((DelegateCommand)RemoveToRecipientCommand).RaiseCanExecuteChanged();
 
         }
         protected bool OnRemoveRecipientToCanExecute()
         {
-            return SelectedRecipientToListView != null;
+            return SelectedRecipientToListView is not null;
         }
-        protected async void OnRemoveRecipientCcExecuteAsync()
+        protected void OnRemoveRecipientCcExecuteAsync()
         {
-            //if (SelectedRecipientCcListView == null)
-            //    return;
+            if (SelectedRecipientCcListView is null)
+                return;
 
-            //var disInfo = await _dataModel.GetDistributionInformationByIdAsync(DistributionInformation.Id);
-            //var recipientToRemove = disInfo?.RecipientsCc.Where(r => r.Id == SelectedRecipientCcListView.Id).First();
-            //disInfo?.RecipientsCc.Remove(recipientToRemove!);
-            //DistributionInformation.RecipientsCc.Remove(SelectedRecipientCcListView);
-            //RecipientsCc_ListView.Remove(SelectedRecipientCcListView);
-            //PopulateComboBoxCc();
-            //SelectedRecipientCcListView = null;
-            //((DelegateCommand)RemoveCcRecipientCommand).RaiseCanExecuteChanged();
+            DistributionInformation.RecipientsCc.Remove(SelectedRecipientCcListView);
+            RecipientsCc_ListView.Remove(SelectedRecipientCcListView);
+            PopulateComboBoxCc();
+            SelectedRecipientCcListView = null;
+            ((DelegateCommand)RemoveCcRecipientCommand).RaiseCanExecuteChanged();
         }
         protected bool OnRemovRecipientCCeCanExecute()
         {
@@ -248,18 +276,13 @@ namespace DbConfigurator.UI.ViewModel.Add
             }
         }
 
-        private async void SetNewRecipientToAsync(RecipientDto value)
+        private void SetNewRecipientToAsync(RecipientDto value)
         {
-
-            //_selectedRecipientToComboBox = value;
-            //RecipientsTo_ListView.Add(value);
-            //DistributionInformation.RecipientsTo.Add(value);
-            //var disInfo = await _dataModel.GetDistributionInformationByIdAsync(DistributionInformation.Id);
-            //var recipient = await _dataModel.GetRecipientByIdAsync(value.Id);
-            //disInfo?.RecipientsTo.Add(recipient);
-            //RecipientsToComboBox.Remove(value);
-            //_selectedRecipientToComboBox = null;
-            //await _dataModel.SaveChangesAsync();
+            _selectedRecipientToComboBox = value;
+            RecipientsTo_ListView.Add(value);
+            DistributionInformation.RecipientsTo.Add(value);
+            RecipientsToComboBox.Remove(value);
+            _selectedRecipientToComboBox = null;
         }
 
         public RecipientDto? SelectedRecipientCcComboBox
@@ -274,17 +297,13 @@ namespace DbConfigurator.UI.ViewModel.Add
             }
         }
 
-        private async void SetNewRecipientCcAsync(RecipientDto value)
+        private void SetNewRecipientCcAsync(RecipientDto value)
         {
-            //_selectedRecipientCcComboBox = value;
-            //RecipientsCc_ListView.Add(value);
-            //DistributionInformation.RecipientsCc.Add(value);
-            //var disInfo = await _dataModel.GetDistributionInformationByIdAsync(DistributionInformation.Id);
-            //var recipient = await _dataModel.GetRecipientByIdAsync(value.Id);
-            //disInfo?.RecipientsCc.Add(recipient);
-            //RecipientsCcComboBox.Remove(value);
-            //_selectedRecipientCcComboBox = null;
-            //await _dataModel.SaveChangesAsync();
+            _selectedRecipientCcComboBox = value;
+            RecipientsCc_ListView.Add(value);
+            DistributionInformation.RecipientsCc.Add(value);
+            RecipientsCcComboBox.Remove(value);
+            _selectedRecipientCcComboBox = null;
         }
 
 
@@ -352,11 +371,11 @@ namespace DbConfigurator.UI.ViewModel.Add
         public ICommand CountryChangedCommand { get; set; }
 
 
-        private ObservableCollection<RecipientDto> _recipientsTo_ListView;
-        private ObservableCollection<RecipientDto> _recipientsCc_ListView;
+        private ObservableCollection<RecipientDto> _recipientsTo_ListView = new();
+        private ObservableCollection<RecipientDto> _recipientsCc_ListView = new();
 
-        private ObservableCollection<RecipientDto> _recipientsToComboBox;
-        private ObservableCollection<RecipientDto> _recipientsCcComboBox;
+        private ObservableCollection<RecipientDto> _recipientsToComboBox = new();
+        private ObservableCollection<RecipientDto> _recipientsCcComboBox = new();
         private AreaDto? _selectedArea;
         private BuisnessUnitDto? _selectedBuisnessUnit;
         private CountryDto? _selectedCountry;
@@ -366,6 +385,7 @@ namespace DbConfigurator.UI.ViewModel.Add
         private RecipientDto? _selectedRecipientToListView;
         private RecipientDto? _selectedRecipientCcListView;
         private bool AwaitingComboboxPopulation = false;
-
+        private readonly IDataModel _dataModel;
+        private readonly AutoMapperConfig _autoMapper;
     }
 }

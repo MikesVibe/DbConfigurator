@@ -2,6 +2,7 @@
 using Autofac.Core;
 using DbConfigurator.DataAccess;
 using DbConfigurator.Model;
+using DbConfigurator.UI.Data;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Add;
@@ -34,6 +35,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<Windows.MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
+            builder.RegisterType<RegionsRepository>().AsSelf();
 
             builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
 
@@ -68,6 +70,7 @@ namespace DbConfigurator.UI.Startup
 
 
             builder.RegisterType<AddAreaViewModel>().As<IEditingViewModel>();
+            builder.RegisterType<AddDistibutionInformationViewModel>().AsSelf();
 
 
 

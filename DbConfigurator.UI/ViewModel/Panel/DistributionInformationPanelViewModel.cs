@@ -24,25 +24,24 @@ namespace DbConfigurator.UI.ViewModel.Panel
     public class DistributionInformationPanelViewModel : TableViewModelBase, IMainPanelViewModel
     {
         private readonly IDataModel _dataModel;
+        private readonly Func<AddDistibutionInformationViewModel> _addDistributionInformationCreator;
         private readonly AutoMapperConfig _autoMapper;
 
         public DistributionInformationPanelViewModel(
             IDialogService dialogService,
             IEventAggregator eventAggregator,
             IDataModel dataModel,
+            Func<AddDistibutionInformationViewModel> addDistributionInformationCreator,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator, dialogService)
         {
             _dataModel = dataModel;
+            _addDistributionInformationCreator = addDistributionInformationCreator;
             _autoMapper = autoMapper;
-
-
         }
 
         public async override Task LoadAsync()
         {
-            await PopulateComboBoxesWithData();
-
             var distributionInformations = await _dataModel.GetAllDistributionInformationAsync();
 
             foreach (var distributionInformation in distributionInformations)
@@ -53,122 +52,64 @@ namespace DbConfigurator.UI.ViewModel.Panel
             }
         }
 
-        private async Task PopulateComboBoxesWithData()
+
+        protected override async void OnAddExecute()
         {
-            //var areas = EnumerableToObservableCollection(_dataModel.AreasDto);
-            //Area_Collection = areas;
-            //await PopulateBuisnessUnitCombobox();
-            //await PopulateCountryCombobox();
-            //var priorities = EnumerableToObservableCollection(_dataModel.PrioritiesDto);
-            //Priority_Collection = priorities;
-        }
-        private async Task PopulateBuisnessUnitCombobox(int? areaId = null)
-        {
-            //IEnumerable<BuisnessUnit> avilableBuisnessUnits;
-            //if (areaId == null)
-            //    avilableBuisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
-            //else
-            //    avilableBuisnessUnits = await _dataModel.GetBuisnessUnitsAsync((int)areaId);
-
-            //BuisnessUnit_Collection.Clear();
-            //foreach (var bu in avilableBuisnessUnits)
-            //{
-            //    var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(bu);
-            //    BuisnessUnit_Collection.Add(mapped);
-            //}
-        }
-        private async Task PopulateCountryCombobox(int? buisnessUnitId = null)
-        {
-            //IEnumerable<Country> countries;
-            //if (buisnessUnitId == null)
-            //    countries = await _dataModel.GetAllCountriesAsync();
-            //else
-            //    countries = await _dataModel.GetCountriesAsync((int)buisnessUnitId);
-
-            //Country_Collection.Clear();
-            //foreach (var country in countries)
-            //{
-            //    var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
-            //    Country_Collection.Add(mapped);
-            //}
-        }
-
-        protected override void OnAddExecute()
-        {
-            ////Create New Distribution Infrotmaion
-            //var defaultPriotrity = _dataModel.DefaultPriority;
-            //var defaultRegion = _dataModel.DefaultRegion;
-            //var distributionInformation = new DistributionInformation(defaultRegion, defaultPriotrity);
-
-            //await _dataModel.AddAsync(distributionInformation);
-            //await _dataModel.SaveChangesAsync();
-
-            //var distributionInformationEntity = await _dataModel.GetDistributionInformationByIdAsync(distributionInformation.Id);
-            //var distributionInformationDto = _autoMapper.Mapper.Map<DistributionInformationDto>(distributionInformationEntity);
-            //var wrappedDisInfo = new DistributionInformationDtoWrapper(distributionInformationDto);
-
-            //DistributionInformation_ObservableCollection.Add(wrappedDisInfo);
-            //SelectedDistributionInformation = wrappedDisInfo;
-
-
-
-            //DO NOT REMOVE (This is for future update)
-            var distributionInformationViewModel = new AddDistibutionInformationViewModel();
+            var distributionInformationViewModel = _addDistributionInformationCreator();
+            await distributionInformationViewModel.LoadAsync();
             bool? result = DialogService.ShowDialog(distributionInformationViewModel);
 
             if (result == false)
                 return;
 
-            var distributionInformation = _autoMapper.Mapper.Map<DistributionInformation>(distributionInformationViewModel.DistributionInformation);
+            //var distributionInformation = _autoMapper.Mapper.Map<DistributionInformation>(distributionInformationViewModel.DistributionInformation);
+            var dis = distributionInformationViewModel.DistributionInformation;
+
+            List<Recipient> recipientsTo = new();
+            
+            
+            foreach (var recipient in dis.RecipientsTo)
+            {
+                var recipientEntity = await _dataModel.GetRecipientByIdAsync(recipient.Id);
+                recipientsTo.Add(recipientEntity);
+            }
+
+            var distributionInformation = new DistributionInformation
+            { 
+                RegionId = dis.Region.Id,
+                PriorityId = dis.Priority.Id,
+                RecipientsTo = recipientsTo
+            };
+
 
             _dataModel.Add(distributionInformation);
             _dataModel.SaveChanges();
+            
+            var recipients = distributionInformation.RecipientsTo;
             var mapped = _autoMapper.Mapper.Map<DistributionInformationTableItem>(distributionInformation);
             var wrapped = new DistributionInformationTableItemWrapper(mapped);
             Items.Add(wrapped);
         }
-        protected override void OnRemoveExecute()
+
+        protected override async void OnRemoveExecute()
         {
-            //var distributionInformationToRemove = await _dataModel.GetDistributionInformationByIdAsync(SelectedDistributionInformation.Id);
-            //_dataModel.Remove(distributionInformationToRemove);
-            ////_dataModel.Remove(_dataModel.DistributionInformations.Where(d => d.Id == SelectedDistributionInformation.Id).First());
-            //var deletedDistributionInfo = SelectedDistributionInformation;
-            //await _dataModel.SaveChangesAsync();
+            var distributionInformationToRemove = await _dataModel.GetDistributionInformationByIdAsync(SelectedItem!.Id);
+            _dataModel.Remove(distributionInformationToRemove);
+            await _dataModel.SaveChangesAsync();
 
-            //DistributionInformation_ObservableCollection.Remove(SelectedDistributionInformation);
-            //SelectedDistributionInformation = null;
-            //RecipientsTo_ListView.Clear();
-            //RecipientsCc_ListView.Clear();
-
-            //((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
-
+            base.OnRemoveExecute();
         }
 
-
-        protected override void OnSelectionChangedExecute()
-        {
-            //if (SelectedDistributionInformation == null)
-            //    return;
-
-            //PopulateComboBoxTo();
-            //PopulateComboBoxCc();
-
-            ////Setting selected items in comboBoxes
-            //SelectAreaComboBox();
-            //SelectBuisnessUnitComboBox();
-            //SelectCountryComboBox();
-            //SelectPriorityComboBox();
-
-            ////Setting Items in ListViews
-            //RecipientsTo_ListView = EnumerableToObservableCollection(SelectedDistributionInformation.RecipientsTo);
-            //RecipientsCc_ListView = EnumerableToObservableCollection(SelectedDistributionInformation.RecipientsCc);
-
-
-            base.OnSelectionChangedExecute();
-        }
 
         protected override void OnEditExecute()
         {
+            var distributionInformationViewModel = _addDistributionInformationCreator();
+            distributionInformationViewModel.DistributionInformation = _autoMapper.Mapper.Map<DistributionInformationDto>(SelectedItem!.Model);
+
+            bool? result = DialogService.ShowDialog(distributionInformationViewModel);
+
+            if (result == false)
+                return;
         }
     }
 }

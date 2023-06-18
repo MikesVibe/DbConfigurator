@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,6 +25,7 @@ namespace DbConfigurator.Model
         ICollection<CountryDto> CountriesDto { get; }
         ICollection<PriorityDto> PrioritiesDto { get; }
         ICollection<RecipientDto> RecipientsDto { get; }
+        RegionsRepository RegionsRepository { get; set; }
 
         bool HasChanges();
 
@@ -53,5 +55,6 @@ namespace DbConfigurator.Model
         Area? GetAreaById(int id);
         BuisnessUnit? GetBuisnessUnitById(int id);
         Country? GetCountriesById(int id);
+        Task<List<RegionDto>> GetAllRegionsDtoAsync();
     }
 }
