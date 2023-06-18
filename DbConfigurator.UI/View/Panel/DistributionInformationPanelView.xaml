@@ -7,192 +7,76 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <DataGrid
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DataGrid
             CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
-            ItemsSource="{Binding DistributionInformation_ObservableCollection, Mode=TwoWay}"
-            SelectedItem="{Binding  SelectedDistributionInformation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Items, Mode=TwoWay}"
+            SelectedItem="{Binding  SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             AutoGenerateColumns="False" FontSize="11" Height="300">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding SelectionChangedCommand }"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectionChangedCommand }"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
 
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Area"  Width="150"
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Area"  Width="150"
                             Binding="{Binding Region.Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <DataGridTextColumn Header="Country Cluster" Width="100" 
+                <DataGridTextColumn Header="Country Cluster" Width="100" 
                             Binding="{Binding Region.BuisnessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <DataGridTextColumn Header="Country" Width="100" 
+                <DataGridTextColumn Header="Country" Width="100" 
                             Binding="{Binding Region.Country.CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <DataGridTextColumn Header="Priority" Width="60" 
+                <DataGridTextColumn Header="Priority" Width="60" 
                             Binding="{Binding Priority.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <DataGridTemplateColumn Header="TO" Width="200" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <TextBlock.Inlines>
-                                        <ItemsControl ItemsSource="{Binding RecipientsTo}" DisplayMemberPath="Email"/>
-                                    </TextBlock.Inlines>
-                                </TextBlock>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="CC" Width="200" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <TextBlock.Inlines>
-                                        <ItemsControl ItemsSource="{Binding RecipientsCc}" DisplayMemberPath="Email"/>
-                                    </TextBlock.Inlines>
-                                </TextBlock>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <Grid Grid.Column="1" >
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <!--<Button  Content="Save" Width="125" Height="45" Margin="10 20" VerticalAlignment="Top" 
-                    Command="{Binding SaveCommand}"/>-->
+                <DataGridTemplateColumn Header="TO" Width="200" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Inlines>
+                                    <ItemsControl ItemsSource="{Binding RecipientsTo}" DisplayMemberPath="Email"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="CC" Width="200" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Inlines>
+                                    <ItemsControl ItemsSource="{Binding RecipientsCc}" DisplayMemberPath="Email"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Column="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0" VerticalAlignment="Top" Margin="0 10">
-                    <Button Content="Create" Width="125" Height="45" Margin="10"
+            <StackPanel Grid.Row="0" VerticalAlignment="Top" Margin="0 10">
+                <Button Content="Create" Width="125" Height="45" Margin="10"
                     Command="{Binding AddCommand}"/>
-                    <Button Content="Edit" Width="125" Height="45" Margin="10"
+                <Button Content="Edit" Width="125" Height="45" Margin="10"
                     Command="{Binding EditCommand}"/>
-                    <Button Content="Remove" Width="125" Height="45" Margin="10"
+                <Button Content="Remove" Width="125" Height="45" Margin="10"
                     Command="{Binding RemoveCommand}"/>
-                </StackPanel>
-            </Grid>
-
-        </Grid>
-
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel HorizontalAlignment="Left" Margin="20" Width="200">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Area:" />
-                    <ComboBox Name="AreaComboBox" 
-                              ItemsSource="{Binding Area_Collection}"
-                              SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Name" SelectedValuePath="Id">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding AreaChangedCommand }"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
-                </StackPanel>
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Country Cluster:" />
-                    <ComboBox Name="CountryClusterComboBox"
-                              ItemsSource="{Binding BuisnessUnit_Collection}"
-                              SelectedItem="{Binding SelectedBuisnessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Name" SelectedValuePath="Id">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding BuisnessUnitChangedCommand }"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
-                </StackPanel>
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Country:" />
-                    <ComboBox Name="CountryComboBox"
-                              ItemsSource="{Binding Country_Collection}"
-                              SelectedItem="{Binding SelectedCountry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="CountryName" SelectedValuePath="Id">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding CountryChangedCommand }"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
-                </StackPanel>
-
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Priority:" />
-                    <ComboBox  Name="PriorityComboBox" 
-                              ItemsSource="{Binding Priority_Collection}"
-                              SelectedItem="{Binding SelectedPriority}"
-                              DisplayMemberPath="Name" SelectedValuePath="Id">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding PriorityChangedCommand }"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ComboBox>
-                </StackPanel>
-            </StackPanel>
-
-
-
-            <StackPanel Grid.Column="1" Margin="20">
-                <StackPanel Orientation="Vertical" >
-                    <Label Content="To:" />
-                    <ComboBox Name="ToComboBox" Width="250" HorizontalAlignment="Left" 
-                              ItemsSource="{Binding RecipientsToComboBox}"
-                              SelectedItem="{Binding SelectedRecipientToComboBox}"
-                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
-
-
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <ListBox Name="ToListBox" Height="250"  Width="250"  Margin="0,5,0,0"
-                         ItemsSource="{Binding RecipientsTo_ListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         SelectedItem="{Binding SelectedRecipientToListView}"
-                         DisplayMemberPath="Email" SelectedValuePath="Id"/>
-                        <Button Content="-"
-                                Command="{Binding RemoveToRecipientCommand}"
-                                FontSize="24" Width="30" Height="30" Margin="7,7,0,0"
-                                VerticalAlignment="Top" Padding="0,-7,0,0"/>
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
-
-            <StackPanel Grid.Column="2" Margin="20">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="Cc:" />
-                    <ComboBox Name="CcComboBox" Width="250" HorizontalAlignment="Left" 
-                              ItemsSource="{Binding RecipientsCcComboBox}"
-                              SelectedItem="{Binding SelectedRecipientCcComboBox}"
-                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
-
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <ListBox Name="CcListBox" Height="250" Width="250" 
-                             ItemsSource="{Binding RecipientsCc_ListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             SelectedItem="{Binding SelectedRecipientCcListView}"
-                             DisplayMemberPath="Email" SelectedValuePath="Id"/>
-                        <Button Content="-" 
-                                Command="{Binding RemoveCcRecipientCommand}"
-                                FontSize="24" Width="30" Height="30" Margin="7,7,0,0"
-                                VerticalAlignment="Top" Padding="0,-7,0,0"/>
-                    </StackPanel>
-                </StackPanel>
             </StackPanel>
         </Grid>
+
     </Grid>
+
 </UserControl>

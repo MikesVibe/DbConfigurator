@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.Model.Entities.Table
 {
-    public class DistributionInformationTableItem
+    public class DistributionInformationTableItem : ITableItem
     {
-        public int Id { get; init; }
+        public int Id { get; set; }
 
         public RegionDto Region { get; set; }
         public PriorityDto Priority { get; set; }
