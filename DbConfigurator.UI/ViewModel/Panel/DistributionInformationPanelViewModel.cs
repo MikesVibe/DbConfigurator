@@ -62,30 +62,29 @@ namespace DbConfigurator.UI.ViewModel.Panel
             if (result == false)
                 return;
 
-            //var distributionInformation = _autoMapper.Mapper.Map<DistributionInformation>(distributionInformationViewModel.DistributionInformation);
+            //Mapping DistributionInformationDto to new DistributionInformation entity
             var dis = distributionInformationViewModel.DistributionInformation;
-
-            List<Recipient> recipientsTo = new();
-            
-            
-            foreach (var recipient in dis.RecipientsTo)
-            {
-                var recipientEntity = await _dataModel.GetRecipientByIdAsync(recipient.Id);
-                recipientsTo.Add(recipientEntity);
-            }
-
             var distributionInformation = new DistributionInformation
             { 
                 RegionId = dis.Region.Id,
                 PriorityId = dis.Priority.Id,
-                RecipientsTo = recipientsTo
+                RecipientsTo = new List<Recipient>(),
+                RecipientsCc = new List<Recipient>()
             };
-
+            foreach (var recipient in dis.RecipientsTo)
+            {
+                var recipientEntity = await _dataModel.GetRecipientByIdAsync(recipient.Id);
+                distributionInformation.RecipientsTo.Add(recipientEntity);
+            }
+            foreach (var recipient in dis.RecipientsCc)
+            {
+                var recipientEntity = await _dataModel.GetRecipientByIdAsync(recipient.Id);
+                distributionInformation.RecipientsCc.Add(recipientEntity);
+            }
 
             _dataModel.Add(distributionInformation);
             _dataModel.SaveChanges();
             
-            var recipients = distributionInformation.RecipientsTo;
             var mapped = _autoMapper.Mapper.Map<DistributionInformationTableItem>(distributionInformation);
             var wrapped = new DistributionInformationTableItemWrapper(mapped);
             Items.Add(wrapped);
