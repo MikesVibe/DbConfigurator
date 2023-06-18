@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DbConfigurator.UI.View.Add" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -13,7 +12,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel HorizontalAlignment="Left" Margin="20" Width="200">
+        <StackPanel HorizontalAlignment="Left" Margin="20 20 10 20" Width="200">
             <StackPanel Orientation="Vertical">
                 <Label Content="Area:" />
                 <ComboBox Name="AreaComboBox" 
@@ -71,7 +70,7 @@
 
 
 
-        <StackPanel Grid.Column="1" Margin="20">
+        <StackPanel Grid.Column="1" Margin="10 20 10 20 ">
             <StackPanel Orientation="Vertical" >
                 <Label Content="To:" />
                 <ComboBox Name="ToComboBox" Width="250" HorizontalAlignment="Left" 
@@ -93,7 +92,7 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Column="2" Margin="20">
+        <StackPanel Grid.Column="2" Margin="10 20 20 20">
             <StackPanel Orientation="Vertical">
                 <Label Content="Cc:" />
                 <ComboBox Name="CcComboBox" Width="250" HorizontalAlignment="Left" 
