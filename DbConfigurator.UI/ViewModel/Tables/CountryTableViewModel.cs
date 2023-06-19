@@ -1,19 +1,15 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.Model.Entities.Table;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
-    public class CountryTableViewModel : TableViewModelBase, ITableViewModel
+    public class CountryTableViewModel : TableViewModelBase<CountryDto>, ITableViewModel
     {
         private readonly IDataModel _dataModel;
         private readonly AutoMapperConfig _autoMapper;
@@ -81,18 +77,18 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         protected override void OnRemoveExecute()
         {
-            if (SelectedItem is null)
-                return;
+            //if (SelectedItem is null)
+            //    return;
 
-            var country = _dataModel.GetCountriesById(SelectedItem.Id);
-            if (country is null)
-            {
-                //Log some error mesage here
-                return;
-            }
+            //var country = _dataModel.GetCountriesById(SelectedItem.Id);
+            //if (country is null)
+            //{
+            //    //Log some error mesage here
+            //    return;
+            //}
 
-            _dataModel.Remove(country);
-            _dataModel.SaveChanges();
+            //_dataModel.Remove(country);
+            //_dataModel.SaveChanges();
             base.OnRemoveExecute();
         }
     }

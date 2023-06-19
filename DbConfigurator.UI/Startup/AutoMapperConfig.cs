@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.Model.Entities.Table;
-using DbConfigurator.Model.Entities.Wrapper;
-using DbConfigurator.Model.Entities.Wrapper.Table;
 using System.Linq;
 
 namespace DbConfigurator.UI.Startup
@@ -27,25 +24,6 @@ namespace DbConfigurator.UI.Startup
                                 rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
                             .ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
                                 rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
-
-                cfg.CreateMap<Area, AreaTableItem>();
-                cfg.CreateMap<BuisnessUnit, BuisnessUnitTableItem>();
-                cfg.CreateMap<Country, CountryTableItem>();
-
-                cfg.CreateMap<DistributionInformation, DistributionInformationTableItem>()
-                    .ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
-                        rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
-                    .ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
-                        rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
-
-
-                cfg.CreateMap<AreaTableItem, AreaDto>();
-                cfg.CreateMap<BuisnessUnitTableItem, BuisnessUnitDto>();
-                cfg.CreateMap<DistributionInformationTableItem, DistributionInformationDto>();
-
-
-                cfg.CreateMap<Area, AreaTableItemWrapper>();
-                cfg.CreateMap<BuisnessUnit, BuisnessUnitTableItemWrapper>();
 
             });
 

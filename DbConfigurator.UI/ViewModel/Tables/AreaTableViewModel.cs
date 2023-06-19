@@ -1,22 +1,18 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.Model.Entities.Table;
-using DbConfigurator.Model.Entities.Wrapper;
-using DbConfigurator.Model.Entities.Wrapper.Table;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
-    public class AreaTableViewModel : TableViewModelBase, ITableViewModel
+    public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper>, ITableViewModel
     {
         private readonly IDataModel _dataModel;
         private readonly AutoMapperConfig _autoMapper;
@@ -33,8 +29,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var areas = await _dataModel.GetAllAreasAsync();
             foreach (var area in areas)
             {
-                var mapped = _autoMapper.Mapper.Map<AreaTableItem>(area);
-                var wrapped = new AreaTableItemWrapper(mapped);
+                var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
+                var wrapped = new AreaDtoWrapper(mapped);
                 Items.Add(wrapped);
             }
         }
@@ -52,8 +48,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             _dataModel.Add(area);
             _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<AreaTableItem>(area);
-            var wrapped = new AreaTableItemWrapper(mapped);
+            var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
+            var wrapped = new AreaDtoWrapper(mapped);
             Items.Add(wrapped);
         }
 

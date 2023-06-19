@@ -1,12 +1,7 @@
 ﻿using Autofac.Features.Indexed;
-using DbConfigurator.Model;
-using DbConfigurator.UI.Services;
-using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.ViewModel.Tables;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Prism.Events;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Panel

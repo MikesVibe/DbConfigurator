@@ -1,27 +1,20 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.Model.Entities.Table;
 using DbConfigurator.Model.Entities.Wrapper;
-using DbConfigurator.Model.Entities.Wrapper.Table;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
-using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class DistributionInformationPanelViewModel : TableViewModelBase, IMainPanelViewModel
+    public class DistributionInformationPanelViewModel : TableViewModelBase<DistributionInformationDtoWrapper>, IMainPanelViewModel
     {
         private readonly IDataModel _dataModel;
         private readonly Func<AddDistibutionInformationViewModel> _addDistributionInformationCreator;
@@ -46,8 +39,8 @@ namespace DbConfigurator.UI.ViewModel.Panel
 
             foreach (var distributionInformation in distributionInformations)
             {
-                var mapped = _autoMapper.Mapper.Map<DistributionInformationTableItem>(distributionInformation);
-                var wrapped = new DistributionInformationTableItemWrapper(mapped);
+                var mapped = _autoMapper.Mapper.Map<DistributionInformationDto>(distributionInformation);
+                var wrapped = new DistributionInformationDtoWrapper(mapped);
                 Items.Add(wrapped);
             }
         }
@@ -84,8 +77,8 @@ namespace DbConfigurator.UI.ViewModel.Panel
             _dataModel.Add(distributionInformation);
             _dataModel.SaveChanges();
 
-            var mapped = _autoMapper.Mapper.Map<DistributionInformationTableItem>(distributionInformation);
-            var wrapped = new DistributionInformationTableItemWrapper(mapped);
+            var mapped = _autoMapper.Mapper.Map<DistributionInformationDto>(distributionInformation);
+            var wrapped = new DistributionInformationDtoWrapper(mapped);
             Items.Add(wrapped);
         }
 

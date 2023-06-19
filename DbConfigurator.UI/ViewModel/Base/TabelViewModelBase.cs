@@ -1,18 +1,14 @@
-﻿using DbConfigurator.Model.Entities.Table;
-using DbConfigurator.Model.Entities.Wrapper.Table;
-using DbConfigurator.UI.Services;
-using DbConfigurator.UI.Startup;
+﻿using DbConfigurator.UI.Services;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class TableViewModelBase : ViewModelBase, ITableViewModel
+    public abstract class TableViewModelBase<T> : ViewModelBase, ITableViewModel
     {
         protected readonly IDialogService DialogService;
         protected readonly IEventAggregator EventAggregator;
@@ -44,7 +40,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected virtual void OnRemoveExecute()
         {
             Items.Remove(SelectedItem!);
-            SelectedItem = null;
+            SelectedItem = default(T);
         }
         protected virtual bool OnRemoveCanExecute()
         {
@@ -74,8 +70,8 @@ namespace DbConfigurator.UI.ViewModel.Base
                 }
             }
         }
-        public ObservableCollection<ITableItemWrapper> Items { get; set; } = new();
-        public ITableItemWrapper? SelectedItem { get; set; }
+        public ObservableCollection<T> Items { get; set; } = new();
+        public T? SelectedItem { get; set; }
 
         public ICommand AddCommand { get; private set; }
         public ICommand EditCommand { get; private set; }

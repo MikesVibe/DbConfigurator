@@ -18,7 +18,7 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class RegionPanelViewModel : TableViewModelBase, IMainPanelViewModel
+    public class RegionPanelViewModel : TableViewModelBase<RegionDto>, IMainPanelViewModel
     {
         private readonly AutoMapperConfig _autoMapper;
         private readonly IDataModel _dataModel;

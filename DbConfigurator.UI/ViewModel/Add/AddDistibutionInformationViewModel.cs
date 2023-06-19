@@ -1,7 +1,6 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.DTOs.Wrapper;
-using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Extensions;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
@@ -9,10 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using DbConfigurator.UI.Extensions;
 
 namespace DbConfigurator.UI.ViewModel.Add
 {
@@ -146,7 +143,7 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         private async Task PopulateBuisnessUnitCombobox(int? areaId = null)
         {
-            var buisnessUnits =  await _dataModel.RegionsRepository.GetBuisnessUnitsDtoAsync(areaId);
+            var buisnessUnits = await _dataModel.RegionsRepository.GetBuisnessUnitsDtoAsync(areaId);
             BuisnessUnit_Collection.Clear();
             foreach (var buisnessUnit in buisnessUnits)
             {

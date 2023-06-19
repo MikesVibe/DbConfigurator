@@ -4,7 +4,6 @@ using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Data;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -302,8 +301,8 @@ namespace DbConfigurator.Model
         }
 
         public RegionsRepository RegionsRepository { get; set; }
-        
-        
+
+
         private AutoMapperConfig AutoMapper { get; set; }
 
 

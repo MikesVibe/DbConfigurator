@@ -6,17 +6,15 @@ using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
-using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class RecipientPanelViewModel : TableViewModelBase, IRecipientTableViewModel, IMainPanelViewModel
+    public class RecipientPanelViewModel : TableViewModelBase<RecipientDto>, IRecipientTableViewModel, IMainPanelViewModel
     {
         private readonly AutoMapperConfig _autoMapper;
         private readonly IDataModel _dataModel;

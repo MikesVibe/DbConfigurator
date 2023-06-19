@@ -3,10 +3,8 @@ using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Data
@@ -20,7 +18,7 @@ namespace DbConfigurator.UI.Data
         public RegionsRepository(
             DbConfiguratorDbContext dbConfiguratorDbContext,
             AutoMapperConfig autoMapperConfig
-            ) 
+            )
         {
             _context = dbConfiguratorDbContext;
             _autoMapper = autoMapperConfig;
@@ -32,7 +30,7 @@ namespace DbConfigurator.UI.Data
 
             var areas = await _context.Area.Where(a => AreasIdList.Contains(a.Id)).ToListAsync();
             List<AreaDto> areasDto = new();
-            foreach ( var area in areas )
+            foreach (var area in areas)
             {
                 areasDto.Add(_autoMapper.Mapper.Map<AreaDto>(area));
             }
@@ -60,7 +58,7 @@ namespace DbConfigurator.UI.Data
 
         public async Task<List<CountryDto>> GetCountriesDtoAsync(int? buisnessUnitId = null)
         {
-            var regions = (buisnessUnitId is null) ? 
+            var regions = (buisnessUnitId is null) ?
                 GetRegionsAsQueryable() :
                 GetRegionsAsQueryable().Where(r => r.BuisnessUnitId == buisnessUnitId);
 

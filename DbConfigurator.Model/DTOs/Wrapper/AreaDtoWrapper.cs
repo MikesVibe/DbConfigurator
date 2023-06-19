@@ -8,7 +8,11 @@ namespace DbConfigurator.Model.DTOs.Wrapper
         public AreaDtoWrapper(AreaDto model) : base(model)
         {
         }
-
+        public int Id
+        {
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
         public string Name
         {
             get { return GetValue<string>(); }

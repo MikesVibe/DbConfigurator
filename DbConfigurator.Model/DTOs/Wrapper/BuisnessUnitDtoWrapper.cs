@@ -8,6 +8,11 @@ namespace DbConfigurator.Model.DTOs.Wrapper
         public BuisnessUnitDtoWrapper(BuisnessUnitDto model) : base(model)
         {
         }
+        public int Id
+        {
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
         public string Name
         {
             get { return GetValue<string>(); }

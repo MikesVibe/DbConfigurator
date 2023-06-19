@@ -1,20 +1,18 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.Model.Entities.Table;
-using DbConfigurator.Model.Entities.Wrapper.Table;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
-    public class BuisnessUnitTableViewModel : TableViewModelBase, ITableViewModel
+    public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper>, ITableViewModel
     {
         private readonly IDataModel _dataModel;
         private readonly AutoMapperConfig _autoMapper;
@@ -31,8 +29,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
             foreach (var buisnessUnit in buisnessUnits)
             {
-                var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
-                var wrapped = new BuisnessUnitTableItemWrapper(mapped);
+                var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
+                var wrapped = new BuisnessUnitDtoWrapper(mapped);
                 Items.Add(wrapped);
             }
         }
@@ -50,8 +48,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             _dataModel.Add(buisnessUnit);
             _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<BuisnessUnitTableItem>(buisnessUnit);
-            var wrapped = new BuisnessUnitTableItemWrapper(mapped);
+            var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
+            var wrapped = new BuisnessUnitDtoWrapper(mapped);
             Items.Add(wrapped);
         }
 
