@@ -38,8 +38,10 @@ namespace DbConfigurator.UI.Startup
                     .ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
                         rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
 
+
                 cfg.CreateMap<AreaTableItem, AreaDto>();
                 cfg.CreateMap<BuisnessUnitTableItem, BuisnessUnitDto>();
+                cfg.CreateMap<DistributionInformationTableItem, DistributionInformationDto>();
 
 
                 cfg.CreateMap<Area, AreaTableItemWrapper>();

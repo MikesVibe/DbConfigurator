@@ -42,11 +42,30 @@ namespace DbConfigurator.UI.ViewModel.Add
         public async Task LoadAsync()
         {
             await PopulateComboBoxesWithData();
+
+            if (DistributionInformation is null)
+                return;
+            SelectAreaComboBox();
+            SelectBuisnessUnitComboBox();
+            SelectCountryComboBox();
+            SelectPriorityComboBox();
+            var recipientsTo = DistributionInformation.RecipientsTo.ToList();
+            DistributionInformation.RecipientsTo.Clear();
+            var recipientsCc = DistributionInformation.RecipientsCc.ToList();
+            DistributionInformation.RecipientsCc.Clear();
+            foreach (var recipient in recipientsTo)
+            {
+                SetNewRecipientToAsync(recipient);
+            }
+            foreach (var recipient in recipientsCc)
+            {
+                SetNewRecipientCcAsync(recipient);
+            }
         }
 
         private void SelectAreaComboBox()
         {
-            if (DistributionInformation.Region.Area == null)
+            if (DistributionInformation.Region is null || DistributionInformation.Region.Area is null)
                 return;
 
             SelectedArea = Area_Collection?.Where(c => c.Id == DistributionInformation.Region.Area.Id).FirstOrDefault();
@@ -69,6 +88,9 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         private void SelectPriorityComboBox()
         {
+            if (DistributionInformation.Priority is null)
+                return;
+
             SelectedPriority = Priority_Collection?.Where(c => c.Id == DistributionInformation.Priority.Id).FirstOrDefault();
         }
 
