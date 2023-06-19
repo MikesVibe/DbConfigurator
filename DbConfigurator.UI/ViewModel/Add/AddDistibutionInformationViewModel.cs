@@ -15,7 +15,6 @@ namespace DbConfigurator.UI.ViewModel.Add
 {
     public class AddDistibutionInformationViewModel : EditingViewModelBase
     {
-        public DistributionInformationDto DistributionInformation { get; set; }
 
 
         public AddDistibutionInformationViewModel(
@@ -283,6 +282,7 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
 
 
+        public DistributionInformationDto DistributionInformation { get; set; }
         public RecipientDto? SelectedRecipientToComboBox
         {
             get { return _selectedRecipientToComboBox; }
@@ -395,6 +395,7 @@ namespace DbConfigurator.UI.ViewModel.Add
 
         private ObservableCollection<RecipientDto> _recipientsToComboBox = new();
         private ObservableCollection<RecipientDto> _recipientsCcComboBox = new();
+        private DistributionInformationDto _distributionInformation;
         private AreaDto? _selectedArea;
         private BuisnessUnitDto? _selectedBuisnessUnit;
         private CountryDto? _selectedCountry;

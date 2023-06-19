@@ -7,9 +7,11 @@ using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
+using Newtonsoft.Json.Linq;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Panel
@@ -95,7 +97,15 @@ namespace DbConfigurator.UI.ViewModel.Panel
         protected override async void OnEditExecute()
         {
             var distributionInformationViewModel = _addDistributionInformationCreator();
-            distributionInformationViewModel.DistributionInformation = _autoMapper.Mapper.Map<DistributionInformationDto>(SelectedItem!.Model);
+            var disInfoDto = new DistributionInformationDto
+            {
+                Id = SelectedItem!.Model.Id,
+                Region = SelectedItem!.Model.Region,
+                Priority = SelectedItem!.Model.Priority,
+                RecipientsTo = new ObservableCollection<RecipientDto>(SelectedItem!.Model.RecipientsTo),
+                RecipientsCc = new ObservableCollection<RecipientDto>(SelectedItem!.Model.RecipientsCc)
+            };
+            distributionInformationViewModel.DistributionInformation = disInfoDto;
             await distributionInformationViewModel.LoadAsync();
 
             bool? result = DialogService.ShowDialog(distributionInformationViewModel);
@@ -122,20 +132,10 @@ namespace DbConfigurator.UI.ViewModel.Panel
             }
             _dataModel.SaveChanges();
 
-
-            //distributionInformation.RegionId = dis.Region.Id;
-            //distributionInformation.PriorityId = dis.Priority.Id;
-            //distributionInformation.RecipientsTo = new List<Recipient>();
-            //distributionInformation.RecipientsCc = new List<Recipient>();
-
-            //foreach (var recipient in dis.RecipientsTo)
-            //{
-            //    distributionInformation.RecipientsTo.Add(recipient);
-            //}
-            //foreach (var recipient in dis.RecipientsCc)
-            //{
-            //    distributionInformation.RecipientsCc.Add(recipient);
-            //}
+            SelectedItem.Region = dis.Region;
+            SelectedItem.Priority = dis.Priority;
+            SelectedItem.RecipientsTo = dis.RecipientsTo;
+            SelectedItem.RecipientsCc = dis.RecipientsCc;
         }
     }
 }
