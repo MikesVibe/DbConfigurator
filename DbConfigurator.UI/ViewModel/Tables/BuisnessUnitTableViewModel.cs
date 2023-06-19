@@ -64,10 +64,16 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 return;
 
             var buisnessUnitEntity = _dataModel.GetBuisnessUnitById(SelectedItem!.Id);
+            if (buisnessUnitEntity is null)
+            {
+                //Log some error
+                return;
+            }
+
             _autoMapper.Mapper.Map(buisnessUnitViewModel.BuisnessUnit.Model, buisnessUnitEntity);
 
             _dataModel.SaveChanges();
-            _autoMapper.Mapper.Map(buisnessUnitEntity, SelectedItem);
+            SelectedItem.Name = buisnessUnitEntity.Name;
         }
 
         protected override void OnRemoveExecute()

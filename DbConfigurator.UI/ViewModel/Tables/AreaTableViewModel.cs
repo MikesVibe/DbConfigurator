@@ -64,10 +64,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 return;
 
             var areaEntity = _dataModel.GetAreaById(SelectedItem!.Id);
+            if (areaEntity is null)
+            {
+                //Log some error
+                return;
+            }
             _autoMapper.Mapper.Map(addAreaViewModel.Area.Model, areaEntity);
 
             _dataModel.SaveChanges();
-            _autoMapper.Mapper.Map(areaEntity, SelectedItem);
+            SelectedItem.Name = areaEntity.Name;
         }
 
         protected override void OnRemoveExecute()

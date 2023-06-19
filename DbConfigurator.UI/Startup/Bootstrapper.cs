@@ -67,10 +67,13 @@ namespace DbConfigurator.UI.Startup
                  .Keyed<IEditingViewModel>(nameof(AddBuisnessUnitViewModel));
             builder.RegisterType<AddCountryViewModel>()
                  .Keyed<IEditingViewModel>(nameof(AddCountryViewModel));
+            builder.RegisterType<AddRecipientViewModel>()
+                 .Keyed<IEditingViewModel>(nameof(AddRecipientViewModel));
 
 
             builder.RegisterType<AddAreaViewModel>().As<IEditingViewModel>();
             builder.RegisterType<AddDistibutionInformationViewModel>().AsSelf();
+            builder.RegisterType<AddRecipientViewModel>().AsSelf();
 
 
 

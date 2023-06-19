@@ -61,6 +61,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         protected override void OnEditExecute()
         {
             var addCountryViewModel = new AddCountryViewModel();
+            addCountryViewModel.Country = SelectedItem!;
 
             bool? result = DialogService.ShowDialog(addCountryViewModel);
 
@@ -68,17 +69,18 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 return;
 
             var countryDtoWrapper = addCountryViewModel.Country;
-            var countryEntity = new Country
+            var countryEntity = _dataModel.GetCountriesById(countryDtoWrapper.Id);
+            if (countryEntity is null)
             {
-                CountryName = countryDtoWrapper.CountryName,
-                CountryCode = countryDtoWrapper.CountryCode
-            };
+                //Log some error
+                return;
+            }
+            countryEntity.CountryName = countryDtoWrapper.CountryName;
+            countryEntity.CountryCode = countryDtoWrapper.CountryCode;
 
-            _dataModel.Add(countryEntity);
             _dataModel.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<CountryDto>(countryEntity);
-            var wrapped = new CountryDtoWrapper(mapped);
-            Items.Add(wrapped);
+
+
         }
 
         protected override void OnRemoveExecute()

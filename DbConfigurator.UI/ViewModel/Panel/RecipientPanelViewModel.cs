@@ -4,6 +4,7 @@ using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
+using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
@@ -14,21 +15,24 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class RecipientPanelViewModel : TableViewModelBase<RecipientDto>, IRecipientTableViewModel, IMainPanelViewModel
+    public class RecipientPanelViewModel : TableViewModelBase<RecipientDtoWrapper>, IRecipientTableViewModel, IMainPanelViewModel
     {
         private readonly AutoMapperConfig _autoMapper;
         private readonly IDataModel _dataModel;
+        private readonly Func<AddRecipientViewModel> _addRecipientViewModelCreator;
 
         public RecipientPanelViewModel(
             IEventAggregator eventAggregator,
             IDialogService dialogService,
             IDataModel dataModel,
-            AutoMapperConfig autoMapper
+            AutoMapperConfig autoMapper,
+            Func<AddRecipientViewModel> addRecipientViewModelCreator
             ) : base(eventAggregator, dialogService)
         {
             _dataModel = dataModel;
             _autoMapper = autoMapper;
-            Recipients_ObservableCollection = new ObservableCollection<RecipientDtoWrapper>();
+            _addRecipientViewModelCreator = addRecipientViewModelCreator;
+
         }
 
 
@@ -36,89 +40,87 @@ namespace DbConfigurator.UI.ViewModel.Panel
         public override async Task LoadAsync()
         {
             var recipients = await _dataModel.GetAllRecipientsAsync();
+            //foreach (var wrapper in Recipients_ObservableCollection)
+            //{
+            //    wrapper.PropertyChanged -= Recipients_ObservableCollection_PropertyChanged;
 
-            foreach (var wrapper in Recipients_ObservableCollection)
-            {
-                wrapper.PropertyChanged -= Recipients_ObservableCollection_PropertyChanged;
-
-            }
-            Recipients_ObservableCollection.Clear();
+            //}
+            //Recipients_ObservableCollection.Clear();
 
             foreach (var recipient in recipients)
             {
                 var mapped = _autoMapper.Mapper.Map<RecipientDto>(recipient);
                 var wrapper = new RecipientDtoWrapper(mapped);
-                Recipients_ObservableCollection.Add(wrapper);
-                wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
+                Items.Add(wrapper);
+                //wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
             }
         }
-        private void Recipients_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            //if (!HasChanges)
-            //{
-            //    HasChanges = _dataModel.HasChanges();
-            //}
-            //if (e.PropertyName == nameof(RecipientDtoWrapper.HasErrors))
-            //{
-            //    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            //}
-        }
-
 
         protected async override void OnAddExecute()
         {
+            var recipientViewModel = _addRecipientViewModelCreator();
+            bool? result = DialogService.ShowDialog(recipientViewModel);
+            if (result == false)
+                return;
+
+            var recipientDto = recipientViewModel.Recipient;
             //Create New Recipient
-            var recipient = new Recipient()
+            var recipientEntity = new Recipient()
             {
-                FirstName = string.Empty,
-                LastName = string.Empty,
-                Email = string.Empty
+                FirstName = recipientDto.FirstName,
+                LastName = recipientDto.LastName,
+                Email = recipientDto.Email
             };
 
-
-            await _dataModel.AddAsync(recipient);
+            await _dataModel.AddAsync(recipientEntity);
             await _dataModel.SaveChangesAsync();
 
-            var recipientEntity = await _dataModel.GetRecipientByIdAsync(recipient.Id);
-            var recipientDto = _autoMapper.Mapper.Map<RecipientDto>(recipientEntity);
-            var recipientWrapped = new RecipientDtoWrapper(recipientDto);
+            var mapped = _autoMapper.Mapper.Map<RecipientDto>(recipientEntity);
+            var wrapped = new RecipientDtoWrapper(mapped);
 
-            Recipients_ObservableCollection.Add(recipientWrapped);
-            SelectedRecipient = recipientWrapped;
+            Items.Add(wrapped);
+            SelectedItem = wrapped;
         }
 
         protected async override void OnRemoveExecute()
         {
-            var recipient = await _dataModel.GetRecipientByIdAsync(SelectedRecipient.Id);
-            _dataModel.Remove(recipient);
-            await _dataModel.SaveChangesAsync();
+            if (SelectedItem is null)
+                return;
 
-            Recipients_ObservableCollection.Remove(SelectedRecipient);
-            SelectedRecipient = null;
-        }
-
-        protected override void OnEditExecute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int DefaultRowIndex { get { return 0; } }
-        public RecipientDtoWrapper SelectedRecipient
-        {
-            get { return _selectedRecipient; }
-            set
+            var recipient = await _dataModel.GetRecipientByIdAsync(SelectedItem.Id);
+            if (recipient is null)
             {
-                if (value == null)
-                    return;
-
-                _selectedRecipient = value;
-                OnPropertyChanged();
+                //Log some error mesage here
+                return;
             }
+
+            _dataModel.Remove(recipient);
+            _dataModel.SaveChanges();
+
+            base.OnRemoveExecute();
         }
 
-        public ObservableCollection<RecipientDtoWrapper> Recipients_ObservableCollection { get; set; }
+        protected override async void OnEditExecute()
+        {
+            var recipientWrapper = _autoMapper.Mapper.Map<RecipientDtoWrapper>(SelectedItem!.Model);
+            var recipientViewModel = _addRecipientViewModelCreator();
+            recipientViewModel.Recipient = recipientWrapper;
+            bool? result = DialogService.ShowDialog(recipientViewModel);
+            if (result == false)
+                return;
 
-        private RecipientDtoWrapper _selectedRecipient;
+            var recipient = recipientViewModel.Recipient;
 
+            var recipientEntity = await _dataModel.GetRecipientByIdAsync(SelectedItem!.Id);
+            if (recipientEntity is null)
+            {
+                //Log some error
+                return;
+            }
+            _autoMapper.Mapper.Map(recipient.Model, recipientEntity);
+
+            _dataModel.SaveChanges();
+            SelectedItem.FirstName = recipient.FirstName;
+        }
     }
 }

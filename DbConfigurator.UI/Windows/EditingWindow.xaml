@@ -22,6 +22,9 @@
         <DataTemplate DataType="{x:Type viewModel:AddDistibutionInformationViewModel}">
             <addView:AddDistributionInformationView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AddRecipientViewModel}">
+            <addView:AddRecipientView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <ContentControl Content="{Binding}" />

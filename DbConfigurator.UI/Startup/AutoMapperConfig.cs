@@ -17,7 +17,7 @@ namespace DbConfigurator.UI.Startup
                 cfg.CreateMap<Area, AreaDto>().ReverseMap();
                 cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>().ReverseMap();
                 cfg.CreateMap<Country, CountryDto>().ReverseMap();
-                cfg.CreateMap<Priority, PriorityDto>();
+                cfg.CreateMap<Priority, PriorityDto>().ReverseMap();
                 cfg.CreateMap<Recipient, RecipientDto>().ReverseMap();
                 cfg.CreateMap<DistributionInformation, DistributionInformationDto>()
                             .ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
