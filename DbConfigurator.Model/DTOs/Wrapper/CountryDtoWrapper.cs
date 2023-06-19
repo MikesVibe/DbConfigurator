@@ -8,6 +8,10 @@ namespace DbConfigurator.Model.DTOs.Wrapper
         public CountryDtoWrapper(CountryDto model) : base(model)
         {
         }
+        public int Id
+        {
+            get { return GetValue<int>(); }
+        }
         public string CountryName
         {
             get { return GetValue<string>(); }
