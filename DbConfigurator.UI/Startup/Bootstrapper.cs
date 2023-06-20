@@ -14,18 +14,10 @@ using Prism.Events;
 
 namespace DbConfigurator.UI.Startup
 {
-    public class Bootstrapper
+    public static class ServicesBuilder
     {
-        public static IContainer Container
+        public static void AddApplicationServices(this ContainerBuilder builder)
         {
-            get { return _container; }
-            set { _container = value; }
-        }
-        private static IContainer _container;
-        public void Bootstrap()
-        {
-            var builder = new ContainerBuilder();
-
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             builder.RegisterType<DataModel>().As<IDataModel>().SingleInstance();
             builder.RegisterType<Seeder>().As<ISeeder>().SingleInstance();
@@ -82,18 +74,10 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<AddRecipientViewModel>().AsSelf();
             builder.RegisterType<AddRegionViewModel>().AsSelf();
 
-
-
-            Container = builder.Build();
         }
-
-        public static T Resolve<T>()
+        public static IContainer Build(this ContainerBuilder builder)
         {
-            return Container.Resolve<T>(new Parameter[0]);
-        }
-        public static T Resolve<T>(Parameter[] parameters)
-        {
-            return Container.Resolve<T>(new Parameter[0]);
+            return builder.Build();
         }
     }
 }
