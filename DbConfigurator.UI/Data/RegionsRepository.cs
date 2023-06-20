@@ -3,6 +3,7 @@ using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,14 @@ namespace DbConfigurator.UI.Data
             _context = dbConfiguratorDbContext;
             _autoMapper = autoMapperConfig;
         }
+        
+        public async Task<Region?> GetByIdAsync(int id)
+        {
+            var regions = GetRegionsAsQueryable();
+            var region = await regions.Where(r => r.Id == id).FirstOrDefaultAsync();
+            return region;
+        }
+
         public async Task<List<AreaDto>> GetAreasDtoAsync()
         {
             var regions = GetRegionsAsQueryable();
@@ -37,7 +46,6 @@ namespace DbConfigurator.UI.Data
 
             return areasDto;
         }
-
         public async Task<List<BuisnessUnitDto>> GetBuisnessUnitsDtoAsync(int? areaId = null)
         {
             var regions = (areaId is null) ?
@@ -55,7 +63,6 @@ namespace DbConfigurator.UI.Data
 
             return buisnessUnitsDto;
         }
-
         public async Task<List<CountryDto>> GetCountriesDtoAsync(int? buisnessUnitId = null)
         {
             var regions = (buisnessUnitId is null) ?
@@ -73,6 +80,8 @@ namespace DbConfigurator.UI.Data
 
             return countriesDto;
         }
+
+
 
         private IQueryable<Region> GetRegionsAsQueryable()
         {
@@ -92,5 +101,6 @@ namespace DbConfigurator.UI.Data
             return _context.Set<Country>()
                 .AsQueryable();
         }
+
     }
 }

@@ -69,7 +69,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 return;
 
             var countryDtoWrapper = addCountryViewModel.Country;
-            var countryEntity = _dataModel.GetCountriesById(countryDtoWrapper.Id);
+            var countryEntity = _dataModel.GetCountryById(countryDtoWrapper.Id);
             if (countryEntity is null)
             {
                 //Log some error
@@ -88,7 +88,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (SelectedItem is null)
                 return;
 
-            var country = _dataModel.GetCountriesById(SelectedItem.Id);
+            var country = _dataModel.GetCountryById(SelectedItem.Id);
             if (country is null)
             {
                 //Log some error mesage here

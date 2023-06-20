@@ -54,7 +54,7 @@ namespace DbConfigurator.Model
         void Add<T>(T item) where T : class;
         Area? GetAreaById(int id);
         BuisnessUnit? GetBuisnessUnitById(int id);
-        Country? GetCountriesById(int id);
+        Country? GetCountryById(int id);
         Task<List<RegionDto>> GetAllRegionsDtoAsync();
     }
 }

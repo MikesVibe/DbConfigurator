@@ -74,6 +74,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<AddAreaViewModel>().As<IEditingViewModel>();
             builder.RegisterType<AddDistibutionInformationViewModel>().AsSelf();
             builder.RegisterType<AddRecipientViewModel>().AsSelf();
+            builder.RegisterType<AddRegionViewModel>().AsSelf();
 
 
 

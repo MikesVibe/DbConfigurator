@@ -25,6 +25,9 @@
         <DataTemplate DataType="{x:Type viewModel:AddRecipientViewModel}">
             <addView:AddRecipientView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AddRegionViewModel}">
+            <addView:AddRegionView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <ContentControl Content="{Binding}" />

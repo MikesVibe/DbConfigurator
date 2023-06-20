@@ -262,7 +262,7 @@ namespace DbConfigurator.Model
         {
             return _context.BuisnessUnit.Where(a => a.Id == id).FirstOrDefault();
         }
-        public Country? GetCountriesById(int id)
+        public Country? GetCountryById(int id)
         {
             return _context.Country.Where(a => a.Id == id).FirstOrDefault();
         }

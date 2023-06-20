@@ -5,11 +5,13 @@ using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
+using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -18,79 +20,24 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class RegionPanelViewModel : TableViewModelBase<RegionDto>, IMainPanelViewModel
+    public class RegionPanelViewModel : TableViewModelBase<RegionDtoWrapper>, IMainPanelViewModel
     {
         private readonly AutoMapperConfig _autoMapper;
+        private readonly Func<AddRegionViewModel> _addRegionCreator;
         private readonly IDataModel _dataModel;
 
         public RegionPanelViewModel(
             IEventAggregator eventAggregator,
             IDialogService dialogService,
             IDataModel dataModel,
-            AutoMapperConfig autoMapper
+            AutoMapperConfig autoMapper,
+            Func<AddRegionViewModel> addRegionCreator
             ) : base(eventAggregator, dialogService)
         {
             _dataModel = dataModel;
             _autoMapper = autoMapper;
-            Regions_ObservableCollection = new ObservableCollection<RegionDtoWrapper>();
-
-            SelectedAreaChanged = new DelegateCommand(OnSelectedAreaChanged);
-            SelectedBuisnessUnitChanged = new DelegateCommand(OnSelectedBuisnessUnitChanged);
-            SelectedCountryChanged = new DelegateCommand(OnSelectedCountryChanged);
-        }
-
-        private void OnSelectedCountryChanged()
-        {
-            if (SelectedRegion == null || SelectedCountry == null)
-                return;
-
-            SelectedRegion.Country = SelectedCountry;
-            var regionEntity = _dataModel.GetRegionById(SelectedRegion.Id);
-            if (regionEntity == null)
-                throw new ArgumentNullException(nameof(regionEntity));
-
-            regionEntity.CountryId = SelectedCountry.Id;
-            _dataModel.SaveChanges();
-        }
-
-        private void OnSelectedBuisnessUnitChanged()
-        {
-            if (SelectedRegion == null || SelectedBuisnessUnit == null)
-                return;
-
-            SelectedRegion.BuisnessUnit = SelectedBuisnessUnit;
-            var regionEntity = _dataModel.GetRegionById(SelectedRegion.Id);
-            if (regionEntity == null)
-                throw new ArgumentNullException(nameof(regionEntity));
-
-            regionEntity.BuisnessUnitId = SelectedBuisnessUnit.Id;
-            _dataModel.SaveChanges();
-        }
-
-        private void OnSelectedAreaChanged()
-        {
-            if (SelectedRegion == null || SelectedArea == null)
-                return;
-
-            SelectedRegion.Area = SelectedArea;
-            var regionEntity = _dataModel.GetRegionById(SelectedRegion.Id);
-            if (regionEntity == null)
-                throw new ArgumentNullException(nameof(regionEntity));
-
-            regionEntity.AreaId = SelectedArea.Id;
-            _dataModel.SaveChanges();
-        }
-
-        protected override void OnSelectionChangedExecute()
-        {
-            if (SelectedRegion != null)
-            {
-                SelectedArea = Areas_ObservableCollection.Where(c => c.Id == SelectedRegion.Area.Id).FirstOrDefault();
-                SelectedBuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == SelectedRegion.BuisnessUnit.Id).FirstOrDefault();
-                SelectedCountry = Countries_ObservableCollection?.Where(c => c.Id == SelectedRegion.Country.Id).FirstOrDefault();
-            }
-
-            base.OnSelectionChangedExecute();
+            _addRegionCreator = addRegionCreator;
+            Items = new ObservableCollection<RegionDtoWrapper>();
         }
 
         public override async Task LoadAsync()
@@ -100,137 +47,68 @@ namespace DbConfigurator.UI.ViewModel.Panel
             {
                 var mapped = _autoMapper.Mapper.Map<RegionDto>(region);
                 var wrapped = new RegionDtoWrapper(mapped);
-                Regions_ObservableCollection.Add(wrapped);
-            }
-
-            var areas = await _dataModel.GetAllAreasAsync();
-            foreach (var area in areas)
-            {
-                var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-                Areas_ObservableCollection.Add(mapped);
-            }
-
-            var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
-            foreach (var buisnessUnit in buisnessUnits)
-            {
-                var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
-                BuisnessUnits_ObservableCollection.Add(mapped);
-            }
-
-            var countries = await _dataModel.GetAllCountriesAsync();
-            foreach (var country in countries)
-            {
-                var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
-                Countries_ObservableCollection.Add(mapped);
+                Items.Add(wrapped);
             }
         }
-        private void Country_ObservableCollection_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (!HasChanges)
-            {
-                HasChanges = _dataModel.HasChanges();
-            }
-            if (e.PropertyName == nameof(CountryWrapper.HasErrors))
-            {
-                //((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            }
-        }
-
-
 
         protected override async void OnAddExecute()
         {
-            //Create New Region
-            var defaultArea = _dataModel.DefaultArea;
-            var defaultBuisnessUnit = _dataModel.DefaultBuisnessUnit;
-            var defaultCountry = _dataModel.DefaultCountry;
-            var region = new Region
+            var regionViewModel = _addRegionCreator();
+            await regionViewModel.LoadAsync();
+            bool? result = DialogService.ShowDialog(regionViewModel);
+            if (result == false || regionViewModel.Region is null)
+                return;
+
+            var region = regionViewModel.Region;
+            var regionEntity = new Region
             {
-                Area = defaultArea,
-                BuisnessUnit = defaultBuisnessUnit,
-                Country = defaultCountry
+                AreaId = region.Area.Id,
+                BuisnessUnitId = region.BuisnessUnit.Id,
+                CountryId = region.Country.Id,
             };
 
-            await _dataModel.AddAsync(region);
-            await _dataModel.SaveChangesAsync();
+            _dataModel.Add(regionEntity);
+            _dataModel.SaveChanges();
 
-            var regionDto = _autoMapper.Mapper.Map<RegionDto>(region);
-            var wrappedRegion = new RegionDtoWrapper(regionDto);
-
-            Regions_ObservableCollection.Add(wrappedRegion);
-            SelectedRegion = wrappedRegion;
+            var mapped = _autoMapper.Mapper.Map<RegionDto>(regionEntity);
+            var wrapped = new RegionDtoWrapper(mapped);
+            Items.Add(wrapped);
         }
+        protected override async void OnEditExecute()
+        {
+            var regionViewModel = _addRegionCreator();
+            regionViewModel.Region = SelectedItem;
+            await regionViewModel.LoadAsync();
+            bool? result = DialogService.ShowDialog(regionViewModel);
+            if (result == false || regionViewModel.Region is null)
+                return;
 
+            var regionEntity = await _dataModel.RegionsRepository.GetByIdAsync(regionViewModel.Region.Id);
+
+            var area = _dataModel.GetAreaById(regionViewModel.Region.Area.Id);
+            var buisnessUnit = _dataModel.GetBuisnessUnitById(regionViewModel.Region.BuisnessUnit.Id);
+            var country = _dataModel.GetCountryById(regionViewModel.Region.Country.Id);
+            if(regionEntity is null || area is null || buisnessUnit is null || country is null)
+            {
+                //log error message
+                return;
+            }
+            regionEntity.Area = area;
+            regionEntity.BuisnessUnit = buisnessUnit;
+            regionEntity.Country = country;
+            _dataModel.SaveChanges();
+
+            SelectedItem!.Area = regionViewModel.Region.Area;
+            SelectedItem!.BuisnessUnit = regionViewModel.Region.BuisnessUnit;
+            SelectedItem!.Country = regionViewModel.Region.Country;
+        }
         protected override void OnRemoveExecute()
         {
-            var regionEntity = _dataModel.GetRegionById(SelectedRegion.Id);
+            var regionEntity = _dataModel.GetRegionById(SelectedItem!.Id);
             _dataModel.Remove(regionEntity!);
             _dataModel.SaveChanges();
-            Regions_ObservableCollection.Remove(SelectedRegion);
-            SelectedRegion = null;
+            Items.Remove(SelectedItem);
+            SelectedItem = null;
         }
-
-        protected override bool OnRemoveCanExecute()
-        {
-            return SelectedRegion != null;
-        }
-
-        protected override void OnEditExecute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICommand SelectedAreaChanged { get; set; }
-        public ICommand SelectedBuisnessUnitChanged { get; set; }
-        public ICommand SelectedCountryChanged { get; set; }
-
-        public int DefaultRowIndex { get { return 0; } }
-
-        public RegionDtoWrapper? SelectedRegion
-        {
-            get { return _selectedRegion; }
-            set
-            {
-                _selectedRegion = value;
-                OnPropertyChanged();
-            }
-        }
-        public AreaDto? SelectedArea
-        {
-            get { return _selectedArea; }
-            set
-            {
-                _selectedArea = value;
-                OnPropertyChanged();
-            }
-        }
-        public BuisnessUnitDto? SelectedBuisnessUnit
-        {
-            get { return _selectedBuisnessUnit; }
-            set
-            {
-                _selectedBuisnessUnit = value;
-                OnPropertyChanged();
-            }
-        }
-        public CountryDto? SelectedCountry
-        {
-            get { return _selectedCountry; }
-            set
-            {
-                _selectedCountry = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ObservableCollection<RegionDtoWrapper> Regions_ObservableCollection { get; set; } = new ObservableCollection<RegionDtoWrapper>();
-        public ObservableCollection<CountryDto> Countries_ObservableCollection { get; set; } = new ObservableCollection<CountryDto>();
-        public ObservableCollection<BuisnessUnitDto> BuisnessUnits_ObservableCollection { get; set; } = new ObservableCollection<BuisnessUnitDto>();
-        public ObservableCollection<AreaDto> Areas_ObservableCollection { get; set; } = new ObservableCollection<AreaDto>();
-
-        private RegionDtoWrapper? _selectedRegion;
-        private BuisnessUnitDto? _selectedBuisnessUnit;
-        private AreaDto? _selectedArea;
-        private CountryDto? _selectedCountry;
     }
 }
