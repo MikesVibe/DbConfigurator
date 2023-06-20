@@ -8,21 +8,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-            <table:AreaTableView Grid.Column="0" DataContext="{Binding AreaTable}"/>
-            <table:BuisnessUnitTableView Grid.Column="1" DataContext="{Binding BuisnessUnitTable}"/>
+        <table:AreaTableView Grid.Column="0" DataContext="{Binding AreaTable}"/>
+        <table:BuisnessUnitTableView Grid.Column="1" DataContext="{Binding BuisnessUnitTable}"/>
 
-            <table:CountryTableView  Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding CountryTable}"/>
-
-        </Grid>
+        <table:CountryTableView  Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding CountryTable}"/>
     </Grid>
 </UserControl>
