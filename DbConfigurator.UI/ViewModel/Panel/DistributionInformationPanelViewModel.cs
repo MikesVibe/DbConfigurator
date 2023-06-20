@@ -47,7 +47,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
             }
         }
 
-
         protected override async void OnAddExecute()
         {
             var distributionInformationViewModel = _addDistributionInformationCreator();
@@ -83,7 +82,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
             var wrapped = new DistributionInformationDtoWrapper(mapped);
             Items.Add(wrapped);
         }
-
         protected override async void OnRemoveExecute()
         {
             var distributionInformationToRemove = await _dataModel.GetDistributionInformationByIdAsync(SelectedItem!.Id);
@@ -92,8 +90,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
 
             base.OnRemoveExecute();
         }
-
-
         protected override async void OnEditExecute()
         {
             var distributionInformationViewModel = _addDistributionInformationCreator();

@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class CreationPanelViewModel : MainPanelViewModelBase, IMainPanelViewModel
+    public class CreationPanelViewModel : IMainPanelViewModel
     {
         public ITableViewModel AreaTable { get; set; }
         public ITableViewModel BuisnessUnitTable { get; set; }
         public ITableViewModel CountryTable { get; set; }
+
+        public int Id { get; set; }
 
         public CreationPanelViewModel(
             IIndex<string, ITableViewModel> tableViewModelCreator
@@ -21,7 +23,7 @@ namespace DbConfigurator.UI.ViewModel.Panel
             CountryTable = tableViewModelCreator[nameof(CountryTableViewModel)];
         }
 
-        public override async Task LoadAsync()
+        public async Task LoadAsync()
         {
             await AreaTable.LoadAsync();
             await BuisnessUnitTable.LoadAsync();

@@ -14,7 +14,6 @@ namespace DbConfigurator.UI.ViewModel.Add
 {
     public class AddRecipientViewModel : EditingViewModelBase
     {
-
         public AddRecipientViewModel()
         {
             RecipientDto recipientDto = new();
@@ -23,8 +22,7 @@ namespace DbConfigurator.UI.ViewModel.Add
             Recipient.LastName = "";
             Recipient.Email = "";
         }
-
-
+        
         public RecipientDtoWrapper Recipient { get; set; }
     }
 }

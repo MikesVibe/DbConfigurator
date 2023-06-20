@@ -11,6 +11,12 @@ namespace DbConfigurator.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        private IIndex<string, IMainPanelViewModel> _mainViewModelCreator;
+        private IEventAggregator _eventAggregator;
+        private INavigationPanelViewModel _navigationViewModel;
+        private IMainPanelViewModel? _selectedMainViewModel;
+        private bool _openTableReady = true;
+
         public MainViewModel(
             INavigationPanelViewModel navigationViewModel,
             IIndex<string, IMainPanelViewModel> tabelViewModelCreator,
@@ -27,6 +33,26 @@ namespace DbConfigurator.UI.ViewModel
                 .Subscribe(OnOpenTabelView);
         }
 
+        public ObservableCollection<IMainPanelViewModel> MainViewModels { get; }
+        public INavigationPanelViewModel NavigationViewModel
+        {
+            get { return _navigationViewModel; }
+            set { _navigationViewModel = value; }
+        }
+        public IMainPanelViewModel? SelectedMainPanelViewModel
+        {
+            get { return _selectedMainViewModel; }
+            set
+            {
+                _selectedMainViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public async Task LoadAsync()
+        {
+            await NavigationViewModel.LoadAsync();
+        }
         private async void OnOpenTabelView(OpenTabelViewEventArgs args)
         {
             if (!_openTableReady)
@@ -50,32 +76,5 @@ namespace DbConfigurator.UI.ViewModel
             SelectedMainPanelViewModel = tabelViewModel;
             _openTableReady = true;
         }
-        public INavigationPanelViewModel NavigationViewModel
-        {
-            get { return _navigationViewModel; }
-            set { _navigationViewModel = value; }
-        }
-        public IMainPanelViewModel? SelectedMainPanelViewModel
-        {
-            get { return _selectedMainViewModel; }
-            set
-            {
-                _selectedMainViewModel = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public async Task LoadAsync()
-        {
-            await NavigationViewModel.LoadAsync();
-        }
-
-        public ObservableCollection<IMainPanelViewModel> MainViewModels { get; }
-
-        private IIndex<string, IMainPanelViewModel> _mainViewModelCreator;
-        private IEventAggregator _eventAggregator;
-        private INavigationPanelViewModel _navigationViewModel;
-        private IMainPanelViewModel? _selectedMainViewModel;
-        private bool _openTableReady = true;
     }
 }

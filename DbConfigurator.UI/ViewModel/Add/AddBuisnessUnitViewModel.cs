@@ -7,8 +7,6 @@ namespace DbConfigurator.UI.ViewModel.Add
 {
     public class AddBuisnessUnitViewModel : EditingViewModelBase, IEditingViewModel, INotifyPropertyChanged
     {
-        public BuisnessUnitDtoWrapper BuisnessUnit { get; set; }
-
         public AddBuisnessUnitViewModel()
         {
             BuisnessUnitDto buisnessUnit = new();
@@ -19,9 +17,12 @@ namespace DbConfigurator.UI.ViewModel.Add
         {
             BuisnessUnit = new(buisnessUnitDto);
         }
+
         protected override bool CanAdd()
         {
             return true;
         }
+        
+        public BuisnessUnitDtoWrapper BuisnessUnit { get; set; }
     }
 }

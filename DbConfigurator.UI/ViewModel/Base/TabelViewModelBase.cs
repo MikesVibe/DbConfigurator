@@ -13,6 +13,8 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected readonly IDialogService DialogService;
         protected readonly IEventAggregator EventAggregator;
 
+        private int _id;
+        private bool _hasChanges;
 
         public TableViewModelBase(IEventAggregator eventAggregator, IDialogService dialogService)
         {
@@ -25,32 +27,11 @@ namespace DbConfigurator.UI.ViewModel.Base
 
             SelectionChangedCommand = new DelegateCommand(OnSelectionChangedExecute);
         }
-
-
-
-        public abstract Task LoadAsync();
-
-
-        protected abstract void OnAddExecute();
-        protected abstract void OnEditExecute();
-        protected virtual bool OnEditCanExecute()
-        {
-            return SelectedItem is not null;
-        }
-        protected virtual void OnRemoveExecute()
-        {
-            Items.Remove(SelectedItem!);
-            SelectedItem = default(T);
-        }
-        protected virtual bool OnRemoveCanExecute()
-        {
-            return SelectedItem is not null;
-        }
-        protected virtual void OnSelectionChangedExecute()
-        {
-            ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)EditCommand).RaiseCanExecuteChanged();
-        }
+        
+        public ICommand AddCommand { get; private set; }
+        public ICommand EditCommand { get; private set; }
+        public ICommand RemoveCommand { get; private set; }
+        public ICommand SelectionChangedCommand { get; set; }
 
         public int Id
         {
@@ -73,15 +54,27 @@ namespace DbConfigurator.UI.ViewModel.Base
         public ObservableCollection<T> Items { get; set; } = new();
         public T? SelectedItem { get; set; }
 
-        public ICommand AddCommand { get; private set; }
-        public ICommand EditCommand { get; private set; }
-        public ICommand RemoveCommand { get; private set; }
-        public ICommand SelectionChangedCommand { get; set; }
+        public abstract Task LoadAsync();
 
-
-        private int _id;
-        private bool _hasChanges;
-
-
+        protected abstract void OnAddExecute();
+        protected abstract void OnEditExecute();
+        protected virtual bool OnEditCanExecute()
+        {
+            return SelectedItem is not null;
+        }
+        protected virtual void OnRemoveExecute()
+        {
+            Items.Remove(SelectedItem!);
+            SelectedItem = default(T);
+        }
+        protected virtual bool OnRemoveCanExecute()
+        {
+            return SelectedItem is not null;
+        }
+        protected virtual void OnSelectionChangedExecute()
+        {
+            ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)EditCommand).RaiseCanExecuteChanged();
+        }
     }
 }

@@ -7,8 +7,6 @@ namespace DbConfigurator.UI.ViewModel.Add
 {
     public class AddCountryViewModel : EditingViewModelBase, IEditingViewModel, INotifyPropertyChanged
     {
-        public CountryDtoWrapper Country { get; set; }
-
         public AddCountryViewModel()
         {
             CountryDto country = new();
@@ -16,5 +14,6 @@ namespace DbConfigurator.UI.ViewModel.Add
             Country.CountryName = "";
         }
 
+        public CountryDtoWrapper Country { get; set; }
     }
 }
