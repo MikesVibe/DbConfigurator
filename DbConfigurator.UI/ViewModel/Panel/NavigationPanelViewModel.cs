@@ -9,6 +9,8 @@ namespace DbConfigurator.UI.ViewModel.Panel
 {
     public class NavigationPanelViewModel : ViewModelBase, INavigationPanelViewModel
     {
+        private IEventAggregator _eventAggregator;
+        
         public NavigationPanelViewModel(IEventAggregator eventAggregator)
         {
             NavigationItems_ObservableCollection = new ObservableCollection<NavigationItemViewModel>();
@@ -16,9 +18,7 @@ namespace DbConfigurator.UI.ViewModel.Panel
             _eventAggregator = eventAggregator;
         }
 
-
         public ObservableCollection<NavigationItemViewModel> NavigationItems_ObservableCollection { get; }
-
 
         public async Task LoadAsync()
         {
@@ -33,7 +33,5 @@ namespace DbConfigurator.UI.ViewModel.Panel
             NavigationItems_ObservableCollection.Add(
                    new NavigationItemViewModel(3, "Create", nameof(CreationPanelViewModel), _eventAggregator));
         }
-
-        private IEventAggregator _eventAggregator;
     }
 }

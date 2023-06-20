@@ -8,12 +8,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
 {
     public class CreationPanelViewModel : IMainPanelViewModel
     {
-        public ITableViewModel AreaTable { get; set; }
-        public ITableViewModel BuisnessUnitTable { get; set; }
-        public ITableViewModel CountryTable { get; set; }
-
-        public int Id { get; set; }
-
         public CreationPanelViewModel(
             IIndex<string, ITableViewModel> tableViewModelCreator
             )
@@ -22,6 +16,12 @@ namespace DbConfigurator.UI.ViewModel.Panel
             BuisnessUnitTable = tableViewModelCreator[nameof(BuisnessUnitTableViewModel)];
             CountryTable = tableViewModelCreator[nameof(CountryTableViewModel)];
         }
+
+        public ITableViewModel AreaTable { get; set; }
+        public ITableViewModel BuisnessUnitTable { get; set; }
+        public ITableViewModel CountryTable { get; set; }
+
+        public int Id { get; set; }
 
         public async Task LoadAsync()
         {

@@ -8,6 +8,10 @@ namespace DbConfigurator.UI.ViewModel.Navigation
 {
     public class NavigationItemViewModel : ViewModelBase
     {
+        private string _displayMember;
+        private string _detailViewModelName;
+        private IEventAggregator _eventAggregator;
+
         public NavigationItemViewModel(int id, string displayMember,
             string detailViewModelName,
             IEventAggregator eventAggregator)
@@ -17,6 +21,19 @@ namespace DbConfigurator.UI.ViewModel.Navigation
             DisplayMember = displayMember;
             _detailViewModelName = detailViewModelName;
             OpenTabelViewCommand = new DelegateCommand(OnOpenTabelViewExecute);
+        }
+        
+        public ICommand OpenTabelViewCommand { get; }
+
+        public int Id { get; }
+        public string DisplayMember
+        {
+            get { return _displayMember; }
+            set
+            {
+                _displayMember = value;
+                OnPropertyChanged();
+            }
         }
 
         private void OnOpenTabelViewExecute()
@@ -29,25 +46,5 @@ namespace DbConfigurator.UI.ViewModel.Navigation
                     ViewModelName = _detailViewModelName
                 });
         }
-
-
-        public string DisplayMember
-        {
-            get { return _displayMember; }
-            set
-            {
-                _displayMember = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int Id { get; }
-        public ICommand OpenTabelViewCommand { get; }
-
-
-        private string _displayMember;
-        private string _detailViewModelName;
-        private IEventAggregator _eventAggregator;
-
     }
 }

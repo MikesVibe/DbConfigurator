@@ -34,7 +34,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 Items.Add(wrapped);
             }
         }
-
         protected override void OnAddExecute()
         {
             var addAreaViewModel = new AddAreaViewModel();
@@ -52,7 +51,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var wrapped = new AreaDtoWrapper(mapped);
             Items.Add(wrapped);
         }
-
         protected override void OnEditExecute()
         {
             var areaDto = _autoMapper.Mapper.Map<AreaDto>(SelectedItem!.Model);
@@ -74,7 +72,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             _dataModel.SaveChanges();
             SelectedItem.Name = areaEntity.Name;
         }
-
         protected override void OnRemoveExecute()
         {
             if (SelectedItem is null)

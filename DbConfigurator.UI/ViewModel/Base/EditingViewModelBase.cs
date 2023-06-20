@@ -7,16 +7,14 @@ namespace DbConfigurator.UI.ViewModel.Base
 {
     public abstract class EditingViewModelBase : ViewModelBase, IEditingViewModel, INotifyPropertyChanged
     {
-        public ICommand AddCommand { get; }
-        public ICommand CancelCommand { get; }
-
-        public Action<bool>? CloseAction { get; set; }
-
         public EditingViewModelBase()
         {
             AddCommand = new DelegateCommand(Add, CanAdd);
             CancelCommand = new DelegateCommand(Cancel);
         }
+        public ICommand AddCommand { get; }
+        public ICommand CancelCommand { get; }
+        public Action<bool>? CloseAction { get; set; }
 
         protected virtual void Add()
         {
@@ -26,11 +24,9 @@ namespace DbConfigurator.UI.ViewModel.Base
         {
             return true;
         }
-
         protected virtual void Cancel()
         {
             CloseAction?.Invoke(false);
         }
-
     }
 }

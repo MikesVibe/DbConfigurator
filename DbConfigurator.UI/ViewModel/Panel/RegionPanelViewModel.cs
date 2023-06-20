@@ -50,7 +50,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
                 Items.Add(wrapped);
             }
         }
-
         protected override async void OnAddExecute()
         {
             var regionViewModel = _addRegionCreator();

@@ -36,7 +36,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
         }
 
 
-
         public override async Task LoadAsync()
         {
             var recipients = await _dataModel.GetAllRecipientsAsync();
@@ -55,7 +54,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
                 //wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
             }
         }
-
         protected async override void OnAddExecute()
         {
             var recipientViewModel = _addRecipientViewModelCreator();
@@ -81,7 +79,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
             Items.Add(wrapped);
             SelectedItem = wrapped;
         }
-
         protected async override void OnRemoveExecute()
         {
             if (SelectedItem is null)
@@ -99,7 +96,6 @@ namespace DbConfigurator.UI.ViewModel.Panel
 
             base.OnRemoveExecute();
         }
-
         protected override async void OnEditExecute()
         {
             var recipientWrapper = _autoMapper.Mapper.Map<RecipientDtoWrapper>(SelectedItem!.Model);

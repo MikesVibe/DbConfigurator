@@ -34,7 +34,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 Items.Add(wrapped);
             }
         }
-
         protected override void OnAddExecute()
         {
             var addbuisnessUnitViewModel = new AddBuisnessUnitViewModel();
@@ -52,7 +51,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var wrapped = new BuisnessUnitDtoWrapper(mapped);
             Items.Add(wrapped);
         }
-
         protected override void OnEditExecute()
         {
             var buisnessUnitDto = _autoMapper.Mapper.Map<BuisnessUnitDto>(SelectedItem!.Model);
@@ -75,7 +73,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             _dataModel.SaveChanges();
             SelectedItem.Name = buisnessUnitEntity.Name;
         }
-
         protected override void OnRemoveExecute()
         {
             if (SelectedItem is null)
@@ -92,7 +89,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             _dataModel.SaveChanges();
             base.OnRemoveExecute();
         }
-
         protected override void OnSelectionChangedExecute()
         {
             base.OnSelectionChangedExecute();

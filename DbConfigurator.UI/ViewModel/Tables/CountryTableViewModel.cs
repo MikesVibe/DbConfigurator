@@ -34,7 +34,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 Items.Add(wrapped);
             }
         }
-
         protected override void OnAddExecute()
         {
             var addCountryViewModel = new AddCountryViewModel();
@@ -57,7 +56,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var wrapped = new CountryDtoWrapper(mapped);
             Items.Add(wrapped);
         }
-
         protected override void OnEditExecute()
         {
             var addCountryViewModel = new AddCountryViewModel();
@@ -82,7 +80,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
 
         }
-
         protected override void OnRemoveExecute()
         {
             if (SelectedItem is null)
