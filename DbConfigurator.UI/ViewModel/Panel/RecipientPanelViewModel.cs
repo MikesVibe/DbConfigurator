@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class RecipientPanelViewModel : MainPanelViewModelBase
+    public class RecipientPanelViewModel : PanelViewModelBase
     {
         public RecipientPanelViewModel(IIndex<string, ITableViewModel> tableViewModelCreator)
         {

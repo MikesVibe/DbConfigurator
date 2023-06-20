@@ -63,6 +63,8 @@ namespace DbConfigurator.UI.Startup
                  .Keyed<ITableViewModel>(nameof(DistributionInformationTableViewModel));
             builder.RegisterType<RecipientTableViewModel>()
                  .Keyed<ITableViewModel>(nameof(RecipientTableViewModel));
+            builder.RegisterType<RegionTableViewModel>()
+                 .Keyed<ITableViewModel>(nameof(RegionTableViewModel));
 
             //Editing View Models
             builder.RegisterType<AddAreaViewModel>()

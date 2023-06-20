@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class MainPanelViewModelBase : IMainPanelViewModel
+    public abstract class PanelViewModelBase : IMainPanelViewModel
     {
         public int Id { get; set; }
 

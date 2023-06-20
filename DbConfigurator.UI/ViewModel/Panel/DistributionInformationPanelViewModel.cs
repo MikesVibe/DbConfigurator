@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Panel
 {
-    public class DistributionInformationPanelViewModel : MainPanelViewModelBase
+    public class DistributionInformationPanelViewModel : PanelViewModelBase
     {
         public DistributionInformationPanelViewModel(IIndex<string, ITableViewModel> tableViewModelCreator)
         {
