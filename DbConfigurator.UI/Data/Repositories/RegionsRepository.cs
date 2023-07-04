@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Data
+namespace DbConfigurator.UI.Data.Repositories
 {
     public class RegionsRepository
     {
@@ -24,7 +24,7 @@ namespace DbConfigurator.UI.Data
             _context = dbConfiguratorDbContext;
             _autoMapper = autoMapperConfig;
         }
-        
+
         public async Task<Region?> GetByIdAsync(int id)
         {
             var regions = GetRegionsAsQueryable();
@@ -48,7 +48,7 @@ namespace DbConfigurator.UI.Data
         }
         public async Task<List<BuisnessUnitDto>> GetBuisnessUnitsDtoAsync(int? areaId = null)
         {
-            var regions = (areaId is null) ?
+            var regions = areaId is null ?
                 GetRegionsAsQueryable() :
                 GetRegionsAsQueryable().Where(r => r.AreaId == areaId);
 
@@ -65,7 +65,7 @@ namespace DbConfigurator.UI.Data
         }
         public async Task<List<CountryDto>> GetCountriesDtoAsync(int? buisnessUnitId = null)
         {
-            var regions = (buisnessUnitId is null) ?
+            var regions = buisnessUnitId is null ?
                 GetRegionsAsQueryable() :
                 GetRegionsAsQueryable().Where(r => r.BuisnessUnitId == buisnessUnitId);
 

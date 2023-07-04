@@ -1,7 +1,8 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Data;
+using DbConfigurator.UI.Data.Repositories;
+using DbConfigurator.UI.Extensions;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -27,22 +28,11 @@ namespace DbConfigurator.Model
 
         private async void LoadDataFromDatabase()
         {
-            Areas = await GetAllAreasAsync();
-            BuisnessUnits = await GetAllBuisnessUnitsAsync();
-            Countries = await GetAllCountriesAsync();
-            Priorities = await GetAllPrioritiesAsync();
-            Recipients = await GetAllRecipientsAsync();
             DefaultArea = await GetDefaultArea();
             DefaultBuisnessUnit = await GetDefaultBuisnessUnit();
             DefaultCountry = await GetDefaultCountry();
             DefaultPriority = await GetDefaultPriority();
             DefaultRegion = await GetDefaultRegion();
-
-            AreasDto = AutoMapper.Mapper.Map<List<AreaDto>>(await GetAllAreasAsync());
-            BuisnessUnitsDto = AutoMapper.Mapper.Map<List<BuisnessUnitDto>>(await GetAllBuisnessUnitsAsync());
-            CountriesDto = AutoMapper.Mapper.Map<List<CountryDto>>(await GetAllCountriesAsync());
-            PrioritiesDto = AutoMapper.Mapper.Map<List<PriorityDto>>(await GetAllPrioritiesAsync());
-            RecipientsDto = AutoMapper.Mapper.Map<List<RecipientDto>>(await GetAllRecipientsAsync());
         }
 
         public async Task SaveChangesAsync()
@@ -86,7 +76,7 @@ namespace DbConfigurator.Model
 
             return collection;
         }
-        private async Task<ICollection<Priority>> GetAllPrioritiesAsync()
+        public async Task<ICollection<Priority>> GetAllPrioritiesAsync()
         {
             var collection = await Context.Set<Priority>().AsNoTracking().ToListAsync();
             return collection;
@@ -96,7 +86,11 @@ namespace DbConfigurator.Model
             var collection = await Context.Set<Recipient>().AsNoTracking().ToListAsync();
             return collection;
         }
-
+        public IEnumerable<Recipient> GetAllRecipients()
+        {
+            var collection = Context.Set<Recipient>().AsNoTracking().ToList();
+            return collection;
+        }
         public async Task<List<RegionDto>> GetAllRegionsDtoAsync()
         {
             List<RegionDto> toReturn = new();
@@ -198,19 +192,7 @@ namespace DbConfigurator.Model
         }
 
 
-        public ICollection<DistributionInformationDto> DistributionInformationsDto { get; private set; }
-        public ICollection<AreaDto> AreasDto { get; private set; }
-        public ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; private set; }
-        public ICollection<CountryDto> CountriesDto { get; private set; }
-        public ICollection<PriorityDto> PrioritiesDto { get; private set; }
-        public ICollection<RecipientDto> RecipientsDto { get; private set; }
 
-        public ICollection<DistributionInformation> DistributionInformations { get; private set; }
-        public ICollection<Area> Areas { get; private set; }
-        public ICollection<BuisnessUnit> BuisnessUnits { get; private set; }
-        public ICollection<Country> Countries { get; private set; }
-        public ICollection<Priority> Priorities { get; private set; }
-        public ICollection<Recipient> Recipients { get; private set; }
         public Area DefaultArea { get; private set; }
         public BuisnessUnit DefaultBuisnessUnit { get; private set; }
         public Country DefaultCountry { get; private set; }
@@ -292,6 +274,20 @@ namespace DbConfigurator.Model
         {
             return Context.Set<Country>()
                 .AsQueryable();
+        }
+
+        public async Task<IEnumerable<DistributionInformationDto>> GetAllDistributionInformationDtoAsync()
+        {
+            var collection = await Context.Set<DistributionInformation>()
+                .Include(d => d.Region).ThenInclude(r => r.Area)
+                .Include(d => d.Region).ThenInclude(r => r.BuisnessUnit)
+                .Include(d => d.Region).ThenInclude(r => r.Country)
+                .Include(d => d.RecipientsTo)
+                .Include(d => d.RecipientsCc)
+                .Include(d => d.Priority)
+                .ToListAsync();
+
+            return AutoMapper.Mapper.Map<IEnumerable<DistributionInformationDto>>(collection);
         }
 
         public DbConfiguratorDbContext Context

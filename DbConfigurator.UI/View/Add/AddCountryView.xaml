@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Content="Create Country" FontSize="30" HorizontalAlignment="Center" Margin="10"/>
+        <Label Grid.Row="0" Content="{Binding Title}" FontSize="30" HorizontalAlignment="Center" Margin="10"/>
         <StackPanel Grid.Row="1" Margin="10" Width="340">
             <Label Content="Country Name:" FontSize="20"/>
             <TextBox x:Name="countryNameTextBox" FontSize="20" 
@@ -28,7 +28,7 @@
 
         <StackPanel Grid.Row="3" Orientation="Horizontal"  HorizontalAlignment="Center" >
             <Button Content="Add" Margin="20" Width="150" Height="60" 
-                    Command="{Binding AddCommand}"/>
+                    Command="{Binding SaveCommand}"/>
             <Button Content="Cancel" Margin="20" Width="150" Height="60"
                     Command="{Binding CancelCommand}"/>
         </StackPanel>

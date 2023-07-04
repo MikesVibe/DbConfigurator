@@ -255,14 +255,20 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         private void PopulateComboBoxTo()
         {
-            var allRecipients = _dataModel.RecipientsDto;
-            var recipientsDtoAfterFiltration = allRecipients.Where(p => !DistributionInformation.RecipientsTo.Any(p2 => p2.Id == p.Id)).ToList();
-            RecipientsToComboBox = EnumerableToObservableCollection(recipientsDtoAfterFiltration);
+            var recipients = _dataModel.GetAllRecipients();
+            var mapped = _autoMapper.Mapper.Map<IEnumerable<RecipientDto>>(recipients);
+
+            var recipientsDtoAfterFiltration = mapped.Where(p => !DistributionInformation.RecipientsTo.Any(p2 => p2.Id == p.Id)).ToList();
+            RecipientsToComboBox = recipientsDtoAfterFiltration.ToObservableCollection();
         }
         private void PopulateComboBoxCc()
         {
-            var recipients = EnumerableToObservableCollection(_dataModel.RecipientsDto);
-            RecipientsCcComboBox = EnumerableToObservableCollection(recipients.Where(p => !DistributionInformation.RecipientsCc.Any(p2 => p2.Id == p.Id)));
+            var recipients = _dataModel.GetAllRecipients();
+            var mapped = _autoMapper.Mapper.Map<IEnumerable<RecipientDto>>(recipients);
+
+            var recipientsDtoAfterFiltration = mapped.Where(p => !DistributionInformation.RecipientsCc.Any(p2 => p2.Id == p.Id)).ToList();
+
+            RecipientsCcComboBox = recipientsDtoAfterFiltration.ToObservableCollection();
         }
         private async void OnAreaChanged()
         {
@@ -321,8 +327,9 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         private async Task PopulatePriorityCombobox()
         {
-            var priorities = _dataModel.PrioritiesDto;
-            Priority_Collection = priorities.ToObservableCollection();
+            var priorities = await _dataModel.GetAllPrioritiesAsync();
+            var mapped = _autoMapper.Mapper.Map<IEnumerable<PriorityDto>>(priorities);
+            Priority_Collection = mapped.ToObservableCollection();
         }
 
         private async void OnBuisnessUnitChanged()

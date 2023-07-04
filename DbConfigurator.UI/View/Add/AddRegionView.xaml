@@ -12,7 +12,7 @@
             <RowDefinition Height="120"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="Create Region" FontSize="30" HorizontalAlignment="Center" Margin="10"/>
+        <Label Grid.Row="0" Content="{Binding Title}" FontSize="30" HorizontalAlignment="Center" Margin="10"/>
         
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical"  Margin="20" Width="150" >
@@ -58,7 +58,7 @@
         
         <StackPanel Grid.Row="2"  Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Content="Add" Margin="40" Width="200" Height="60" 
-                    Command="{Binding AddCommand}"/>
+                    Command="{Binding SaveCommand}"/>
             <Button Content="Cancel" Margin="40" Width="200" Height="60"
                     Command="{Binding CancelCommand}"/>
         </StackPanel>

@@ -121,21 +121,21 @@ namespace DbConfigurator.UI.ViewModel.Add
             if (Region == null)
                 return;
 
-            ((DelegateCommand)AddCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
         private void OnSelectedBuisnessUnitChanged()
         {
             if (Region == null)
                 return;
 
-            ((DelegateCommand)AddCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
         private void OnSelectedAreaChanged()
         {
             if (Region == null)
                 return;
 
-            ((DelegateCommand)AddCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
     }
 }

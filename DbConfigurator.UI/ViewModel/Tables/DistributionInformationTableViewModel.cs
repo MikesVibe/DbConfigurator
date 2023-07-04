@@ -36,12 +36,11 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public async override Task LoadAsync()
         {
-            var distributionInformations = await _dataModel.GetAllDistributionInformationAsync();
+            var distributionInformations = await _dataModel.GetAllDistributionInformationDtoAsync();
 
             foreach (var distributionInformation in distributionInformations)
             {
-                var mapped = _autoMapper.Mapper.Map<DistributionInformationDto>(distributionInformation);
-                var wrapped = new DistributionInformationDtoWrapper(mapped);
+                var wrapped = new DistributionInformationDtoWrapper(distributionInformation);
                 Items.Add(wrapped);
             }
         }

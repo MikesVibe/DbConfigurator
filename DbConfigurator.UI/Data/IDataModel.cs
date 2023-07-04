@@ -1,6 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Data;
+using DbConfigurator.UI.Data.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,22 +10,13 @@ namespace DbConfigurator.Model
     {
         Task SaveChangesAsync();
 
-        ICollection<Area> Areas { get; }
-        ICollection<BuisnessUnit> BuisnessUnits { get; }
-        ICollection<Country> Countries { get; }
-        ICollection<Priority> Priorities { get; }
-        ICollection<Recipient> Recipients { get; }
+
         Country DefaultCountry { get; }
         Priority DefaultPriority { get; }
         Area DefaultArea { get; }
         Region DefaultRegion { get; }
         BuisnessUnit DefaultBuisnessUnit { get; }
-        ICollection<AreaDto> AreasDto { get; }
-        ICollection<BuisnessUnitDto> BuisnessUnitsDto { get; }
-        ICollection<CountryDto> CountriesDto { get; }
-        ICollection<PriorityDto> PrioritiesDto { get; }
-        ICollection<RecipientDto> RecipientsDto { get; }
-        RegionsRepository RegionsRepository { get; set; }
+        RegionsRepository RegionsRepository { get; }
 
         bool HasChanges();
 
@@ -56,5 +47,8 @@ namespace DbConfigurator.Model
         BuisnessUnit? GetBuisnessUnitById(int id);
         Country? GetCountryById(int id);
         Task<List<RegionDto>> GetAllRegionsDtoAsync();
+        Task<ICollection<Priority>> GetAllPrioritiesAsync();
+        IEnumerable<Recipient> GetAllRecipients();
+        Task<IEnumerable<DistributionInformationDto>> GetAllDistributionInformationDtoAsync();
     }
 }
