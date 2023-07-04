@@ -11,42 +11,25 @@ namespace DbConfigurator.UI.Services
         Task SaveChangesAsync();
 
 
-        Country DefaultCountry { get; }
-        Priority DefaultPriority { get; }
-        Area DefaultArea { get; }
-        Region DefaultRegion { get; }
-        BuisnessUnit DefaultBuisnessUnit { get; }
         RegionsRepository RegionsRepository { get; }
-
-        bool HasChanges();
 
         Task AddAsync<T>(T item) where T : class;
         Task<Recipient> GetRecipientByIdAsync(int id);
-
         void Remove<T>(T item) where T : class;
-        Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync();
+        void SaveChanges();
+        void Add<T>(T item) where T : class;
         Task<DistributionInformation> GetDistributionInformationByIdAsync(int id);
-        bool IsDefaultCountry(int countryId);
         Task<ICollection<Recipient>> GetAllRecipientsAsync();
         Task<ICollection<Area>> GetAllAreasAsync();
         Task<ICollection<BuisnessUnit>> GetAllBuisnessUnitsAsync();
         Task<ICollection<Country>> GetAllCountriesAsync();
-        Task<ICollection<Area>> GetAreasWithoutDefaultAsync();
-        Task<ICollection<BuisnessUnit>> GetBuisnessUnitsWithoutDefaultAsync();
-        Task<ICollection<Country>> GetCountriesWithoutDefaultAsync();
-        Task<IEnumerable<Region>> GetRegionsByAreaIdAsync(int id);
-
-        Task<IEnumerable<BuisnessUnit>> GetBuisnessUnitsAsync(int areaId);
-        Task<IEnumerable<Country>> GetCountriesAsync(int buisnessUnitId);
         Task<ICollection<Region>> GetAllRegionsAsync();
         Task<Region?> GetRegionAsync(int areaId, int buisnessUnitId, int countryId);
         Region? GetRegionById(int id);
-        void SaveChanges();
-        void Add<T>(T item) where T : class;
+
         Area? GetAreaById(int id);
         BuisnessUnit? GetBuisnessUnitById(int id);
         Country? GetCountryById(int id);
-        Task<List<RegionDto>> GetAllRegionsDtoAsync();
         Task<ICollection<Priority>> GetAllPrioritiesAsync();
         IEnumerable<Recipient> GetAllRecipients();
         Task<IEnumerable<DistributionInformationDto>> GetAllDistributionInformationDtoAsync();

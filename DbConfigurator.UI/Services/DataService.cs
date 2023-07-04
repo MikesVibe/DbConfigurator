@@ -13,51 +13,32 @@ namespace DbConfigurator.UI.Services
 {
     public class DataService : IDataService
     {
+        private AutoMapperConfig _autoMapper;
+        private DbConfiguratorDbContext _context;
+
         public DataService(
             DbConfiguratorDbContext dbConfiguratorDbContext,
             AutoMapperConfig autoMapperConfig,
             RegionsRepository regionsRepository
             )
         {
-            Context = dbConfiguratorDbContext;
-            AutoMapper = autoMapperConfig;
+            _context = dbConfiguratorDbContext;
+            _autoMapper = autoMapperConfig;
             RegionsRepository = regionsRepository;
 
-            LoadDataFromDatabase();
         }
 
-        private async void LoadDataFromDatabase()
-        {
-            DefaultArea = await GetDefaultArea();
-            DefaultBuisnessUnit = await GetDefaultBuisnessUnit();
-            DefaultCountry = await GetDefaultCountry();
-            DefaultPriority = await GetDefaultPriority();
-            DefaultRegion = await GetDefaultRegion();
-        }
+        public RegionsRepository RegionsRepository { get; }
 
         public async Task SaveChangesAsync()
         {
-            await Context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
         public void SaveChanges()
         {
-            Context.SaveChanges();
+            _context.SaveChanges();
         }
 
-        public async Task<ICollection<DistributionInformation>> GetAllDistributionInformationAsync()
-        {
-            var collection = await Context.Set<DistributionInformation>()
-                //.Include(c => c.Country).ThenInclcsdsude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
-                .Include(d => d.Region).ThenInclude(r => r.Area)
-                .Include(d => d.Region).ThenInclude(r => r.BuisnessUnit)
-                .Include(d => d.Region).ThenInclude(r => r.Country)
-                .Include(d => d.RecipientsTo)
-                .Include(d => d.RecipientsCc)
-                .Include(d => d.Priority)
-                .ToListAsync();
-
-            return collection;
-        }
         public async Task<ICollection<Region>> GetAllRegionsAsync()
         {
             var collection = await GetRegionsAsQueryable().OrderBy(r => r.Id).ToListAsync();
@@ -66,68 +47,35 @@ namespace DbConfigurator.UI.Services
         }
         public async Task<ICollection<Area>> GetAllAreasAsync()
         {
-            var collection = await Context.Set<Area>().AsNoTracking().ToListAsync();
+            var collection = await _context.Set<Area>().AsNoTracking().ToListAsync();
 
             return collection;
         }
         public async Task<ICollection<BuisnessUnit>> GetAllBuisnessUnitsAsync()
         {
-            var collection = await Context.Set<BuisnessUnit>().AsNoTracking().ToListAsync();
+            var collection = await _context.Set<BuisnessUnit>().AsNoTracking().ToListAsync();
 
             return collection;
         }
         public async Task<ICollection<Priority>> GetAllPrioritiesAsync()
         {
-            var collection = await Context.Set<Priority>().AsNoTracking().ToListAsync();
+            var collection = await _context.Set<Priority>().AsNoTracking().ToListAsync();
             return collection;
         }
         public async Task<ICollection<Recipient>> GetAllRecipientsAsync()
         {
-            var collection = await Context.Set<Recipient>().AsNoTracking().ToListAsync();
+            var collection = await _context.Set<Recipient>().AsNoTracking().ToListAsync();
             return collection;
         }
         public IEnumerable<Recipient> GetAllRecipients()
         {
-            var collection = Context.Set<Recipient>().AsNoTracking().ToList();
+            var collection = _context.Set<Recipient>().AsNoTracking().ToList();
             return collection;
         }
-        public async Task<List<RegionDto>> GetAllRegionsDtoAsync()
-        {
-            List<RegionDto> toReturn = new();
-            var regions = await GetRegionsAsQueryable().OrderBy(r => r.Id).ToListAsync();
-            foreach (var region in regions)
-            {
-                toReturn.Add(AutoMapper.Mapper.Map<RegionDto>(region));
-            }
-
-            return toReturn;
-        }
-
         public async Task<ICollection<Country>> GetAllCountriesAsync()
         {
-            var collection = await Context.Set<Country>().ToListAsync();
+            var collection = await _context.Set<Country>().ToListAsync();
             //.Include(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas).AsNoTracking().ToListAsync();
-
-            return collection;
-        }
-        public async Task<ICollection<Area>> GetAreasWithoutDefaultAsync()
-        {
-            var collection = await Context.Set<Area>().AsNoTracking().Where(a => a.Id != DefaultArea.Id).ToListAsync();
-
-            return collection;
-        }
-        public async Task<ICollection<BuisnessUnit>> GetBuisnessUnitsWithoutDefaultAsync()
-        {
-            var collection = await Context.Set<BuisnessUnit>().AsNoTracking().Where(a => a.Id != DefaultBuisnessUnit.Id).ToListAsync();
-
-            return collection;
-        }
-        public async Task<ICollection<Country>> GetCountriesWithoutDefaultAsync()
-        {
-            var collection = await Context.Set<Country>()
-                //.Include(c => c.BuisnessUnits)
-                //.ThenInclude(bu => bu.Areas)
-                .AsNoTracking().Where(c => c.Id != DefaultCountry.Id).ToListAsync();
 
             return collection;
         }
@@ -139,92 +87,25 @@ namespace DbConfigurator.UI.Services
                 r.BuisnessUnitId == buisnessUnitId &&
                 r.CountryId == countryId).FirstOrDefaultAsync();
         }
-        public async Task<IEnumerable<BuisnessUnit>> GetBuisnessUnitsAsync(int areaId)
-        {
-            var regionsWithAreaId = GetRegionsAsQueryable().Where(i => i.AreaId == areaId);
-            var buisnessUnitsIdList = await regionsWithAreaId.Select(r => r.BuisnessUnitId).ToListAsync();
-
-            var buisnessUnits = GetBuisnessUnitsAsQueryable().Where(b => buisnessUnitsIdList.Contains(b.Id));
-
-            return await buisnessUnits.ToListAsync();
-        }
-        public async Task<IEnumerable<Country>> GetCountriesAsync(int buisnessUnitId)
-        {
-            var regionsWithBuisnessUnitId = GetRegionsAsQueryable().Where(i => i.BuisnessUnitId == buisnessUnitId);
-
-            var testList = regionsWithBuisnessUnitId.ToList();
-            var countriesIdList = await regionsWithBuisnessUnitId.Select(r => r.CountryId).ToListAsync();
-
-            var countries = GetCountriesAsQueryable().Where(c => countriesIdList.Contains(c.Id));
-
-            return await countries.ToListAsync();
-        }
-
-        private async Task<Area> GetDefaultArea()
-        {
-            var area = await Context.Set<Area>().Where(a => a.Id == 99)
-                .FirstOrDefaultAsync();
-            return area;
-        }
-        private async Task<BuisnessUnit> GetDefaultBuisnessUnit()
-        {
-            var buisnessUnit = await Context.Set<BuisnessUnit>().Where(bu => bu.Id == 99)
-                .FirstOrDefaultAsync();
-            return buisnessUnit;
-        }
-        private async Task<Country> GetDefaultCountry()
-        {
-            var country = await Context.Set<Country>().Where(c => c.Id == 99)
-                .FirstOrDefaultAsync();
-            return country;
-        }
-        private async Task<Priority> GetDefaultPriority()
-        {
-            var priority = await Context.Set<Priority>().Where(c => c.Id == 99)
-                .FirstOrDefaultAsync();
-            return priority;
-        }
-        private async Task<Region> GetDefaultRegion()
-        {
-            var region = await Context.Set<Region>().Where(c => c.Id == 99)
-                .FirstOrDefaultAsync();
-            return region;
-        }
-
-
-
-        public Area DefaultArea { get; private set; }
-        public BuisnessUnit DefaultBuisnessUnit { get; private set; }
-        public Country DefaultCountry { get; private set; }
-        public Priority DefaultPriority { get; private set; }
-        public Region DefaultRegion { get; private set; }
-
-
-        public bool HasChanges()
-        {
-            return Context.ChangeTracker.HasChanges();
-        }
-
-
         public async Task AddAsync<T>(T item) where T : class
         {
-            await Context.Set<T>().AddAsync(item);
+            await _context.Set<T>().AddAsync(item);
         }
         public void Add<T>(T item) where T : class
         {
-            Context.Set<T>().Add(item);
+            _context.Set<T>().Add(item);
         }
         public void Remove<T>(T item) where T : class
         {
-            Context.Set<T>().Remove(item);
+            _context.Set<T>().Remove(item);
         }
         public async Task<Recipient> GetRecipientByIdAsync(int id)
         {
-            return await Context.Recipient.Where(r => r.Id == id).FirstAsync();
+            return await _context.Recipient.Where(r => r.Id == id).FirstAsync();
         }
         public async Task<DistributionInformation> GetDistributionInformationByIdAsync(int id)
         {
-            return await Context.DistributionInformation.Where(d => d.Id == id)
+            return await _context.DistributionInformation.Where(d => d.Id == id)
                 //.Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
                 .Include(r => r.Region)
                 .Include(t => t.RecipientsTo)
@@ -248,37 +129,17 @@ namespace DbConfigurator.UI.Services
         {
             return _context.Country.Where(a => a.Id == id).FirstOrDefault();
         }
-        public bool IsDefaultCountry(int countryId)
-        {
-            return DefaultCountry.Id == countryId;
-        }
-
-        public async Task<IEnumerable<Region>> GetRegionsByAreaIdAsync(int id)
-        {
-            return await Context.Set<Region>().Where(r => r.Area.Id == id).ToListAsync();
-        }
         private IQueryable<Region> GetRegionsAsQueryable()
         {
-            return Context.Set<Region>()
+            return _context.Set<Region>()
                 .Include(r => r.Area)
                 .Include(r => r.BuisnessUnit)
                 .Include(r => r.Country)
                 .AsQueryable();
         }
-        private IQueryable<BuisnessUnit> GetBuisnessUnitsAsQueryable()
-        {
-            return Context.Set<BuisnessUnit>()
-                .AsQueryable();
-        }
-        private IQueryable<Country> GetCountriesAsQueryable()
-        {
-            return Context.Set<Country>()
-                .AsQueryable();
-        }
-
         public async Task<IEnumerable<DistributionInformationDto>> GetAllDistributionInformationDtoAsync()
         {
-            var collection = await Context.Set<DistributionInformation>()
+            var collection = await _context.Set<DistributionInformation>()
                 .Include(d => d.Region).ThenInclude(r => r.Area)
                 .Include(d => d.Region).ThenInclude(r => r.BuisnessUnit)
                 .Include(d => d.Region).ThenInclude(r => r.Country)
@@ -287,23 +148,7 @@ namespace DbConfigurator.UI.Services
                 .Include(d => d.Priority)
                 .ToListAsync();
 
-            return AutoMapper.Mapper.Map<IEnumerable<DistributionInformationDto>>(collection);
+            return _autoMapper.Mapper.Map<IEnumerable<DistributionInformationDto>>(collection);
         }
-
-        public DbConfiguratorDbContext Context
-        {
-            get { return _context; }
-            set { _context = value; }
-        }
-
-        public RegionsRepository RegionsRepository { get; set; }
-
-
-        private AutoMapperConfig AutoMapper { get; set; }
-
-
-
-
-        private DbConfiguratorDbContext _context;
     }
 }
