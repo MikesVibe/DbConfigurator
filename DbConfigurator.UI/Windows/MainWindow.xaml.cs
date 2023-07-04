@@ -1,5 +1,5 @@
 ﻿using DbConfigurator.DataAccess;
-using DbConfigurator.Model;
+using DbConfigurator.UI.Services;
 using DbConfigurator.UI.ViewModel;
 using System.IO;
 using System.Windows;

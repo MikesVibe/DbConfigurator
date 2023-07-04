@@ -1,7 +1,7 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Data.Repositories;
+using DbConfigurator.UI.Repositories;
 using DbConfigurator.UI.Extensions;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.Model
+namespace DbConfigurator.UI.Services
 {
     public class DataService : IDataService
     {

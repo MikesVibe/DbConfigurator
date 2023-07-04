@@ -1,7 +1,7 @@
 ﻿using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Data.Repositories;
+using DbConfigurator.UI.Repositories;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Data
+namespace DbConfigurator.UI.Services
 {
     public class RemoteDataService : IDataService
     {

@@ -1,4 +1,4 @@
-﻿namespace DbConfigurator.UI.Data.Repositories
+﻿namespace DbConfigurator.UI.Repositories
 {
     public class PriorityRepository
     {

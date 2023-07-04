@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services;

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Data.Repositories
+namespace DbConfigurator.UI.Repositories
 {
     public class RegionsRepository
     {

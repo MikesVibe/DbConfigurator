@@ -1,9 +1,8 @@
 ﻿using Autofac;
 using Autofac.Core;
 using DbConfigurator.DataAccess;
-using DbConfigurator.Model;
-using DbConfigurator.UI.Data;
-using DbConfigurator.UI.Data.Repositories;
+using DbConfigurator.UI;
+using DbConfigurator.UI.Repositories;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Add;

@@ -1,10 +1,10 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Data.Repositories;
+using DbConfigurator.UI.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.Model
+namespace DbConfigurator.UI.Services
 {
     public interface IDataService
     {
