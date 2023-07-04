@@ -20,12 +20,12 @@ namespace DbConfigurator.UI.ViewModel.Tables
     {
         private readonly AutoMapperConfig _autoMapper;
         private readonly Func<AddRegionViewModel> _addRegionCreator;
-        private readonly IDataModel _dataModel;
+        private readonly IDataService _dataModel;
 
         public RegionTableViewModel(
             IEventAggregator eventAggregator,
             IDialogService dialogService,
-            IDataModel dataModel,
+            IDataService dataModel,
             AutoMapperConfig autoMapper,
             Func<AddRegionViewModel> addRegionCreator
             ) : base(eventAggregator, dialogService)

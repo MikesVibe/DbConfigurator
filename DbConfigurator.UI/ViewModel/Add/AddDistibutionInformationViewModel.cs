@@ -29,11 +29,11 @@ namespace DbConfigurator.UI.ViewModel.Add
         private RecipientDto? _selectedRecipientToListView;
         private RecipientDto? _selectedRecipientCcListView;
         private bool AwaitingComboboxPopulation = false;
-        private readonly IDataModel _dataModel;
+        private readonly IDataService _dataModel;
         private readonly AutoMapperConfig _autoMapper;
 
         public AddDistibutionInformationViewModel(
-            IDataModel dataModel,
+            IDataService dataModel,
             AutoMapperConfig autoMapper
             )
         {

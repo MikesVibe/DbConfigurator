@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.Model
 {
-    public class DataModel : IDataModel
+    public class DataService : IDataService
     {
-        public DataModel(
+        public DataService(
             DbConfiguratorDbContext dbConfiguratorDbContext,
             AutoMapperConfig autoMapperConfig,
             RegionsRepository regionsRepository

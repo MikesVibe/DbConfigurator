@@ -16,14 +16,14 @@ namespace DbConfigurator.UI.ViewModel.Add
 {
     public class AddRegionViewModel : EditingViewModelBase
     {
-        private readonly IDataModel _dataModel;
+        private readonly IDataService _dataModel;
         private readonly AutoMapperConfig _autoMapper;
         private AreaDto? _selectedArea;
         private BuisnessUnitDto? _selectedBuisnessUnit;
         private CountryDto? _selectedCountry;
 
         public AddRegionViewModel(
-            IDataModel dataModel,
+            IDataService dataModel,
             AutoMapperConfig autoMapper
             )
         {

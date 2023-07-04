@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.Model
 {
-    public interface IDataModel
+    public interface IDataService
     {
         Task SaveChangesAsync();
 

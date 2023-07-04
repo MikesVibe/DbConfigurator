@@ -18,13 +18,13 @@ namespace DbConfigurator.UI.ViewModel.Tables
     public class RecipientTableViewModel : TableViewModelBase<RecipientDtoWrapper>
     {
         private readonly AutoMapperConfig _autoMapper;
-        private readonly IDataModel _dataModel;
+        private readonly IDataService _dataModel;
         private readonly Func<AddRecipientViewModel> _addRecipientViewModelCreator;
 
         public RecipientTableViewModel(
             IEventAggregator eventAggregator,
             IDialogService dialogService,
-            IDataModel dataModel,
+            IDataService dataModel,
             AutoMapperConfig autoMapper,
             Func<AddRecipientViewModel> addRecipientViewModelCreator
             ) : base(eventAggregator, dialogService)

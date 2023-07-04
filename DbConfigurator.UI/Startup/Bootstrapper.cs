@@ -20,7 +20,7 @@ namespace DbConfigurator.UI.Startup
         public static void AddApplicationServices(this ContainerBuilder builder)
         {
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            builder.RegisterType<DataModel>().As<IDataModel>().SingleInstance();
+            builder.RegisterType<DataService>().As<IDataService>().SingleInstance();
             builder.RegisterType<Seeder>().As<ISeeder>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             builder.RegisterType<AutoMapperConfig>().AsSelf().SingleInstance();

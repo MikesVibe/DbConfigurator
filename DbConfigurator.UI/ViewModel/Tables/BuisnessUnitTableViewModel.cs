@@ -14,10 +14,10 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper>, ITableViewModel
     {
-        private readonly IDataModel _dataModel;
+        private readonly IDataService _dataModel;
         private readonly AutoMapperConfig _autoMapper;
 
-        public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IDataModel dataModel, AutoMapperConfig autoMapper)
+        public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IDataService dataModel, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService)
         {
             _dataModel = dataModel;

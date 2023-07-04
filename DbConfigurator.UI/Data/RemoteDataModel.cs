@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Data
 {
-    public class RemoteDataModel : IDataModel
+    public class RemoteDataService : IDataService
     {
         private readonly HttpClient _client;
-        public RemoteDataModel()
+        public RemoteDataService()
         {
             _client = new();
         }
