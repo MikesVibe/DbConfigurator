@@ -1,17 +1,17 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.DataAccess.Repository;
+using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Services
+namespace DbConfigurator.UI.Services.Interfaces
 {
     public interface IDataService
     {
         Task SaveChangesAsync();
 
 
-        RegionsRepository RegionsRepository { get; }
+        IRegionService RegionService { get; }
 
         Task AddAsync<T>(T item) where T : class;
         Task<Recipient> GetRecipientByIdAsync(int id);

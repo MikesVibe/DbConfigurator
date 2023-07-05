@@ -1,6 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.UI.Extensions;
-using DbConfigurator.UI.Services;
+using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
@@ -304,12 +304,12 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         private async Task PopulateAreaCombobox()
         {
-            List<AreaDto> areas = await _dataModel.RegionsRepository.GetAreasDtoAsync();
+            var areas = await _dataModel.RegionService.GetAreasAsync();
             Area_Collection = areas.ToObservableCollection();
         }
         private async Task PopulateBuisnessUnitCombobox(int? areaId = null)
         {
-            var buisnessUnits = await _dataModel.RegionsRepository.GetBuisnessUnitsDtoAsync(areaId);
+            var buisnessUnits = await _dataModel.RegionService.GetBuisnessUnitsAsync(areaId);
             BuisnessUnit_Collection.Clear();
             foreach (var buisnessUnit in buisnessUnits)
             {
@@ -318,7 +318,7 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         private async Task PopulateCountryCombobox(int? buisnessUnitId = null)
         {
-            var countries = await _dataModel.RegionsRepository.GetCountriesDtoAsync(buisnessUnitId);
+            var countries = await _dataModel.RegionService.GetCountriesAsync(buisnessUnitId);
             Country_Collection.Clear();
             foreach (var country in countries)
             {

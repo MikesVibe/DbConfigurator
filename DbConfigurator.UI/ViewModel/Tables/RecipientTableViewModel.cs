@@ -1,7 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
-using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using Prism.Events;
@@ -11,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DbConfigurator.UI.ViewModel.Base;
+using DbConfigurator.UI.Services.Interfaces;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {

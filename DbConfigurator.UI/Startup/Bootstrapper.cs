@@ -1,9 +1,10 @@
 ﻿using Autofac;
 using Autofac.Core;
 using DbConfigurator.DataAccess;
+using DbConfigurator.DataAccess.Repository;
 using DbConfigurator.UI;
-using DbConfigurator.UI.Repositories;
 using DbConfigurator.UI.Services;
+using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Interfaces;
@@ -19,17 +20,22 @@ namespace DbConfigurator.UI.Startup
         public static void AddApplicationServices(this ContainerBuilder builder)
         {
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            builder.RegisterType<DataService>().As<IDataService>().SingleInstance();
             builder.RegisterType<Seeder>().As<ISeeder>().SingleInstance();
-            builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             builder.RegisterType<AutoMapperConfig>().AsSelf().SingleInstance();
 
             builder.RegisterType<Windows.MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
-            builder.RegisterType<RegionsRepository>().AsSelf();
 
             builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
+
+            //Repositories
+            builder.RegisterType<RegionRepository>().AsSelf();
+
+            //Services
+            builder.RegisterType<DataService>().As<IDataService>().SingleInstance();
+            builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
+            builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
 
             //Navigation Panel
             builder.RegisterType<NavigationPanelViewModel>().As<INavigationPanelViewModel>();

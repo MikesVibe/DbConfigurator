@@ -1,10 +1,11 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Services;
+using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
+using DbConfigurator.UI.Windows;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -77,11 +78,16 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false || regionViewModel.Region is null)
                 return;
 
-            var regionEntity = await _dataModel.RegionsRepository.GetByIdAsync(regionViewModel.Region.Id);
+            var regionEntity = await _dataModel.RegionService.GetRegionByIdAsync(regionViewModel.Region.Id);
 
-            var area = _dataModel.GetAreaById(regionViewModel.Region.Area.Id);
-            var buisnessUnit = _dataModel.GetBuisnessUnitById(regionViewModel.Region.BuisnessUnit.Id);
-            var country = _dataModel.GetCountryById(regionViewModel.Region.Country.Id);
+            //var area = _dataModel.GetAreaById(regionViewModel.Region.Area.Id);
+            //var buisnessUnit = _dataModel.GetBuisnessUnitById(regionViewModel.Region.BuisnessUnit.Id);
+            //var country = _dataModel.GetCountryById(regionViewModel.Region.Country.Id);
+
+            var area = regionViewModel.Region.Area;
+            var buisnessUnit = regionViewModel.Region.BuisnessUnit;
+            var country = regionViewModel.Region.Country;
+
             if (regionEntity is null || area is null || buisnessUnit is null || country is null)
             {
                 //log error message
@@ -90,17 +96,20 @@ namespace DbConfigurator.UI.ViewModel.Tables
             regionEntity.Area = area;
             regionEntity.BuisnessUnit = buisnessUnit;
             regionEntity.Country = country;
-            _dataModel.SaveChanges();
+            await _dataModel.SaveChangesAsync();
 
             SelectedItem!.Area = regionViewModel.Region.Area;
             SelectedItem!.BuisnessUnit = regionViewModel.Region.BuisnessUnit;
             SelectedItem!.Country = regionViewModel.Region.Country;
         }
-        protected override void OnRemoveExecute()
+        protected override async void OnRemoveExecute()
         {
-            var regionEntity = _dataModel.GetRegionById(SelectedItem!.Id);
-            _dataModel.Remove(regionEntity!);
-            _dataModel.SaveChanges();
+            var regionEntity = await _dataModel.RegionService.GetRegionByIdAsync(SelectedItem!.Id);
+            if (regionEntity is null )
+                throw new ArgumentNullException(nameof(regionEntity));
+            
+            _dataModel.Remove(regionEntity);
+            await _dataModel.SaveChangesAsync();
             Items.Remove(SelectedItem);
             SelectedItem = null;
         }

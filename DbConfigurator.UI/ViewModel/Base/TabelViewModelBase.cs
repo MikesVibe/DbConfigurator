@@ -1,4 +1,4 @@
-﻿using DbConfigurator.UI.Services;
+﻿using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;

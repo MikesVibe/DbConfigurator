@@ -1,8 +1,9 @@
 ﻿using DbConfigurator.DataAccess;
+using DbConfigurator.DataAccess.Repository;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Repositories;
 using DbConfigurator.UI.Extensions;
+using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -16,19 +17,19 @@ namespace DbConfigurator.UI.Services
         private AutoMapperConfig _autoMapper;
         private DbConfiguratorDbContext _context;
 
+
         public DataService(
             DbConfiguratorDbContext dbConfiguratorDbContext,
             AutoMapperConfig autoMapperConfig,
-            RegionsRepository regionsRepository
+            IRegionService regionService
             )
         {
             _context = dbConfiguratorDbContext;
             _autoMapper = autoMapperConfig;
-            RegionsRepository = regionsRepository;
-
+            RegionService = regionService;
         }
 
-        public RegionsRepository RegionsRepository { get; }
+        public IRegionService RegionService { get; }
 
         public async Task SaveChangesAsync()
         {
@@ -41,7 +42,7 @@ namespace DbConfigurator.UI.Services
 
         public async Task<ICollection<Region>> GetAllRegionsAsync()
         {
-            var collection = await GetRegionsAsQueryable().OrderBy(r => r.Id).ToListAsync();
+            var collection = await GetRegionsAsQueryable().OrderBy(r => r.Id).AsNoTracking().ToListAsync();
 
             return collection;
         }
@@ -85,7 +86,7 @@ namespace DbConfigurator.UI.Services
                 .Where(r =>
                 r.AreaId == areaId &&
                 r.BuisnessUnitId == buisnessUnitId &&
-                r.CountryId == countryId).FirstOrDefaultAsync();
+                r.CountryId == countryId).AsNoTracking().FirstOrDefaultAsync();
         }
         public async Task AddAsync<T>(T item) where T : class
         {
@@ -115,7 +116,7 @@ namespace DbConfigurator.UI.Services
         }
         public Region? GetRegionById(int id)
         {
-            return GetRegionsAsQueryable().Where(r => r.Id == id).FirstOrDefault();
+            return GetRegionsAsQueryable().Where(r => r.Id == id).AsNoTracking().FirstOrDefault();
         }
         public Area? GetAreaById(int id)
         {

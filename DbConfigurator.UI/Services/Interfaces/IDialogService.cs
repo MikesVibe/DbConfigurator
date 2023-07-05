@@ -1,6 +1,6 @@
 ﻿using DbConfigurator.UI.ViewModel;
 
-namespace DbConfigurator.UI.Services
+namespace DbConfigurator.UI.Services.Interfaces
 {
     public interface IDialogService
     {

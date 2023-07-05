@@ -1,7 +1,8 @@
-﻿using DbConfigurator.Model;
+﻿using DbConfigurator.DataAccess.Repository;
+using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Repositories;
+using DbConfigurator.UI.Services.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,10 @@ namespace DbConfigurator.UI.Services
     public class RemoteDataService : IDataService
     {
         private readonly HttpClient _client;
-        public RemoteDataService()
+        public RemoteDataService(IRegionService regionService)
         {
             _client = new();
+            RegionService = regionService;
         }
 
         public Country DefaultCountry => throw new NotImplementedException();
@@ -30,7 +32,7 @@ namespace DbConfigurator.UI.Services
 
         public BuisnessUnit DefaultBuisnessUnit => throw new NotImplementedException();
 
-        public RegionsRepository RegionsRepository => throw new NotImplementedException();
+        public IRegionService RegionService { get; }
 
         public void Add<T>(T item) where T : class
         {
