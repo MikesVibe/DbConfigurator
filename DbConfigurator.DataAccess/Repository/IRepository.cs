@@ -7,7 +7,7 @@ namespace DbConfigurator.Api.Services.Repositories
     public interface IRepository<TEntity> where TEntity : IEntity
     {
         void Add(TEntity entity);
-        void Delete(TEntity value);
+        void Remove(TEntity value);
         void Update(TEntity entity);
         void SaveChanges();
         IEnumerable<TEntity> GetAll();
@@ -18,5 +18,7 @@ namespace DbConfigurator.Api.Services.Repositories
         Task SaveChangesAsync();
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity?> GetByIdAsync(int id);
+        bool RemoveById(int id);
+        Task<bool> RemoveByIdAsync(int id);
     }
 }

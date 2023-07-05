@@ -78,14 +78,10 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override async void OnRemoveExecute()
         {
-            //var regionEntity = await _regionService.RegionService.GetRegionByIdAsync(SelectedItem!.Id);
-            //if (regionEntity is null )
-            //    throw new ArgumentNullException(nameof(regionEntity));
-            
-            //_regionService.Remove(regionEntity);
-            //await _regionService.SaveChangesAsync();
-            //Items.Remove(SelectedItem);
-            //SelectedItem = null;
+            await _regionService.RemoveByIdAsync(SelectedItem!.Id);
+
+            Items.Remove(SelectedItem);
+            SelectedItem = null;
         }
     }
 }

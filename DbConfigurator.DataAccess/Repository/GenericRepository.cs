@@ -12,7 +12,7 @@ namespace DbConfigurator.API.DataAccess.Repository
 {
     public class GenericRepository<T> : IRepository<T>
         where T : class, IEntity
-        
+
     {
         protected readonly DbConfiguratorDbContext _context;
 
@@ -26,9 +26,26 @@ namespace DbConfigurator.API.DataAccess.Repository
         {
             _context.Set<T>().Add(entity);
         }
-        public virtual void Delete(T entity)
+        public virtual void Update(T entity)
+        {
+            var existing = _context.Set<T>().Find(entity.Id);
+            if (existing is null)
+                return;
+
+            _context.Entry(existing).CurrentValues.SetValues(entity);
+        }
+        public virtual void Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
+        }
+        public virtual bool RemoveById(int id)
+        {
+            var entity = _context.Set<T>().Find(id);
+            if (entity is null)
+                return false;
+
+            _context.Set<T>().Remove(entity);
+            return true;
         }
         public virtual IEnumerable<T> GetAll()
         {
@@ -36,24 +53,11 @@ namespace DbConfigurator.API.DataAccess.Repository
         }
         public virtual T? GetById(int id)
         {
-            return _context.Set<T>().FirstOrDefault(e => e.Id == id);
+            return _context.Set<T>().AsNoTracking().FirstOrDefault(e => e.Id == id);
         }
-        public virtual void Update(T entity)
-        {
-            var existing = _context.Set<T>().Find(entity.Id);
-            if (existing is null)
-                return;
-            
-            _context.Entry(existing).CurrentValues.SetValues(entity);
-        }
-        public virtual async Task UpdateAsync(T entity)
-        {
-            var existing = await _context.Set<T>().FindAsync(entity.Id);
-            if (existing is null)
-                return;
 
-            _context.Entry(existing).CurrentValues.SetValues(entity);
-        }
+
+
 
         public async Task SaveChangesAsync()
         {
@@ -67,6 +71,23 @@ namespace DbConfigurator.API.DataAccess.Repository
         public virtual async Task AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
+        }
+        public virtual async Task UpdateAsync(T entity)
+        {
+            var existing = await _context.Set<T>().FindAsync(entity.Id);
+            if (existing is null)
+                return;
+
+            _context.Entry(existing).CurrentValues.SetValues(entity);
+        }
+        public virtual async Task<bool> RemoveByIdAsync(int id)
+        {
+            var entity = await _context.Set<T>().FindAsync(id);
+            if (entity is null)
+                return false;
+
+            _context.Set<T>().Remove(entity);
+            return true;
         }
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
