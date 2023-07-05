@@ -63,33 +63,18 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override async void OnEditExecute()
         {
-            //var regionViewModel = _addRegionCreator();
-            //regionViewModel.Region = SelectedItem;
-            //await regionViewModel.LoadAsync();
-            //bool? result = DialogService.ShowDialog(regionViewModel);
-            //if (result == false || regionViewModel.Region is null)
-            //    return;
+            var regionViewModel = _addRegionCreator();
+            regionViewModel.Region = SelectedItem;
+            await regionViewModel.LoadAsync();
+            bool? result = DialogService.ShowDialog(regionViewModel);
+            if (result == false || regionViewModel.Region is null)
+                return;
 
-            //var regionEntity = await _regionService.RegionService.GetRegionByIdAsync(regionViewModel.Region.Id);
+            var updatedRegion = _regionService.Update(regionViewModel.Region.Model);
 
-
-            //var area = regionViewModel.Region.Area;
-            //var buisnessUnit = regionViewModel.Region.BuisnessUnit;
-            //var country = regionViewModel.Region.Country;
-
-            //if (regionEntity is null || area is null || buisnessUnit is null || country is null)
-            //{
-            //    //log error message
-            //    return;
-            //}
-            //regionEntity.Area = area;
-            //regionEntity.BuisnessUnit = buisnessUnit;
-            //regionEntity.Country = country;
-            //await _regionService.SaveChangesAsync();
-
-            //SelectedItem!.Area = regionViewModel.Region.Area;
-            //SelectedItem!.BuisnessUnit = regionViewModel.Region.BuisnessUnit;
-            //SelectedItem!.Country = regionViewModel.Region.Country;
+            SelectedItem!.Area = regionViewModel.Region.Area;
+            SelectedItem!.BuisnessUnit = regionViewModel.Region.BuisnessUnit;
+            SelectedItem!.Country = regionViewModel.Region.Country;
         }
         protected override async void OnRemoveExecute()
         {

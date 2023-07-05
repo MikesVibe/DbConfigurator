@@ -9,12 +9,12 @@ namespace DbConfigurator.UI.Windows
     public partial class MainWindow : Window
     {
         private MainViewModel _viewModel;
-        private IDataService _dataModel;
+        private ICombinedDataService _dataModel;
         private readonly ISeeder _seeder;
 
         //private IDistributionInformationRepository? _repository;
 
-        public MainWindow(MainViewModel viewModel, IDataService dataModel, ISeeder seeder)
+        public MainWindow(MainViewModel viewModel, ICombinedDataService dataModel, ISeeder seeder)
         {
             InitializeComponent();
             _seeder = seeder;

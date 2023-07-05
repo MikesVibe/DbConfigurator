@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class DataService : IDataService
+    public class CombinedDataService : ICombinedDataService
     {
         private AutoMapperConfig _autoMapper;
         private DbConfiguratorDbContext _context;
 
 
-        public DataService(
+        public CombinedDataService(
             DbConfiguratorDbContext dbConfiguratorDbContext,
             AutoMapperConfig autoMapperConfig,
             IRegionService regionService

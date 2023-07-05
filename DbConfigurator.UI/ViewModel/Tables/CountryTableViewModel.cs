@@ -13,10 +13,10 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class CountryTableViewModel : TableViewModelBase<CountryDtoWrapper>, ITableViewModel
     {
-        private readonly IDataService _dataModel;
+        private readonly ICombinedDataService _dataModel;
         private readonly AutoMapperConfig _autoMapper;
 
-        public CountryTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IDataService dataModel, AutoMapperConfig autoMapper)
+        public CountryTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, ICombinedDataService dataModel, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService)
         {
             _dataModel = dataModel;

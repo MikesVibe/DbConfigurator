@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class RemoteDataService : IDataService
+    public class RemoteDataService : ICombinedDataService
     {
         private readonly HttpClient _client;
         public RemoteDataService(IRegionService regionService)

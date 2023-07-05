@@ -34,7 +34,7 @@ namespace DbConfigurator.UI.Startup
 
             //Services
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
-            builder.RegisterType<DataService>().As<IDataService>().SingleInstance();
+            builder.RegisterType<CombinedDataService>().As<ICombinedDataService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
 
             //Navigation Panel

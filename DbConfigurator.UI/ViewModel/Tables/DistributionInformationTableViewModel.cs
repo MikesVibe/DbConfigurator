@@ -17,13 +17,13 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper>
     {
-        private readonly IDataService _dataModel;
+        private readonly ICombinedDataService _dataModel;
         private readonly Func<AddDistibutionInformationViewModel> _addDistributionInformationCreator;
         private readonly AutoMapperConfig _autoMapper;
 
         public DistributionInformationTableViewModel(IDialogService dialogService,
             IEventAggregator eventAggregator,
-            IDataService dataModel,
+            ICombinedDataService dataModel,
             Func<AddDistibutionInformationViewModel> addDistributionInformationCreator,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator, dialogService)
