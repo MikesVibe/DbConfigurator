@@ -11,17 +11,12 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class RegionService : IRegionService
+    public class RegionService : GenericDataService<Region, RegionDto, RegionRepository>, IRegionService
     {
-        private readonly RegionRepository _regionRepository;
-        private readonly AutoMapperConfig _autoMapper;
-
         public RegionService(
             RegionRepository regionRepository,
-            AutoMapperConfig autoMapper)
+            AutoMapperConfig autoMapper) : base(regionRepository, autoMapper)
         {
-            _regionRepository = regionRepository;
-            _autoMapper = autoMapper;
         }
 
         public async Task<IEnumerable<AreaDto>> GetAreasAsync()
@@ -42,11 +37,6 @@ namespace DbConfigurator.UI.Services
 
             return new List<CountryDto>();
         }
-        public async Task<RegionDto?> GetRegionByIdAsync(int id)
-        {
-            await Task.CompletedTask;
-            return new RegionDto();
-        }
 
         public async Task<List<BuisnessUnitDto>> GetBuisnessUnitsAsync(int? areaId = null)
         {
@@ -61,17 +51,5 @@ namespace DbConfigurator.UI.Services
             return new List<CountryDto>();
         }
 
-        public async Task<IEnumerable<RegionDto>> GetAllRegionsAsync()
-        {
-            return _autoMapper.Mapper.Map<IEnumerable<RegionDto>>(await _regionRepository.GetAllAsync());
-        }
-        public async Task<RegionDto> AddAsync(RegionDto region)
-        {
-            var regionEntity = _autoMapper.Mapper.Map<Region>(region);
-            await _regionRepository.AddAsync(regionEntity);
-            await _regionRepository.SaveChangesAsync();
-
-            return _autoMapper.Mapper.Map<RegionDto>(await _regionRepository.GetByIdAsync(regionEntity.Id));
-        }
     }
 }

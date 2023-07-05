@@ -38,7 +38,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public override async Task LoadAsync()
         {
-            var regions = await _regionService.GetAllRegionsAsync();
+            var regions = await _regionService.GetAllAsync();
             foreach (var region in regions)
             {
                 var wrapped = new RegionDtoWrapper(region);
@@ -70,11 +70,11 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false || regionViewModel.Region is null)
                 return;
 
-            var updatedRegion = _regionService.Update(regionViewModel.Region.Model);
+            var updatedRegionDto = await _regionService.UpdateAsync(regionViewModel.Region.Model);
 
-            SelectedItem!.Area = regionViewModel.Region.Area;
-            SelectedItem!.BuisnessUnit = regionViewModel.Region.BuisnessUnit;
-            SelectedItem!.Country = regionViewModel.Region.Country;
+            SelectedItem!.Area = updatedRegionDto.Area;
+            SelectedItem!.BuisnessUnit = updatedRegionDto.BuisnessUnit;
+            SelectedItem!.Country = updatedRegionDto.Country;
         }
         protected override async void OnRemoveExecute()
         {

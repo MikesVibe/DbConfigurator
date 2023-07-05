@@ -8,14 +8,15 @@ namespace DbConfigurator.Api.Services.Repositories
     {
         void Add(TEntity entity);
         void Delete(TEntity value);
+        void Update(TEntity entity);
+        void SaveChanges();
         IEnumerable<TEntity> GetAll();
         TEntity? GetById(int id);
-        void Update(TEntity entity);
 
         Task AddAsync(TEntity entity);
+        Task UpdateAsync(TEntity entity);
+        Task SaveChangesAsync();
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity?> GetByIdAsync(int id);
-        Task SaveChangesAsync();
-        void SaveChanges();
     }
 }

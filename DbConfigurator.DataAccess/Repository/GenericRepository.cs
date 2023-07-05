@@ -40,8 +40,19 @@ namespace DbConfigurator.API.DataAccess.Repository
         }
         public virtual void Update(T entity)
         {
-            _context.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            var existing = _context.Set<T>().Find(entity.Id);
+            if (existing is null)
+                return;
+            
+            _context.Entry(existing).CurrentValues.SetValues(entity);
+        }
+        public virtual async Task UpdateAsync(T entity)
+        {
+            var existing = await _context.Set<T>().FindAsync(entity.Id);
+            if (existing is null)
+                return;
+
+            _context.Entry(existing).CurrentValues.SetValues(entity);
         }
 
         public async Task SaveChangesAsync()
@@ -53,7 +64,6 @@ namespace DbConfigurator.API.DataAccess.Repository
             _context.SaveChanges();
         }
 
-        //IRepositoryAsync
         public virtual async Task AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
