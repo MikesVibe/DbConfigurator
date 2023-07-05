@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.Entities.Core
 {
-    public class Priority
+    public class Priority : IEntity
     {
         [Required]
         public int Id { get; set; }

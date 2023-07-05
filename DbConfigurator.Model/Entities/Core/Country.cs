@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.Entities.Core
 {
-    public class Country
+    public class Country : IEntity
     {
         [Required]
         public int Id { get; set; }
@@ -18,8 +18,5 @@ namespace DbConfigurator.Model.Entities.Core
 
 
         public ICollection<Region> Regions { get; set; }
-        //public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
-        //public ICollection<DistributionInformation> DistributionInformations { get; set; }
-
     }
 }

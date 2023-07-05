@@ -3,16 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.Entities.Core
 {
-    public class DistributionInformation
+    public class DistributionInformation : IEntity
     {
-        public DistributionInformation()
-        {
-        }
-        public DistributionInformation(Region region, Priority priority)
-        {
-            Region = region;
-            Priority = priority;
-        }
         [Required]
         public int Id { get; set; }
         public Region Region { get; set; }

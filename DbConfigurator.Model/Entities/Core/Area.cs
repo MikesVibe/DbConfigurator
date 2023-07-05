@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.Entities.Core
 {
-    public class Area
+    public class Area : IEntity
     {
         [Required]
         public int Id { get; set; }
@@ -11,9 +11,6 @@ namespace DbConfigurator.Model.Entities.Core
         [MaxLength(250)]
         public string Name { get; set; }
 
-        //public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
-        //public ICollection<DistributionInformation> DistributionInformations { get; set; }
         public ICollection<Region> Regions { get; set; }
-
     }
 }
