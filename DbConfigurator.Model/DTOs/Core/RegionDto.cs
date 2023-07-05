@@ -1,6 +1,6 @@
 ﻿namespace DbConfigurator.Model.DTOs.Core
 {
-    public class RegionDto
+    public class RegionDto : IEntityDto
     {
         public int Id { get; init; }
         public AreaDto Area { get; set; }

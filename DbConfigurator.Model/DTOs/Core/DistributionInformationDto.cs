@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.Model.DTOs.Core
 {
-    public class DistributionInformationDto
+    public class DistributionInformationDto : IEntityDto
     {
         public int Id { get; init; }
 

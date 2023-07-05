@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.Model.DTOs.Core
 {
-    public class AreaDto
+    public class AreaDto : IEntityDto
     {
         public int Id { get; set; }
         [Required]

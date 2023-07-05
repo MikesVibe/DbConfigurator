@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.Model.DTOs.Core
 {
-    public class RecipientDto
+    public class RecipientDto : IEntityDto
     {
         public int Id { get; init; }
 
