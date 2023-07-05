@@ -2,6 +2,7 @@
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Startup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,14 @@ namespace DbConfigurator.UI.Services
     public class RegionService : IRegionService
     {
         private readonly RegionRepository _regionRepository;
+        private readonly AutoMapperConfig _autoMapper;
 
-        public RegionService(RegionRepository regionRepository)
+        public RegionService(
+            RegionRepository regionRepository,
+            AutoMapperConfig autoMapper)
         {
             _regionRepository = regionRepository;
+            _autoMapper = autoMapper;
         }
 
         public async Task<IEnumerable<AreaDto>> GetAreasAsync()
@@ -54,6 +59,19 @@ namespace DbConfigurator.UI.Services
             await Task.CompletedTask;
 
             return new List<CountryDto>();
+        }
+
+        public async Task<IEnumerable<RegionDto>> GetAllRegionsAsync()
+        {
+            return _autoMapper.Mapper.Map<IEnumerable<RegionDto>>(await _regionRepository.GetAllAsync());
+        }
+        public async Task<RegionDto> AddAsync(RegionDto region)
+        {
+            var regionEntity = _autoMapper.Mapper.Map<Region>(region);
+            await _regionRepository.AddAsync(regionEntity);
+            await _regionRepository.SaveChangesAsync();
+
+            return _autoMapper.Mapper.Map<RegionDto>(await _regionRepository.GetByIdAsync(regionEntity.Id));
         }
     }
 }

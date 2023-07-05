@@ -6,6 +6,8 @@ namespace DbConfigurator.UI.Services.Interfaces
 {
     public interface IRegionService
     {
+        Task<RegionDto> AddAsync(RegionDto region);
+        Task<IEnumerable<RegionDto>> GetAllRegionsAsync();
         Task<IEnumerable<AreaDto>> GetAreasAsync();
         Task<IEnumerable<BuisnessUnitDto>> GetBuisnessUnitsAsync();
         Task<List<BuisnessUnitDto>> GetBuisnessUnitsAsync(int? areaId = null);

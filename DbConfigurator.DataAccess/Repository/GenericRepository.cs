@@ -44,6 +44,15 @@ namespace DbConfigurator.API.DataAccess.Repository
             _context.Entry(entity).State = EntityState.Modified;
         }
 
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
+
         //IRepositoryAsync
         public virtual async Task AddAsync(T entity)
         {

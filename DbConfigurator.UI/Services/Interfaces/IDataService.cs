@@ -23,7 +23,6 @@ namespace DbConfigurator.UI.Services.Interfaces
         Task<ICollection<Area>> GetAllAreasAsync();
         Task<ICollection<BuisnessUnit>> GetAllBuisnessUnitsAsync();
         Task<ICollection<Country>> GetAllCountriesAsync();
-        Task<ICollection<Region>> GetAllRegionsAsync();
         Task<Region?> GetRegionAsync(int areaId, int buisnessUnitId, int countryId);
         Region? GetRegionById(int id);
 

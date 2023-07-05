@@ -40,12 +40,6 @@ namespace DbConfigurator.UI.Services
             _context.SaveChanges();
         }
 
-        public async Task<ICollection<Region>> GetAllRegionsAsync()
-        {
-            var collection = await GetRegionsAsQueryable().OrderBy(r => r.Id).AsNoTracking().ToListAsync();
-
-            return collection;
-        }
         public async Task<ICollection<Area>> GetAllAreasAsync()
         {
             var collection = await _context.Set<Area>().AsNoTracking().ToListAsync();

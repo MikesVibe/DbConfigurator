@@ -15,5 +15,7 @@ namespace DbConfigurator.Api.Services.Repositories
         Task AddAsync(TEntity entity);
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity?> GetByIdAsync(int id);
+        Task SaveChangesAsync();
+        void SaveChanges();
     }
 }

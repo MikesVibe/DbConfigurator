@@ -20,17 +20,17 @@ namespace DbConfigurator.UI.ViewModel.Tables
     {
         private readonly AutoMapperConfig _autoMapper;
         private readonly Func<AddRegionViewModel> _addRegionCreator;
-        private readonly IDataService _dataModel;
+        private readonly IRegionService _regionService;
 
         public RegionTableViewModel(
             IEventAggregator eventAggregator,
             IDialogService dialogService,
-            IDataService dataModel,
+            IRegionService dataModel,
             AutoMapperConfig autoMapper,
             Func<AddRegionViewModel> addRegionCreator
             ) : base(eventAggregator, dialogService)
         {
-            _dataModel = dataModel;
+            _regionService = dataModel;
             _autoMapper = autoMapper;
             _addRegionCreator = addRegionCreator;
             Items = new ObservableCollection<RegionDtoWrapper>();
@@ -38,11 +38,10 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public override async Task LoadAsync()
         {
-            var regions = await _dataModel.GetAllRegionsAsync();
+            var regions = await _regionService.GetAllRegionsAsync();
             foreach (var region in regions)
             {
-                var mapped = _autoMapper.Mapper.Map<RegionDto>(region);
-                var wrapped = new RegionDtoWrapper(mapped);
+                var wrapped = new RegionDtoWrapper(region);
                 Items.Add(wrapped);
             }
         }
@@ -54,64 +53,54 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false || regionViewModel.Region is null)
                 return;
 
-            var region = regionViewModel.Region;
-            var regionEntity = new Region
-            {
-                AreaId = region.Area.Id,
-                BuisnessUnitId = region.BuisnessUnit.Id,
-                CountryId = region.Country.Id,
-            };
+            var regionWrapper = regionViewModel.Region;
+            if (regionWrapper is null || regionWrapper.Model is null)
+                throw new ArgumentNullException();
 
-            _dataModel.Add(regionEntity);
-            _dataModel.SaveChanges();
+            var region = await _regionService.AddAsync(regionWrapper.Model);
 
-            var mapped = _autoMapper.Mapper.Map<RegionDto>(regionEntity);
-            var wrapped = new RegionDtoWrapper(mapped);
-            Items.Add(wrapped);
+            Items.Add(new RegionDtoWrapper(region));
         }
         protected override async void OnEditExecute()
         {
-            var regionViewModel = _addRegionCreator();
-            regionViewModel.Region = SelectedItem;
-            await regionViewModel.LoadAsync();
-            bool? result = DialogService.ShowDialog(regionViewModel);
-            if (result == false || regionViewModel.Region is null)
-                return;
+            //var regionViewModel = _addRegionCreator();
+            //regionViewModel.Region = SelectedItem;
+            //await regionViewModel.LoadAsync();
+            //bool? result = DialogService.ShowDialog(regionViewModel);
+            //if (result == false || regionViewModel.Region is null)
+            //    return;
 
-            var regionEntity = await _dataModel.RegionService.GetRegionByIdAsync(regionViewModel.Region.Id);
+            //var regionEntity = await _regionService.RegionService.GetRegionByIdAsync(regionViewModel.Region.Id);
 
-            //var area = _dataModel.GetAreaById(regionViewModel.Region.Area.Id);
-            //var buisnessUnit = _dataModel.GetBuisnessUnitById(regionViewModel.Region.BuisnessUnit.Id);
-            //var country = _dataModel.GetCountryById(regionViewModel.Region.Country.Id);
 
-            var area = regionViewModel.Region.Area;
-            var buisnessUnit = regionViewModel.Region.BuisnessUnit;
-            var country = regionViewModel.Region.Country;
+            //var area = regionViewModel.Region.Area;
+            //var buisnessUnit = regionViewModel.Region.BuisnessUnit;
+            //var country = regionViewModel.Region.Country;
 
-            if (regionEntity is null || area is null || buisnessUnit is null || country is null)
-            {
-                //log error message
-                return;
-            }
-            regionEntity.Area = area;
-            regionEntity.BuisnessUnit = buisnessUnit;
-            regionEntity.Country = country;
-            await _dataModel.SaveChangesAsync();
+            //if (regionEntity is null || area is null || buisnessUnit is null || country is null)
+            //{
+            //    //log error message
+            //    return;
+            //}
+            //regionEntity.Area = area;
+            //regionEntity.BuisnessUnit = buisnessUnit;
+            //regionEntity.Country = country;
+            //await _regionService.SaveChangesAsync();
 
-            SelectedItem!.Area = regionViewModel.Region.Area;
-            SelectedItem!.BuisnessUnit = regionViewModel.Region.BuisnessUnit;
-            SelectedItem!.Country = regionViewModel.Region.Country;
+            //SelectedItem!.Area = regionViewModel.Region.Area;
+            //SelectedItem!.BuisnessUnit = regionViewModel.Region.BuisnessUnit;
+            //SelectedItem!.Country = regionViewModel.Region.Country;
         }
         protected override async void OnRemoveExecute()
         {
-            var regionEntity = await _dataModel.RegionService.GetRegionByIdAsync(SelectedItem!.Id);
-            if (regionEntity is null )
-                throw new ArgumentNullException(nameof(regionEntity));
+            //var regionEntity = await _regionService.RegionService.GetRegionByIdAsync(SelectedItem!.Id);
+            //if (regionEntity is null )
+            //    throw new ArgumentNullException(nameof(regionEntity));
             
-            _dataModel.Remove(regionEntity);
-            await _dataModel.SaveChangesAsync();
-            Items.Remove(SelectedItem);
-            SelectedItem = null;
+            //_regionService.Remove(regionEntity);
+            //await _regionService.SaveChangesAsync();
+            //Items.Remove(SelectedItem);
+            //SelectedItem = null;
         }
     }
 }

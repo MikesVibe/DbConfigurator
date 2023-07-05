@@ -33,8 +33,8 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<RegionRepository>().AsSelf();
 
             //Services
-            builder.RegisterType<DataService>().As<IDataService>().SingleInstance();
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
+            builder.RegisterType<DataService>().As<IDataService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
 
             //Navigation Panel

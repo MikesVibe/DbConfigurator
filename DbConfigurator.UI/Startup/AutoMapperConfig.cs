@@ -13,7 +13,7 @@ namespace DbConfigurator.UI.Startup
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Region, RegionDto>().ReverseMap();
+                cfg.CreateMap<Region, RegionDto>();
                 cfg.CreateMap<Area, AreaDto>().ReverseMap();
                 cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>().ReverseMap();
                 cfg.CreateMap<Country, CountryDto>().ReverseMap();
@@ -24,6 +24,11 @@ namespace DbConfigurator.UI.Startup
                                 rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
                             .ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
                                 rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
+
+                cfg.CreateMap<RegionDto, Region>()
+                    .ForMember(dest => dest.Area, opt => opt.Ignore())
+                    .ForMember(dest => dest.BuisnessUnit, opt => opt.Ignore())
+                    .ForMember(dest => dest.Country, opt => opt.Ignore());
 
             });
 
