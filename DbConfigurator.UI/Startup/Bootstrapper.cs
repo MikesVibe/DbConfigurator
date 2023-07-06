@@ -1,8 +1,7 @@
 ﻿using Autofac;
-using Autofac.Core;
 using DbConfigurator.DataAccess;
+using DbConfigurator.DataAccess.Repositories;
 using DbConfigurator.DataAccess.Repository;
-using DbConfigurator.UI;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
@@ -31,6 +30,9 @@ namespace DbConfigurator.UI.Startup
 
             //Repositories
             builder.RegisterType<RegionRepository>().AsSelf();
+            builder.RegisterType<PriorityRepository>().AsSelf();
+            builder.RegisterType<RecipientRepository>().AsSelf();
+            builder.RegisterType<DistributionInformationRepository>().AsSelf();
 
             //Services
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();

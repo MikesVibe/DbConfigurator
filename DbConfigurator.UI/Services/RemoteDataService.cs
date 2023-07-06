@@ -1,14 +1,10 @@
-﻿using DbConfigurator.DataAccess.Repository;
-using DbConfigurator.Model;
-using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services

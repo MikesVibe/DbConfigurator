@@ -10,7 +10,7 @@ namespace DbConfigurator.UI.ViewModel.Panel
     public class NavigationPanelViewModel : ViewModelBase, INavigationPanelViewModel
     {
         private IEventAggregator _eventAggregator;
-        
+
         public NavigationPanelViewModel(IEventAggregator eventAggregator)
         {
             NavigationItems_ObservableCollection = new ObservableCollection<NavigationItemViewModel>();

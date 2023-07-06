@@ -1,14 +1,8 @@
-﻿using DbConfigurator.Api.Services.Repositories;
-using DbConfigurator.DataAccess.Repository;
+﻿using DbConfigurator.DataAccess.Repositories;
 using DbConfigurator.Model;
-using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services

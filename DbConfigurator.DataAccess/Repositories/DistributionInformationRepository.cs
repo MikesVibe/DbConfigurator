@@ -1,11 +1,10 @@
-﻿using DbConfigurator.DataAccess;
-using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Model.Entities.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.API.DataAccess.Repository
+namespace DbConfigurator.DataAccess.Repository
 {
     public class DistributionInformationRepository : GenericRepository<DistributionInformation>
     {

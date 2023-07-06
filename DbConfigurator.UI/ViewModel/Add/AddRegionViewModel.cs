@@ -4,11 +4,8 @@ using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -110,10 +107,10 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         protected override bool CanAdd()
         {
-            return 
-                Region is not null && 
-                Region.Area is not null && 
-                Region.BuisnessUnit is not null && 
+            return
+                Region is not null &&
+                Region.Area is not null &&
+                Region.BuisnessUnit is not null &&
                 Region.Country is not null;
         }
         private void OnSelectedCountryChanged()

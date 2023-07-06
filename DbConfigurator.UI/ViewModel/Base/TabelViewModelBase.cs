@@ -27,7 +27,7 @@ namespace DbConfigurator.UI.ViewModel.Base
 
             SelectionChangedCommand = new DelegateCommand(OnSelectionChangedExecute);
         }
-        
+
         public ICommand AddCommand { get; private set; }
         public ICommand EditCommand { get; private set; }
         public ICommand RemoveCommand { get; private set; }

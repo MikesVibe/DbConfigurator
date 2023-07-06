@@ -1,11 +1,7 @@
-﻿using DbConfigurator.API.DataAccess.Repository;
-using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Model.Entities.Core;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.DataAccess.Repository
@@ -32,5 +28,16 @@ namespace DbConfigurator.DataAccess.Repository
         {
             return await GetRegionsAsQueryable().OrderBy(r => r.Id).AsNoTracking().ToListAsync();
         }
+
+        public async Task<IEnumerable<Region>> GetRegionsWithAsync(int areaId, int buisnessUnitId, int countryId)
+        {
+            return await GetRegionsAsQueryable()
+                .Where(r =>
+                r.AreaId == areaId &&
+                r.BuisnessUnitId == buisnessUnitId &&
+                r.CountryId == countryId).AsNoTracking().ToListAsync();
+        }
+
+
     }
 }

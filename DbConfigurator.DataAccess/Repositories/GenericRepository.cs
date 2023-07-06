@@ -1,14 +1,12 @@
-﻿using DbConfigurator.Api.Services.Repositories;
-using DbConfigurator.DataAccess;
+﻿using DbConfigurator.DataAccess.Repositories;
 using DbConfigurator.Model;
 using DbConfigurator.Model.Entities.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.API.DataAccess.Repository
+namespace DbConfigurator.DataAccess.Repository
 {
     public class GenericRepository<T> : IRepository<T>
         where T : class, IEntity

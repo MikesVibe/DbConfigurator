@@ -1,8 +1,6 @@
 ﻿using DbConfigurator.DataAccess;
-using DbConfigurator.DataAccess.Repository;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Extensions;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;

@@ -22,7 +22,7 @@ namespace DbConfigurator.UI.ViewModel.Add
         {
             return true;
         }
-        
+
         public BuisnessUnitDtoWrapper BuisnessUnit { get; set; }
     }
 }

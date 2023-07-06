@@ -356,12 +356,13 @@ namespace DbConfigurator.UI.ViewModel.Add
 
             AwaitingComboboxPopulation = true;
 
-            var region = await _dataService.GetRegionAsync(SelectedArea.Id, SelectedBuisnessUnit.Id, SelectedCountry.Id);
-            if (region == null)
-                throw new ArgumentNullException(nameof(region));
+            var regions = await _dataService.GetRegionsWithAsync(SelectedArea.Id, SelectedBuisnessUnit.Id, SelectedCountry.Id);
+            if (regions.Count() == 0)
+                throw new Exception();
+            if (regions.Count() > 1)
+                throw new Exception();
 
-            var mapped = _autoMapper.Mapper.Map<RegionDto>(region);
-            DistributionInformation.Region = mapped;
+            DistributionInformation.Region = regions.First();
 
             AwaitingComboboxPopulation = false;
         }

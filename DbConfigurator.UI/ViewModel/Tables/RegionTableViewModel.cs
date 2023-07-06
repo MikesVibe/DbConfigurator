@@ -1,17 +1,11 @@
-﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.DTOs.Wrapper;
-using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
-using DbConfigurator.UI.Windows;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables

@@ -1,24 +1,31 @@
-﻿using DbConfigurator.API.DataAccess.Repository;
+﻿using DbConfigurator.DataAccess.Repositories;
 using DbConfigurator.DataAccess.Repository;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
     public class DistributionInformationService : GenericDataService<DistributionInformation, DistributionInformationDto, DistributionInformationRepository>, IDistributionInformationService
     {
-        public DistributionInformationService(DistributionInformationRepository repository, AutoMapperConfig autoMapper)
+        private readonly RecipientRepository _recipientRepository;
+        private readonly PriorityRepository _priorityRepository;
+        private readonly RegionRepository _regionRepository;
+
+        public DistributionInformationService(
+            DistributionInformationRepository repository,
+            RecipientRepository recipientRepository,
+            PriorityRepository priorityRepository,
+            RegionRepository regionRepository,
+            AutoMapperConfig autoMapper)
             : base(repository, autoMapper)
         {
-
+            _recipientRepository = recipientRepository;
+            _priorityRepository = priorityRepository;
+            _regionRepository = regionRepository;
         }
 
         public async Task<IEnumerable<AreaDto>> GetAreasAsync()
@@ -43,32 +50,23 @@ namespace DbConfigurator.UI.Services
 
         public IEnumerable<RecipientDto> GetAllRecipients()
         {
-            throw new NotImplementedException();
-            //var collection = _context.Set<Recipient>().AsNoTracking().ToList();
-            //return collection;
+            var recipients = _recipientRepository.GetAll();
 
-            return new List<RecipientDto>();
+            return _autoMapper.Mapper.Map<IEnumerable<RecipientDto>>(recipients);
         }
 
         public async Task<IEnumerable<PriorityDto>> GetAllPrioritiesAsync()
         {
-            throw new NotImplementedException();
+            var priorities = await _priorityRepository.GetAllAsync();
 
-            await Task.CompletedTask;
-            return new List<PriorityDto>();
+            return _autoMapper.Mapper.Map<IEnumerable<PriorityDto>>(priorities);
         }
 
-        public async Task<RegionDto?> GetRegionAsync(int areaId, int buisnessUnitId, int countryId)
+        public async Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int buisnessUnitId, int countryId)
         {
-            throw new NotImplementedException();
+            var regions = await _regionRepository.GetRegionsWithAsync(areaId, buisnessUnitId, countryId);
 
-            //return await GetRegionsAsQueryable()
-            //    .Where(r =>
-            //    r.AreaId == areaId &&
-            //    r.BuisnessUnitId == buisnessUnitId &&
-            //    r.CountryId == countryId).AsNoTracking().FirstOrDefaultAsync();
-            await Task.CompletedTask;
-            return new RegionDto();
+            return _autoMapper.Mapper.Map<IEnumerable<RegionDto>>(regions);
         }
     }
 }

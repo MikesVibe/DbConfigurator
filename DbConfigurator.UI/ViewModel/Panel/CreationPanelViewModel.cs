@@ -1,5 +1,4 @@
 ﻿using Autofac.Features.Indexed;
-using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.ViewModel.Tables;
 using System.Threading.Tasks;

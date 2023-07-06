@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.Api.Services.Repositories
+namespace DbConfigurator.DataAccess.Repositories
 {
     public interface IRepository<TEntity> where TEntity : IEntity
     {

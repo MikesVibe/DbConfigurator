@@ -22,7 +22,7 @@ namespace DbConfigurator.UI.ViewModel.Navigation
             _detailViewModelName = detailViewModelName;
             OpenTabelViewCommand = new DelegateCommand(OnOpenTabelViewExecute);
         }
-        
+
         public ICommand OpenTabelViewCommand { get; }
 
         public int Id { get; }

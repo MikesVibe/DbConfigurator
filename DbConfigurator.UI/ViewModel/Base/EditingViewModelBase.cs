@@ -1,5 +1,4 @@
-﻿using DbConfigurator.UI.Windows;
-using Prism.Commands;
+﻿using Prism.Commands;
 using System;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -13,7 +12,7 @@ namespace DbConfigurator.UI.ViewModel.Base
             //ViewWidth = viewWidth;
             //ViewHeight = viewHeight;
             //Title = title;
-            
+
             SaveCommand = new DelegateCommand(Add, CanAdd);
             CancelCommand = new DelegateCommand(Cancel);
         }
