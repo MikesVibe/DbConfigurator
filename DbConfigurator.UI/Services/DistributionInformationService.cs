@@ -1,4 +1,5 @@
-﻿using DbConfigurator.DataAccess.Repository;
+﻿using DbConfigurator.API.DataAccess.Repository;
+using DbConfigurator.DataAccess.Repository;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
@@ -12,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class DistributionInformationService : GenericDataService<Region, RegionDto, RegionRepository>, IDistributionInformationService
+    public class DistributionInformationService : GenericDataService<DistributionInformation, DistributionInformationDto, DistributionInformationRepository>, IDistributionInformationService
     {
-        public DistributionInformationService(RegionRepository repository, AutoMapperConfig autoMapper)
+        public DistributionInformationService(DistributionInformationRepository repository, AutoMapperConfig autoMapper)
             : base(repository, autoMapper)
         {
 
@@ -42,6 +43,7 @@ namespace DbConfigurator.UI.Services
 
         public IEnumerable<RecipientDto> GetAllRecipients()
         {
+            throw new NotImplementedException();
             //var collection = _context.Set<Recipient>().AsNoTracking().ToList();
             //return collection;
 
@@ -50,12 +52,16 @@ namespace DbConfigurator.UI.Services
 
         public async Task<IEnumerable<PriorityDto>> GetAllPrioritiesAsync()
         {
+            throw new NotImplementedException();
+
             await Task.CompletedTask;
             return new List<PriorityDto>();
         }
 
         public async Task<RegionDto?> GetRegionAsync(int areaId, int buisnessUnitId, int countryId)
         {
+            throw new NotImplementedException();
+
             //return await GetRegionsAsQueryable()
             //    .Where(r =>
             //    r.AreaId == areaId &&
