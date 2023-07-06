@@ -17,7 +17,6 @@ namespace DbConfigurator.UI.Services.Interfaces
         void Remove<T>(T item) where T : class;
         void SaveChanges();
         void Add<T>(T item) where T : class;
-        Task<DistributionInformation> GetDistributionInformationByIdAsync(int id);
         Task<ICollection<Recipient>> GetAllRecipientsAsync();
         Task<ICollection<Area>> GetAllAreasAsync();
         Task<ICollection<BuisnessUnit>> GetAllBuisnessUnitsAsync();
@@ -27,6 +26,5 @@ namespace DbConfigurator.UI.Services.Interfaces
         Area? GetAreaById(int id);
         BuisnessUnit? GetBuisnessUnitById(int id);
         Country? GetCountryById(int id);
-        Task<IEnumerable<DistributionInformationDto>> GetAllDistributionInformationDtoAsync();
     }
 }

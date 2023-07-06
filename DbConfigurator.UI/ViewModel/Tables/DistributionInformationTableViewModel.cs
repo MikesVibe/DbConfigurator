@@ -15,13 +15,13 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper>
     {
-        private readonly ICombinedDataService _dataService;
+        private readonly IDistributionInformationService _dataService;
         private readonly Func<AddDistibutionInformationViewModel> _addDistributionInformationCreator;
         private readonly AutoMapperConfig _autoMapper;
 
         public DistributionInformationTableViewModel(IDialogService dialogService,
             IEventAggregator eventAggregator,
-            ICombinedDataService dataModel,
+            IDistributionInformationService dataModel,
             Func<AddDistibutionInformationViewModel> addDistributionInformationCreator,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator, dialogService)
@@ -33,7 +33,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public async override Task LoadAsync()
         {
-            var distributionInformations = await _dataService.GetAllDistributionInformationDtoAsync();
+            var distributionInformations = await _dataService.GetAllAsync();
 
             foreach (var distributionInformation in distributionInformations)
             {
@@ -51,82 +51,61 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 return;
 
             //Mapping DistributionInformationDto to new DistributionInformation entity
-            var dis = distributionInformationViewModel.DistributionInformation;
-            var distributionInformation = new DistributionInformation
-            {
-                RegionId = dis.Region.Id,
-                PriorityId = dis.Priority.Id,
-                RecipientsTo = new List<Recipient>(),
-                RecipientsCc = new List<Recipient>()
-            };
-            foreach (var recipient in dis.RecipientsTo)
-            {
-                var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
-                distributionInformation.RecipientsTo.Add(recipientEntity);
-            }
-            foreach (var recipient in dis.RecipientsCc)
-            {
-                var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
-                distributionInformation.RecipientsCc.Add(recipientEntity);
-            }
+            var distributionInformationDto = distributionInformationViewModel.DistributionInformation;
 
-            _dataService.Add(distributionInformation);
-            _dataService.SaveChanges();
+            distributionInformationDto = await _dataService.AddAsync(distributionInformationDto);
 
-            var mapped = _autoMapper.Mapper.Map<DistributionInformationDto>(distributionInformation);
-            var wrapped = new DistributionInformationDtoWrapper(mapped);
+            var wrapped = new DistributionInformationDtoWrapper(distributionInformationDto);
             Items.Add(wrapped);
         }
         protected override async void OnRemoveExecute()
         {
-            var distributionInformationToRemove = await _dataService.GetDistributionInformationByIdAsync(SelectedItem!.Id);
-            _dataService.Remove(distributionInformationToRemove);
-            await _dataService.SaveChangesAsync();
+            await _dataService.RemoveByIdAsync(SelectedItem!.Id);
 
             base.OnRemoveExecute();
         }
         protected override async void OnEditExecute()
         {
-            var distributionInformationViewModel = _addDistributionInformationCreator();
-            var disInfoDto = new DistributionInformationDto
-            {
-                Id = SelectedItem!.Model.Id,
-                Region = SelectedItem!.Model.Region,
-                Priority = SelectedItem!.Model.Priority,
-                RecipientsTo = new ObservableCollection<RecipientDto>(SelectedItem!.Model.RecipientsTo),
-                RecipientsCc = new ObservableCollection<RecipientDto>(SelectedItem!.Model.RecipientsCc)
-            };
-            distributionInformationViewModel.DistributionInformation = disInfoDto;
-            await distributionInformationViewModel.LoadAsync();
+            //var distributionInformationViewModel = _addDistributionInformationCreator();
+            //var disInfoDto = new DistributionInformationDto
+            //{
+            //    Id = SelectedItem!.Model.Id,
+            //    Region = SelectedItem!.Model.Region,
+            //    Priority = SelectedItem!.Model.Priority,
+            //    RecipientsTo = new ObservableCollection<RecipientDto>(SelectedItem!.Model.RecipientsTo),
+            //    RecipientsCc = new ObservableCollection<RecipientDto>(SelectedItem!.Model.RecipientsCc)
+            //};
+            //distributionInformationViewModel.DistributionInformation = disInfoDto;
+            //await distributionInformationViewModel.LoadAsync();
 
-            bool? result = DialogService.ShowDialog(distributionInformationViewModel);
-            if (result == false)
-                return;
+            //bool? result = DialogService.ShowDialog(distributionInformationViewModel);
+            //if (result == false)
+            //    return;
 
-            //Apply changes to distributionInformationEntity
-            var dis = distributionInformationViewModel.DistributionInformation;
-            var distributionInformationEntity = await _dataService.GetDistributionInformationByIdAsync(dis.Id);
-            distributionInformationEntity.RegionId = dis.Region.Id;
-            distributionInformationEntity.PriorityId = dis.Priority.Id;
-            distributionInformationEntity.RecipientsTo = new List<Recipient>();
-            distributionInformationEntity.RecipientsCc = new List<Recipient>();
+            ////Apply changes to distributionInformationEntity
+            //var dis = distributionInformationViewModel.DistributionInformation;
+            //var distributionInformationEntity = await _dataService.GetDistributionInformationByIdAsync(dis.Id);
+            //distributionInformationEntity.RegionId = dis.Region.Id;
+            //distributionInformationEntity.PriorityId = dis.Priority.Id;
+            //distributionInformationEntity.RecipientsTo = new List<Recipient>();
+            //distributionInformationEntity.RecipientsCc = new List<Recipient>();
 
-            foreach (var recipient in dis.RecipientsTo)
-            {
-                var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
-                distributionInformationEntity.RecipientsTo.Add(recipientEntity);
-            }
-            foreach (var recipient in dis.RecipientsCc)
-            {
-                var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
-                distributionInformationEntity.RecipientsCc.Add(recipientEntity);
-            }
-            _dataService.SaveChanges();
+            //foreach (var recipient in dis.RecipientsTo)
+            //{
+            //    var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
+            //    distributionInformationEntity.RecipientsTo.Add(recipientEntity);
+            //}
+            //foreach (var recipient in dis.RecipientsCc)
+            //{
+            //    var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
+            //    distributionInformationEntity.RecipientsCc.Add(recipientEntity);
+            //}
+            //_dataService.SaveChanges();
 
-            SelectedItem.Region = dis.Region;
-            SelectedItem.Priority = dis.Priority;
-            SelectedItem.RecipientsTo = dis.RecipientsTo;
-            SelectedItem.RecipientsCc = dis.RecipientsCc;
+            //SelectedItem.Region = dis.Region;
+            //SelectedItem.Priority = dis.Priority;
+            //SelectedItem.RecipientsTo = dis.RecipientsTo;
+            //SelectedItem.RecipientsCc = dis.RecipientsCc;
         }
     }
 }

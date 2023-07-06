@@ -12,7 +12,6 @@ namespace DbConfigurator.DataAccess.Repository
         {
         }
 
-
         public override async Task<Region?> GetByIdAsync(int id)
         {
             var regions = GetRegionsAsQueryable();
@@ -23,7 +22,6 @@ namespace DbConfigurator.DataAccess.Repository
         {
             return GetRegionsAsQueryable().Where(r => r.Id == id).AsNoTracking().FirstOrDefault();
         }
-
         public override async Task<IEnumerable<Region>> GetAllAsync()
         {
             return await GetRegionsAsQueryable().OrderBy(r => r.Id).AsNoTracking().ToListAsync();
@@ -37,7 +35,5 @@ namespace DbConfigurator.DataAccess.Repository
                 r.BuisnessUnitId == buisnessUnitId &&
                 r.CountryId == countryId).AsNoTracking().ToListAsync();
         }
-
-
     }
 }

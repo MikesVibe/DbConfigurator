@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DbConfigurator.UI.Startup
@@ -30,6 +31,12 @@ namespace DbConfigurator.UI.Startup
                     .ForMember(dest => dest.BuisnessUnit, opt => opt.Ignore())
                     .ForMember(dest => dest.Country, opt => opt.Ignore());
 
+                cfg.CreateMap<DistributionInformationDto, DistributionInformation>()
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.Region, opt => opt.Ignore())
+                    .ForMember(dest => dest.Priority, opt => opt.Ignore())
+                    .ForMember(dest => dest.RecipientsTo, opt => opt.MapFrom(src => src.RecipientsTo))
+                    .ForMember(dest => dest.RecipientsCc, opt => opt.MapFrom(src => src.RecipientsCc));
             });
 
             Mapper = config.CreateMapper();

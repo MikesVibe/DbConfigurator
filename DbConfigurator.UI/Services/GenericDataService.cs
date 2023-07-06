@@ -53,7 +53,7 @@ namespace DbConfigurator.UI.Services
             await _repository.SaveChangesAsync();
             return true;
         }
-        public async Task<IEnumerable<TDto>> GetAllAsync()
+        public virtual async Task<IEnumerable<TDto>> GetAllAsync()
         {
             return _autoMapper.Mapper.Map<IEnumerable<TDto>>(await _repository.GetAllAsync());
         }

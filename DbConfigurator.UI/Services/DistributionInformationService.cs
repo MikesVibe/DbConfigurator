@@ -4,6 +4,7 @@ using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -67,6 +68,13 @@ namespace DbConfigurator.UI.Services
             var regions = await _regionRepository.GetRegionsWithAsync(areaId, buisnessUnitId, countryId);
 
             return _autoMapper.Mapper.Map<IEnumerable<RegionDto>>(regions);
+        }
+
+        public override async Task<IEnumerable<DistributionInformationDto>> GetAllAsync()
+        {
+            var distributionInformations = await _repository.GetAllAsync();
+
+            return _autoMapper.Mapper.Map<IEnumerable<DistributionInformationDto>>(distributionInformations);
         }
     }
 }

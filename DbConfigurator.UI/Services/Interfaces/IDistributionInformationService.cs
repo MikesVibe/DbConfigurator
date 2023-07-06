@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services.Interfaces
 {
-    public interface IDistributionInformationService
+    public interface IDistributionInformationService : IGenericDataService<DistributionInformationDto>
     {
         Task<IEnumerable<PriorityDto>> GetAllPrioritiesAsync();
         IEnumerable<RecipientDto> GetAllRecipients();

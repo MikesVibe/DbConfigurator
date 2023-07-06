@@ -79,16 +79,6 @@ namespace DbConfigurator.UI.Services
         {
             return await _context.Recipient.Where(r => r.Id == id).FirstAsync();
         }
-        public async Task<DistributionInformation> GetDistributionInformationByIdAsync(int id)
-        {
-            return await _context.DistributionInformation.Where(d => d.Id == id)
-                //.Include(c => c.Country).ThenInclude(c => c.BuisnessUnits).ThenInclude(bu => bu.Areas)
-                .Include(r => r.Region)
-                .Include(t => t.RecipientsTo)
-                .Include(t => t.RecipientsCc)
-                .Include(p => p.Priority)
-                .FirstAsync();
-        }
         public Region? GetRegionById(int id)
         {
             return GetRegionsAsQueryable().Where(r => r.Id == id).AsNoTracking().FirstOrDefault();
@@ -112,19 +102,6 @@ namespace DbConfigurator.UI.Services
                 .Include(r => r.BuisnessUnit)
                 .Include(r => r.Country)
                 .AsQueryable();
-        }
-        public async Task<IEnumerable<DistributionInformationDto>> GetAllDistributionInformationDtoAsync()
-        {
-            var collection = await _context.Set<DistributionInformation>()
-                .Include(d => d.Region).ThenInclude(r => r.Area)
-                .Include(d => d.Region).ThenInclude(r => r.BuisnessUnit)
-                .Include(d => d.Region).ThenInclude(r => r.Country)
-                .Include(d => d.RecipientsTo)
-                .Include(d => d.RecipientsCc)
-                .Include(d => d.Priority)
-                .ToListAsync();
-
-            return _autoMapper.Mapper.Map<IEnumerable<DistributionInformationDto>>(collection);
         }
     }
 }
