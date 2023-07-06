@@ -6,6 +6,8 @@ namespace DbConfigurator.UI.Services.Interfaces
 {
     public interface IDistributionInformationService : IGenericDataService<DistributionInformationDto>
     {
+        Task AddRecipientsCcAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsCc_ToAdd);
+        Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd);
         Task<IEnumerable<PriorityDto>> GetAllPrioritiesAsync();
         IEnumerable<RecipientDto> GetAllRecipients();
         Task<IEnumerable<AreaDto>> GetAreasAsync();

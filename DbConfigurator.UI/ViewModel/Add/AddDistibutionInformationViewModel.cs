@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Extensions;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
@@ -61,17 +62,17 @@ namespace DbConfigurator.UI.ViewModel.Add
         public ObservableCollection<BuisnessUnitDto> BuisnessUnit_Collection { get; set; } = new ObservableCollection<BuisnessUnitDto>();
         public ObservableCollection<CountryDto> Country_Collection { get; set; } = new ObservableCollection<CountryDto>();
         public ObservableCollection<PriorityDto> Priority_Collection { get; private set; } = new ObservableCollection<PriorityDto>();
-        public ObservableCollection<RecipientDto> RecipientsToComboBox
+        public ObservableCollection<RecipientDto> AvilableRecipientsTo
         {
             get { return _recipientsToComboBox; }
             set { _recipientsToComboBox = value; OnPropertyChanged(); }
         }
-        public ObservableCollection<RecipientDto> RecipientsCcComboBox
+        public ObservableCollection<RecipientDto> AvilableRecipientsCc
         {
             get { return _recipientsCcComboBox; }
             set { _recipientsCcComboBox = value; OnPropertyChanged(); }
         }
-        public ObservableCollection<RecipientDto> RecipientsTo_ListView
+        public ObservableCollection<RecipientDto> AddedRecipientsTo
         {
             get { return _recipientsTo_ListView; }
             set
@@ -80,7 +81,7 @@ namespace DbConfigurator.UI.ViewModel.Add
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<RecipientDto> RecipientsCc_ListView
+        public ObservableCollection<RecipientDto> AddedRecipientsCc
         {
             get { return _recipientsCc_ListView; }
             set
@@ -89,7 +90,7 @@ namespace DbConfigurator.UI.ViewModel.Add
                 OnPropertyChanged();
             }
         }
-        public DistributionInformationDto DistributionInformation { get; set; }
+        public DistributionInformationDto? DistributionInformation { get; private set; }
         public RecipientDto? SelectedRecipientToComboBox
         {
             get { return _selectedRecipientToComboBox; }
@@ -168,8 +169,9 @@ namespace DbConfigurator.UI.ViewModel.Add
             }
         }
 
-        public async Task LoadAsync()
+        public async Task LoadAsync(DistributionInformationDto? distributionInformation = null)
         {
+            DistributionInformation = distributionInformation;
             await PopulateComboBoxesWithData();
 
             if (DistributionInformation is null)
@@ -197,7 +199,7 @@ namespace DbConfigurator.UI.ViewModel.Add
             if (SelectedRecipientToListView is null)
                 return;
             DistributionInformation.RecipientsTo.Remove(SelectedRecipientToListView);
-            RecipientsTo_ListView.Remove(SelectedRecipientToListView);
+            AddedRecipientsTo.Remove(SelectedRecipientToListView);
             PopulateComboBoxTo();
             SelectedRecipientToListView = null;
             ((DelegateCommand)RemoveToRecipientCommand).RaiseCanExecuteChanged();
@@ -213,7 +215,7 @@ namespace DbConfigurator.UI.ViewModel.Add
                 return;
 
             DistributionInformation.RecipientsCc.Remove(SelectedRecipientCcListView);
-            RecipientsCc_ListView.Remove(SelectedRecipientCcListView);
+            AddedRecipientsCc.Remove(SelectedRecipientCcListView);
             PopulateComboBoxCc();
             SelectedRecipientCcListView = null;
             ((DelegateCommand)RemoveCcRecipientCommand).RaiseCanExecuteChanged();
@@ -258,7 +260,7 @@ namespace DbConfigurator.UI.ViewModel.Add
             var recipients = _dataService.GetAllRecipients();
 
             var recipientsDtoAfterFiltration = recipients.Where(p => !DistributionInformation.RecipientsTo.Any(p2 => p2.Id == p.Id)).ToList();
-            RecipientsToComboBox = recipientsDtoAfterFiltration.ToObservableCollection();
+            AvilableRecipientsTo = recipientsDtoAfterFiltration.ToObservableCollection();
         }
         private void PopulateComboBoxCc()
         {
@@ -267,7 +269,7 @@ namespace DbConfigurator.UI.ViewModel.Add
 
             var recipientsDtoAfterFiltration = mapped.Where(p => !DistributionInformation.RecipientsCc.Any(p2 => p2.Id == p.Id)).ToList();
 
-            RecipientsCcComboBox = recipientsDtoAfterFiltration.ToObservableCollection();
+            AvilableRecipientsCc = recipientsDtoAfterFiltration.ToObservableCollection();
         }
         private async void OnAreaChanged()
         {
@@ -380,17 +382,17 @@ namespace DbConfigurator.UI.ViewModel.Add
         private void SetNewRecipientToAsync(RecipientDto value)
         {
             _selectedRecipientToComboBox = value;
-            RecipientsTo_ListView.Add(value);
-            DistributionInformation.RecipientsTo.Add(value);
-            RecipientsToComboBox.Remove(value);
+            AddedRecipientsTo.Add(value);
+            DistributionInformation?.RecipientsTo.Add(value);
+            AvilableRecipientsTo.Remove(value);
             _selectedRecipientToComboBox = null;
         }
         private void SetNewRecipientCcAsync(RecipientDto value)
         {
             _selectedRecipientCcComboBox = value;
-            RecipientsCc_ListView.Add(value);
-            DistributionInformation.RecipientsCc.Add(value);
-            RecipientsCcComboBox.Remove(value);
+            AddedRecipientsCc.Add(value);
+            DistributionInformation?.RecipientsCc.Add(value);
+            AvilableRecipientsCc.Remove(value);
             _selectedRecipientCcComboBox = null;
         }
     }

@@ -74,14 +74,14 @@
         <StackPanel Orientation="Vertical" Grid.Column="1">
             <Label Content="To:" />
             <ComboBox Name="ToComboBox" Width="250" HorizontalAlignment="Left" 
-                              ItemsSource="{Binding RecipientsToComboBox}"
+                              ItemsSource="{Binding AvilableRecipientsTo}"
                               SelectedItem="{Binding SelectedRecipientToComboBox}"
                               DisplayMemberPath="Email" SelectedValuePath="Id"/>
 
 
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <ListBox Name="ToListBox" Height="250"  Width="250"  Margin="0,5,0,0"
-                         ItemsSource="{Binding RecipientsTo_ListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         ItemsSource="{Binding AddedRecipientsTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          SelectedItem="{Binding SelectedRecipientToListView}"
                          DisplayMemberPath="Email" SelectedValuePath="Id"/>
                 <Button Content="-"
@@ -94,13 +94,13 @@
         <StackPanel Orientation="Vertical" Grid.Column="2">
             <Label Content="Cc:" />
             <ComboBox Name="CcComboBox" Width="250" HorizontalAlignment="Left" 
-                              ItemsSource="{Binding RecipientsCcComboBox}"
+                              ItemsSource="{Binding AvilableRecipientsCc}"
                               SelectedItem="{Binding SelectedRecipientCcComboBox}"
                               DisplayMemberPath="Email" SelectedValuePath="Id"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <ListBox Name="CcListBox" Height="250" Width="250" 
-                             ItemsSource="{Binding RecipientsCc_ListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             ItemsSource="{Binding AddedRecipientsCc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              SelectedItem="{Binding SelectedRecipientCcListView}"
                              DisplayMemberPath="Email" SelectedValuePath="Id"/>
                 <Button Content="-" 

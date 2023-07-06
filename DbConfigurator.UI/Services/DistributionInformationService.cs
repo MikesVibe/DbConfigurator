@@ -1,11 +1,14 @@
 ﻿using DbConfigurator.DataAccess.Repositories;
 using DbConfigurator.DataAccess.Repository;
+using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
@@ -75,6 +78,26 @@ namespace DbConfigurator.UI.Services
             var distributionInformations = await _repository.GetAllAsync();
 
             return _autoMapper.Mapper.Map<IEnumerable<DistributionInformationDto>>(distributionInformations);
+        }
+
+        public async Task AddRecipientsCcAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsCc_ToAdd)
+        {
+            foreach (var recipientDto in recipientsCc_ToAdd)
+            {
+                var recipientEntity = _autoMapper.Mapper.Map<Recipient>(recipientDto);
+                await _repository.AddRecipientCcAsync(distributionInformationId, recipientEntity);
+            }
+            await _repository.SaveChangesAsync();
+        }
+
+        public async Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd)
+        {
+            foreach (var recipientDto in recipientsTo_ToAdd)
+            {
+                var recipientEntity = _autoMapper.Mapper.Map<Recipient>(recipientDto);
+                await _repository.AddRecipientToAsync(distributionInformationId, recipientEntity);
+            }
+            await _repository.SaveChangesAsync();
         }
     }
 }

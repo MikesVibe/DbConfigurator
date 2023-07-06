@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.Entities.Core
@@ -15,7 +16,7 @@ namespace DbConfigurator.Model.Entities.Core
         public Priority Priority { get; set; }
 
 
-        public ICollection<Recipient> RecipientsTo { get; set; }
-        public ICollection<Recipient> RecipientsCc { get; set; }
+        public ICollection<Recipient> RecipientsTo { get; set; } = new Collection<Recipient>();
+        public ICollection<Recipient> RecipientsCc { get; set; } = new Collection<Recipient>();
     }
 }

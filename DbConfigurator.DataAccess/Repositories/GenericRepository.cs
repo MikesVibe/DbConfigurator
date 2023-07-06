@@ -54,9 +54,6 @@ namespace DbConfigurator.DataAccess.Repository
             return _context.Set<T>().AsNoTracking().FirstOrDefault(e => e.Id == id);
         }
 
-
-
-
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

@@ -1,5 +1,7 @@
-﻿using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +13,34 @@ namespace DbConfigurator.DataAccess.Repository
         public DistributionInformationRepository(DbConfiguratorDbContext dbContext) : base(dbContext)
         {
         }
+
+        //public override async Task UpdateAsync(DistributionInformation entity)
+        //{
+        //    var existing = await _context.Set<DistributionInformation>().FindAsync(entity.Id);
+        //    if (existing is null)
+        //        return;
+        //    _context.Entry(entity).State = EntityState.Detached;
+
+
+        //    // Update scalar and complex properties
+        //    _context.Entry(existing).CurrentValues.SetValues(entity);
+
+        //    // Clear the existing collection
+        //    existing.RecipientsTo.Clear();
+        //    foreach (var recipientTo in entity.RecipientsTo)
+        //    {
+        //        // Add each new Recipient
+        //        existing.RecipientsTo.Add(recipientTo);
+        //    }
+
+        //    existing.RecipientsCc.Clear();
+        //    foreach (var recipientCc in entity.RecipientsCc)
+        //    {
+        //        // Add each new Recipient
+        //        existing.RecipientsCc.Add(recipientCc);
+        //    }
+        //}
+
         public override async Task<IEnumerable<DistributionInformation>> GetAllAsync()
         {
             return await _context.Set<DistributionInformation>()
@@ -33,7 +63,7 @@ namespace DbConfigurator.DataAccess.Repository
              .Include(t => t.RecipientsTo)
              .Include(t => t.RecipientsCc)
              .Include(p => p.Priority)
-             .FirstAsync();
+             .FirstOrDefaultAsync();
         }
 
         public async Task<List<Area>> GetAreasAsync()
@@ -69,6 +99,24 @@ namespace DbConfigurator.DataAccess.Repository
 
 
             return countries;
+        }
+
+        public async Task AddRecipientCcAsync(int distributionInformationId, Recipient recipientEntity)
+        {
+            var distributionInformation = await _context.Set<DistributionInformation>().FindAsync(distributionInformationId);
+            if (distributionInformation is null)
+                throw new ArgumentNullException(nameof(distributionInformation));
+
+            distributionInformation.RecipientsCc.Add(recipientEntity);
+        }
+
+        public async Task AddRecipientToAsync(int distributionInformationId, Recipient recipientEntity)
+        {
+            var distributionInformation = await _context.Set<DistributionInformation>().FindAsync(distributionInformationId);
+            if (distributionInformation is null)
+                throw new ArgumentNullException(nameof(distributionInformation));
+
+            distributionInformation.RecipientsTo.Add(recipientEntity);
         }
     }
 }

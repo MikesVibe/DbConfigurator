@@ -9,6 +9,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
@@ -53,7 +54,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             //Mapping DistributionInformationDto to new DistributionInformation entity
             var distributionInformationDto = distributionInformationViewModel.DistributionInformation;
 
-            distributionInformationDto = await _dataService.AddAsync(distributionInformationDto);
+            distributionInformationDto = await _dataService.AddAsync(distributionInformationDto!);
 
             var wrapped = new DistributionInformationDtoWrapper(distributionInformationDto);
             Items.Add(wrapped);
@@ -69,35 +70,22 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var distributionInformationViewModel = _addDistributionInformationCreator();
             var disInfoDto = new DistributionInformationDto(SelectedItem!.Model);
 
-            distributionInformationViewModel.DistributionInformation = disInfoDto;
-            await distributionInformationViewModel.LoadAsync();
+            await distributionInformationViewModel.LoadAsync(disInfoDto);
 
             bool? result = DialogService.ShowDialog(distributionInformationViewModel);
             if (result == false)
                 return;
 
-            disInfoDto = await _dataService.UpdateAsync(distributionInformationViewModel.DistributionInformation);
+            //Adding recipients to distributionInformation
+            var recipientsTo_ToAdd = disInfoDto.RecipientsTo.Except(SelectedItem.RecipientsTo);
+            await _dataService.AddRecipientsToAsync(disInfoDto.Id, recipientsTo_ToAdd);
 
-            ////Apply changes to distributionInformationEntity
-            //var dis = distributionInformationViewModel.DistributionInformation;
-            //var distributionInformationEntity = await _dataService.GetDistributionInformationByIdAsync(dis.Id);
-            //distributionInformationEntity.RegionId = dis.Region.Id;
-            //distributionInformationEntity.PriorityId = dis.Priority.Id;
-            //distributionInformationEntity.RecipientsTo = new List<Recipient>();
-            //distributionInformationEntity.RecipientsCc = new List<Recipient>();
+            var recipientsCc_ToAdd = disInfoDto.RecipientsCc.Except(SelectedItem.RecipientsCc);
+            await _dataService.AddRecipientsCcAsync(disInfoDto.Id, recipientsCc_ToAdd);
 
-            //foreach (var recipient in dis.RecipientsTo)
-            //{
-            //    var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
-            //    distributionInformationEntity.RecipientsTo.Add(recipientEntity);
-            //}
-            //foreach (var recipient in dis.RecipientsCc)
-            //{
-            //    var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
-            //    distributionInformationEntity.RecipientsCc.Add(recipientEntity);
-            //}
-            //_dataService.SaveChanges();
-
+            //Updates only scalar values
+            disInfoDto = await _dataService.UpdateAsync(distributionInformationViewModel.DistributionInformation!);
+            
             SelectedItem.Region = disInfoDto.Region;
             SelectedItem.Priority = disInfoDto.Priority;
             SelectedItem.RecipientsTo = disInfoDto.RecipientsTo;
