@@ -1,31 +1,37 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
+using System;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper>, ITableViewModel
     {
-        private readonly ICombinedDataService _dataService;
+        private readonly AreaService _dataService;
         private readonly AutoMapperConfig _autoMapper;
 
-        public AreaTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, ICombinedDataService dataModel, AutoMapperConfig autoMapper)
+        public AreaTableViewModel(
+            IEventAggregator eventAggregator,
+            IDialogService dialogService,
+            AreaService dataService,
+            AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService)
         {
-            _dataService = dataModel;
+            _dataService = dataService;
             _autoMapper = autoMapper;
         }
 
         public override async Task LoadAsync()
         {
-            var areas = await _dataService.GetAllAreasAsync();
+            var areas = await _dataService.GetAllAsync();
             foreach (var area in areas)
             {
                 var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
@@ -33,7 +39,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 Items.Add(wrapped);
             }
         }
-        protected override void OnAddExecute()
+        protected async override void OnAddExecute()
         {
             var addAreaViewModel = new AddAreaViewModel();
 
@@ -42,50 +48,27 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false)
                 return;
 
-            var area = _autoMapper.Mapper.Map<Area>(addAreaViewModel.Area.Model);
-
-            _dataService.Add(area);
-            _dataService.SaveChanges();
-            var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-            var wrapped = new AreaDtoWrapper(mapped);
+            var areaDto = await _dataService.AddAsync(addAreaViewModel.Area.Model);
+            var wrapped = new AreaDtoWrapper(areaDto);
             Items.Add(wrapped);
         }
-        protected override void OnEditExecute()
+        protected async override void OnEditExecute()
         {
-            var areaDto = _autoMapper.Mapper.Map<AreaDto>(SelectedItem!.Model);
-            var addAreaViewModel = new AddAreaViewModel(areaDto);
+            var addAreaViewModel = new AddAreaViewModel();
+            addAreaViewModel.Area = new AreaDtoWrapper(SelectedItem!.Model);
 
             bool? result = DialogService.ShowDialog(addAreaViewModel);
-
             if (result == false)
                 return;
 
-            var areaEntity = _dataService.GetAreaById(SelectedItem!.Id);
-            if (areaEntity is null)
-            {
-                //Log some error
-                return;
-            }
-            _autoMapper.Mapper.Map(addAreaViewModel.Area.Model, areaEntity);
+            var areaDto = await _dataService.UpdateAsync(SelectedItem!.Model);
 
-            _dataService.SaveChanges();
-            SelectedItem.Name = areaEntity.Name;
+            SelectedItem.Name = areaDto.Name;
         }
-        protected override void OnRemoveExecute()
+        protected async override void OnRemoveExecute()
         {
-            if (SelectedItem is null)
-                return;
-
-            var area = _dataService.GetAreaById(SelectedItem.Id);
-            if (area is null)
-            {
-                //Log some error mesage here
-                return;
-            }
-
-            _dataService.Remove(area);
-            _dataService.SaveChanges();
-
+            await _dataService.RemoveByIdAsync(SelectedItem!.Id);
+    
             base.OnRemoveExecute();
         }
     }

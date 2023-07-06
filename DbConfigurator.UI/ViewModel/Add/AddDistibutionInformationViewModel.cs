@@ -33,11 +33,11 @@ namespace DbConfigurator.UI.ViewModel.Add
         private readonly AutoMapperConfig _autoMapper;
 
         public AddDistibutionInformationViewModel(
-            IDistributionInformationService dataModel,
+            IDistributionInformationService dataService,
             AutoMapperConfig autoMapper
             )
         {
-            _dataService = dataModel;
+            _dataService = dataService;
             _autoMapper = autoMapper;
             DistributionInformation = new();
 

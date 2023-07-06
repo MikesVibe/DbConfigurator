@@ -20,11 +20,11 @@ namespace DbConfigurator.UI.ViewModel.Add
         private CountryDto? _selectedCountry;
 
         public AddRegionViewModel(
-            ICombinedDataService dataModel,
+            ICombinedDataService dataService,
             AutoMapperConfig autoMapper
             )
         {
-            _dataService = dataModel;
+            _dataService = dataService;
             _autoMapper = autoMapper;
             var region = new RegionDto();
             Region = new RegionDtoWrapper(region);

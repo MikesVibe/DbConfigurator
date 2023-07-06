@@ -21,12 +21,12 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public DistributionInformationTableViewModel(IDialogService dialogService,
             IEventAggregator eventAggregator,
-            IDistributionInformationService dataModel,
+            IDistributionInformationService dataService,
             Func<AddDistibutionInformationViewModel> addDistributionInformationCreator,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator, dialogService)
         {
-            _dataService = dataModel;
+            _dataService = dataService;
             _addDistributionInformationCreator = addDistributionInformationCreator;
             _autoMapper = autoMapper;
         }

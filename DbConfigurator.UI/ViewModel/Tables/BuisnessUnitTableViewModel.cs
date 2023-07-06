@@ -16,10 +16,10 @@ namespace DbConfigurator.UI.ViewModel.Tables
         private readonly ICombinedDataService _dataService;
         private readonly AutoMapperConfig _autoMapper;
 
-        public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, ICombinedDataService dataModel, AutoMapperConfig autoMapper)
+        public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, ICombinedDataService dataService, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService)
         {
-            _dataService = dataModel;
+            _dataService = dataService;
             _autoMapper = autoMapper;
         }
 

@@ -19,12 +19,12 @@ namespace DbConfigurator.UI.ViewModel.Tables
         public RegionTableViewModel(
             IEventAggregator eventAggregator,
             IDialogService dialogService,
-            IRegionService dataModel,
+            IRegionService dataService,
             AutoMapperConfig autoMapper,
             Func<AddRegionViewModel> addRegionCreator
             ) : base(eventAggregator, dialogService)
         {
-            _regionService = dataModel;
+            _regionService = dataService;
             _autoMapper = autoMapper;
             _addRegionCreator = addRegionCreator;
             Items = new ObservableCollection<RegionDtoWrapper>();

@@ -20,12 +20,12 @@ namespace DbConfigurator.UI.ViewModel.Tables
         public RecipientTableViewModel(
             IEventAggregator eventAggregator,
             IDialogService dialogService,
-            ICombinedDataService dataModel,
+            ICombinedDataService dataService,
             AutoMapperConfig autoMapper,
             Func<AddRecipientViewModel> addRecipientViewModelCreator
             ) : base(eventAggregator, dialogService)
         {
-            _dataService = dataModel;
+            _dataService = dataService;
             _autoMapper = autoMapper;
             _addRecipientViewModelCreator = addRecipientViewModelCreator;
 

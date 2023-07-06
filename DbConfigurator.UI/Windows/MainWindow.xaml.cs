@@ -14,12 +14,12 @@ namespace DbConfigurator.UI.Windows
 
         //private IDistributionInformationRepository? _repository;
 
-        public MainWindow(MainViewModel viewModel, ICombinedDataService dataModel, ISeeder seeder)
+        public MainWindow(MainViewModel viewModel, ICombinedDataService dataService, ISeeder seeder)
         {
             InitializeComponent();
             _seeder = seeder;
             _viewModel = viewModel;
-            _dataService = dataModel;
+            _dataService = dataService;
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
         }
