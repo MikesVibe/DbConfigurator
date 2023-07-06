@@ -66,21 +66,17 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override async void OnEditExecute()
         {
-            //var distributionInformationViewModel = _addDistributionInformationCreator();
-            //var disInfoDto = new DistributionInformationDto
-            //{
-            //    Id = SelectedItem!.Model.Id,
-            //    Region = SelectedItem!.Model.Region,
-            //    Priority = SelectedItem!.Model.Priority,
-            //    RecipientsTo = new ObservableCollection<RecipientDto>(SelectedItem!.Model.RecipientsTo),
-            //    RecipientsCc = new ObservableCollection<RecipientDto>(SelectedItem!.Model.RecipientsCc)
-            //};
-            //distributionInformationViewModel.DistributionInformation = disInfoDto;
-            //await distributionInformationViewModel.LoadAsync();
+            var distributionInformationViewModel = _addDistributionInformationCreator();
+            var disInfoDto = new DistributionInformationDto(SelectedItem!.Model);
 
-            //bool? result = DialogService.ShowDialog(distributionInformationViewModel);
-            //if (result == false)
-            //    return;
+            distributionInformationViewModel.DistributionInformation = disInfoDto;
+            await distributionInformationViewModel.LoadAsync();
+
+            bool? result = DialogService.ShowDialog(distributionInformationViewModel);
+            if (result == false)
+                return;
+
+            disInfoDto = await _dataService.UpdateAsync(distributionInformationViewModel.DistributionInformation);
 
             ////Apply changes to distributionInformationEntity
             //var dis = distributionInformationViewModel.DistributionInformation;
@@ -102,10 +98,10 @@ namespace DbConfigurator.UI.ViewModel.Tables
             //}
             //_dataService.SaveChanges();
 
-            //SelectedItem.Region = dis.Region;
-            //SelectedItem.Priority = dis.Priority;
-            //SelectedItem.RecipientsTo = dis.RecipientsTo;
-            //SelectedItem.RecipientsCc = dis.RecipientsCc;
+            SelectedItem.Region = disInfoDto.Region;
+            SelectedItem.Priority = disInfoDto.Priority;
+            SelectedItem.RecipientsTo = disInfoDto.RecipientsTo;
+            SelectedItem.RecipientsCc = disInfoDto.RecipientsCc;
         }
     }
 }

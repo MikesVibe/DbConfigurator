@@ -31,12 +31,13 @@ namespace DbConfigurator.UI.Startup
                     .ForMember(dest => dest.BuisnessUnit, opt => opt.Ignore())
                     .ForMember(dest => dest.Country, opt => opt.Ignore());
 
+
                 cfg.CreateMap<DistributionInformationDto, DistributionInformation>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                     .ForMember(dest => dest.Region, opt => opt.Ignore())
                     .ForMember(dest => dest.Priority, opt => opt.Ignore())
-                    .ForMember(dest => dest.RecipientsTo, opt => opt.MapFrom(src => src.RecipientsTo))
-                    .ForMember(dest => dest.RecipientsCc, opt => opt.MapFrom(src => src.RecipientsCc));
+                    .ForMember(dest => dest.RecipientsTo, opt => opt.Ignore())  // Ignore these during main mapping operation
+                    .ForMember(dest => dest.RecipientsCc, opt => opt.Ignore());
             });
 
             Mapper = config.CreateMapper();
