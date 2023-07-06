@@ -29,15 +29,15 @@ namespace DbConfigurator.UI.ViewModel.Add
         private RecipientDto? _selectedRecipientToListView;
         private RecipientDto? _selectedRecipientCcListView;
         private bool AwaitingComboboxPopulation = false;
-        private readonly ICombinedDataService _dataModel;
+        private readonly IDistributionInformationService _dataService;
         private readonly AutoMapperConfig _autoMapper;
 
         public AddDistibutionInformationViewModel(
-            ICombinedDataService dataModel,
+            IDistributionInformationService dataModel,
             AutoMapperConfig autoMapper
             )
         {
-            _dataModel = dataModel;
+            _dataService = dataModel;
             _autoMapper = autoMapper;
             DistributionInformation = new();
 
@@ -255,15 +255,14 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         private void PopulateComboBoxTo()
         {
-            var recipients = _dataModel.GetAllRecipients();
-            var mapped = _autoMapper.Mapper.Map<IEnumerable<RecipientDto>>(recipients);
+            var recipients = _dataService.GetAllRecipients();
 
-            var recipientsDtoAfterFiltration = mapped.Where(p => !DistributionInformation.RecipientsTo.Any(p2 => p2.Id == p.Id)).ToList();
+            var recipientsDtoAfterFiltration = recipients.Where(p => !DistributionInformation.RecipientsTo.Any(p2 => p2.Id == p.Id)).ToList();
             RecipientsToComboBox = recipientsDtoAfterFiltration.ToObservableCollection();
         }
         private void PopulateComboBoxCc()
         {
-            var recipients = _dataModel.GetAllRecipients();
+            var recipients = _dataService.GetAllRecipients();
             var mapped = _autoMapper.Mapper.Map<IEnumerable<RecipientDto>>(recipients);
 
             var recipientsDtoAfterFiltration = mapped.Where(p => !DistributionInformation.RecipientsCc.Any(p2 => p2.Id == p.Id)).ToList();
@@ -304,12 +303,12 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         private async Task PopulateAreaCombobox()
         {
-            var areas = await _dataModel.RegionService.GetAreasAsync();
+            var areas = await _dataService.GetAreasAsync();
             Area_Collection = areas.ToObservableCollection();
         }
         private async Task PopulateBuisnessUnitCombobox(int? areaId = null)
         {
-            var buisnessUnits = await _dataModel.RegionService.GetBuisnessUnitsAsync(areaId);
+            var buisnessUnits = await _dataService.GetBuisnessUnitsAsync(areaId);
             BuisnessUnit_Collection.Clear();
             foreach (var buisnessUnit in buisnessUnits)
             {
@@ -318,7 +317,7 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         private async Task PopulateCountryCombobox(int? buisnessUnitId = null)
         {
-            var countries = await _dataModel.RegionService.GetCountriesAsync(buisnessUnitId);
+            var countries = await _dataService.GetCountriesAsync(buisnessUnitId);
             Country_Collection.Clear();
             foreach (var country in countries)
             {
@@ -327,9 +326,8 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         private async Task PopulatePriorityCombobox()
         {
-            var priorities = await _dataModel.GetAllPrioritiesAsync();
-            var mapped = _autoMapper.Mapper.Map<IEnumerable<PriorityDto>>(priorities);
-            Priority_Collection = mapped.ToObservableCollection();
+            var priorities = await _dataService.GetAllPrioritiesAsync();
+            Priority_Collection = priorities.ToObservableCollection();
         }
 
         private async void OnBuisnessUnitChanged()
@@ -358,7 +356,7 @@ namespace DbConfigurator.UI.ViewModel.Add
 
             AwaitingComboboxPopulation = true;
 
-            var region = await _dataModel.GetRegionAsync(SelectedArea.Id, SelectedBuisnessUnit.Id, SelectedCountry.Id);
+            var region = await _dataService.GetRegionAsync(SelectedArea.Id, SelectedBuisnessUnit.Id, SelectedCountry.Id);
             if (region == null)
                 throw new ArgumentNullException(nameof(region));
 

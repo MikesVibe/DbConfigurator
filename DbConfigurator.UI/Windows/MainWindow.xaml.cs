@@ -9,7 +9,7 @@ namespace DbConfigurator.UI.Windows
     public partial class MainWindow : Window
     {
         private MainViewModel _viewModel;
-        private ICombinedDataService _dataModel;
+        private ICombinedDataService _dataService;
         private readonly ISeeder _seeder;
 
         //private IDistributionInformationRepository? _repository;
@@ -19,7 +19,7 @@ namespace DbConfigurator.UI.Windows
             InitializeComponent();
             _seeder = seeder;
             _viewModel = viewModel;
-            _dataModel = dataModel;
+            _dataService = dataModel;
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
         }

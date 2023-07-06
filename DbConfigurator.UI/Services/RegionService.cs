@@ -21,35 +21,21 @@ namespace DbConfigurator.UI.Services
 
         public async Task<IEnumerable<AreaDto>> GetAreasAsync()
         {
-            await Task.CompletedTask;
+            var areas = await _repository.GetAreasAsync();
 
-            return new List<AreaDto>();
+            return _autoMapper.Mapper.Map<IEnumerable<AreaDto>>(areas);
         }
         public async Task<IEnumerable<BuisnessUnitDto>> GetBuisnessUnitsAsync()
         {
-            await Task.CompletedTask;
+            var buisnessUnits = await _repository.GetBuisnessUnitsAsync();
 
-            return new List<BuisnessUnitDto>();
+            return _autoMapper.Mapper.Map<IEnumerable<BuisnessUnitDto>>(buisnessUnits);
         }
         public async Task<IEnumerable<CountryDto>> GetCountriesAsync()
         {
-            await Task.CompletedTask;
+            var countries = await _repository.GetCountriesAsync();
 
-            return new List<CountryDto>();
+            return _autoMapper.Mapper.Map<IEnumerable<CountryDto>>(countries);
         }
-
-        public async Task<List<BuisnessUnitDto>> GetBuisnessUnitsAsync(int? areaId = null)
-        {
-            await Task.CompletedTask;
-
-            return new List<BuisnessUnitDto>();
-        }
-        public async Task<List<CountryDto>> GetCountriesAsync(int? buisnessUnitId = null)
-        {
-            await Task.CompletedTask;
-
-            return new List<CountryDto>();
-        }
-
     }
 }

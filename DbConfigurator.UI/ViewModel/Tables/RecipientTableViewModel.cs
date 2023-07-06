@@ -17,7 +17,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
     public class RecipientTableViewModel : TableViewModelBase<RecipientDtoWrapper>
     {
         private readonly AutoMapperConfig _autoMapper;
-        private readonly ICombinedDataService _dataModel;
+        private readonly ICombinedDataService _dataService;
         private readonly Func<AddRecipientViewModel> _addRecipientViewModelCreator;
 
         public RecipientTableViewModel(
@@ -28,7 +28,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             Func<AddRecipientViewModel> addRecipientViewModelCreator
             ) : base(eventAggregator, dialogService)
         {
-            _dataModel = dataModel;
+            _dataService = dataModel;
             _autoMapper = autoMapper;
             _addRecipientViewModelCreator = addRecipientViewModelCreator;
 
@@ -37,7 +37,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public override async Task LoadAsync()
         {
-            var recipients = await _dataModel.GetAllRecipientsAsync();
+            var recipients = await _dataService.GetAllRecipientsAsync();
             //foreach (var wrapper in Recipients_ObservableCollection)
             //{
             //    wrapper.PropertyChanged -= Recipients_ObservableCollection_PropertyChanged;
@@ -69,8 +69,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 Email = recipientDto.Email
             };
 
-            await _dataModel.AddAsync(recipientEntity);
-            await _dataModel.SaveChangesAsync();
+            await _dataService.AddAsync(recipientEntity);
+            await _dataService.SaveChangesAsync();
 
             var mapped = _autoMapper.Mapper.Map<RecipientDto>(recipientEntity);
             var wrapped = new RecipientDtoWrapper(mapped);
@@ -83,15 +83,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (SelectedItem is null)
                 return;
 
-            var recipient = await _dataModel.GetRecipientByIdAsync(SelectedItem.Id);
+            var recipient = await _dataService.GetRecipientByIdAsync(SelectedItem.Id);
             if (recipient is null)
             {
                 //Log some error mesage here
                 return;
             }
 
-            _dataModel.Remove(recipient);
-            _dataModel.SaveChanges();
+            _dataService.Remove(recipient);
+            _dataService.SaveChanges();
 
             base.OnRemoveExecute();
         }
@@ -106,7 +106,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             var recipient = recipientViewModel.Recipient;
 
-            var recipientEntity = await _dataModel.GetRecipientByIdAsync(SelectedItem!.Id);
+            var recipientEntity = await _dataService.GetRecipientByIdAsync(SelectedItem!.Id);
             if (recipientEntity is null)
             {
                 //Log some error
@@ -114,7 +114,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             }
             _autoMapper.Mapper.Map(recipient.Model, recipientEntity);
 
-            _dataModel.SaveChanges();
+            _dataService.SaveChanges();
             SelectedItem.FirstName = recipient.FirstName;
         }
     }

@@ -13,19 +13,19 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper>, ITableViewModel
     {
-        private readonly ICombinedDataService _dataModel;
+        private readonly ICombinedDataService _dataService;
         private readonly AutoMapperConfig _autoMapper;
 
         public AreaTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, ICombinedDataService dataModel, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService)
         {
-            _dataModel = dataModel;
+            _dataService = dataModel;
             _autoMapper = autoMapper;
         }
 
         public override async Task LoadAsync()
         {
-            var areas = await _dataModel.GetAllAreasAsync();
+            var areas = await _dataService.GetAllAreasAsync();
             foreach (var area in areas)
             {
                 var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
@@ -44,8 +44,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             var area = _autoMapper.Mapper.Map<Area>(addAreaViewModel.Area.Model);
 
-            _dataModel.Add(area);
-            _dataModel.SaveChanges();
+            _dataService.Add(area);
+            _dataService.SaveChanges();
             var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
             var wrapped = new AreaDtoWrapper(mapped);
             Items.Add(wrapped);
@@ -60,7 +60,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false)
                 return;
 
-            var areaEntity = _dataModel.GetAreaById(SelectedItem!.Id);
+            var areaEntity = _dataService.GetAreaById(SelectedItem!.Id);
             if (areaEntity is null)
             {
                 //Log some error
@@ -68,7 +68,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             }
             _autoMapper.Mapper.Map(addAreaViewModel.Area.Model, areaEntity);
 
-            _dataModel.SaveChanges();
+            _dataService.SaveChanges();
             SelectedItem.Name = areaEntity.Name;
         }
         protected override void OnRemoveExecute()
@@ -76,15 +76,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (SelectedItem is null)
                 return;
 
-            var area = _dataModel.GetAreaById(SelectedItem.Id);
+            var area = _dataService.GetAreaById(SelectedItem.Id);
             if (area is null)
             {
                 //Log some error mesage here
                 return;
             }
 
-            _dataModel.Remove(area);
-            _dataModel.SaveChanges();
+            _dataService.Remove(area);
+            _dataService.SaveChanges();
 
             base.OnRemoveExecute();
         }

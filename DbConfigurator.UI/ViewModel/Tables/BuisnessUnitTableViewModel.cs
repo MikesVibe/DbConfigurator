@@ -13,19 +13,19 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper>, ITableViewModel
     {
-        private readonly ICombinedDataService _dataModel;
+        private readonly ICombinedDataService _dataService;
         private readonly AutoMapperConfig _autoMapper;
 
         public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, ICombinedDataService dataModel, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService)
         {
-            _dataModel = dataModel;
+            _dataService = dataModel;
             _autoMapper = autoMapper;
         }
 
         public override async Task LoadAsync()
         {
-            var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
+            var buisnessUnits = await _dataService.GetAllBuisnessUnitsAsync();
             foreach (var buisnessUnit in buisnessUnits)
             {
                 var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
@@ -44,8 +44,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             var buisnessUnit = _autoMapper.Mapper.Map<BuisnessUnit>(addbuisnessUnitViewModel.BuisnessUnit.Model);
 
-            _dataModel.Add(buisnessUnit);
-            _dataModel.SaveChanges();
+            _dataService.Add(buisnessUnit);
+            _dataService.SaveChanges();
             var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
             var wrapped = new BuisnessUnitDtoWrapper(mapped);
             Items.Add(wrapped);
@@ -60,7 +60,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false)
                 return;
 
-            var buisnessUnitEntity = _dataModel.GetBuisnessUnitById(SelectedItem!.Id);
+            var buisnessUnitEntity = _dataService.GetBuisnessUnitById(SelectedItem!.Id);
             if (buisnessUnitEntity is null)
             {
                 //Log some error
@@ -69,7 +69,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             _autoMapper.Mapper.Map(buisnessUnitViewModel.BuisnessUnit.Model, buisnessUnitEntity);
 
-            _dataModel.SaveChanges();
+            _dataService.SaveChanges();
             SelectedItem.Name = buisnessUnitEntity.Name;
         }
         protected override void OnRemoveExecute()
@@ -77,15 +77,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (SelectedItem is null)
                 return;
 
-            var buisnessUnit = _dataModel.GetBuisnessUnitById(SelectedItem.Id);
+            var buisnessUnit = _dataService.GetBuisnessUnitById(SelectedItem.Id);
             if (buisnessUnit is null)
             {
                 //Log some error mesage here
                 return;
             }
 
-            _dataModel.Remove(buisnessUnit);
-            _dataModel.SaveChanges();
+            _dataService.Remove(buisnessUnit);
+            _dataService.SaveChanges();
             base.OnRemoveExecute();
         }
         protected override void OnSelectionChangedExecute()

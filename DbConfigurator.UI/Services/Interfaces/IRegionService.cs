@@ -8,8 +8,6 @@ namespace DbConfigurator.UI.Services.Interfaces
     {
         Task<IEnumerable<AreaDto>> GetAreasAsync();
         Task<IEnumerable<BuisnessUnitDto>> GetBuisnessUnitsAsync();
-        Task<List<BuisnessUnitDto>> GetBuisnessUnitsAsync(int? areaId = null);
         Task<IEnumerable<CountryDto>> GetCountriesAsync();
-        Task<List<CountryDto>> GetCountriesAsync(int? buisnessUnitId = null);
     }
 }

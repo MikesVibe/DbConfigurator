@@ -52,19 +52,9 @@ namespace DbConfigurator.UI.Services
 
             return collection;
         }
-        public async Task<ICollection<Priority>> GetAllPrioritiesAsync()
-        {
-            var collection = await _context.Set<Priority>().AsNoTracking().ToListAsync();
-            return collection;
-        }
         public async Task<ICollection<Recipient>> GetAllRecipientsAsync()
         {
             var collection = await _context.Set<Recipient>().AsNoTracking().ToListAsync();
-            return collection;
-        }
-        public IEnumerable<Recipient> GetAllRecipients()
-        {
-            var collection = _context.Set<Recipient>().AsNoTracking().ToList();
             return collection;
         }
         public async Task<ICollection<Country>> GetAllCountriesAsync()
@@ -74,14 +64,7 @@ namespace DbConfigurator.UI.Services
 
             return collection;
         }
-        public async Task<Region?> GetRegionAsync(int areaId, int buisnessUnitId, int countryId)
-        {
-            return await GetRegionsAsQueryable()
-                .Where(r =>
-                r.AreaId == areaId &&
-                r.BuisnessUnitId == buisnessUnitId &&
-                r.CountryId == countryId).AsNoTracking().FirstOrDefaultAsync();
-        }
+
         public async Task AddAsync<T>(T item) where T : class
         {
             await _context.Set<T>().AddAsync(item);

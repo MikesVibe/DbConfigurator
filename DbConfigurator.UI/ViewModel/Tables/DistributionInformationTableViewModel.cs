@@ -17,7 +17,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper>
     {
-        private readonly ICombinedDataService _dataModel;
+        private readonly ICombinedDataService _dataService;
         private readonly Func<AddDistibutionInformationViewModel> _addDistributionInformationCreator;
         private readonly AutoMapperConfig _autoMapper;
 
@@ -28,14 +28,14 @@ namespace DbConfigurator.UI.ViewModel.Tables
             AutoMapperConfig autoMapper
             ) : base(eventAggregator, dialogService)
         {
-            _dataModel = dataModel;
+            _dataService = dataModel;
             _addDistributionInformationCreator = addDistributionInformationCreator;
             _autoMapper = autoMapper;
         }
 
         public async override Task LoadAsync()
         {
-            var distributionInformations = await _dataModel.GetAllDistributionInformationDtoAsync();
+            var distributionInformations = await _dataService.GetAllDistributionInformationDtoAsync();
 
             foreach (var distributionInformation in distributionInformations)
             {
@@ -63,17 +63,17 @@ namespace DbConfigurator.UI.ViewModel.Tables
             };
             foreach (var recipient in dis.RecipientsTo)
             {
-                var recipientEntity = await _dataModel.GetRecipientByIdAsync(recipient.Id);
+                var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
                 distributionInformation.RecipientsTo.Add(recipientEntity);
             }
             foreach (var recipient in dis.RecipientsCc)
             {
-                var recipientEntity = await _dataModel.GetRecipientByIdAsync(recipient.Id);
+                var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
                 distributionInformation.RecipientsCc.Add(recipientEntity);
             }
 
-            _dataModel.Add(distributionInformation);
-            _dataModel.SaveChanges();
+            _dataService.Add(distributionInformation);
+            _dataService.SaveChanges();
 
             var mapped = _autoMapper.Mapper.Map<DistributionInformationDto>(distributionInformation);
             var wrapped = new DistributionInformationDtoWrapper(mapped);
@@ -81,9 +81,9 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override async void OnRemoveExecute()
         {
-            var distributionInformationToRemove = await _dataModel.GetDistributionInformationByIdAsync(SelectedItem!.Id);
-            _dataModel.Remove(distributionInformationToRemove);
-            await _dataModel.SaveChangesAsync();
+            var distributionInformationToRemove = await _dataService.GetDistributionInformationByIdAsync(SelectedItem!.Id);
+            _dataService.Remove(distributionInformationToRemove);
+            await _dataService.SaveChangesAsync();
 
             base.OnRemoveExecute();
         }
@@ -107,7 +107,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             //Apply changes to distributionInformationEntity
             var dis = distributionInformationViewModel.DistributionInformation;
-            var distributionInformationEntity = await _dataModel.GetDistributionInformationByIdAsync(dis.Id);
+            var distributionInformationEntity = await _dataService.GetDistributionInformationByIdAsync(dis.Id);
             distributionInformationEntity.RegionId = dis.Region.Id;
             distributionInformationEntity.PriorityId = dis.Priority.Id;
             distributionInformationEntity.RecipientsTo = new List<Recipient>();
@@ -115,15 +115,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             foreach (var recipient in dis.RecipientsTo)
             {
-                var recipientEntity = await _dataModel.GetRecipientByIdAsync(recipient.Id);
+                var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
                 distributionInformationEntity.RecipientsTo.Add(recipientEntity);
             }
             foreach (var recipient in dis.RecipientsCc)
             {
-                var recipientEntity = await _dataModel.GetRecipientByIdAsync(recipient.Id);
+                var recipientEntity = await _dataService.GetRecipientByIdAsync(recipient.Id);
                 distributionInformationEntity.RecipientsCc.Add(recipientEntity);
             }
-            _dataModel.SaveChanges();
+            _dataService.SaveChanges();
 
             SelectedItem.Region = dis.Region;
             SelectedItem.Priority = dis.Priority;

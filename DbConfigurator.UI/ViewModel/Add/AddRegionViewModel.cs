@@ -16,7 +16,7 @@ namespace DbConfigurator.UI.ViewModel.Add
 {
     public class AddRegionViewModel : EditingViewModelBase
     {
-        private readonly ICombinedDataService _dataModel;
+        private readonly ICombinedDataService _dataService;
         private readonly AutoMapperConfig _autoMapper;
         private AreaDto? _selectedArea;
         private BuisnessUnitDto? _selectedBuisnessUnit;
@@ -27,7 +27,7 @@ namespace DbConfigurator.UI.ViewModel.Add
             AutoMapperConfig autoMapper
             )
         {
-            _dataModel = dataModel;
+            _dataService = dataModel;
             _autoMapper = autoMapper;
             var region = new RegionDto();
             Region = new RegionDtoWrapper(region);
@@ -76,21 +76,21 @@ namespace DbConfigurator.UI.ViewModel.Add
 
         public async Task LoadAsync()
         {
-            var areas = await _dataModel.GetAllAreasAsync();
+            var areas = await _dataService.GetAllAreasAsync();
             foreach (var area in areas)
             {
                 var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
                 Areas_ObservableCollection.Add(mapped);
             }
 
-            var buisnessUnits = await _dataModel.GetAllBuisnessUnitsAsync();
+            var buisnessUnits = await _dataService.GetAllBuisnessUnitsAsync();
             foreach (var buisnessUnit in buisnessUnits)
             {
                 var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
                 BuisnessUnits_ObservableCollection.Add(mapped);
             }
 
-            var countries = await _dataModel.GetAllCountriesAsync();
+            var countries = await _dataService.GetAllCountriesAsync();
             foreach (var country in countries)
             {
                 var mapped = _autoMapper.Mapper.Map<CountryDto>(country);

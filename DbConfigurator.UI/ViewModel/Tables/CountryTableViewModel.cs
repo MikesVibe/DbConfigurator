@@ -13,19 +13,19 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class CountryTableViewModel : TableViewModelBase<CountryDtoWrapper>, ITableViewModel
     {
-        private readonly ICombinedDataService _dataModel;
+        private readonly ICombinedDataService _dataService;
         private readonly AutoMapperConfig _autoMapper;
 
         public CountryTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, ICombinedDataService dataModel, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService)
         {
-            _dataModel = dataModel;
+            _dataService = dataModel;
             _autoMapper = autoMapper;
         }
 
         public override async Task LoadAsync()
         {
-            var countries = await _dataModel.GetAllCountriesAsync();
+            var countries = await _dataService.GetAllCountriesAsync();
             foreach (var country in countries)
             {
                 var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
@@ -49,8 +49,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 CountryCode = countryDtoWrapper.CountryCode
             };
 
-            _dataModel.Add(countryEntity);
-            _dataModel.SaveChanges();
+            _dataService.Add(countryEntity);
+            _dataService.SaveChanges();
             var mapped = _autoMapper.Mapper.Map<CountryDto>(countryEntity);
             var wrapped = new CountryDtoWrapper(mapped);
             Items.Add(wrapped);
@@ -66,7 +66,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 return;
 
             var countryDtoWrapper = addCountryViewModel.Country;
-            var countryEntity = _dataModel.GetCountryById(countryDtoWrapper.Id);
+            var countryEntity = _dataService.GetCountryById(countryDtoWrapper.Id);
             if (countryEntity is null)
             {
                 //Log some error
@@ -75,7 +75,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             countryEntity.CountryName = countryDtoWrapper.CountryName;
             countryEntity.CountryCode = countryDtoWrapper.CountryCode;
 
-            _dataModel.SaveChanges();
+            _dataService.SaveChanges();
 
 
         }
@@ -84,15 +84,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (SelectedItem is null)
                 return;
 
-            var country = _dataModel.GetCountryById(SelectedItem.Id);
+            var country = _dataService.GetCountryById(SelectedItem.Id);
             if (country is null)
             {
                 //Log some error mesage here
                 return;
             }
 
-            _dataModel.Remove(country);
-            _dataModel.SaveChanges();
+            _dataService.Remove(country);
+            _dataService.SaveChanges();
             base.OnRemoveExecute();
         }
     }
