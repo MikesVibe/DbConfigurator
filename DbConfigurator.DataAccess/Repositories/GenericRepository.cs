@@ -103,13 +103,5 @@ namespace DbConfigurator.DataAccess.Repository
         //    return await _context.Set<T>().Except(list).ToListAsync();
         //}
 
-        protected IQueryable<Region> GetRegionsAsQueryable()
-        {
-            return _context.Set<Region>()
-                .Include(r => r.Area)
-                .Include(r => r.BuisnessUnit)
-                .Include(r => r.Country)
-                .AsQueryable();
-        }
     }
 }

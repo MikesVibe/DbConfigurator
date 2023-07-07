@@ -10,9 +10,9 @@ namespace DbConfigurator.UI.Services.Interfaces
         Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd);
         Task<IEnumerable<PriorityDto>> GetAllPrioritiesAsync();
         IEnumerable<RecipientDto> GetAllRecipients();
-        Task<IEnumerable<AreaDto>> GetAreasAsync();
-        Task<IEnumerable<BuisnessUnitDto>> GetBuisnessUnitsAsync(int? areaId = null);
-        Task<IEnumerable<CountryDto>> GetCountriesAsync(int? buisnessUnitId = null);
+        Task<IEnumerable<AreaDto>> GetUniqueAreasFromRegionAsync();
+        Task<IEnumerable<BuisnessUnitDto>> GetUniqueBuisnessUnitsFromRegionAsync(int? areaId = null);
+        Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? buisnessUnitId = null);
         Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int buisnessUnitId, int countryId);
     }
 }

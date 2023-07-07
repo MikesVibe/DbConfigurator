@@ -1,7 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Add;
@@ -15,18 +14,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper>, ITableViewModel
     {
-        private readonly AreaService _dataService;
-        private readonly AutoMapperConfig _autoMapper;
+        private readonly IAreaService _dataService;
 
         public AreaTableViewModel(
             IEventAggregator eventAggregator,
             IDialogService dialogService,
-            AreaService dataService,
-            AutoMapperConfig autoMapper)
+            IAreaService dataService)
             : base(eventAggregator, dialogService)
         {
             _dataService = dataService;
-            _autoMapper = autoMapper;
         }
 
         public override async Task LoadAsync()
@@ -34,8 +30,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var areas = await _dataService.GetAllAsync();
             foreach (var area in areas)
             {
-                var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-                var wrapped = new AreaDtoWrapper(mapped);
+                var wrapped = new AreaDtoWrapper(area);
                 Items.Add(wrapped);
             }
         }

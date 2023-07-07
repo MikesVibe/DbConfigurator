@@ -29,6 +29,9 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
 
             //Repositories
+            builder.RegisterType<AreaRepository>().AsSelf();
+            builder.RegisterType<BuisnessUnitRepository>().AsSelf();
+            builder.RegisterType<CountryRepository>().AsSelf();
             builder.RegisterType<RegionRepository>().AsSelf();
             builder.RegisterType<PriorityRepository>().AsSelf();
             builder.RegisterType<RecipientRepository>().AsSelf();
@@ -39,6 +42,9 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<CombinedDataService>().As<ICombinedDataService>().SingleInstance();
             builder.RegisterType<DistributionInformationService>().As<IDistributionInformationService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
+            builder.RegisterType<AreaService>().As<IAreaService>().SingleInstance();
+            //builder.RegisterType<BuisnessUnitService>().As<IBuisnessUnitService>().SingleInstance();
+            //builder.RegisterType<CountryService>().As<IRegionService>().SingleInstance();
 
             //Navigation Panel
             builder.RegisterType<NavigationPanelViewModel>().As<INavigationPanelViewModel>();

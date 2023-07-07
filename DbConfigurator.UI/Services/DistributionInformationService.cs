@@ -18,36 +18,52 @@ namespace DbConfigurator.UI.Services
         private readonly RecipientRepository _recipientRepository;
         private readonly PriorityRepository _priorityRepository;
         private readonly RegionRepository _regionRepository;
+        private readonly BuisnessUnitRepository _buisnessUnitRepository;
+        private readonly CountryRepository _countryRepository;
 
         public DistributionInformationService(
             DistributionInformationRepository repository,
             RecipientRepository recipientRepository,
             PriorityRepository priorityRepository,
             RegionRepository regionRepository,
-            AutoMapperConfig autoMapper)
+            BuisnessUnitRepository buisnessUnitRepository,
+            CountryRepository countryRepository,
+            AutoMapperConfig autoMapper
+            )
             : base(repository, autoMapper)
         {
             _recipientRepository = recipientRepository;
             _priorityRepository = priorityRepository;
             _regionRepository = regionRepository;
+            _buisnessUnitRepository = buisnessUnitRepository;
+            _countryRepository = countryRepository;
         }
 
-        public async Task<IEnumerable<AreaDto>> GetAreasAsync()
+        public async Task<IEnumerable<AreaDto>> GetUniqueAreasFromRegionAsync()
         {
-            var countries = await _repository.GetAreasAsync();
+            var countries = await _regionRepository.GetUniqueAreasFromRegionAsync();
 
             return _autoMapper.Mapper.Map<IEnumerable<AreaDto>>(countries);
         }
-        public async Task<IEnumerable<BuisnessUnitDto>> GetBuisnessUnitsAsync(int? areaId = null)
+        public async Task<IEnumerable<BuisnessUnitDto>> GetUniqueBuisnessUnitsFromRegionAsync(int? areaId = null)
         {
-            var buisnessUnits = await _repository.GetBuisnessUnitsAsync();
+            IEnumerable<Region> regions = (areaId is null) ? 
+                await _regionRepository.GetAllAsync() :
+                await _regionRepository.GetAllAsync(i => i.AreaId == areaId);
+
+            var buisnessUnitsIdList = regions.Select(r => r.BuisnessUnitId);
+            var buisnessUnits = await _buisnessUnitRepository.GetAllAsync(b => buisnessUnitsIdList.Contains(b.Id));
 
             return _autoMapper.Mapper.Map<IEnumerable<BuisnessUnitDto>>(buisnessUnits);
         }
-        public async Task<IEnumerable<CountryDto>> GetCountriesAsync(int? buisnessUnitId = null)
+        public async Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int ? buisnessUnitId = null)
         {
-            await Task.CompletedTask;
-            var countries = await _repository.GetCountriesAsync();
+            var regions = (buisnessUnitId is null) ?
+                await _regionRepository.GetAllAsync() :
+                await _regionRepository.GetAllAsync(i => i.AreaId == areaId && i.BuisnessUnitId == buisnessUnitId);
+
+            var countriesIdList = regions.Select(r => r.CountryId);
+            var countries = await _countryRepository.GetAllAsync(c => countriesIdList.Contains(c.Id));
 
             return _autoMapper.Mapper.Map<IEnumerable<CountryDto>>(countries);
         }
