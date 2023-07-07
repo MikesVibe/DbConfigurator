@@ -14,5 +14,6 @@ namespace DbConfigurator.UI.Services.Interfaces
         Task<IEnumerable<BuisnessUnitDto>> GetUniqueBuisnessUnitsFromRegionAsync(int? areaId = null);
         Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? buisnessUnitId = null);
         Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int buisnessUnitId, int countryId);
+        Task<IEnumerable<RegionDto>> GetAllRegionsAsync();
     }
 }

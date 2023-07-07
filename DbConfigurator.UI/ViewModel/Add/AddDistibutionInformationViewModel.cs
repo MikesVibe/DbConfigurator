@@ -20,7 +20,6 @@ namespace DbConfigurator.UI.ViewModel.Add
         private ObservableCollection<RecipientDto> _recipientsCc_ListView = new();
         private ObservableCollection<RecipientDto> _recipientsToComboBox = new();
         private ObservableCollection<RecipientDto> _recipientsCcComboBox = new();
-        private DistributionInformationDto _distributionInformation;
         private AreaDto? _selectedArea;
         private BuisnessUnitDto? _selectedBuisnessUnit;
         private CountryDto? _selectedCountry;
@@ -57,7 +56,12 @@ namespace DbConfigurator.UI.ViewModel.Add
         public ICommand AreaChangedCommand { get; set; }
         public ICommand BuisnessUnitChangedCommand { get; set; }
         public ICommand CountryChangedCommand { get; set; }
+        public ICommand SelectionChangedCommand { get; set; }
 
+
+
+        public ObservableCollection<RegionDto> AllRegions { get; set; } = new ObservableCollection<RegionDto>();
+        public ObservableCollection<RegionDto> FilteredRegions { get; set; } = new ObservableCollection<RegionDto>();
         public ObservableCollection<AreaDto> Area_Collection { get; set; } = new ObservableCollection<AreaDto>();
         public ObservableCollection<BuisnessUnitDto> BuisnessUnit_Collection { get; set; } = new ObservableCollection<BuisnessUnitDto>();
         public ObservableCollection<CountryDto> Country_Collection { get; set; } = new ObservableCollection<CountryDto>();
@@ -168,18 +172,33 @@ namespace DbConfigurator.UI.ViewModel.Add
                 OnPropertyChanged();
             }
         }
+        public RegionDto? SelectedRegion { get; set; }
 
         public async Task LoadAsync(DistributionInformationDto? distributionInformation = null)
         {
             DistributionInformation = distributionInformation;
             await PopulateComboBoxesWithData();
 
+            var regions = await _dataService.GetAllRegionsAsync();
+            AllRegions.Clear();
+            foreach(var region in regions)
+            {
+                AllRegions.Add(region);
+            }
+            FilteredRegions.Clear();
+            foreach (var region in regions)
+            {
+                FilteredRegions.Add(region);
+            }
+
             if (DistributionInformation is null)
                 return;
 
-            SelectAreaComboBox();
-            SelectBuisnessUnitComboBox();
-            SelectCountryComboBox();
+
+            //SelectAreaComboBox();
+            //SelectBuisnessUnitComboBox();
+            //SelectCountryComboBox();
+            SelectRegion();
             SelectPriorityComboBox();
             var recipientsTo = DistributionInformation.RecipientsTo.ToList();
             DistributionInformation.RecipientsTo.Clear();
@@ -256,6 +275,15 @@ namespace DbConfigurator.UI.ViewModel.Add
 
             SelectedPriority = Priority_Collection?.Where(c => c.Id == DistributionInformation.Priority.Id).FirstOrDefault();
         }
+
+        private void SelectRegion()
+        {
+            if (DistributionInformation is null || DistributionInformation.Region is null)
+                return;
+
+            SelectedRegion = FilteredRegions?.Where(c => c.Id == DistributionInformation.Region.Id).FirstOrDefault();
+        }
+
         private void PopulateComboBoxTo()
         {
             var recipients = _dataService.GetAllRecipients();

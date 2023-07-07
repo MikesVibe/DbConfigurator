@@ -88,6 +88,12 @@ namespace DbConfigurator.UI.Services
 
             return _autoMapper.Mapper.Map<IEnumerable<RegionDto>>(regions);
         }
+        public async Task<IEnumerable<RegionDto>> GetAllRegionsAsync()
+        {
+            var regions = await _regionRepository.GetAllAsync();
+
+            return _autoMapper.Mapper.Map<IEnumerable<RegionDto>>(regions);
+        }
 
         public override async Task<IEnumerable<DistributionInformationDto>> GetAllAsync()
         {

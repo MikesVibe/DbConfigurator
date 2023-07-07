@@ -7,7 +7,7 @@
         xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel.Add"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
         mc:Ignorable="d"
-        Title="EditingWindow" Height="500" Width="880">
+        Title="EditingWindow" Height="610" Width="955">
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:AddAreaViewModel}">
@@ -19,8 +19,11 @@
         <DataTemplate DataType="{x:Type viewModel:AddCountryViewModel}">
             <addView:AddCountryView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AddDistibutionInformationViewModel}">
+        <!--<DataTemplate DataType="{x:Type viewModel:AddDistibutionInformationViewModel}">
             <addView:AddDistributionInformationView/>
+        </DataTemplate>-->
+        <DataTemplate DataType="{x:Type viewModel:AddDistibutionInformationViewModel}">
+            <addView:AddDistributionInformationDetails/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:AddRecipientViewModel}">
             <addView:AddRecipientView/>
