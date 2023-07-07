@@ -87,7 +87,6 @@ namespace DbConfigurator.UI.Services
                 var recipientEntity = _autoMapper.Mapper.Map<Recipient>(recipientDto);
                 await _repository.AddRecipientCcAsync(distributionInformationId, recipientEntity);
             }
-            await _repository.SaveChangesAsync();
         }
 
         public async Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd)
@@ -97,7 +96,6 @@ namespace DbConfigurator.UI.Services
                 var recipientEntity = _autoMapper.Mapper.Map<Recipient>(recipientDto);
                 await _repository.AddRecipientToAsync(distributionInformationId, recipientEntity);
             }
-            await _repository.SaveChangesAsync();
         }
     }
 }
