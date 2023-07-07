@@ -20,16 +20,18 @@ namespace DbConfigurator.DataAccess.Repository
             if (existing is null)
                 return;
 
-            //Detaching recipients 
-            foreach (var recipientTo in existing.RecipientsTo)
-            {
-                _context.Entry(recipientTo).State = EntityState.Detached;
-            }
+            entity.RecipientsCc.Clear();
+            entity.RecipientsTo.Clear();
+            ////Detaching recipients 
+            //foreach (var recipientTo in entity.RecipientsTo)
+            //{
+            //    _context.Entry(recipientTo).State = EntityState.Detached;
+            //}
 
-            foreach (var recipientCc in existing.RecipientsCc)
-            {
-                _context.Entry(recipientCc).State = EntityState.Detached;
-            }
+            //foreach (var recipientCc in entity.RecipientsCc)
+            //{
+            //    _context.Entry(recipientCc).State = EntityState.Detached;
+            //}
 
             // Update scalar and complex properties
             _context.Entry(existing).CurrentValues.SetValues(entity);
@@ -62,20 +64,23 @@ namespace DbConfigurator.DataAccess.Repository
              .FirstOrDefaultAsync();
         }
 
-        public async Task AddRecipientCcAsync(int distributionInformationId, Recipient recipientEntity)
+        public async Task AddRecipientCcAsync(int distributionInformationId, int recipientId)
         {
             var distributionInformation = await _context.Set<DistributionInformation>().FindAsync(distributionInformationId);
-            if (distributionInformation is null)
-                throw new ArgumentNullException(nameof(distributionInformation));
+            var recipientEntity = await _context.Set<Recipient>().FindAsync(recipientId);
+
+            if (distributionInformation is null || recipientEntity is null)
+                return;
 
             distributionInformation.RecipientsCc.Add(recipientEntity);
         }
 
-        public async Task AddRecipientToAsync(int distributionInformationId, Recipient recipientEntity)
+        public async Task AddRecipientToAsync(int distributionInformationId, int recipientId)
         {
             var distributionInformation = await _context.Set<DistributionInformation>().FindAsync(distributionInformationId);
-            if (distributionInformation is null)
-                throw new ArgumentNullException(nameof(distributionInformation));
+            var recipientEntity = await _context.Set<Recipient>().FindAsync(recipientId);
+            if (distributionInformation is null || recipientEntity is null)
+                return;
 
             distributionInformation.RecipientsTo.Add(recipientEntity);
         }

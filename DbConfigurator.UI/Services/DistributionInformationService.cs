@@ -106,18 +106,18 @@ namespace DbConfigurator.UI.Services
         {
             foreach (var recipientDto in recipientsCc_ToAdd)
             {
-                var recipientEntity = _autoMapper.Mapper.Map<Recipient>(recipientDto);
-                await _repository.AddRecipientCcAsync(distributionInformationId, recipientEntity);
+                await _repository.AddRecipientCcAsync(distributionInformationId, recipientDto.Id);
             }
+            await _repository.SaveChangesAsync();
         }
 
         public async Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd)
         {
             foreach (var recipientDto in recipientsTo_ToAdd)
             {
-                var recipientEntity = _autoMapper.Mapper.Map<Recipient>(recipientDto);
-                await _repository.AddRecipientToAsync(distributionInformationId, recipientEntity);
+                await _repository.AddRecipientToAsync(distributionInformationId, recipientDto.Id);
             }
+            await _repository.SaveChangesAsync();
         }
     }
 }
