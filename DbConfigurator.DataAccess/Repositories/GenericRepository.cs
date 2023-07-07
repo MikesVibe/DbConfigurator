@@ -111,10 +111,5 @@ namespace DbConfigurator.DataAccess.Repository
                 .Include(r => r.Country)
                 .AsQueryable();
         }
-        protected IQueryable<Country> GetCountriesAsQueryable()
-        {
-            return _context.Set<Country>()
-                .AsQueryable();
-        }
     }
 }
