@@ -1,7 +1,9 @@
 ﻿using DbConfigurator.Model.Entities.Core;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.DataAccess.Repository
@@ -22,9 +24,14 @@ namespace DbConfigurator.DataAccess.Repository
         {
             return GetRegionsAsQueryable().Where(r => r.Id == id).AsNoTracking().FirstOrDefault();
         }
-        public override async Task<IEnumerable<Region>> GetAllAsync()
+
+        public override IEnumerable<Region> GetAll()
         {
-            return await GetRegionsAsQueryable().OrderBy(r => r.Id).AsNoTracking().ToListAsync();
+            return GetRegionsAsQueryable().AsNoTracking().ToList();
+        }
+        public override async Task<IEnumerable<Region>> GetAllAsync(Expression<Func<Region, bool>> predicate)
+        {
+            return await GetRegionsAsQueryable().OrderBy(r => r.Id).Where(predicate).AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<Region>> GetRegionsWithAsync(int areaId, int buisnessUnitId, int countryId)

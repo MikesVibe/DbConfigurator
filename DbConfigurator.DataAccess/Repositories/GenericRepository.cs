@@ -2,8 +2,10 @@
 using DbConfigurator.Model;
 using DbConfigurator.Model.Entities.Core;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.DataAccess.Repository
@@ -45,13 +47,13 @@ namespace DbConfigurator.DataAccess.Repository
             _context.Set<T>().Remove(entity);
             return true;
         }
-        public virtual IEnumerable<T> GetAll()
-        {
-            return _context.Set<T>().AsNoTracking().ToList();
-        }
         public virtual T? GetById(int id)
         {
             return _context.Set<T>().AsNoTracking().FirstOrDefault(e => e.Id == id);
+        }
+        public virtual IEnumerable<T> GetAll()
+        {
+            return _context.Set<T>().AsNoTracking().ToList();
         }
 
         public async Task SaveChangesAsync()
@@ -84,14 +86,22 @@ namespace DbConfigurator.DataAccess.Repository
             _context.Set<T>().Remove(entity);
             return true;
         }
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await _context.Set<T>().AsNoTracking().ToListAsync();
-        }
         public virtual async Task<T?> GetByIdAsync(int id)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
         }
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _context.Set<T>().AsNoTracking().ToListAsync();
+        }
+        public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().Where(predicate).ToListAsync();
+        }
+        //public virtual async Task<IEnumerable<T>> GetAllExceptAsync(IEnumerable<T> list)
+        //{
+        //    return await _context.Set<T>().Except(list).ToListAsync();
+        //}
 
         protected IQueryable<Region> GetRegionsAsQueryable()
         {
@@ -99,11 +109,6 @@ namespace DbConfigurator.DataAccess.Repository
                 .Include(r => r.Area)
                 .Include(r => r.BuisnessUnit)
                 .Include(r => r.Country)
-                .AsQueryable();
-        }
-        protected IQueryable<BuisnessUnit> GetBuisnessUnitsAsQueryable()
-        {
-            return _context.Set<BuisnessUnit>()
                 .AsQueryable();
         }
         protected IQueryable<Country> GetCountriesAsQueryable()
