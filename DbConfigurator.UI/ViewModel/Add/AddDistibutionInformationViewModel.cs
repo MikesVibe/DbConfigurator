@@ -47,8 +47,10 @@ namespace DbConfigurator.UI.ViewModel.Add
             AreaChangedCommand = new DelegateCommand(OnAreaChanged);
             BuisnessUnitChangedCommand = new DelegateCommand(OnBuisnessUnitChanged);
             CountryChangedCommand = new DelegateCommand(OnCountryChanged);
-
+            SelectionChangedCommand = new DelegateCommand(OnRegionChanged);
         }
+
+
 
         public ICommand RemoveCcRecipientCommand { get; set; }
         public ICommand RemoveToRecipientCommand { get; set; }
@@ -361,56 +363,52 @@ namespace DbConfigurator.UI.ViewModel.Add
             Priority_Collection = priorities.ToObservableCollection();
         }
 
-        private async void OnAreaChanged()
+        private void OnAreaChanged()
         {
             if (SelectedArea is null || DistributionInformation is null)
                 return;
 
-            //Prevents concurency between threads
-            if (CanConcurencyOccure())
-                return;
+            SelectedBuisnessUnit = null;
+            SelectedCountry = null;
 
-            AwaitingComboboxPopulation = true;
-            await PopulateBuisnessUnitCombobox(SelectedArea.Id);
-            AwaitingComboboxPopulation = false;
+            FilteredRegions.Clear();
+            foreach(var region in AllRegions)
+            {
+                if(region.Area.Id == SelectedArea.Id)
+                    FilteredRegions.Add(region);
+            }
 
-            SelectBuisnessUnitComboBox();
+            SelectRegion();
         }
-        private async void OnBuisnessUnitChanged()
+        private void OnBuisnessUnitChanged()
         {
             if (SelectedArea == null || SelectedBuisnessUnit == null || DistributionInformation == null)
                 return;
 
-            //Prevents concurency between threads
-            if (CanConcurencyOccure())
-                return;
+            SelectedCountry = null;
 
-            AwaitingComboboxPopulation = true;
-            await PopulateCountryCombobox(SelectedArea.Id, SelectedBuisnessUnit.Id);
-            AwaitingComboboxPopulation = false;
+            FilteredRegions.Clear();
+            foreach (var region in AllRegions)
+            {
+                if (region.Area.Id == SelectedArea.Id && region.BuisnessUnit.Id == SelectedBuisnessUnit.Id)
+                    FilteredRegions.Add(region);
+            }
 
-            SelectCountryComboBox();
+            SelectRegion();
         }
-        private async void OnCountryChanged()
+        private void OnCountryChanged()
         {
             if (DistributionInformation == null || SelectedCountry == null || SelectedArea == null || SelectedBuisnessUnit == null)
                 return;
 
-            //Prevents concurency between threads
-            if (CanConcurencyOccure())
-                return;
+            FilteredRegions.Clear();
+            foreach (var region in AllRegions)
+            {
+                if (region.Area.Id == SelectedArea.Id && region.BuisnessUnit.Id == SelectedBuisnessUnit.Id && region.Country.Id == SelectedCountry.Id)
+                    FilteredRegions.Add(region);
+            }
 
-            AwaitingComboboxPopulation = true;
-
-            var regions = await _dataService.GetRegionsWithAsync(SelectedArea.Id, SelectedBuisnessUnit.Id, SelectedCountry.Id);
-            if (regions.Count() == 0)
-                throw new Exception();
-            if (regions.Count() > 1)
-                throw new Exception();
-
-            DistributionInformation.Region = regions.First();
-
-            AwaitingComboboxPopulation = false;
+            SelectRegion();
         }
         private void OnPriorityChanged()
         {
@@ -418,6 +416,13 @@ namespace DbConfigurator.UI.ViewModel.Add
                 return;
 
             DistributionInformation.Priority = SelectedPriority;
+        }
+        private void OnRegionChanged()
+        {
+            if (DistributionInformation is null || SelectedRegion is null)
+                return;
+
+            DistributionInformation.Region = SelectedRegion;
         }
         private bool CanConcurencyOccure()
         {

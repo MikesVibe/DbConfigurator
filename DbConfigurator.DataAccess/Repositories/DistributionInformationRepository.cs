@@ -14,32 +14,28 @@ namespace DbConfigurator.DataAccess.Repository
         {
         }
 
-        //public override async Task UpdateAsync(DistributionInformation entity)
-        //{
-        //    var existing = await _context.Set<DistributionInformation>().FindAsync(entity.Id);
-        //    if (existing is null)
-        //        return;
-        //    _context.Entry(entity).State = EntityState.Detached;
+        public override async Task UpdateAsync(DistributionInformation entity)
+        {
+            var existing = await _context.Set<DistributionInformation>().FindAsync(entity.Id);
+            if (existing is null)
+                return;
+
+            //Detaching recipients 
+            foreach (var recipientTo in existing.RecipientsTo)
+            {
+                _context.Entry(recipientTo).State = EntityState.Detached;
+            }
+
+            foreach (var recipientCc in existing.RecipientsCc)
+            {
+                _context.Entry(recipientCc).State = EntityState.Detached;
+            }
+
+            // Update scalar and complex properties
+            _context.Entry(existing).CurrentValues.SetValues(entity);
 
 
-        //    // Update scalar and complex properties
-        //    _context.Entry(existing).CurrentValues.SetValues(entity);
-
-        //    // Clear the existing collection
-        //    existing.RecipientsTo.Clear();
-        //    foreach (var recipientTo in entity.RecipientsTo)
-        //    {
-        //        // Add each new Recipient
-        //        existing.RecipientsTo.Add(recipientTo);
-        //    }
-
-        //    existing.RecipientsCc.Clear();
-        //    foreach (var recipientCc in entity.RecipientsCc)
-        //    {
-        //        // Add each new Recipient
-        //        existing.RecipientsCc.Add(recipientCc);
-        //    }
-        //}
+        }
 
         public override async Task<IEnumerable<DistributionInformation>> GetAllAsync()
         {
