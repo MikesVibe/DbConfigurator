@@ -21,6 +21,12 @@ namespace DbConfigurator.UI.Services
             _autoMapper = autoMapper;
         }
 
+        public async Task<TDto> GetByIdAsync(int id)
+        { 
+            var entity = await _repository.GetByIdAsync(id);
+            return _autoMapper.Mapper.Map<TDto>(entity);
+        }
+
         public bool RemoveById(int id)
         {
             var entiy = _repository.GetById(id);
@@ -39,13 +45,12 @@ namespace DbConfigurator.UI.Services
 
             return _autoMapper.Mapper.Map<TDto>(await _repository.GetByIdAsync(entity.Id));
         }
-        public virtual async Task<TDto> UpdateAsync(TDto dto)
+        public virtual async Task<bool> UpdateAsync(TDto dto)
         {
             var entity = _autoMapper.Mapper.Map<TEntity>(dto);
             await _repository.UpdateAsync(entity);
             await _repository.SaveChangesAsync();
-            dto = _autoMapper.Mapper.Map<TDto>(await _repository.GetByIdAsync(entity.Id));
-            return dto;
+            return true;
         }
         public async Task<bool> RemoveByIdAsync(int id)
         {

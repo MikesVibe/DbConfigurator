@@ -8,8 +8,9 @@ namespace DbConfigurator.UI.Services.Interfaces
     {
         Task<TDto> AddAsync(TDto dto);
         Task<IEnumerable<TDto>> GetAllAsync();
+        Task<TDto> GetByIdAsync(int id);
         bool RemoveById(int id);
         Task<bool> RemoveByIdAsync(int id);
-        Task<TDto> UpdateAsync(TDto dto);
+        Task<bool> UpdateAsync(TDto dto);
     }
 }

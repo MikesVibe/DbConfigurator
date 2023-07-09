@@ -56,9 +56,9 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false)
                 return;
 
-            var areaDto = await _dataService.UpdateAsync(SelectedItem!.Model);
+            var status = await _dataService.UpdateAsync(SelectedItem!.Model);
 
-            SelectedItem.Name = areaDto.Name;
+            SelectedItem.Name = SelectedItem!.Model.Name;
         }
         protected async override void OnRemoveExecute()
         {

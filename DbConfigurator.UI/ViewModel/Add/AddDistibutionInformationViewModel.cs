@@ -16,6 +16,7 @@ namespace DbConfigurator.UI.ViewModel.Add
 {
     public class AddDistibutionInformationViewModel : EditingViewModelBase
     {
+        private IEnumerable<RecipientDto> _allRecipients;
         private ObservableCollection<RecipientDto> _recipientsTo_ListView = new();
         private ObservableCollection<RecipientDto> _recipientsCc_ListView = new();
         private ObservableCollection<RecipientDto> _recipientsToComboBox = new();
@@ -30,15 +31,15 @@ namespace DbConfigurator.UI.ViewModel.Add
         private RecipientDto? _selectedRecipientCcListView;
         private bool AwaitingComboboxPopulation = false;
         private readonly IDistributionInformationService _dataService;
-        private readonly AutoMapperConfig _autoMapper;
+        private Action _action = Action.Update;
+
+        private enum Action { Create=0, Update=1 }
 
         public AddDistibutionInformationViewModel(
-            IDistributionInformationService dataService,
-            AutoMapperConfig autoMapper
+            IDistributionInformationService dataService
             )
         {
             _dataService = dataService;
-            _autoMapper = autoMapper;
             DistributionInformation = new();
 
             RemoveToRecipientCommand = new DelegateCommand(OnRemoveRecipientToExecuteAsync, OnRemoveRecipientToCanExecute);
@@ -96,7 +97,7 @@ namespace DbConfigurator.UI.ViewModel.Add
                 OnPropertyChanged();
             }
         }
-        public DistributionInformationDto? DistributionInformation { get; private set; }
+        public DistributionInformationDto DistributionInformation { get; private set; }
         public RecipientDto? SelectedRecipientToComboBox
         {
             get { return _selectedRecipientToComboBox; }
@@ -176,14 +177,68 @@ namespace DbConfigurator.UI.ViewModel.Add
         }
         public RegionDto? SelectedRegion { get; set; }
 
-        public async Task LoadAsync(DistributionInformationDto? distributionInformation = null)
+        public async Task LoadAsync(int DistributionInformationId)
         {
-            DistributionInformation = distributionInformation;
-            await PopulateComboBoxesWithData();
+            DistributionInformation = (DistributionInformationId > 0) ?
+                    await _dataService.GetByIdAsync(DistributionInformationId) :
+                    CreateNewDistributionInformation();
 
+
+            _allRecipients = await _dataService.GetAllRecipientsAsync();
+            await InitializeComboBoxes();
+            await InitializeRegionsTable();
+            InitializeRecipientsToPickList();
+            InitializeRecipientsCcPickList();
+        }
+
+        private DistributionInformationDto CreateNewDistributionInformation()
+        {
+            _action = Action.Create;
+            return new DistributionInformationDto();
+        }
+
+        private void InitializeRecipientsToPickList()
+        {
+            var recipientsToIds = DistributionInformation.RecipientsTo.Select(r => r.Id).ToList();
+
+            var addedRecipientsTo = _allRecipients.Where(r => recipientsToIds.Contains(r.Id));
+            var availableRecipientsTo = _allRecipients.Except(addedRecipientsTo);
+
+            AddedRecipientsTo.Clear();
+            AvilableRecipientsTo.Clear();
+            foreach (var addedRecipient in addedRecipientsTo)
+            {
+                AddedRecipientsTo.Add(addedRecipient);
+            }
+            foreach (var availableRecipient in availableRecipientsTo)
+            {
+                AvilableRecipientsTo.Add(availableRecipient);
+            }
+        }
+        private void InitializeRecipientsCcPickList()
+        {
+            var recipientsCcIds = DistributionInformation.RecipientsCc.Select(r => r.Id).ToList();
+
+            var addedRecipientsCc = _allRecipients.Where(r => recipientsCcIds.Contains(r.Id));
+            var availableRecipientsCc = _allRecipients.Except(addedRecipientsCc);
+
+            AddedRecipientsCc.Clear();
+            AvilableRecipientsCc.Clear();
+            foreach (var addedRecipient in addedRecipientsCc)
+            {
+                AddedRecipientsCc.Add(addedRecipient);
+            }
+            foreach (var availableRecipient in availableRecipientsCc)
+            {
+                AvilableRecipientsCc.Add(availableRecipient);
+            }
+        }
+
+        private async Task InitializeRegionsTable()
+        {
             var regions = await _dataService.GetAllRegionsAsync();
             AllRegions.Clear();
-            foreach(var region in regions)
+            foreach (var region in regions)
             {
                 AllRegions.Add(region);
             }
@@ -193,34 +248,17 @@ namespace DbConfigurator.UI.ViewModel.Add
                 FilteredRegions.Add(region);
             }
 
-            if (DistributionInformation is null)
-                return;
-
-
-            //SelectAreaComboBox();
-            //SelectBuisnessUnitComboBox();
-            //SelectCountryComboBox();
             SelectRegion();
-            SelectPriorityComboBox();
-            var recipientsTo = DistributionInformation.RecipientsTo.ToList();
-            DistributionInformation.RecipientsTo.Clear();
-            var recipientsCc = DistributionInformation.RecipientsCc.ToList();
-            DistributionInformation.RecipientsCc.Clear();
-            foreach (var recipient in recipientsTo)
-            {
-                SetNewRecipientTo(recipient);
-            }
-            foreach (var recipient in recipientsCc)
-            {
-                SetNewRecipientCc(recipient);
-            }
         }
 
         protected void OnRemoveRecipientToExecuteAsync()
         {
             if (SelectedRecipientToListView is null)
                 return;
-            DistributionInformation.RecipientsTo.Remove(SelectedRecipientToListView);
+            var recipientToRemove = DistributionInformation.RecipientsTo.Where(r => r.Id == SelectedRecipientToListView.Id).FirstOrDefault();
+            if (recipientToRemove is null)
+                return;
+            DistributionInformation.RecipientsTo.Remove(recipientToRemove);
             AddedRecipientsTo.Remove(SelectedRecipientToListView);
             PopulateComboBoxTo();
             SelectedRecipientToListView = null;
@@ -236,7 +274,10 @@ namespace DbConfigurator.UI.ViewModel.Add
             if (SelectedRecipientCcListView is null)
                 return;
 
-            DistributionInformation.RecipientsCc.Remove(SelectedRecipientCcListView);
+            var recipientToRemove = DistributionInformation.RecipientsCc.Where(r => r.Id == SelectedRecipientCcListView.Id).FirstOrDefault();
+            if (recipientToRemove is null)
+                return;
+            DistributionInformation.RecipientsCc.Remove(recipientToRemove);
             AddedRecipientsCc.Remove(SelectedRecipientCcListView);
             PopulateComboBoxCc();
             SelectedRecipientCcListView = null;
@@ -289,7 +330,7 @@ namespace DbConfigurator.UI.ViewModel.Add
         private void PopulateComboBoxTo()
         {
             var recipients = _dataService.GetAllRecipients();
-            if(DistributionInformation is null)
+            if (DistributionInformation is null)
             {
                 AvilableRecipientsTo = recipients.ToObservableCollection();
             }
@@ -312,9 +353,9 @@ namespace DbConfigurator.UI.ViewModel.Add
                 AvilableRecipientsCc = recipientsDtoAfterFiltration.ToObservableCollection();
             }
         }
-  
 
-        public async Task PopulateComboBoxesWithData()
+
+        public async Task InitializeComboBoxes()
         {
             Area_Collection.Clear();
             BuisnessUnit_Collection.Clear();
@@ -329,6 +370,7 @@ namespace DbConfigurator.UI.ViewModel.Add
             //Filling Recipients
             PopulateComboBoxTo();
             PopulateComboBoxCc();
+            SelectPriorityComboBox();
         }
         private async Task PopulateAreaCombobox()
         {
@@ -372,9 +414,9 @@ namespace DbConfigurator.UI.ViewModel.Add
             SelectedCountry = null;
 
             FilteredRegions.Clear();
-            foreach(var region in AllRegions)
+            foreach (var region in AllRegions)
             {
-                if(region.Area.Id == SelectedArea.Id)
+                if (region.Area.Id == SelectedArea.Id)
                     FilteredRegions.Add(region);
             }
 
@@ -444,5 +486,20 @@ namespace DbConfigurator.UI.ViewModel.Add
             AvilableRecipientsCc.Remove(value);
             _selectedRecipientCcComboBox = null;
         }
+
+        protected override void OnAddExecute()
+        {
+            if(_action == Action.Update)
+            {
+                _dataService.UpdateAsync(DistributionInformation);
+            }
+            else
+            {
+                _dataService.AddAsync(DistributionInformation);
+            }
+
+            base.OnAddExecute();
+        }
+
     }
 }

@@ -39,6 +39,8 @@ namespace DbConfigurator.UI.Services
             _countryRepository = countryRepository;
         }
 
+
+
         public async Task<IEnumerable<AreaDto>> GetUniqueAreasFromRegionAsync()
         {
             var countries = await _regionRepository.GetUniqueAreasFromRegionAsync();
@@ -47,7 +49,7 @@ namespace DbConfigurator.UI.Services
         }
         public async Task<IEnumerable<BuisnessUnitDto>> GetUniqueBuisnessUnitsFromRegionAsync(int? areaId = null)
         {
-            IEnumerable<Region> regions = (areaId is null) ? 
+            IEnumerable<Region> regions = (areaId is null) ?
                 await _regionRepository.GetAllAsync() :
                 await _regionRepository.GetAllAsync(i => i.AreaId == areaId);
 
@@ -56,7 +58,7 @@ namespace DbConfigurator.UI.Services
 
             return _autoMapper.Mapper.Map<IEnumerable<BuisnessUnitDto>>(buisnessUnits);
         }
-        public async Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int ? buisnessUnitId = null)
+        public async Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? buisnessUnitId = null)
         {
             var regions = (buisnessUnitId is null) ?
                 await _regionRepository.GetAllAsync() :
@@ -74,7 +76,12 @@ namespace DbConfigurator.UI.Services
 
             return _autoMapper.Mapper.Map<IEnumerable<RecipientDto>>(recipients);
         }
+        public async Task<IEnumerable<RecipientDto>> GetAllRecipientsAsync()
+        {
+            var recipients = await _recipientRepository.GetAllAsync();
 
+            return _autoMapper.Mapper.Map<IEnumerable<RecipientDto>>(recipients);
+        }
         public async Task<IEnumerable<PriorityDto>> GetAllPrioritiesAsync()
         {
             var priorities = await _priorityRepository.GetAllAsync();
@@ -102,22 +109,24 @@ namespace DbConfigurator.UI.Services
             return _autoMapper.Mapper.Map<IEnumerable<DistributionInformationDto>>(distributionInformations);
         }
 
-        public async Task AddRecipientsCcAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsCc_ToAdd)
-        {
-            foreach (var recipientDto in recipientsCc_ToAdd)
-            {
-                await _repository.AddRecipientCcAsync(distributionInformationId, recipientDto.Id);
-            }
-            await _repository.SaveChangesAsync();
-        }
 
-        public async Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd)
-        {
-            foreach (var recipientDto in recipientsTo_ToAdd)
-            {
-                await _repository.AddRecipientToAsync(distributionInformationId, recipientDto.Id);
-            }
-            await _repository.SaveChangesAsync();
-        }
+
+        //public async Task AddRecipientsCcAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsCc_ToAdd)
+        //{
+        //    foreach (var recipientDto in recipientsCc_ToAdd)
+        //    {
+        //        await _repository.AddRecipientCcAsync(distributionInformationId, recipientDto.Id);
+        //    }
+        //    await _repository.SaveChangesAsync();
+        //}
+
+        //public async Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd)
+        //{
+        //    foreach (var recipientDto in recipientsTo_ToAdd)
+        //    {
+        //        await _repository.AddRecipientToAsync(distributionInformationId, recipientDto.Id);
+        //    }
+        //    await _repository.SaveChangesAsync();
+        //}
     }
 }

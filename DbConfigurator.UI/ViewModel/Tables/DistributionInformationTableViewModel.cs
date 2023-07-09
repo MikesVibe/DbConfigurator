@@ -46,7 +46,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         protected override async void OnAddExecute()
         {
             var distributionInformationViewModel = _addDistributionInformationCreator();
-            await distributionInformationViewModel.LoadAsync();
+            await distributionInformationViewModel.LoadAsync(-1);
             bool? result = DialogService.ShowDialog(distributionInformationViewModel);
             if (result == false)
                 return;
@@ -54,7 +54,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             //Mapping DistributionInformationDto to new DistributionInformation entity
             var distributionInformationDto = distributionInformationViewModel.DistributionInformation;
 
-            distributionInformationDto = await _dataService.AddAsync(distributionInformationDto!);
+            //distributionInformationDto = await _dataService.AddAsync(distributionInformationDto!);
 
             var wrapped = new DistributionInformationDtoWrapper(distributionInformationDto);
             Items.Add(wrapped);
@@ -68,24 +68,26 @@ namespace DbConfigurator.UI.ViewModel.Tables
         protected override async void OnEditExecute()
         {
             var distributionInformationViewModel = _addDistributionInformationCreator();
-            var disInfoDto = new DistributionInformationDto(SelectedItem!.Model);
 
-            await distributionInformationViewModel.LoadAsync(disInfoDto);
+            await distributionInformationViewModel.LoadAsync(SelectedItem!.Id);
 
             bool? result = DialogService.ShowDialog(distributionInformationViewModel);
             if (result == false)
                 return;
 
-            //Adding recipients to distributionInformation
-            var recipientsTo_ToAdd = disInfoDto.RecipientsTo.Except(SelectedItem.RecipientsTo);
-            await _dataService.AddRecipientsToAsync(disInfoDto.Id, recipientsTo_ToAdd);
+            ////Adding recipients to distributionInformation
+            //var recipientsTo_ToAdd = disInfoDto.RecipientsTo.Except(SelectedItem.RecipientsTo);
+            //await _dataService.AddRecipientsToAsync(disInfoDto.Id, recipientsTo_ToAdd);
 
-            var recipientsCc_ToAdd = disInfoDto.RecipientsCc.Except(SelectedItem.RecipientsCc);
-            await _dataService.AddRecipientsCcAsync(disInfoDto.Id, recipientsCc_ToAdd);
+            //var recipientsCc_ToAdd = disInfoDto.RecipientsCc.Except(SelectedItem.RecipientsCc);
+            //await _dataService.AddRecipientsCcAsync(disInfoDto.Id, recipientsCc_ToAdd);
 
-            //Updates only scalar values
-            disInfoDto = await _dataService.UpdateAsync(distributionInformationViewModel.DistributionInformation!);
-            
+            ////Updates only scalar values
+            //disInfoDto = await _dataService.UpdateAsync(distributionInformationViewModel.DistributionInformation!);
+
+            //var disInfoDto = await _dataService.GetByIdAsync(SelectedItem!.Id);
+            var disInfoDto = distributionInformationViewModel.DistributionInformation;
+
             SelectedItem.Region = disInfoDto.Region;
             SelectedItem.Priority = disInfoDto.Priority;
             SelectedItem.RecipientsTo = disInfoDto.RecipientsTo;

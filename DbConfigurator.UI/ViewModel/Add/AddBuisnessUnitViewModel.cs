@@ -18,7 +18,7 @@ namespace DbConfigurator.UI.ViewModel.Add
             BuisnessUnit = new(buisnessUnitDto);
         }
 
-        protected override bool CanAdd()
+        protected override bool OnAddCanExecute()
         {
             return true;
         }

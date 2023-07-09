@@ -13,7 +13,7 @@ namespace DbConfigurator.UI.ViewModel.Base
             //ViewHeight = viewHeight;
             //Title = title;
 
-            SaveCommand = new DelegateCommand(Add, CanAdd);
+            SaveCommand = new DelegateCommand(OnAddExecute, OnAddCanExecute);
             CancelCommand = new DelegateCommand(Cancel);
         }
         public ICommand SaveCommand { get; }
@@ -23,11 +23,11 @@ namespace DbConfigurator.UI.ViewModel.Base
         public int ViewHeight { get; private set; }
         public string Title { get; private set; }
 
-        protected virtual void Add()
+        protected virtual void OnAddExecute()
         {
             CloseAction?.Invoke(true);
         }
-        protected virtual bool CanAdd()
+        protected virtual bool OnAddCanExecute()
         {
             return true;
         }

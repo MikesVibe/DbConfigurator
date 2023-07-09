@@ -3,6 +3,8 @@ using DbConfigurator.Model.Entities.Core;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,29 +16,26 @@ namespace DbConfigurator.DataAccess.Repository
         {
         }
 
-        public override async Task UpdateAsync(DistributionInformation entity)
+        public override async Task<bool> UpdateAsync(DistributionInformation distributionInformation)
         {
-            var existing = await _context.Set<DistributionInformation>().FindAsync(entity.Id);
-            if (existing is null)
-                return;
+            var entity = await GetByIdAsync(distributionInformation.Id);
 
-            entity.RecipientsCc.Clear();
-            entity.RecipientsTo.Clear();
-            ////Detaching recipients 
-            //foreach (var recipientTo in entity.RecipientsTo)
-            //{
-            //    _context.Entry(recipientTo).State = EntityState.Detached;
-            //}
+            if (entity is null)
+            {
+                return false;
+            }
 
-            //foreach (var recipientCc in entity.RecipientsCc)
-            //{
-            //    _context.Entry(recipientCc).State = EntityState.Detached;
-            //}
+            entity.RegionId = distributionInformation.RegionId;
+            entity.PriorityId = distributionInformation.PriorityId;
 
-            // Update scalar and complex properties
-            _context.Entry(existing).CurrentValues.SetValues(entity);
+            // Optimized Handling the RecipientsTo
+            UpdateRecipients(entity.RecipientsTo, distributionInformation.RecipientsTo);
 
+            // Optimized Handling the RecipientsCc
+            UpdateRecipients(entity.RecipientsCc, distributionInformation.RecipientsCc);
 
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public override async Task<IEnumerable<DistributionInformation>> GetAllAsync()
@@ -61,6 +60,7 @@ namespace DbConfigurator.DataAccess.Repository
              .Include(t => t.RecipientsTo)
              .Include(t => t.RecipientsCc)
              .Include(p => p.Priority)
+             //.AsNoTracking()
              .FirstOrDefaultAsync();
         }
 
@@ -83,6 +83,27 @@ namespace DbConfigurator.DataAccess.Repository
                 return;
 
             distributionInformation.RecipientsTo.Add(recipientEntity);
+        }
+
+        private void UpdateRecipients(ICollection<Recipient> existingRecipients, ICollection<Recipient> newRecipientsDto)
+        {
+            var recipientsToRemove = existingRecipients.Where(e => !newRecipientsDto.Any(n => n.Id == e.Id)).ToList();
+            foreach (var recipient in recipientsToRemove)
+            {
+                existingRecipients.Remove(recipient);
+            }
+
+            var recipientsToAdd = newRecipientsDto.Where(n => !existingRecipients.Any(e => e.Id == n.Id)).ToList();
+            foreach (var recipientDto in recipientsToAdd)
+            {
+                var entity = _context.Recipient.Where(r => r.Id == recipientDto.Id).First();
+                existingRecipients.Add(entity);
+            }
+        }
+
+        public override async Task AddAsync(DistributionInformation entity)
+        {
+            await _context.Set<DistributionInformation>().AddAsync(entity);
         }
     }
 }

@@ -64,11 +64,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false || regionViewModel.Region is null)
                 return;
 
-            var updatedRegionDto = await _regionService.UpdateAsync(regionViewModel.Region.Model);
+            var regionDto = regionViewModel.Region.Model;
+            var status = await _regionService.UpdateAsync(regionDto);
+            if (status == false)
+                return;
 
-            SelectedItem!.Area = updatedRegionDto.Area;
-            SelectedItem!.BuisnessUnit = updatedRegionDto.BuisnessUnit;
-            SelectedItem!.Country = updatedRegionDto.Country;
+
+            SelectedItem!.Area = regionDto.Area;
+            SelectedItem!.BuisnessUnit = regionDto.BuisnessUnit;
+            SelectedItem!.Country = regionDto.Country;
         }
         protected override async void OnRemoveExecute()
         {

@@ -105,7 +105,7 @@ namespace DbConfigurator.UI.ViewModel.Add
             }
 
         }
-        protected override bool CanAdd()
+        protected override bool OnAddCanExecute()
         {
             return
                 Region is not null &&
