@@ -101,9 +101,25 @@ namespace DbConfigurator.DataAccess.Repository
             }
         }
 
-        public override async Task AddAsync(DistributionInformation entity)
+        public override async Task AddAsync(DistributionInformation disInfo)
         {
-            await _context.Set<DistributionInformation>().AddAsync(entity);
+            var entity = new DistributionInformation
+            {
+                RegionId = disInfo.RegionId,
+                PriorityId = disInfo.PriorityId
+            };
+            _context.DistributionInformation.Add(entity);
+
+            //await SaveChangesAsync();
+
+            // Optimized Handling the RecipientsTo
+            UpdateRecipients(entity.RecipientsTo, disInfo.RecipientsTo);
+
+            // Optimized Handling the RecipientsCc
+            UpdateRecipients(entity.RecipientsCc, disInfo.RecipientsCc);
+            await SaveChangesAsync();
+
+            disInfo = entity;
         }
     }
 }
