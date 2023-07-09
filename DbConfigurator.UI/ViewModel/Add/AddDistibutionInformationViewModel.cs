@@ -4,6 +4,7 @@ using DbConfigurator.UI.Extensions;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -458,6 +459,7 @@ namespace DbConfigurator.UI.ViewModel.Add
                 return;
 
             DistributionInformation.Priority = SelectedPriority;
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
         private void OnRegionChanged()
         {
@@ -465,6 +467,7 @@ namespace DbConfigurator.UI.ViewModel.Add
                 return;
 
             DistributionInformation.Region = SelectedRegion;
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
         private bool CanConcurencyOccure()
         {
@@ -501,5 +504,9 @@ namespace DbConfigurator.UI.ViewModel.Add
             base.OnAddExecute();
         }
 
+        protected override bool OnAddCanExecute()
+        {
+            return SelectedPriority is not null && SelectedRegion is not null;
+        }
     }
 }
