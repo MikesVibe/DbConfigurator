@@ -21,13 +21,20 @@ namespace DbConfigurator.UI.Services
             _autoMapper = autoMapper;
         }
 
-        public TDto Add(TDto dto)
+        public virtual TDto Add(TDto dto)
         {
             var entity = _autoMapper.Mapper.Map<TEntity>(dto);
             _repository.Add(entity);
             _repository.SaveChanges();
 
             return _autoMapper.Mapper.Map<TDto>(_repository.GetById(entity.Id));
+        }
+        public virtual bool Update(TDto dto)
+        {
+            var entity = _autoMapper.Mapper.Map<TEntity>(dto);
+            _repository.Update(entity);
+            _repository.SaveChanges();
+            return true;
         }
         public async Task<TDto> GetByIdAsync(int id)
         { 
