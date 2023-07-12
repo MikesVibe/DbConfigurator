@@ -1,25 +1,34 @@
-﻿using DbConfigurator.UI.Services.Interfaces;
+﻿using DbConfigurator.Model;
+using DbConfigurator.Model.Entities.Wrapper;
+using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
+using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class TableViewModelBase<T> : ViewModelBase, ITableViewModel
+    public abstract class TableViewModelBase<TWrapper, TDto, TDataService> : ViewModelBase, ITableViewModel
+        where TWrapper : IWrapperWithId
+        where TDto : IEntityDto
+        where TDataService : IGenericDataService<TDto>
     {
         protected readonly IDialogService DialogService;
         protected readonly IEventAggregator EventAggregator;
+        protected readonly TDataService DataService;
 
         private int _id;
         private bool _hasChanges;
 
-        public TableViewModelBase(IEventAggregator eventAggregator, IDialogService dialogService)
+        public TableViewModelBase(IEventAggregator eventAggregator, IDialogService dialogService, TDataService dataService)
         {
             EventAggregator = eventAggregator;
             DialogService = dialogService;
+            DataService = dataService;
 
             AddCommand = new DelegateCommand(OnAddExecute);
             EditCommand = new DelegateCommand(OnEditExecute, OnEditCanExecute);
@@ -51,8 +60,8 @@ namespace DbConfigurator.UI.ViewModel.Base
                 }
             }
         }
-        public ObservableCollection<T> Items { get; set; } = new();
-        public T? SelectedItem { get; set; }
+        public ObservableCollection<TWrapper> Items { get; set; } = new();
+        public TWrapper? SelectedItem { get; set; }
 
         public abstract Task LoadAsync();
 
@@ -64,8 +73,21 @@ namespace DbConfigurator.UI.ViewModel.Base
         }
         protected virtual void OnRemoveExecute()
         {
+            var buisnessUnit = DataService.GetById(SelectedItem!.Id);
+            if (buisnessUnit is null)
+            {
+                if(Debugger.IsAttached)
+                {
+                    throw new Exception();
+                }
+                //Log some error mesage here
+                return;
+            }
+
+            DataService.RemoveById(buisnessUnit.Id);
+
             Items.Remove(SelectedItem!);
-            SelectedItem = default(T);
+            SelectedItem = default(TWrapper);
         }
         protected virtual bool OnRemoveCanExecute()
         {

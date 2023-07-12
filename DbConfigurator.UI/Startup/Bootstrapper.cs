@@ -44,7 +44,8 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
             builder.RegisterType<AreaService>().As<IAreaService>().SingleInstance();
             builder.RegisterType<BuisnessUnitService>().As<IBuisnessUnitService>().SingleInstance();
-            //builder.RegisterType<CountryService>().As<IRegionService>().SingleInstance();
+            builder.RegisterType<CountryService>().As<ICountryService>().SingleInstance();
+            builder.RegisterType<RecipientService>().As<IRecipientService>().SingleInstance();
 
             //Navigation Panel
             builder.RegisterType<NavigationPanelViewModel>().As<INavigationPanelViewModel>();

@@ -1,9 +1,10 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Wrapper;
 using System.Collections.ObjectModel;
 
-namespace DbConfigurator.Model.Entities.Wrapper
+namespace DbConfigurator.Model.DTOs.Wrapper
 {
-    public class DistributionInformationDtoWrapper : ModelWrapper<DistributionInformationDto>
+    public class DistributionInformationDtoWrapper : ModelWrapper<DistributionInformationDto>, IWrapperWithId
     {
         public DistributionInformationDtoWrapper(DistributionInformationDto model) : base(model)
         {

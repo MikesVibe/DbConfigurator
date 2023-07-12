@@ -3,7 +3,7 @@ using DbConfigurator.Model.Entities.Wrapper;
 
 namespace DbConfigurator.Model.DTOs.Wrapper
 {
-    public class AreaDtoWrapper : ModelWrapper<AreaDto>
+    public class AreaDtoWrapper : ModelWrapper<AreaDto>, IWrapperWithId
     {
         public AreaDtoWrapper(AreaDto model) : base(model)
         {

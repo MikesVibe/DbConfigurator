@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.Model.Entities.Wrapper
 {
-    public class RecipientDtoWrapper : ModelWrapper<RecipientDto>
+    public class RecipientDtoWrapper : ModelWrapper<RecipientDto>, IWrapperWithId
     {
         public RecipientDtoWrapper(RecipientDto model) : base(model)
         {

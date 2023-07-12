@@ -3,7 +3,7 @@ using DbConfigurator.Model.Entities.Wrapper;
 
 namespace DbConfigurator.Model.DTOs.Wrapper
 {
-    public class CountryDtoWrapper : ModelWrapper<CountryDto>
+    public class CountryDtoWrapper : ModelWrapper<CountryDto>, IWrapperWithId
     {
         public CountryDtoWrapper(CountryDto model) : base(model)
         {

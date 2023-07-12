@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
-    public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper>, ITableViewModel
+    public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper, BuisnessUnitDto, IBuisnessUnitService>, ITableViewModel
     {
         private readonly IBuisnessUnitService _dataService;
         private readonly AutoMapperConfig _autoMapper;
 
         public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IBuisnessUnitService dataService, AutoMapperConfig autoMapper)
-            : base(eventAggregator, dialogService)
+            : base(eventAggregator, dialogService, dataService)
         {
             _dataService = dataService;
             _autoMapper = autoMapper;
@@ -47,27 +47,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override void OnEditExecute()
         {
-            //var buisnessUnitDto = _autoMapper.Mapper.Map<BuisnessUnitDto>(SelectedItem!.Model);
-            //var buisnessUnitViewModel = new BuisnessUnitDetailViewModel(buisnessUnitDto);
-
-            //bool? result = DialogService.ShowDialog(buisnessUnitViewModel);
-
-            //if (result == false)
-            //    return;
-
-            //var buisnessUnitEntity = _dataService.GetBuisnessUnitById(SelectedItem!.Id);
-            //if (buisnessUnitEntity is null)
-            //{
-            //    //Log some error
-            //    return;
-            //}
-
-            //_autoMapper.Mapper.Map(buisnessUnitViewModel.BuisnessUnit.Model, buisnessUnitEntity);
-
-            //_dataService.SaveChanges();
-            //SelectedItem.Name = buisnessUnitEntity.Name;
-
-
             var buisnessUnitDetailViewModel = new BuisnessUnitDetailViewModel();
             buisnessUnitDetailViewModel.BuisnessUnit = new BuisnessUnitDtoWrapper(SelectedItem!.Model);
 
@@ -79,21 +58,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
             SelectedItem.Name = SelectedItem!.Model.Name;
         }
-        protected override void OnRemoveExecute()
-        {
-            if (SelectedItem is null)
-                return;
 
-            var buisnessUnit = _dataService.GetById(SelectedItem.Id);
-            if (buisnessUnit is null)
-            {
-                //Log some error mesage here
-                return;
-            }
-
-            _dataService.RemoveById(buisnessUnit.Id);
-            base.OnRemoveExecute();
-        }
         protected override void OnSelectionChangedExecute()
         {
             base.OnSelectionChangedExecute();

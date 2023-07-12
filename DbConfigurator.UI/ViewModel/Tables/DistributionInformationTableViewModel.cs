@@ -1,6 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Detail;
@@ -11,10 +10,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using DbConfigurator.Model.DTOs.Wrapper;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
-    public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper>
+    public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper, DistributionInformationDto, IDistributionInformationService>
     {
         private readonly IDistributionInformationService _dataService;
         private readonly Func<DistibutionInformationDetailViewModel> _addDistributionInformationCreator;
@@ -25,7 +25,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             IDistributionInformationService dataService,
             Func<DistibutionInformationDetailViewModel> addDistributionInformationCreator,
             AutoMapperConfig autoMapper
-            ) : base(eventAggregator, dialogService)
+            ) : base(eventAggregator, dialogService, dataService)
         {
             _dataService = dataService;
             _addDistributionInformationCreator = addDistributionInformationCreator;

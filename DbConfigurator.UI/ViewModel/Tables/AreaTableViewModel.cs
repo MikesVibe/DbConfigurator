@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
-    public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper>, ITableViewModel
+    public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper, AreaDto, IAreaService>, ITableViewModel
     {
         private readonly IAreaService _dataService;
 
@@ -20,7 +20,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             IEventAggregator eventAggregator,
             IDialogService dialogService,
             IAreaService dataService)
-            : base(eventAggregator, dialogService)
+            : base(eventAggregator, dialogService, dataService)
         {
             _dataService = dataService;
         }
