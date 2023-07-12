@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:addView="clr-namespace:DbConfigurator.UI.View.Add"
+        xmlns:detailView ="clr-namespace:DbConfigurator.UI.View.Detail"
         xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel.Add"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
         mc:Ignorable="d"
@@ -11,25 +11,22 @@
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:AddAreaViewModel}">
-            <addView:AddAreaView/>
+            <detailView:AreaDetailView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:AddBuisnessUnitViewModel}">
-            <addView:AddBuisnessUnitView/>
+            <detailView:BuisnessUnitDetailView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:AddCountryViewModel}">
-            <addView:AddCountryView/>
+            <detailView:CountryDetailView/>
         </DataTemplate>
-        <!--<DataTemplate DataType="{x:Type viewModel:AddDistibutionInformationViewModel}">
-            <addView:AddDistributionInformationView/>
-        </DataTemplate>-->
         <DataTemplate DataType="{x:Type viewModel:AddDistibutionInformationViewModel}">
-            <addView:AddDistributionInformationDetails/>
+            <detailView:DistributionInformationDetailView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:AddRecipientViewModel}">
-            <addView:AddRecipientView/>
+            <detailView:RecipientDetailView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModel:AddRegionViewModel}">
-            <addView:AddRegionView/>
+            <detailView:RegionDetailView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
