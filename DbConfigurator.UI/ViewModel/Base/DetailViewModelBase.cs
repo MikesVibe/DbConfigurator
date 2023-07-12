@@ -5,9 +5,9 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class EditingViewModelBase : ViewModelBase, IEditingViewModel, INotifyPropertyChanged
+    public abstract class DetailViewModelBase : ViewModelBase, IDetailViewModel, INotifyPropertyChanged
     {
-        public EditingViewModelBase()
+        public DetailViewModelBase()
         {
             Title = "EditingWindow";
             ViewWidth = 1000;

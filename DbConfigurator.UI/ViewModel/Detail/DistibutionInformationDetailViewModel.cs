@@ -13,9 +13,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DbConfigurator.UI.ViewModel.Add
+namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class AddDistibutionInformationViewModel : EditingViewModelBase
+    public class DistibutionInformationDetailViewModel : DetailViewModelBase
     {
         private IEnumerable<RecipientDto> _allRecipients;
         private ObservableCollection<RecipientDto> _recipientsTo_ListView = new();
@@ -36,7 +36,7 @@ namespace DbConfigurator.UI.ViewModel.Add
 
         private enum Action { Create=0, Update=1 }
 
-        public AddDistibutionInformationViewModel(
+        public DistibutionInformationDetailViewModel(
             IDistributionInformationService dataService
             )
         {

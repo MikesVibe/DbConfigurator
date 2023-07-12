@@ -3,7 +3,7 @@ using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Add;
+using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System;
@@ -15,14 +15,14 @@ namespace DbConfigurator.UI.ViewModel.Tables
     {
         private readonly AutoMapperConfig _autoMapper;
         private readonly ICombinedDataService _dataService;
-        private readonly Func<AddRecipientViewModel> _addRecipientViewModelCreator;
+        private readonly Func<RecipientDetailViewModel> _addRecipientViewModelCreator;
 
         public RecipientTableViewModel(
             IEventAggregator eventAggregator,
             IDialogService dialogService,
             ICombinedDataService dataService,
             AutoMapperConfig autoMapper,
-            Func<AddRecipientViewModel> addRecipientViewModelCreator
+            Func<RecipientDetailViewModel> addRecipientViewModelCreator
             ) : base(eventAggregator, dialogService)
         {
             _dataService = dataService;

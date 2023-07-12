@@ -3,7 +3,7 @@ using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Add;
+using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
@@ -35,7 +35,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override void OnAddExecute()
         {
-            var addCountryViewModel = new AddCountryViewModel();
+            var addCountryViewModel = new CountryDetailViewModel();
 
             bool? result = DialogService.ShowDialog(addCountryViewModel);
 
@@ -57,7 +57,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override void OnEditExecute()
         {
-            var addCountryViewModel = new AddCountryViewModel();
+            var addCountryViewModel = new CountryDetailViewModel();
             addCountryViewModel.Country = SelectedItem!;
 
             bool? result = DialogService.ShowDialog(addCountryViewModel);

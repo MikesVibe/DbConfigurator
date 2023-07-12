@@ -3,11 +3,11 @@ using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.ViewModel.Base;
 using System.ComponentModel;
 
-namespace DbConfigurator.UI.ViewModel.Add
+namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class AddCountryViewModel : EditingViewModelBase, IEditingViewModel, INotifyPropertyChanged
+    public class CountryDetailViewModel : DetailViewModelBase, IDetailViewModel, INotifyPropertyChanged
     {
-        public AddCountryViewModel()
+        public CountryDetailViewModel()
         {
             CountryDto country = new();
             Country = new(country);

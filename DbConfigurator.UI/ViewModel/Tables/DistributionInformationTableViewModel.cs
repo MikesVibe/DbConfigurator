@@ -3,7 +3,7 @@ using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Add;
+using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System;
@@ -17,13 +17,13 @@ namespace DbConfigurator.UI.ViewModel.Tables
     public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper>
     {
         private readonly IDistributionInformationService _dataService;
-        private readonly Func<AddDistibutionInformationViewModel> _addDistributionInformationCreator;
+        private readonly Func<DistibutionInformationDetailViewModel> _addDistributionInformationCreator;
         private readonly AutoMapperConfig _autoMapper;
 
         public DistributionInformationTableViewModel(IDialogService dialogService,
             IEventAggregator eventAggregator,
             IDistributionInformationService dataService,
-            Func<AddDistibutionInformationViewModel> addDistributionInformationCreator,
+            Func<DistibutionInformationDetailViewModel> addDistributionInformationCreator,
             AutoMapperConfig autoMapper
             ) : base(eventAggregator, dialogService)
         {

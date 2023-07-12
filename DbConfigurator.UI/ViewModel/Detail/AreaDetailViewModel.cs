@@ -3,11 +3,11 @@ using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.ViewModel.Base;
 using System.ComponentModel;
 
-namespace DbConfigurator.UI.ViewModel.Add
+namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class AddAreaViewModel : EditingViewModelBase, IEditingViewModel, INotifyPropertyChanged
+    public class AreaDetailViewModel : DetailViewModelBase, IDetailViewModel, INotifyPropertyChanged
     {
-        public AddAreaViewModel()
+        public AreaDetailViewModel()
         {
             AreaDto areaDto = new();
             Area = new(areaDto);
@@ -16,7 +16,7 @@ namespace DbConfigurator.UI.ViewModel.Add
             ViewWidth = 560;
             ViewHeight = 340;
         }
-        public AddAreaViewModel(AreaDto areaDto)
+        public AreaDetailViewModel(AreaDto areaDto)
         {
             Area = new(areaDto);
         }

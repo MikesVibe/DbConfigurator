@@ -2,11 +2,11 @@
 using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.ViewModel.Base;
 
-namespace DbConfigurator.UI.ViewModel.Add
+namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class AddRecipientViewModel : EditingViewModelBase
+    public class RecipientDetailViewModel : DetailViewModelBase
     {
-        public AddRecipientViewModel()
+        public RecipientDetailViewModel()
         {
             RecipientDto recipientDto = new();
             Recipient = new(recipientDto);

@@ -3,11 +3,11 @@ using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.ViewModel.Base;
 using System.ComponentModel;
 
-namespace DbConfigurator.UI.ViewModel.Add
+namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class AddBuisnessUnitViewModel : EditingViewModelBase, IEditingViewModel, INotifyPropertyChanged
+    public class BuisnessUnitDetailViewModel : DetailViewModelBase, IDetailViewModel, INotifyPropertyChanged
     {
-        public AddBuisnessUnitViewModel()
+        public BuisnessUnitDetailViewModel()
         {
             BuisnessUnitDto buisnessUnit = new();
             BuisnessUnit = new(buisnessUnit);
@@ -16,7 +16,7 @@ namespace DbConfigurator.UI.ViewModel.Add
             ViewWidth = 560;
             ViewHeight = 340;
         }
-        public AddBuisnessUnitViewModel(BuisnessUnitDto buisnessUnitDto)
+        public BuisnessUnitDetailViewModel(BuisnessUnitDto buisnessUnitDto)
         {
             BuisnessUnit = new(buisnessUnitDto);
         }

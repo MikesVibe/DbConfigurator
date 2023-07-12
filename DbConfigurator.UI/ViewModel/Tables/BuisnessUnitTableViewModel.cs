@@ -3,7 +3,7 @@ using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Add;
+using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
@@ -35,7 +35,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override void OnAddExecute()
         {
-            var addbuisnessUnitViewModel = new AddBuisnessUnitViewModel();
+            var addbuisnessUnitViewModel = new BuisnessUnitDetailViewModel();
 
             bool? result = DialogService.ShowDialog(addbuisnessUnitViewModel);
 
@@ -53,7 +53,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         protected override void OnEditExecute()
         {
             var buisnessUnitDto = _autoMapper.Mapper.Map<BuisnessUnitDto>(SelectedItem!.Model);
-            var buisnessUnitViewModel = new AddBuisnessUnitViewModel(buisnessUnitDto);
+            var buisnessUnitViewModel = new BuisnessUnitDetailViewModel(buisnessUnitDto);
 
             bool? result = DialogService.ShowDialog(buisnessUnitViewModel);
 

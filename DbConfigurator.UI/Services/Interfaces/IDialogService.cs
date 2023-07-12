@@ -4,6 +4,6 @@ namespace DbConfigurator.UI.Services.Interfaces
 {
     public interface IDialogService
     {
-        bool? ShowDialog(IEditingViewModel viewModel);
+        bool? ShowDialog(IDetailViewModel viewModel);
     }
 }

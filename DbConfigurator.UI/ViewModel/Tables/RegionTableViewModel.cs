@@ -1,7 +1,7 @@
 ﻿using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Add;
+using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System;
@@ -13,7 +13,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
     public class RegionTableViewModel : TableViewModelBase<RegionDtoWrapper>
     {
         private readonly AutoMapperConfig _autoMapper;
-        private readonly Func<AddRegionViewModel> _addRegionCreator;
+        private readonly Func<RegionDetailViewModel> _addRegionCreator;
         private readonly IRegionService _regionService;
 
         public RegionTableViewModel(
@@ -21,7 +21,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             IDialogService dialogService,
             IRegionService dataService,
             AutoMapperConfig autoMapper,
-            Func<AddRegionViewModel> addRegionCreator
+            Func<RegionDetailViewModel> addRegionCreator
             ) : base(eventAggregator, dialogService)
         {
             _regionService = dataService;

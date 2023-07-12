@@ -8,7 +8,7 @@ namespace DbConfigurator.UI.Windows
     /// </summary>
     public partial class EditingWindow : Window
     {
-        public EditingWindow(IEditingViewModel editingViewModel)
+        public EditingWindow(IDetailViewModel editingViewModel)
         {
             InitializeComponent();
             DataContext = editingViewModel;

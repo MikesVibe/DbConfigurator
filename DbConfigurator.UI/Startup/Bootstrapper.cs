@@ -5,7 +5,7 @@ using DbConfigurator.DataAccess.Repository;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
-using DbConfigurator.UI.ViewModel.Add;
+using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.ViewModel.Panel;
 using DbConfigurator.UI.ViewModel.Tables;
@@ -74,20 +74,20 @@ namespace DbConfigurator.UI.Startup
                  .Keyed<ITableViewModel>(nameof(RegionTableViewModel));
 
             //Editing View Models
-            builder.RegisterType<AddAreaViewModel>()
-                 .Keyed<IEditingViewModel>(nameof(AddAreaViewModel));
-            builder.RegisterType<AddBuisnessUnitViewModel>()
-                 .Keyed<IEditingViewModel>(nameof(AddBuisnessUnitViewModel));
-            builder.RegisterType<AddCountryViewModel>()
-                 .Keyed<IEditingViewModel>(nameof(AddCountryViewModel));
-            builder.RegisterType<AddRecipientViewModel>()
-                 .Keyed<IEditingViewModel>(nameof(AddRecipientViewModel));
+            builder.RegisterType<AreaDetailViewModel>()
+                 .Keyed<IDetailViewModel>(nameof(AreaDetailViewModel));
+            builder.RegisterType<BuisnessUnitDetailViewModel>()
+                 .Keyed<IDetailViewModel>(nameof(BuisnessUnitDetailViewModel));
+            builder.RegisterType<CountryDetailViewModel>()
+                 .Keyed<IDetailViewModel>(nameof(CountryDetailViewModel));
+            builder.RegisterType<RecipientDetailViewModel>()
+                 .Keyed<IDetailViewModel>(nameof(RecipientDetailViewModel));
 
 
-            builder.RegisterType<AddAreaViewModel>().As<IEditingViewModel>();
-            builder.RegisterType<AddDistibutionInformationViewModel>().AsSelf();
-            builder.RegisterType<AddRecipientViewModel>().AsSelf();
-            builder.RegisterType<AddRegionViewModel>().AsSelf();
+            builder.RegisterType<AreaDetailViewModel>().As<IDetailViewModel>();
+            builder.RegisterType<DistibutionInformationDetailViewModel>().AsSelf();
+            builder.RegisterType<RecipientDetailViewModel>().AsSelf();
+            builder.RegisterType<RegionDetailViewModel>().AsSelf();
 
         }
         public static IContainer Build(this ContainerBuilder builder)

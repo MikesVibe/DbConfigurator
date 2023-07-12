@@ -4,28 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:detailView ="clr-namespace:DbConfigurator.UI.View.Detail"
-        xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel.Add"
+        xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel.Detail"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="{Binding ViewHeight, Mode=TwoWay}" Width="{Binding ViewWidth, Mode=TwoWay}">
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:AddAreaViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:AreaDetailViewModel}">
             <detailView:AreaDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AddBuisnessUnitViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:BuisnessUnitDetailViewModel}">
             <detailView:BuisnessUnitDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AddCountryViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:CountryDetailViewModel}">
             <detailView:CountryDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AddDistibutionInformationViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:DistibutionInformationDetailViewModel}">
             <detailView:DistributionInformationDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AddRecipientViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:RecipientDetailViewModel}">
             <detailView:RecipientDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:AddRegionViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:RegionDetailViewModel}">
             <detailView:RegionDetailView/>
         </DataTemplate>
     </Window.Resources>

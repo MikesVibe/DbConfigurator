@@ -9,9 +9,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DbConfigurator.UI.ViewModel.Add
+namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class AddRegionViewModel : EditingViewModelBase
+    public class RegionDetailViewModel : DetailViewModelBase
     {
         private readonly ICombinedDataService _dataService;
         private readonly AutoMapperConfig _autoMapper;
@@ -19,7 +19,7 @@ namespace DbConfigurator.UI.ViewModel.Add
         private BuisnessUnitDto? _selectedBuisnessUnit;
         private CountryDto? _selectedCountry;
 
-        public AddRegionViewModel(
+        public RegionDetailViewModel(
             ICombinedDataService dataService,
             AutoMapperConfig autoMapper
             )

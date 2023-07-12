@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public interface IEditingViewModel
+    public interface IDetailViewModel
     {
         Action<bool>? CloseAction { get; set; }
     }
