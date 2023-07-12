@@ -30,21 +30,13 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public override async Task LoadAsync()
         {
-            //var recipients = await _dataService.GetAllRecipientsAsync();
-            ////foreach (var wrapper in Recipients_ObservableCollection)
-            ////{
-            ////    wrapper.PropertyChanged -= Recipients_ObservableCollection_PropertyChanged;
+            var recipients = await DataService.GetAllAsync();
 
-            ////}
-            ////Recipients_ObservableCollection.Clear();
-
-            //foreach (var recipient in recipients)
-            //{
-            //    var mapped = _autoMapper.Mapper.Map<RecipientDto>(recipient);
-            //    var wrapper = new RecipientDtoWrapper(mapped);
-            //    Items.Add(wrapper);
-            //    //wrapper.PropertyChanged += Recipients_ObservableCollection_PropertyChanged;
-            //}
+            foreach (var recipient in recipients)
+            {
+                var wrapper = new RecipientDtoWrapper(recipient);
+                Items.Add(wrapper);
+            }
         }
         protected async override void OnAddExecute()
         {
@@ -71,23 +63,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             //Items.Add(wrapped);
             //SelectedItem = wrapped;
         }
-        protected async override void OnRemoveExecute()
-        {
-            //if (SelectedItem is null)
-            //    return;
 
-            //var recipient = await _dataService.GetRecipientByIdAsync(SelectedItem.Id);
-            //if (recipient is null)
-            //{
-            //    //Log some error mesage here
-            //    return;
-            //}
-
-            //_dataService.Remove(recipient);
-            //_dataService.SaveChanges();
-
-            //base.OnRemoveExecute();
-        }
         protected override async void OnEditExecute()
         {
             //var recipientWrapper = _autoMapper.Mapper.Map<RecipientDtoWrapper>(SelectedItem!.Model);

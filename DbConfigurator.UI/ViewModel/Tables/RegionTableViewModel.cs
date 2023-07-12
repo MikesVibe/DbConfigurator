@@ -73,12 +73,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             SelectedItem!.BuisnessUnit = regionDto.BuisnessUnit;
             SelectedItem!.Country = regionDto.Country;
         }
-        protected override async void OnRemoveExecute()
-        {
-            await _regionService.RemoveByIdAsync(SelectedItem!.Id);
 
-            Items.Remove(SelectedItem);
-            SelectedItem = null;
-        }
     }
 }

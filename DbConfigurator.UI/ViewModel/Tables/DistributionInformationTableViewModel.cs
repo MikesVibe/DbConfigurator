@@ -57,12 +57,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var wrapped = new DistributionInformationDtoWrapper(distributionInformationDto);
             Items.Add(wrapped);
         }
-        protected override async void OnRemoveExecute()
-        {
-            await _dataService.RemoveByIdAsync(SelectedItem!.Id);
 
-            base.OnRemoveExecute();
-        }
         protected override async void OnEditExecute()
         {
             var distributionInformationViewModel = _addDistributionInformationCreator();
