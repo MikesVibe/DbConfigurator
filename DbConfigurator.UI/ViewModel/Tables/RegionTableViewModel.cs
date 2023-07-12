@@ -13,7 +13,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class RegionTableViewModel : TableViewModelBase<RegionDtoWrapper, RegionDto, IRegionService>
     {
-        private readonly AutoMapperConfig _autoMapper;
         private readonly Func<RegionDetailViewModel> _addRegionCreator;
         private readonly IRegionService _regionService;
 
@@ -26,7 +25,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             ) : base(eventAggregator, dialogService, dataService)
         {
             _regionService = dataService;
-            _autoMapper = autoMapper;
             _addRegionCreator = addRegionCreator;
             Items = new ObservableCollection<RegionDtoWrapper>();
         }

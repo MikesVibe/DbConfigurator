@@ -14,7 +14,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class RecipientTableViewModel : TableViewModelBase<RecipientDtoWrapper, RecipientDto, IRecipientService>
     {
-        private readonly AutoMapperConfig _autoMapper;
         private readonly Func<RecipientDetailViewModel> _addRecipientViewModelCreator;
 
         public RecipientTableViewModel(
@@ -25,7 +24,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             Func<RecipientDetailViewModel> addRecipientViewModelCreator
             ) : base(eventAggregator, dialogService, dataService)
         {
-            _autoMapper = autoMapper;
             _addRecipientViewModelCreator = addRecipientViewModelCreator;
         }
 

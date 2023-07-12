@@ -18,7 +18,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
     {
         private readonly IDistributionInformationService _dataService;
         private readonly Func<DistibutionInformationDetailViewModel> _addDistributionInformationCreator;
-        private readonly AutoMapperConfig _autoMapper;
 
         public DistributionInformationTableViewModel(IDialogService dialogService,
             IEventAggregator eventAggregator,
@@ -29,7 +28,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
         {
             _dataService = dataService;
             _addDistributionInformationCreator = addDistributionInformationCreator;
-            _autoMapper = autoMapper;
         }
 
         public async override Task LoadAsync()

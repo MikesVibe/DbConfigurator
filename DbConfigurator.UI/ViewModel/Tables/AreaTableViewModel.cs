@@ -14,20 +14,17 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper, AreaDto, IAreaService>, ITableViewModel
     {
-        private readonly IAreaService _dataService;
-
         public AreaTableViewModel(
             IEventAggregator eventAggregator,
             IDialogService dialogService,
             IAreaService dataService)
             : base(eventAggregator, dialogService, dataService)
         {
-            _dataService = dataService;
         }
 
         public override async Task LoadAsync()
         {
-            var areas = await _dataService.GetAllAsync();
+            var areas = await DataService.GetAllAsync();
             foreach (var area in areas)
             {
                 var wrapped = new AreaDtoWrapper(area);
@@ -43,7 +40,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false)
                 return;
 
-            var areaDto = await _dataService.AddAsync(addAreaViewModel.Area.Model);
+            var areaDto = await DataService.AddAsync(addAreaViewModel.Area.Model);
             var wrapped = new AreaDtoWrapper(areaDto);
             Items.Add(wrapped);
         }
@@ -56,15 +53,9 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false)
                 return;
 
-            var status = await _dataService.UpdateAsync(SelectedItem!.Model);
+            var status = await DataService.UpdateAsync(SelectedItem!.Model);
 
             SelectedItem.Name = SelectedItem!.Model.Name;
-        }
-        protected async override void OnRemoveExecute()
-        {
-            await _dataService.RemoveByIdAsync(SelectedItem!.Id);
-    
-            base.OnRemoveExecute();
         }
     }
 }

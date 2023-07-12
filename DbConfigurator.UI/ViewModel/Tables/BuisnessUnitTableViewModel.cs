@@ -14,13 +14,11 @@ namespace DbConfigurator.UI.ViewModel.Tables
     public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper, BuisnessUnitDto, IBuisnessUnitService>, ITableViewModel
     {
         private readonly IBuisnessUnitService _dataService;
-        private readonly AutoMapperConfig _autoMapper;
 
         public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IBuisnessUnitService dataService, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService, dataService)
         {
             _dataService = dataService;
-            _autoMapper = autoMapper;
         }
 
         public override async Task LoadAsync()
@@ -57,11 +55,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             var status = _dataService.Update(SelectedItem!.Model);
 
             SelectedItem.Name = SelectedItem!.Model.Name;
-        }
-
-        protected override void OnSelectionChangedExecute()
-        {
-            base.OnSelectionChangedExecute();
         }
     }
 }

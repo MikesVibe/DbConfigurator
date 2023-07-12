@@ -13,23 +13,17 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class CountryTableViewModel : TableViewModelBase<CountryDtoWrapper, CountryDto, ICountryService>, ITableViewModel
     {
-        private readonly ICountryService _dataService;
-        private readonly AutoMapperConfig _autoMapper;
-
         public CountryTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, ICountryService dataService, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService, dataService)
         {
-            _dataService = dataService;
-            _autoMapper = autoMapper;
         }
 
         public override async Task LoadAsync()
         {
-            var countries = await _dataService.GetAllAsync();
+            var countries = await DataService.GetAllAsync();
             foreach (var country in countries)
             {
-                var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
-                var wrapped = new CountryDtoWrapper(mapped);
+                var wrapped = new CountryDtoWrapper(country);
                 Items.Add(wrapped);
             }
         }
@@ -76,24 +70,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             //countryEntity.CountryCode = countryDtoWrapper.CountryCode;
 
             //_dataService.SaveChanges();
-
-
-        }
-        protected override void OnRemoveExecute()
-        {
-            //if (SelectedItem is null)
-            //    return;
-
-            //var country = _dataService.GetCountryById(SelectedItem.Id);
-            //if (country is null)
-            //{
-            //    //Log some error mesage here
-            //    return;
-            //}
-
-            //_dataService.Remove(country);
-            //_dataService.SaveChanges();
-            //base.OnRemoveExecute();
         }
     }
 }
