@@ -13,6 +13,10 @@ namespace DbConfigurator.UI.ViewModel.Add
             Recipient.FirstName = "";
             Recipient.LastName = "";
             Recipient.Email = "";
+
+            Title = "Recipient";
+            ViewWidth = 560;
+            ViewHeight = 340;
         }
 
         public RecipientDtoWrapper Recipient { get; set; }

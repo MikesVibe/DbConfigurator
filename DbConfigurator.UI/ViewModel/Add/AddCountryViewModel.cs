@@ -12,6 +12,9 @@ namespace DbConfigurator.UI.ViewModel.Add
             CountryDto country = new();
             Country = new(country);
             Country.CountryName = "";
+            Title = "Country";
+            ViewWidth = 660;
+            ViewHeight = 420;
         }
 
         public CountryDtoWrapper Country { get; set; }

@@ -7,7 +7,7 @@
         xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel.Add"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
         mc:Ignorable="d"
-        Title="EditingWindow" Height="610" Width="955">
+        Title="{Binding Title}" Height="{Binding ViewHeight, Mode=TwoWay}" Width="{Binding ViewWidth, Mode=TwoWay}">
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:AddAreaViewModel}">

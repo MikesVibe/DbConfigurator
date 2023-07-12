@@ -31,12 +31,6 @@ namespace DbConfigurator.UI.Startup
                     .ForMember(dest => dest.BuisnessUnit, opt => opt.Ignore())
                     .ForMember(dest => dest.Country, opt => opt.Ignore());
 
-                //cfg.CreateMap<RecipientDto, Recipient>()
-                //    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                //    .ForMember(dest => dest.FirstName, opt => opt.Ignore())
-                //    .ForMember(dest => dest.LastName, opt => opt.Ignore())
-                //    .ForMember(dest => dest.Email, opt => opt.Ignore());
-
                 cfg.CreateMap<DistributionInformationDto, DistributionInformation>()
                     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                     .ForMember(dest => dest.Region, opt => opt.Ignore())

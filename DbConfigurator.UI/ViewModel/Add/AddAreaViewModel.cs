@@ -12,6 +12,9 @@ namespace DbConfigurator.UI.ViewModel.Add
             AreaDto areaDto = new();
             Area = new(areaDto);
             Area.Name = "";
+            Title = "Area";
+            ViewWidth = 560;
+            ViewHeight = 340;
         }
         public AddAreaViewModel(AreaDto areaDto)
         {

@@ -55,7 +55,6 @@ namespace DbConfigurator.DataAccess.Repository
         {
             return _context.Set<T>().AsNoTracking().ToList();
         }
-
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
@@ -64,7 +63,6 @@ namespace DbConfigurator.DataAccess.Repository
         {
             _context.SaveChanges();
         }
-
         public virtual async Task AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
@@ -98,10 +96,5 @@ namespace DbConfigurator.DataAccess.Repository
         {
             return await _context.Set<T>().Where(predicate).ToListAsync();
         }
-        //public virtual async Task<IEnumerable<T>> GetAllExceptAsync(IEnumerable<T> list)
-        //{
-        //    return await _context.Set<T>().Except(list).ToListAsync();
-        //}
-
     }
 }

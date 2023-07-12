@@ -69,7 +69,6 @@ namespace DbConfigurator.UI.Services
 
             return _autoMapper.Mapper.Map<IEnumerable<CountryDto>>(countries);
         }
-
         public IEnumerable<RecipientDto> GetAllRecipients()
         {
             var recipients = _recipientRepository.GetAll();
@@ -88,7 +87,6 @@ namespace DbConfigurator.UI.Services
 
             return _autoMapper.Mapper.Map<IEnumerable<PriorityDto>>(priorities);
         }
-
         public async Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int buisnessUnitId, int countryId)
         {
             var regions = await _regionRepository.GetRegionsWithAsync(areaId, buisnessUnitId, countryId);
@@ -101,7 +99,6 @@ namespace DbConfigurator.UI.Services
 
             return _autoMapper.Mapper.Map<IEnumerable<RegionDto>>(regions);
         }
-
         public override async Task<IEnumerable<DistributionInformationDto>> GetAllAsync()
         {
             var distributionInformations = await _repository.GetAllAsync();
@@ -109,24 +106,5 @@ namespace DbConfigurator.UI.Services
             return _autoMapper.Mapper.Map<IEnumerable<DistributionInformationDto>>(distributionInformations);
         }
 
-
-
-        //public async Task AddRecipientsCcAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsCc_ToAdd)
-        //{
-        //    foreach (var recipientDto in recipientsCc_ToAdd)
-        //    {
-        //        await _repository.AddRecipientCcAsync(distributionInformationId, recipientDto.Id);
-        //    }
-        //    await _repository.SaveChangesAsync();
-        //}
-
-        //public async Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd)
-        //{
-        //    foreach (var recipientDto in recipientsTo_ToAdd)
-        //    {
-        //        await _repository.AddRecipientToAsync(distributionInformationId, recipientDto.Id);
-        //    }
-        //    await _repository.SaveChangesAsync();
-        //}
     }
 }

@@ -12,6 +12,9 @@ namespace DbConfigurator.UI.ViewModel.Add
             BuisnessUnitDto buisnessUnit = new();
             BuisnessUnit = new(buisnessUnit);
             BuisnessUnit.Name = "";
+            Title = "BuisnessUnit";
+            ViewWidth = 560;
+            ViewHeight = 340;
         }
         public AddBuisnessUnitViewModel(BuisnessUnitDto buisnessUnitDto)
         {

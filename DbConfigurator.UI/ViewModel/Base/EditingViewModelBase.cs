@@ -9,19 +9,18 @@ namespace DbConfigurator.UI.ViewModel.Base
     {
         public EditingViewModelBase()
         {
-            //ViewWidth = viewWidth;
-            //ViewHeight = viewHeight;
-            //Title = title;
-
+            Title = "EditingWindow";
+            ViewWidth = 1000;
+            ViewHeight = 500;
             SaveCommand = new DelegateCommand(OnAddExecute, OnAddCanExecute);
             CancelCommand = new DelegateCommand(Cancel);
         }
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
         public Action<bool>? CloseAction { get; set; }
-        public int ViewWidth { get; private set; }
-        public int ViewHeight { get; private set; }
-        public string Title { get; private set; }
+        public int ViewWidth { get; set; }
+        public int ViewHeight { get; set; }
+        public string Title { get; set; }
 
         protected virtual void OnAddExecute()
         {

@@ -50,6 +50,10 @@ namespace DbConfigurator.UI.ViewModel.Add
             BuisnessUnitChangedCommand = new DelegateCommand(OnBuisnessUnitChanged);
             CountryChangedCommand = new DelegateCommand(OnCountryChanged);
             SelectionChangedCommand = new DelegateCommand(OnRegionChanged);
+
+            Title = "DistibutionInformation";
+            ViewWidth = 955;
+            ViewHeight = 610;
         }
 
 

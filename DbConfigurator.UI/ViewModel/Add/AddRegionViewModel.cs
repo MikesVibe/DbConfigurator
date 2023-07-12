@@ -32,6 +32,10 @@ namespace DbConfigurator.UI.ViewModel.Add
             SelectedAreaChanged = new DelegateCommand(OnSelectedAreaChanged);
             SelectedBuisnessUnitChanged = new DelegateCommand(OnSelectedBuisnessUnitChanged);
             SelectedCountryChanged = new DelegateCommand(OnSelectedCountryChanged);
+
+            Title = "Region";
+            ViewWidth = 750;
+            ViewHeight = 410;
         }
 
         public ICommand SelectedAreaChanged { get; set; }
