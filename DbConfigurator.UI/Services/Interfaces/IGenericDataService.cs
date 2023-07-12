@@ -12,6 +12,7 @@ namespace DbConfigurator.UI.Services.Interfaces
         Task<TDto> GetByIdAsync(int id);
         bool RemoveById(int id);
         Task<bool> RemoveByIdAsync(int id);
+        bool Update(TDto dto);
         Task<bool> UpdateAsync(TDto dto);
     }
 }
