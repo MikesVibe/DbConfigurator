@@ -4,13 +4,13 @@ namespace DbConfigurator.Model.DTOs.Core
 {
     public class DistributionInformationDto : IEntityDto
     {
-        public DistributionInformationDto() 
+        public DistributionInformationDto()
         { }
         public DistributionInformationDto(DistributionInformationDto other)
         {
             if (other is null)
                 return;
-            
+
             this.Id = other.Id;
 
             this.Region = other.Region;

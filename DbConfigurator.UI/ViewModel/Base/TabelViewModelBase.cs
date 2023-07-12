@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.Model;
-using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
@@ -76,7 +75,7 @@ namespace DbConfigurator.UI.ViewModel.Base
             var buisnessUnit = DataService.GetById(SelectedItem!.Id);
             if (buisnessUnit is null)
             {
-                if(Debugger.IsAttached)
+                if (Debugger.IsAttached)
                 {
                     throw new Exception();
                 }

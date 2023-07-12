@@ -1,10 +1,9 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
-using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Base;
+using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
 using System.Threading.Tasks;
@@ -13,17 +12,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper, BuisnessUnitDto, IBuisnessUnitService>, ITableViewModel
     {
-        private readonly IBuisnessUnitService _dataService;
 
         public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IBuisnessUnitService dataService, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService, dataService)
         {
-            _dataService = dataService;
         }
 
         public override async Task LoadAsync()
         {
-            var buisnessUnits = await _dataService.GetAllAsync();
+            var buisnessUnits = await DataService.GetAllAsync();
             foreach (var buisnessUnit in buisnessUnits)
             {
                 var wrapped = new BuisnessUnitDtoWrapper(buisnessUnit);
@@ -39,7 +36,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false)
                 return;
 
-            var buisnessUnitDto = _dataService.Add(addbuisnessUnitViewModel.BuisnessUnit.Model);
+            var buisnessUnitDto = DataService.Add(addbuisnessUnitViewModel.BuisnessUnit.Model);
             var wrapped = new BuisnessUnitDtoWrapper(buisnessUnitDto);
             Items.Add(wrapped);
         }
@@ -52,7 +49,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false)
                 return;
 
-            var status = _dataService.Update(SelectedItem!.Model);
+            var status = DataService.Update(SelectedItem!.Model);
 
             SelectedItem.Name = SelectedItem!.Model.Name;
         }

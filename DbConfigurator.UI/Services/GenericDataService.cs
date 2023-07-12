@@ -53,7 +53,7 @@ namespace DbConfigurator.UI.Services
         }
 
         public virtual async Task<TDto> GetByIdAsync(int id)
-        { 
+        {
             var entity = await _repository.GetByIdAsync(id);
             return _autoMapper.Mapper.Map<TDto>(entity);
         }

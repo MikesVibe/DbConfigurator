@@ -1,12 +1,9 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Extensions;
 using DbConfigurator.UI.Services.Interfaces;
-using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Prism.Commands;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -34,7 +31,7 @@ namespace DbConfigurator.UI.ViewModel.Detail
         private readonly IDistributionInformationService _dataService;
         private Action _action = Action.Update;
 
-        private enum Action { Create=0, Update=1 }
+        private enum Action { Create = 0, Update = 1 }
 
         public DistibutionInformationDetailViewModel(
             IDistributionInformationService dataService
@@ -293,29 +290,6 @@ namespace DbConfigurator.UI.ViewModel.Detail
             return SelectedRecipientCcListView != null;
         }
 
-        private void SelectAreaComboBox()
-        {
-            if (DistributionInformation!.Region is null || DistributionInformation.Region.Area is null)
-                return;
-
-            SelectedArea = Area_Collection?.Where(c => c.Id == DistributionInformation.Region.Area.Id).FirstOrDefault();
-        }
-        private void SelectBuisnessUnitComboBox()
-        {
-            if (DistributionInformation!.Region is null || DistributionInformation.Region.BuisnessUnit is null)
-                return;
-
-            SelectedBuisnessUnit = BuisnessUnit_Collection?.Where(c => c.Id == DistributionInformation.Region.BuisnessUnit.Id).FirstOrDefault() ??
-                BuisnessUnit_Collection?.FirstOrDefault();
-        }
-        private void SelectCountryComboBox()
-        {
-            if (DistributionInformation!.Region is null || DistributionInformation.Region.Country is null)
-                return;
-
-            SelectedCountry = Country_Collection?.Where(c => c.Id == DistributionInformation.Region.Country.Id).FirstOrDefault() ??
-                Country_Collection?.FirstOrDefault();
-        }
         private void SelectPriorityComboBox()
         {
             if (DistributionInformation!.Priority is null)
@@ -473,10 +447,6 @@ namespace DbConfigurator.UI.ViewModel.Detail
             DistributionInformation.Region = SelectedRegion;
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
-        private bool CanConcurencyOccure()
-        {
-            return AwaitingComboboxPopulation;
-        }
         private void SetNewRecipientTo(RecipientDto value)
         {
             _selectedRecipientToComboBox = value;
@@ -496,7 +466,7 @@ namespace DbConfigurator.UI.ViewModel.Detail
 
         protected override void OnAddExecute()
         {
-            if(_action == Action.Update)
+            if (_action == Action.Update)
             {
                 _dataService.UpdateAsync(DistributionInformation);
             }

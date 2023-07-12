@@ -1,10 +1,9 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
-using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Base;
+using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
 using System.Threading.Tasks;
@@ -29,47 +28,29 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override void OnAddExecute()
         {
-            //var addCountryViewModel = new CountryDetailViewModel();
+            var detailsViewModel = new CountryDetailViewModel();
 
-            //bool? result = DialogService.ShowDialog(addCountryViewModel);
+            bool? result = DialogService.ShowDialog(detailsViewModel);
+            if (result == false)
+                return;
 
-            //if (result == false)
-            //    return;
-
-            //var countryDtoWrapper = addCountryViewModel.Country;
-            //var countryEntity = new Country
-            //{
-            //    CountryName = countryDtoWrapper.CountryName,
-            //    CountryCode = countryDtoWrapper.CountryCode
-            //};
-
-            //_dataService.Add(countryEntity);
-            //_dataService.SaveChanges();
-            //var mapped = _autoMapper.Mapper.Map<CountryDto>(countryEntity);
-            //var wrapped = new CountryDtoWrapper(mapped);
-            //Items.Add(wrapped);
+            var dto = DataService.Add(detailsViewModel.Country.Model);
+            var wrapped = new CountryDtoWrapper(dto);
+            Items.Add(wrapped);
         }
         protected override void OnEditExecute()
         {
-            //var addCountryViewModel = new CountryDetailViewModel();
-            //addCountryViewModel.Country = SelectedItem!;
+            var detailViewModel = new CountryDetailViewModel();
+            detailViewModel.Country = new CountryDtoWrapper(SelectedItem!.Model);
 
-            //bool? result = DialogService.ShowDialog(addCountryViewModel);
+            bool? result = DialogService.ShowDialog(detailViewModel);
+            if (result == false)
+                return;
 
-            //if (result == false)
-            //    return;
+            var status = DataService.Update(SelectedItem!.Model);
 
-            //var countryDtoWrapper = addCountryViewModel.Country;
-            //var countryEntity = _dataService.GetCountryById(countryDtoWrapper.Id);
-            //if (countryEntity is null)
-            //{
-            //    //Log some error
-            //    return;
-            //}
-            //countryEntity.CountryName = countryDtoWrapper.CountryName;
-            //countryEntity.CountryCode = countryDtoWrapper.CountryCode;
-
-            //_dataService.SaveChanges();
+            SelectedItem.CountryName = SelectedItem!.Model.CountryName;
+            SelectedItem.CountryCode = SelectedItem!.Model.CountryCode;
         }
     }
 }

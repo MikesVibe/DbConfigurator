@@ -1,23 +1,19 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Base;
+using DbConfigurator.UI.ViewModel.Detail;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using DbConfigurator.Model.DTOs.Wrapper;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper, DistributionInformationDto, IDistributionInformationService>
     {
         private readonly IDistributionInformationService _dataService;
-        private readonly Func<DistibutionInformationDetailViewModel> _addDistributionInformationCreator;
+        private readonly Func<DistibutionInformationDetailViewModel> _detailViewModelCreator;
 
         public DistributionInformationTableViewModel(IDialogService dialogService,
             IEventAggregator eventAggregator,
@@ -27,7 +23,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
             ) : base(eventAggregator, dialogService, dataService)
         {
             _dataService = dataService;
-            _addDistributionInformationCreator = addDistributionInformationCreator;
+            _detailViewModelCreator = addDistributionInformationCreator;
         }
 
         public async override Task LoadAsync()
@@ -43,16 +39,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         protected override async void OnAddExecute()
         {
-            var distributionInformationViewModel = _addDistributionInformationCreator();
-            await distributionInformationViewModel.LoadAsync(-1);
-            bool? result = DialogService.ShowDialog(distributionInformationViewModel);
+            var detailViewModel = _detailViewModelCreator();
+            await detailViewModel.LoadAsync(-1);
+            bool? result = DialogService.ShowDialog(detailViewModel);
             if (result == false)
                 return;
 
             //Mapping DistributionInformationDto to new DistributionInformation entity
-            var distributionInformationDto = distributionInformationViewModel.DistributionInformation;
+            var distributionInformationDto = detailViewModel.DistributionInformation;
 
-            //distributionInformationDto = await _dataService.AddAsync(distributionInformationDto!);
 
             var wrapped = new DistributionInformationDtoWrapper(distributionInformationDto);
             Items.Add(wrapped);
@@ -60,7 +55,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         protected override async void OnEditExecute()
         {
-            var distributionInformationViewModel = _addDistributionInformationCreator();
+            var distributionInformationViewModel = _detailViewModelCreator();
 
             await distributionInformationViewModel.LoadAsync(SelectedItem!.Id);
 
@@ -68,17 +63,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
             if (result == false)
                 return;
 
-            ////Adding recipients to distributionInformation
-            //var recipientsTo_ToAdd = disInfoDto.RecipientsTo.Except(SelectedItem.RecipientsTo);
-            //await _dataService.AddRecipientsToAsync(disInfoDto.Id, recipientsTo_ToAdd);
-
-            //var recipientsCc_ToAdd = disInfoDto.RecipientsCc.Except(SelectedItem.RecipientsCc);
-            //await _dataService.AddRecipientsCcAsync(disInfoDto.Id, recipientsCc_ToAdd);
-
-            ////Updates only scalar values
-            //disInfoDto = await _dataService.UpdateAsync(distributionInformationViewModel.DistributionInformation!);
-
-            //var disInfoDto = await _dataService.GetByIdAsync(SelectedItem!.Id);
             var disInfoDto = distributionInformationViewModel.DistributionInformation;
 
             SelectedItem.Region = disInfoDto.Region;

@@ -1,6 +1,5 @@
 ﻿using DbConfigurator.DataAccess.Repositories;
 using DbConfigurator.DataAccess.Repository;
-using DbConfigurator.Model;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services.Interfaces;
