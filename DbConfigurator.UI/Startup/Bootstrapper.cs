@@ -43,7 +43,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<DistributionInformationService>().As<IDistributionInformationService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
             builder.RegisterType<AreaService>().As<IAreaService>().SingleInstance();
-            //builder.RegisterType<BuisnessUnitService>().As<IBuisnessUnitService>().SingleInstance();
+            builder.RegisterType<BuisnessUnitService>().As<IBuisnessUnitService>().SingleInstance();
             //builder.RegisterType<CountryService>().As<IRegionService>().SingleInstance();
 
             //Navigation Panel
