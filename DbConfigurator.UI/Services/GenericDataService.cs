@@ -21,6 +21,14 @@ namespace DbConfigurator.UI.Services
             _autoMapper = autoMapper;
         }
 
+        public TDto Add(TDto dto)
+        {
+            var entity = _autoMapper.Mapper.Map<TEntity>(dto);
+            _repository.Add(entity);
+            _repository.SaveChanges();
+
+            return _autoMapper.Mapper.Map<TDto>(_repository.GetById(entity.Id));
+        }
         public async Task<TDto> GetByIdAsync(int id)
         { 
             var entity = await _repository.GetByIdAsync(id);
