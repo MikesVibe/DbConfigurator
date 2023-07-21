@@ -21,7 +21,7 @@ namespace DbConfigurator.UI.Features.BuisnessUnits
             IBuisnessUnitService dataService,
             AutoMapperConfig autoMapper,
             Func<BuisnessUnitDetailViewModel> buisnessUnitDetailViewModelCreator)
-            : base(eventAggregator, dialogService, dataService, buisnessUnitDetailViewModelCreator)
+            : base(eventAggregator, dialogService, dataService, buisnessUnitDetailViewModelCreator, autoMapper)
         {
             EventAggregator.GetEvent<CreateBuisnessUnitEvent>()
                 .Subscribe(OnCreateExecute);
@@ -32,20 +32,8 @@ namespace DbConfigurator.UI.Features.BuisnessUnits
 
         private void OnCreateExecute(CreateBuisnessUnitEventArgs obj)
         {
-            var wrapped = new BuisnessUnitDtoWrapper(obj.BuisnessUnit);
+            var wrapped = new BuisnessUnitDtoWrapper(obj.Entity);
             Items.Add(wrapped);
-        }
-        private void OnEditExecute(EditBuisnessUnitEventArgs obj)
-        {
-            var buisnessUnit = Items.Where(a => a.Id == obj.BuisnessUnit.Id).FirstOrDefault();
-            if (buisnessUnit is null)
-            {
-                RefreshItemsList();
-                return;
-            }
-
-            var buisnessUnitDto = obj.BuisnessUnit;
-            buisnessUnit.Name = buisnessUnitDto.Name;
         }
 
         public override async Task LoadAsync()

@@ -54,16 +54,16 @@ namespace DbConfigurator.UI.ViewModel.Base
             return new TEntityDto();
         }
 
-        private void OnSaveExecute()
+        private async void OnSaveExecute()
         {
             if (Action == ModelAction.Create)
             {
-                DataService.AddAsync(EntityDto!);
+                EntityDto = await DataService.AddAsync(EntityDto!);
                 OnCreate();
             }
             else if (Action == ModelAction.Update)
             {
-                DataService.UpdateAsync(EntityDto!);
+                await DataService.UpdateAsync(EntityDto!);
                 OnUpdate();
             }
             else

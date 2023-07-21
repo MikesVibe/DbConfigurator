@@ -25,7 +25,7 @@ namespace DbConfigurator.UI.Features.Areas
                   .Publish(
                 new CreateAreaEventArgs
                 {
-                    Area = new AreaDto
+                    Entity = new AreaDto
                     {
                         Id = EntityDto!.Id,
                         Name = EntityDto!.Name,
@@ -38,7 +38,7 @@ namespace DbConfigurator.UI.Features.Areas
                   .Publish(
                 new EditAreaEventArgs
                 {
-                    Area = new AreaDto
+                    Entity = new AreaDto
                     {
                         Id = EntityDto!.Id,
                         Name = EntityDto!.Name,

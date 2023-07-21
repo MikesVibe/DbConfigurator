@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.UI.Contracts;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace DbConfigurator.UI.Event
     public class CreateRegionEvent : PubSubEvent<CreateRegionEventArgs>
     {
     }
-    public class CreateRegionEventArgs
+    public class CreateRegionEventArgs : IEventArgs<RegionDto>
     {
-        public RegionDto Region { get; set; } = default!;
+        public RegionDto Entity { get; set; } = default!;
     }
 }

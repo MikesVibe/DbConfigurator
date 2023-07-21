@@ -1,8 +1,10 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.UI.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
@@ -19,13 +21,14 @@ namespace DbConfigurator.UI.Features.Areas
             IEventAggregator eventAggregator,
             IWindowService dialogService,
             IAreaService dataService,
-            Func<AreaDetailViewModel> areaDetailViewModelCreator)
-            : base(eventAggregator, dialogService, dataService, areaDetailViewModelCreator)
+            Func<AreaDetailViewModel> areaDetailViewModelCreator,
+            AutoMapperConfig autoMapper)
+            : base(eventAggregator, dialogService, dataService, areaDetailViewModelCreator, autoMapper)
         {
             EventAggregator.GetEvent<CreateAreaEvent>()
                 .Subscribe(OnCreateAreaExecute);
             EventAggregator.GetEvent<EditAreaEvent>()
-                .Subscribe(OnEditAreaExecute);
+                .Subscribe(OnEditExecute);
         }
 
 
@@ -41,20 +44,8 @@ namespace DbConfigurator.UI.Features.Areas
 
         private void OnCreateAreaExecute(CreateAreaEventArgs obj)
         {
-            var wrapped = new AreaDtoWrapper(obj.Area);
+            var wrapped = new AreaDtoWrapper(obj.Entity);
             Items.Add(wrapped);
         }
-        private void OnEditAreaExecute(EditAreaEventArgs obj)
-        {
-            var area = Items.Where(a => a.Id == obj.Area.Id).FirstOrDefault();
-            if (area is null)
-            {
-                RefreshItemsList();
-                return;
-            }
-
-            area.Name = obj.Area.Name;
-        }
-
     }
 }

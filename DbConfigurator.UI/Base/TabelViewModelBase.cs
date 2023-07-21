@@ -1,11 +1,15 @@
 ﻿using DbConfigurator.Model.Contracts;
+using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.UI.Contracts;
 using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -20,6 +24,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected readonly IEventAggregator EventAggregator;
         protected readonly TDataService DataService;
         protected readonly Func<IDetailViewModel> DetailViewModelCreator;
+        protected readonly AutoMapperConfig AutoMapper;
 
         private int _id;
         private bool _hasChanges;
@@ -27,13 +32,14 @@ namespace DbConfigurator.UI.ViewModel.Base
         public TableViewModelBase(IEventAggregator eventAggregator,
             IWindowService dialogService,
             TDataService dataService,
-            Func<IDetailViewModel> detailViewModel
-            )
+            Func<IDetailViewModel> detailViewModel,
+            AutoMapperConfig autoMapper)
         {
             EventAggregator = eventAggregator;
             WindowService = dialogService;
             DataService = dataService;
             DetailViewModelCreator = detailViewModel;
+            AutoMapper = autoMapper;
 
             AddCommand = new DelegateCommand(OnAddExecute);
             EditCommand = new DelegateCommand(OnEditExecute, OnEditCanExecute);
@@ -117,6 +123,17 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected void RefreshItemsList()
         {
             throw new NotImplementedException();
+        }
+        protected void OnEditExecute(IEventArgs<TDto> obj)
+        {
+            var area = Items.Where(a => a.Id == obj.Entity.Id).FirstOrDefault();
+            if (area is null)
+            {
+                RefreshItemsList();
+                return;
+            }
+
+            AutoMapper.Mapper.Map(obj.Entity, area);
         }
     }
 }

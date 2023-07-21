@@ -28,7 +28,7 @@ namespace DbConfigurator.UI.Features.Countries
                   .Publish(
                 new CreateCountryEventArgs
                 {
-                    Country = new CountryDto
+                    Entity = new CountryDto
                     {
                         Id = EntityDto.Id,
                         CountryName = EntityDto.CountryName,
@@ -46,7 +46,7 @@ namespace DbConfigurator.UI.Features.Countries
                   .Publish(
                 new EditCountryEventArgs
                 {
-                    Country = new CountryDto
+                    Entity = new CountryDto
                     {
                         Id = EntityDto.Id,
                         CountryName = EntityDto.CountryName,

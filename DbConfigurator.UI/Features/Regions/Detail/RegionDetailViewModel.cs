@@ -17,7 +17,7 @@ namespace DbConfigurator.UI.Features.Regions
     public class RegionDetailViewModel : DetailViewModelBase<IRegionService, RegionDto>
     {
         private AreaDto? _selectedArea;
-        private BuisnessUnitDto? _selectedBuisnessUnit;
+        private CountryDto? _selectedBuisnessUnit;
         private CountryDto? _selectedCountry;
 
         public RegionDetailViewModel(
@@ -51,7 +51,7 @@ namespace DbConfigurator.UI.Features.Regions
                 OnPropertyChanged();
             }
         }
-        public BuisnessUnitDto? SelectedBuisnessUnit
+        public CountryDto? SelectedBuisnessUnit
         {
             get { return _selectedBuisnessUnit; }
             set
@@ -141,7 +141,7 @@ namespace DbConfigurator.UI.Features.Regions
                   .Publish(
                 new CreateRegionEventArgs
                 {
-                    Region = new RegionDto
+                    Entity = new RegionDto
                     {
                         Id = EntityDto.Id,
                         Area = EntityDto.Area,
@@ -160,7 +160,7 @@ namespace DbConfigurator.UI.Features.Regions
                   .Publish(
                 new EditRegionEventArgs
                 {
-                    Region = new RegionDto
+                    Entity = new RegionDto
                     {
                         Id = EntityDto.Id,
                         Area = EntityDto.Area,

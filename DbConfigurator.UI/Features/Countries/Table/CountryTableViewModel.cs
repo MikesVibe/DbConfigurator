@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
@@ -22,7 +23,7 @@ namespace DbConfigurator.UI.Features.Countries
             ICountryService dataService,
             AutoMapperConfig autoMapper,
             Func<CountryDetailViewModel> countryDetailViewModelCreator)
-            : base(eventAggregator, dialogService, dataService, countryDetailViewModelCreator)
+            : base(eventAggregator, dialogService, dataService, countryDetailViewModelCreator, autoMapper)
         {
             EventAggregator.GetEvent<CreateCountryEvent>()
                 .Subscribe(OnCreateExecute);
@@ -33,22 +34,10 @@ namespace DbConfigurator.UI.Features.Countries
 
         private void OnCreateExecute(CreateCountryEventArgs obj)
         {
-            var wrapped = new CountryDtoWrapper(obj.Country);
+            var wrapped = new CountryDtoWrapper(obj.Entity);
             Items.Add(wrapped);
         }
-        private void OnEditExecute(EditCountryEventArgs obj)
-        {
-            var country = Items.Where(a => a.Id == obj.Country.Id).FirstOrDefault();
-            if (country is null)
-            {
-                RefreshItemsList();
-                return;
-            }
 
-            var countryDto = obj.Country;
-            country.CountryName = countryDto.CountryName;
-            country.CountryCode = countryDto.CountryCode;
-        }
 
         public override async Task LoadAsync()
         {

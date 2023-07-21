@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Model.Entities.Wrapper;
 using System.Linq;
 
 namespace DbConfigurator.UI.Startup
@@ -36,6 +38,15 @@ namespace DbConfigurator.UI.Startup
                     .ForMember(dest => dest.Priority, opt => opt.Ignore())
                     .ForMember(dest => dest.RecipientsTo, opt => opt.MapFrom(src => src.RecipientsTo))
                     .ForMember(dest => dest.RecipientsCc, opt => opt.MapFrom(src => src.RecipientsCc));
+
+
+                cfg.CreateMap<AreaDto, AreaDtoWrapper>();
+                cfg.CreateMap<BuisnessUnitDto, BuisnessUnitDtoWrapper>();
+                cfg.CreateMap<CountryDto, CountryDtoWrapper>();
+                cfg.CreateMap<RegionDto, RegionDtoWrapper>();
+                cfg.CreateMap<RecipientDto, RecipientDtoWrapper>();
+                cfg.CreateMap<DistributionInformationDto, DistributionInformationDtoWrapper>();
+
             });
 
             Mapper = config.CreateMapper();

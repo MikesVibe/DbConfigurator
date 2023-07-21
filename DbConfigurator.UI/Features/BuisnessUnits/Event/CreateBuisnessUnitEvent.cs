@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.UI.Contracts;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace DbConfigurator.UI.Event
     public class CreateBuisnessUnitEvent : PubSubEvent<CreateBuisnessUnitEventArgs>
     {
     }
-    public class CreateBuisnessUnitEventArgs
+    public class CreateBuisnessUnitEventArgs : IEventArgs<BuisnessUnitDto>
     {
-        public BuisnessUnitDto BuisnessUnit { get; set; } = default!;
+        public BuisnessUnitDto Entity { get; set; } = default!;
     }
 }

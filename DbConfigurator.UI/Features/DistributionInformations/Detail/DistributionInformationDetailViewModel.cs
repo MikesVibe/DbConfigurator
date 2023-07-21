@@ -23,7 +23,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         private ObservableCollection<RecipientDto> _recipientsToComboBox = new();
         private ObservableCollection<RecipientDto> _recipientsCcComboBox = new();
         private AreaDto? _selectedArea;
-        private BuisnessUnitDto? _selectedBuisnessUnit;
+        private CountryDto? _selectedBuisnessUnit;
         private CountryDto? _selectedCountry;
         private PriorityDto? _selectedPriority;
         private RecipientDto? _selectedRecipientToComboBox;
@@ -146,7 +146,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
                 OnPropertyChanged();
             }
         }
-        public BuisnessUnitDto? SelectedBuisnessUnit
+        public CountryDto? SelectedBuisnessUnit
         {
             get { return _selectedBuisnessUnit; }
             set
@@ -468,7 +468,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
                   .Publish(
                 new CreateDistributionInformationEventArgs
                 {
-                    DistributionInformation = new DistributionInformationDto
+                    Entity = new DistributionInformationDto
                     {
                         Id = EntityDto.Id,
                         Priority = EntityDto.Priority,
@@ -488,7 +488,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
                   .Publish(
                 new EditDistributionInformationEventArgs
                 {
-                    DistributionInformation = new DistributionInformationDto
+                    Entity = new DistributionInformationDto
                     {
                         Id = EntityDto.Id,
                         Priority = EntityDto.Priority,

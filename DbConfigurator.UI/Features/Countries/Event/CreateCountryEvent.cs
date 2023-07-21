@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.UI.Contracts;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace DbConfigurator.UI.Event
     public class CreateCountryEvent : PubSubEvent<CreateCountryEventArgs>
     {
     }
-    public class CreateCountryEventArgs
+    public class CreateCountryEventArgs : IEventArgs<CountryDto>
     {
-        public CountryDto Country { get; set; } = default!;
+        public CountryDto Entity { get; set; } = default!;
     }
 }

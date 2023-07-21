@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
@@ -15,43 +16,27 @@ namespace DbConfigurator.UI.Features.DistributionInformations
     public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper, DistributionInformationDto, IDistributionInformationService>
     {
         private readonly IDistributionInformationService _dataService;
+        private readonly AutoMapperConfig _autoMapper;
 
         public DistributionInformationTableViewModel(IWindowService dialogService,
             IEventAggregator eventAggregator,
             IDistributionInformationService dataService,
             Func<DistributionInformationDetailViewModel> DistributionInformationDetailVmCreator,
             AutoMapperConfig autoMapper
-            ) : base(eventAggregator, dialogService, dataService, DistributionInformationDetailVmCreator)
+            ) : base(eventAggregator, dialogService, dataService, DistributionInformationDetailVmCreator, autoMapper)
         {
             _dataService = dataService;
-
+            _autoMapper = autoMapper;
             EventAggregator.GetEvent<CreateDistributionInformationEvent>()
                 .Subscribe(OnCreateExecute);
             EventAggregator.GetEvent<EditDistributionInformationEvent>()
                 .Subscribe(OnEditExecute);
         }
 
-
-
         private void OnCreateExecute(CreateDistributionInformationEventArgs obj)
         {
-            var wrapped = new DistributionInformationDtoWrapper(obj.DistributionInformation);
+            var wrapped = new DistributionInformationDtoWrapper(obj.Entity);
             Items.Add(wrapped);
-        }
-        private void OnEditExecute(EditDistributionInformationEventArgs obj)
-        {
-            var distributionInformation = Items.Where(a => a.Id == obj.DistributionInformation.Id).FirstOrDefault();
-            if (distributionInformation is null)
-            {
-                RefreshItemsList();
-                return;
-            }
-
-            var disInfoDto = obj.DistributionInformation;
-            distributionInformation.Region = disInfoDto.Region;
-            distributionInformation.Priority = disInfoDto.Priority;
-            distributionInformation.RecipientsTo = disInfoDto.RecipientsTo;
-            distributionInformation.RecipientsCc = disInfoDto.RecipientsCc;
         }
 
         public async override Task LoadAsync()

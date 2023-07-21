@@ -28,7 +28,7 @@ namespace DbConfigurator.UI.Features.BuisnessUnits
                   .Publish(
                 new CreateBuisnessUnitEventArgs
                 {
-                    BuisnessUnit = new BuisnessUnitDto
+                    Entity = new BuisnessUnitDto
                     {
                         Id = EntityDto.Id,
                         Name = EntityDto.Name
@@ -45,7 +45,7 @@ namespace DbConfigurator.UI.Features.BuisnessUnits
                   .Publish(
                 new EditBuisnessUnitEventArgs
                 {
-                    BuisnessUnit = new BuisnessUnitDto
+                    Entity = new BuisnessUnitDto
                     {
                         Id = EntityDto.Id,
                         Name = EntityDto.Name

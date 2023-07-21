@@ -26,7 +26,7 @@ namespace DbConfigurator.UI.Features.Recipients
                   .Publish(
                 new CreateRecipientEventArgs
                 {
-                    Recipient = new RecipientDto
+                    Entity = new RecipientDto
                     {
                         Id = EntityDto.Id,
                         FirstName = EntityDto.FirstName,
@@ -45,7 +45,7 @@ namespace DbConfigurator.UI.Features.Recipients
                   .Publish(
                 new EditRecipientEventArgs
                 {
-                    Recipient = new RecipientDto
+                    Entity = new RecipientDto
                     {
                         Id = EntityDto.Id,
                         FirstName = EntityDto.FirstName,

@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.UI.Contracts;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace DbConfigurator.UI.Features.Areas.Event
     public class EditRecipientEvent : PubSubEvent<EditRecipientEventArgs>
     {
     }
-    public class EditRecipientEventArgs
+    public class EditRecipientEventArgs : IEventArgs<RecipientDto>
     {
-        public RecipientDto Recipient { get; set; } = default!;
+        public RecipientDto Entity { get; set; } = default!;
     }
 }

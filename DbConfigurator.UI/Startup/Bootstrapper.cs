@@ -87,7 +87,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<RecipientDetailViewModel>()
                  .Keyed<IDetailViewModel>(nameof(RecipientDetailViewModel));
 
-
+            //Detail View Models
             builder.RegisterType<DistributionInformationDetailViewModel>().AsSelf();
             builder.RegisterType<RecipientDetailViewModel>().AsSelf();
             builder.RegisterType<RegionDetailViewModel>().AsSelf();

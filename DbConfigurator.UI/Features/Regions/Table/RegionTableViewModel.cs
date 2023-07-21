@@ -23,7 +23,7 @@ namespace DbConfigurator.UI.Features.Regions
             IRegionService dataService,
             AutoMapperConfig autoMapper,
             Func<RegionDetailViewModel> addRegionCreator
-            ) : base(eventAggregator, dialogService, dataService, addRegionCreator)
+            ) : base(eventAggregator, dialogService, dataService, addRegionCreator, autoMapper)
         {
             EventAggregator.GetEvent<CreateRegionEvent>()
                 .Subscribe(OnCreateExecute);
@@ -34,22 +34,8 @@ namespace DbConfigurator.UI.Features.Regions
 
         private void OnCreateExecute(CreateRegionEventArgs obj)
         {
-            var wrapped = new RegionDtoWrapper(obj.Region);
+            var wrapped = new RegionDtoWrapper(obj.Entity);
             Items.Add(wrapped);
-        }
-        private void OnEditExecute(EditRegionEventArgs obj)
-        {
-            var region = Items.Where(a => a.Id == obj.Region.Id).FirstOrDefault();
-            if (region is null)
-            {
-                RefreshItemsList();
-                return;
-            }
-
-            var recipientDto = obj.Region;
-            region.Country = recipientDto.Country;
-            region.BuisnessUnit = recipientDto.BuisnessUnit;
-            region.Area = recipientDto.Area;
         }
 
         public override async Task LoadAsync()

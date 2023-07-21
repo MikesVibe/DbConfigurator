@@ -22,7 +22,7 @@ namespace DbConfigurator.UI.Features.Recipients
             IRecipientService dataService,
             AutoMapperConfig autoMapper,
             Func<RecipientDetailViewModel> addRecipientViewModelCreator
-            ) : base(eventAggregator, dialogService, dataService, addRecipientViewModelCreator)
+            ) : base(eventAggregator, dialogService, dataService, addRecipientViewModelCreator, autoMapper)
         {
             EventAggregator.GetEvent<CreateRecipientEvent>()
                 .Subscribe(OnCreateExecute);
@@ -33,22 +33,8 @@ namespace DbConfigurator.UI.Features.Recipients
 
         private void OnCreateExecute(CreateRecipientEventArgs obj)
         {
-            var wrapped = new RecipientDtoWrapper(obj.Recipient);
+            var wrapped = new RecipientDtoWrapper(obj.Entity);
             Items.Add(wrapped);
-        }
-        private void OnEditExecute(EditRecipientEventArgs obj)
-        {
-            var recipient = Items.Where(a => a.Id == obj.Recipient.Id).FirstOrDefault();
-            if (recipient is null)
-            {
-                RefreshItemsList();
-                return;
-            }
-
-            var recipientDto = obj.Recipient;
-            recipient.FirstName = recipientDto.FirstName;
-            recipient.LastName = recipientDto.LastName;
-            recipient.Email = recipientDto.Email;
         }
 
         public override async Task LoadAsync()

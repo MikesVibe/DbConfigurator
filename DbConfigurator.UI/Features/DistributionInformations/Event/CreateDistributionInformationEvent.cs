@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.UI.Contracts;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace DbConfigurator.UI.Event
     public class CreateDistributionInformationEvent : PubSubEvent<CreateDistributionInformationEventArgs>
     {
     }
-    public class CreateDistributionInformationEventArgs
+    public class CreateDistributionInformationEventArgs : IEventArgs<DistributionInformationDto>
     {
-        public DistributionInformationDto DistributionInformation { get; set; } = default!;
+        public DistributionInformationDto Entity { get; set; } = default!;
     }
 }
