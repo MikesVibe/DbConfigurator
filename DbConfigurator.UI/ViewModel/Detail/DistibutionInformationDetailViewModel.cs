@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class DistibutionInformationDetailViewModel : DetailViewModelBase
+    public class DistibutionInformationDetailViewModel : DetailViewModelBase<IDistributionInformationService, DistributionInformationDto>
     {
         private IEnumerable<RecipientDto> _allRecipients;
         private ObservableCollection<RecipientDto> _recipientsTo_ListView = new();
@@ -470,9 +470,13 @@ namespace DbConfigurator.UI.ViewModel.Detail
             {
                 _dataService.UpdateAsync(DistributionInformation);
             }
-            else
+            else if(_action == Action.Create)
             {
                 _dataService.AddAsync(DistributionInformation);
+            }
+            else
+            {
+                return;
             }
 
             base.OnAddExecute();

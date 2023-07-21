@@ -1,10 +1,11 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Wrapper;
+using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel.Base;
 
 namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class RecipientDetailViewModel : DetailViewModelBase
+    public class RecipientDetailViewModel : DetailViewModelBase<IRecipientService, RecipientDto>
     {
         public RecipientDetailViewModel()
         {

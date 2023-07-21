@@ -1,12 +1,18 @@
-﻿using Prism.Commands;
+﻿using DbConfigurator.Model;
+using DbConfigurator.UI.Services.Interfaces;
+using Prism.Commands;
 using System;
 using System.ComponentModel;
 using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class DetailViewModelBase : ViewModelBase, IDetailViewModel, INotifyPropertyChanged
+    public abstract class DetailViewModelBase<TDataService, TEntityDto> : ViewModelBase, IDetailViewModel, INotifyPropertyChanged
+        where TDataService : IGenericDataService<TEntityDto>
+        where TEntityDto : IEntityDto
     {
+
+        private readonly TDataService _dataService;
         public DetailViewModelBase()
         {
             Title = "EditingWindow";
@@ -15,8 +21,10 @@ namespace DbConfigurator.UI.ViewModel.Base
             SaveCommand = new DelegateCommand(OnAddExecute, OnAddCanExecute);
             CancelCommand = new DelegateCommand(Cancel);
         }
+        
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
+
         public Action<bool>? CloseAction { get; set; }
         public int ViewWidth { get; set; }
         public int ViewHeight { get; set; }

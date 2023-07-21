@@ -1,11 +1,12 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel.Base;
 using System.ComponentModel;
 
 namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class AreaDetailViewModel : DetailViewModelBase, IDetailViewModel, INotifyPropertyChanged
+    public class AreaDetailViewModel : DetailViewModelBase<IAreaService, AreaDto>, IDetailViewModel, INotifyPropertyChanged
     {
         public AreaDetailViewModel()
         {

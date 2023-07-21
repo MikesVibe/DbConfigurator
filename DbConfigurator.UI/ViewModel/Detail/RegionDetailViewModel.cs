@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class RegionDetailViewModel : DetailViewModelBase
+    public class RegionDetailViewModel : DetailViewModelBase<IRegionService, RegionDto>
     {
         private readonly ICombinedDataService _dataService;
         private readonly AutoMapperConfig _autoMapper;

@@ -1,11 +1,12 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel.Base;
 using System.ComponentModel;
 
 namespace DbConfigurator.UI.ViewModel.Detail
 {
-    public class CountryDetailViewModel : DetailViewModelBase, IDetailViewModel, INotifyPropertyChanged
+    public class CountryDetailViewModel : DetailViewModelBase<ICountryService, CountryDto>, IDetailViewModel, INotifyPropertyChanged
     {
         public CountryDetailViewModel()
         {
