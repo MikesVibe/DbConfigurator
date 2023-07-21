@@ -1,5 +1,7 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.UI.Event;
+using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Base;
@@ -19,12 +21,36 @@ namespace DbConfigurator.UI.Features.BuisnessUnits
 
         protected override void OnCreate()
         {
-            throw new System.NotImplementedException();
+            if (EntityDto is null)
+                return;
+
+            EventAggregator.GetEvent<CreateBuisnessUnitEvent>()
+                  .Publish(
+                new CreateBuisnessUnitEventArgs
+                {
+                    BuisnessUnit = new BuisnessUnitDto
+                    {
+                        Id = EntityDto.Id,
+                        Name = EntityDto.Name
+                    }
+                });
         }
 
         protected override void OnUpdate()
         {
-            throw new System.NotImplementedException();
+            if (EntityDto is null)
+                return;
+
+            EventAggregator.GetEvent<EditBuisnessUnitEvent>()
+                  .Publish(
+                new EditBuisnessUnitEventArgs
+                {
+                    BuisnessUnit = new BuisnessUnitDto
+                    {
+                        Id = EntityDto.Id,
+                        Name = EntityDto.Name
+                    }
+                });
         }
     }
 }
