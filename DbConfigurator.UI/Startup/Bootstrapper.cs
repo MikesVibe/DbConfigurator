@@ -85,10 +85,12 @@ namespace DbConfigurator.UI.Startup
                  .Keyed<IDetailViewModel>(nameof(RecipientDetailViewModel));
 
 
-            builder.RegisterType<AreaDetailViewModel>().As<IDetailViewModel>();
             builder.RegisterType<DistibutionInformationDetailViewModel>().AsSelf();
             builder.RegisterType<RecipientDetailViewModel>().AsSelf();
             builder.RegisterType<RegionDetailViewModel>().AsSelf();
+            builder.RegisterType<AreaDetailViewModel>().AsSelf();
+            builder.RegisterType<BuisnessUnitDetailViewModel>().AsSelf();
+            builder.RegisterType<CountryDetailViewModel>().AsSelf();
 
         }
         public static IContainer Build(this ContainerBuilder builder)

@@ -6,15 +6,23 @@ using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
+using System;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class CountryTableViewModel : TableViewModelBase<CountryDtoWrapper, CountryDto, ICountryService>, ITableViewModel
     {
-        public CountryTableViewModel(IEventAggregator eventAggregator, IWindowService dialogService, ICountryService dataService, AutoMapperConfig autoMapper)
+        private readonly Func<CountryDetailViewModel> _countryDetailViewModelCreator;
+
+        public CountryTableViewModel(IEventAggregator eventAggregator,
+            IWindowService dialogService,
+            ICountryService dataService,
+            AutoMapperConfig autoMapper,
+            Func<CountryDetailViewModel> countryDetailViewModelCreator)
             : base(eventAggregator, dialogService, dataService)
         {
+            _countryDetailViewModelCreator = countryDetailViewModelCreator;
         }
 
         public override async Task LoadAsync()
@@ -28,7 +36,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override void OnAddExecute()
         {
-            var detailsViewModel = new CountryDetailViewModel();
+            var detailsViewModel = _countryDetailViewModelCreator();
 
             bool? result = DialogService.ShowDialog(detailsViewModel);
             if (result == false)
@@ -40,7 +48,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override void OnEditExecute()
         {
-            var detailViewModel = new CountryDetailViewModel();
+            var detailViewModel = _countryDetailViewModelCreator();
             detailViewModel.Country = new CountryDtoWrapper(SelectedItem!.Model);
 
             bool? result = DialogService.ShowDialog(detailViewModel);

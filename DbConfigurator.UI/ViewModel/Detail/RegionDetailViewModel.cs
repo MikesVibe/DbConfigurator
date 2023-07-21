@@ -13,18 +13,16 @@ namespace DbConfigurator.UI.ViewModel.Detail
 {
     public class RegionDetailViewModel : DetailViewModelBase<IRegionService, RegionDto>
     {
-        private readonly ICombinedDataService _dataService;
         private readonly AutoMapperConfig _autoMapper;
         private AreaDto? _selectedArea;
         private BuisnessUnitDto? _selectedBuisnessUnit;
         private CountryDto? _selectedCountry;
 
         public RegionDetailViewModel(
-            ICombinedDataService dataService,
+            IRegionService dataService,
             AutoMapperConfig autoMapper
-            )
+            ) : base(dataService)
         {
-            _dataService = dataService;
             _autoMapper = autoMapper;
             var region = new RegionDto();
             Region = new RegionDtoWrapper(region);
@@ -80,22 +78,19 @@ namespace DbConfigurator.UI.ViewModel.Detail
             var areas = await _dataService.GetAllAreasAsync();
             foreach (var area in areas)
             {
-                var mapped = _autoMapper.Mapper.Map<AreaDto>(area);
-                Areas_ObservableCollection.Add(mapped);
+                Areas_ObservableCollection.Add(area);
             }
 
             var buisnessUnits = await _dataService.GetAllBuisnessUnitsAsync();
             foreach (var buisnessUnit in buisnessUnits)
             {
-                var mapped = _autoMapper.Mapper.Map<BuisnessUnitDto>(buisnessUnit);
-                BuisnessUnits_ObservableCollection.Add(mapped);
+                BuisnessUnits_ObservableCollection.Add(buisnessUnit);
             }
 
             var countries = await _dataService.GetAllCountriesAsync();
             foreach (var country in countries)
             {
-                var mapped = _autoMapper.Mapper.Map<CountryDto>(country);
-                Countries_ObservableCollection.Add(mapped);
+                Countries_ObservableCollection.Add(country);
             }
 
             if (Region is not null)

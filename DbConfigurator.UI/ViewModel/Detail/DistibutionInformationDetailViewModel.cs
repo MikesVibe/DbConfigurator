@@ -29,13 +29,11 @@ namespace DbConfigurator.UI.ViewModel.Detail
         private RecipientDto? _selectedRecipientCcListView;
         private bool AwaitingComboboxPopulation = false;
         private readonly IDistributionInformationService _dataService;
-        private Action _action = Action.Update;
 
-        private enum Action { Create = 0, Update = 1 }
 
         public DistibutionInformationDetailViewModel(
             IDistributionInformationService dataService
-            )
+            ) : base(dataService) 
         {
             _dataService = dataService;
             DistributionInformation = new();
@@ -195,7 +193,7 @@ namespace DbConfigurator.UI.ViewModel.Detail
 
         private DistributionInformationDto CreateNewDistributionInformation()
         {
-            _action = Action.Create;
+            Action = ModelAction.Create;
             return new DistributionInformationDto();
         }
 
@@ -466,11 +464,11 @@ namespace DbConfigurator.UI.ViewModel.Detail
 
         protected override void OnAddExecute()
         {
-            if (_action == Action.Update)
+            if (Action == ModelAction.Update)
             {
                 _dataService.UpdateAsync(DistributionInformation);
             }
-            else if(_action == Action.Create)
+            else if(Action == ModelAction.Create)
             {
                 _dataService.AddAsync(DistributionInformation);
             }

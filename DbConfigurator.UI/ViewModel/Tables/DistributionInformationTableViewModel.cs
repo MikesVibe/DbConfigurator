@@ -41,9 +41,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
         {
             var detailViewModel = _detailViewModelCreator();
             await detailViewModel.LoadAsync(-1);
-            bool? result = DialogService.ShowDialog(detailViewModel);
-            if (result == false)
-                return;
+            DialogService.ShowDialog(detailViewModel);
+   
 
             //Mapping DistributionInformationDto to new DistributionInformation entity
             var distributionInformationDto = detailViewModel.DistributionInformation;

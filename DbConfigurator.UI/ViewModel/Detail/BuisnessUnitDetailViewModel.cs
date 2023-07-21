@@ -8,7 +8,7 @@ namespace DbConfigurator.UI.ViewModel.Detail
 {
     public class BuisnessUnitDetailViewModel : DetailViewModelBase<IBuisnessUnitService, BuisnessUnitDto>, IDetailViewModel, INotifyPropertyChanged
     {
-        public BuisnessUnitDetailViewModel()
+        public BuisnessUnitDetailViewModel(IBuisnessUnitService buisnessUnitService) : base(buisnessUnitService)
         {
             BuisnessUnitDto buisnessUnit = new();
             BuisnessUnit = new(buisnessUnit);
@@ -17,10 +17,10 @@ namespace DbConfigurator.UI.ViewModel.Detail
             ViewWidth = 560;
             ViewHeight = 340;
         }
-        public BuisnessUnitDetailViewModel(BuisnessUnitDto buisnessUnitDto)
-        {
-            BuisnessUnit = new(buisnessUnitDto);
-        }
+        //public BuisnessUnitDetailViewModel(BuisnessUnitDto buisnessUnitDto)
+        //{
+        //    BuisnessUnit = new(buisnessUnitDto);
+        //}
 
         protected override bool OnAddCanExecute()
         {

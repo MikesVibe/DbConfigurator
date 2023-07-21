@@ -47,7 +47,24 @@ namespace DbConfigurator.DataAccess.Repository
                 r.CountryId == countryId).AsNoTracking().ToListAsync();
         }
 
+        public async Task<ICollection<Area>> GetAllAreasAsync()
+        {
+            var collection = await _context.Set<Area>().AsNoTracking().ToListAsync();
 
+            return collection;
+        }
+        public async Task<ICollection<BuisnessUnit>> GetAllBuisnessUnitsAsync()
+        {
+            var collection = await _context.Set<BuisnessUnit>().AsNoTracking().ToListAsync();
+
+            return collection;
+        }
+        public async Task<ICollection<Country>> GetAllCountriesAsync()
+        {
+            var collection = await _context.Set<Country>().ToListAsync();
+
+            return collection;
+        }
 
         protected IQueryable<Region> GetRegionsAsQueryable()
         {

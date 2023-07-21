@@ -7,7 +7,7 @@ namespace DbConfigurator.UI.ViewModel.Detail
 {
     public class RecipientDetailViewModel : DetailViewModelBase<IRecipientService, RecipientDto>
     {
-        public RecipientDetailViewModel()
+        public RecipientDetailViewModel(IRecipientService recipientService) : base(recipientService)
         {
             RecipientDto recipientDto = new();
             Recipient = new(recipientDto);

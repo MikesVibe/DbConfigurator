@@ -8,7 +8,7 @@ namespace DbConfigurator.UI.ViewModel.Detail
 {
     public class AreaDetailViewModel : DetailViewModelBase<IAreaService, AreaDto>, IDetailViewModel, INotifyPropertyChanged
     {
-        public AreaDetailViewModel()
+        public AreaDetailViewModel(IAreaService areaService) : base(areaService)
         {
             AreaDto areaDto = new();
             Area = new(areaDto);
@@ -17,10 +17,10 @@ namespace DbConfigurator.UI.ViewModel.Detail
             ViewWidth = 560;
             ViewHeight = 340;
         }
-        public AreaDetailViewModel(AreaDto areaDto)
-        {
-            Area = new(areaDto);
-        }
+        //public AreaDetailViewModel(AreaDto areaDto)
+        //{
+        //    Area = new(areaDto);
+        //}
 
         public AreaDtoWrapper Area { get; set; }
     }

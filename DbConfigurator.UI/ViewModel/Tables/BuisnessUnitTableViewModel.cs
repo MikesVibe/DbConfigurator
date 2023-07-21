@@ -6,16 +6,23 @@ using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
+using System;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper, BuisnessUnitDto, IBuisnessUnitService>, ITableViewModel
     {
+        private readonly Func<BuisnessUnitDetailViewModel> _buisnessUnitDetailViewModelCreator;
 
-        public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IWindowService dialogService, IBuisnessUnitService dataService, AutoMapperConfig autoMapper)
+        public BuisnessUnitTableViewModel(IEventAggregator eventAggregator,
+            IWindowService dialogService,
+            IBuisnessUnitService dataService,
+            AutoMapperConfig autoMapper,
+            Func<BuisnessUnitDetailViewModel> buisnessUnitDetailViewModelCreator)
             : base(eventAggregator, dialogService, dataService)
         {
+            _buisnessUnitDetailViewModelCreator = buisnessUnitDetailViewModelCreator;
         }
 
         public override async Task LoadAsync()
@@ -29,7 +36,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override void OnAddExecute()
         {
-            var addbuisnessUnitViewModel = new BuisnessUnitDetailViewModel();
+            var addbuisnessUnitViewModel = _buisnessUnitDetailViewModelCreator();
 
             bool? result = DialogService.ShowDialog(addbuisnessUnitViewModel);
 
@@ -42,7 +49,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected override void OnEditExecute()
         {
-            var buisnessUnitDetailViewModel = new BuisnessUnitDetailViewModel();
+            var buisnessUnitDetailViewModel = _buisnessUnitDetailViewModelCreator();
             buisnessUnitDetailViewModel.BuisnessUnit = new BuisnessUnitDtoWrapper(SelectedItem!.Model);
 
             bool? result = DialogService.ShowDialog(buisnessUnitDetailViewModel);

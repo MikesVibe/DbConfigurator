@@ -5,18 +5,22 @@ using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
+using System;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper, AreaDto, IAreaService>, ITableViewModel
     {
+        private readonly Func<AreaDetailViewModel> _areaDetailViewModelCreator;
         public AreaTableViewModel(
             IEventAggregator eventAggregator,
             IWindowService dialogService,
-            IAreaService dataService)
+            IAreaService dataService, 
+            Func<AreaDetailViewModel> areaDetailViewModelCreator)
             : base(eventAggregator, dialogService, dataService)
         {
+            _areaDetailViewModelCreator = areaDetailViewModelCreator;
         }
 
         public override async Task LoadAsync()
@@ -30,7 +34,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected async override void OnAddExecute()
         {
-            var addAreaViewModel = new AreaDetailViewModel();
+            var addAreaViewModel = _areaDetailViewModelCreator();
 
             bool? result = DialogService.ShowDialog(addAreaViewModel);
 
@@ -43,7 +47,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         }
         protected async override void OnEditExecute()
         {
-            var addAreaViewModel = new AreaDetailViewModel();
+            var addAreaViewModel = _areaDetailViewModelCreator();
             addAreaViewModel.Area = new AreaDtoWrapper(SelectedItem!.Model);
 
             bool? result = DialogService.ShowDialog(addAreaViewModel);

@@ -8,7 +8,7 @@ namespace DbConfigurator.UI.ViewModel.Detail
 {
     public class CountryDetailViewModel : DetailViewModelBase<ICountryService, CountryDto>, IDetailViewModel, INotifyPropertyChanged
     {
-        public CountryDetailViewModel()
+        public CountryDetailViewModel(ICountryService countryService) : base(countryService)
         {
             CountryDto country = new();
             Country = new(country);
