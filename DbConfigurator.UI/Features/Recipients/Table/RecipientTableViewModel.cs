@@ -1,10 +1,14 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Wrapper;
+using DbConfigurator.UI.Event;
+using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Recipients
@@ -20,8 +24,32 @@ namespace DbConfigurator.UI.Features.Recipients
             Func<RecipientDetailViewModel> addRecipientViewModelCreator
             ) : base(eventAggregator, dialogService, dataService, addRecipientViewModelCreator)
         {
+            EventAggregator.GetEvent<CreateRecipientEvent>()
+                .Subscribe(OnCreateExecute);
+            EventAggregator.GetEvent<EditRecipientEvent>()
+                .Subscribe(OnEditExecute);
         }
 
+
+        private void OnCreateExecute(CreateRecipientEventArgs obj)
+        {
+            var wrapped = new RecipientDtoWrapper(obj.Recipient);
+            Items.Add(wrapped);
+        }
+        private void OnEditExecute(EditRecipientEventArgs obj)
+        {
+            var recipient = Items.Where(a => a.Id == obj.Recipient.Id).FirstOrDefault();
+            if (recipient is null)
+            {
+                RefreshItemsList();
+                return;
+            }
+
+            var recipientDto = obj.Recipient;
+            recipient.FirstName = recipientDto.FirstName;
+            recipient.LastName = recipientDto.LastName;
+            recipient.Email = recipientDto.Email;
+        }
 
         public override async Task LoadAsync()
         {
@@ -33,53 +61,5 @@ namespace DbConfigurator.UI.Features.Recipients
                 Items.Add(wrapper);
             }
         }
-        //protected async override void OnAddExecute()
-        //{
-        //    var recipientViewModel = _addRecipientViewModelCreator();
-        //    bool? result = DialogService.ShowDialog(recipientViewModel);
-        //    if (result == false)
-        //        return;
-
-        //    var recipientDto = recipientViewModel.Recipient;
-        //    //Create New Recipient
-        //    var recipientEntity = new Recipient()
-        //    {
-        //        FirstName = recipientDto.FirstName,
-        //        LastName = recipientDto.LastName,
-        //        Email = recipientDto.Email
-        //    };
-
-        //    await _dataService.AddAsync(recipientEntity);
-        //    await _dataService.SaveChangesAsync();
-
-        //    var mapped = _autoMapper.Mapper.Map<RecipientDto>(recipientEntity);
-        //    var wrapped = new RecipientDtoWrapper(mapped);
-
-        //    Items.Add(wrapped);
-        //    SelectedItem = wrapped;
-        //}
-
-        //protected override async void OnEditExecute()
-        //{
-        //    var recipientWrapper = _autoMapper.Mapper.Map<RecipientDtoWrapper>(SelectedItem!.Model);
-        //    var recipientViewModel = _addRecipientViewModelCreator();
-        //    recipientViewModel.Recipient = recipientWrapper;
-        //    bool? result = DialogService.ShowDialog(recipientViewModel);
-        //    if (result == false)
-        //        return;
-
-        //    var recipient = recipientViewModel.Recipient;
-
-        //    var recipientEntity = await _dataService.GetRecipientByIdAsync(SelectedItem!.Id);
-        //    if (recipientEntity is null)
-        //    {
-        //        //Log some error
-        //        return;
-        //    }
-        //    _autoMapper.Mapper.Map(recipient.Model, recipientEntity);
-
-        //    _dataService.SaveChanges();
-        //    SelectedItem.FirstName = recipient.FirstName;
-        //}
     }
 }

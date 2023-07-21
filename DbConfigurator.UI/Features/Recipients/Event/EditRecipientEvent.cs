@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Areas.Event
 {
-    public class EditRecipientEventArgs : PubSubEvent<EditRecipientEventArgsArgs>
+    public class EditRecipientEvent : PubSubEvent<EditRecipientEventArgs>
     {
     }
-    public class EditRecipientEventArgsArgs
+    public class EditRecipientEventArgs
     {
         public RecipientDto Recipient { get; set; } = default!;
     }

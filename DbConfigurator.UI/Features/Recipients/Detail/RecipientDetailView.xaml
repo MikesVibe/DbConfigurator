@@ -14,15 +14,15 @@
         <StackPanel Orientation="Vertical" Width="300" Margin="20" VerticalAlignment="Center">
             <StackPanel Orientation="Vertical">
                 <Label Content="First Name:" />
-                <TextBox FontSize="14" Text="{Binding Recipient.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox FontSize="14" Text="{Binding EntityDto.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Vertical">
                 <Label Content="Last Name:" />
-                <TextBox FontSize="14" Text="{Binding Recipient.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox FontSize="14" Text="{Binding EntityDto.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Orientation="Vertical">
                 <Label Content="Email:" />
-                <TextBox FontSize="14" Text="{Binding Recipient.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
+                <TextBox FontSize="14" Text="{Binding EntityDto.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
             </StackPanel>
         </StackPanel>
 

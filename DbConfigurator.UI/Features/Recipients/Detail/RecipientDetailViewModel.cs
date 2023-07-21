@@ -1,5 +1,7 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Wrapper;
+using DbConfigurator.UI.Event;
+using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
@@ -17,12 +19,40 @@ namespace DbConfigurator.UI.Features.Recipients
 
         protected override void OnCreate()
         {
-            throw new System.NotImplementedException();
+            if (EntityDto is null)
+                return;
+
+            EventAggregator.GetEvent<CreateRecipientEvent>()
+                  .Publish(
+                new CreateRecipientEventArgs
+                {
+                    Recipient = new RecipientDto
+                    {
+                        Id = EntityDto.Id,
+                        FirstName = EntityDto.FirstName,
+                        LastName = EntityDto.LastName,
+                        Email= EntityDto.Email
+                    }
+                });
         }
 
         protected override void OnUpdate()
         {
-            throw new System.NotImplementedException();
+            if (EntityDto is null)
+                return;
+
+            EventAggregator.GetEvent<EditRecipientEvent>()
+                  .Publish(
+                new EditRecipientEventArgs
+                {
+                    Recipient = new RecipientDto
+                    {
+                        Id = EntityDto.Id,
+                        FirstName = EntityDto.FirstName,
+                        LastName = EntityDto.LastName,
+                        Email = EntityDto.Email
+                    }
+                });
         }
     }
 }
