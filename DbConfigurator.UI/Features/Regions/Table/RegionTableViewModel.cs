@@ -30,22 +30,5 @@ namespace DbConfigurator.UI.Features.Regions
             EventAggregator.GetEvent<EditRegionEvent>()
                 .Subscribe(OnEditExecute);
         }
-
-
-        private void OnCreateExecute(CreateRegionEventArgs obj)
-        {
-            var wrapped = new RegionDtoWrapper(obj.Entity);
-            Items.Add(wrapped);
-        }
-
-        public override async Task LoadAsync()
-        {
-            var regions = await DataService.GetAllAsync();
-            foreach (var region in regions)
-            {
-                var wrapped = new RegionDtoWrapper(region);
-                Items.Add(wrapped);
-            }
-        }
     }
 }

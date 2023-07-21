@@ -28,22 +28,5 @@ namespace DbConfigurator.UI.Features.BuisnessUnits
             EventAggregator.GetEvent<EditBuisnessUnitEvent>()
                 .Subscribe(OnEditExecute);
         }
-
-
-        private void OnCreateExecute(CreateBuisnessUnitEventArgs obj)
-        {
-            var wrapped = new BuisnessUnitDtoWrapper(obj.Entity);
-            Items.Add(wrapped);
-        }
-
-        public override async Task LoadAsync()
-        {
-            var buisnessUnits = await DataService.GetAllAsync();
-            foreach (var buisnessUnit in buisnessUnits)
-            {
-                var wrapped = new BuisnessUnitDtoWrapper(buisnessUnit);
-                Items.Add(wrapped);
-            }
-        }
     }
 }

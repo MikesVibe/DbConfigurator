@@ -26,26 +26,9 @@ namespace DbConfigurator.UI.Features.Areas
             : base(eventAggregator, dialogService, dataService, areaDetailViewModelCreator, autoMapper)
         {
             EventAggregator.GetEvent<CreateAreaEvent>()
-                .Subscribe(OnCreateAreaExecute);
+                .Subscribe(OnCreateExecute);
             EventAggregator.GetEvent<EditAreaEvent>()
                 .Subscribe(OnEditExecute);
-        }
-
-
-        public override async Task LoadAsync()
-        {
-            var areas = await DataService.GetAllAsync();
-            foreach (var area in areas)
-            {
-                var wrapped = new AreaDtoWrapper(area);
-                Items.Add(wrapped);
-            }
-        }
-
-        private void OnCreateAreaExecute(CreateAreaEventArgs obj)
-        {
-            var wrapped = new AreaDtoWrapper(obj.Entity);
-            Items.Add(wrapped);
         }
     }
 }

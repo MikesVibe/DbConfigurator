@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
@@ -27,27 +28,11 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         {
             _dataService = dataService;
             _autoMapper = autoMapper;
+
             EventAggregator.GetEvent<CreateDistributionInformationEvent>()
                 .Subscribe(OnCreateExecute);
             EventAggregator.GetEvent<EditDistributionInformationEvent>()
                 .Subscribe(OnEditExecute);
-        }
-
-        private void OnCreateExecute(CreateDistributionInformationEventArgs obj)
-        {
-            var wrapped = new DistributionInformationDtoWrapper(obj.Entity);
-            Items.Add(wrapped);
-        }
-
-        public async override Task LoadAsync()
-        {
-            var distributionInformations = await _dataService.GetAllAsync();
-
-            foreach (var distributionInformation in distributionInformations)
-            {
-                var wrapped = new DistributionInformationDtoWrapper(distributionInformation);
-                Items.Add(wrapped);
-            }
         }
     }
 }

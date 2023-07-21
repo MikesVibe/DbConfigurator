@@ -29,23 +29,5 @@ namespace DbConfigurator.UI.Features.Recipients
             EventAggregator.GetEvent<EditRecipientEvent>()
                 .Subscribe(OnEditExecute);
         }
-
-
-        private void OnCreateExecute(CreateRecipientEventArgs obj)
-        {
-            var wrapped = new RecipientDtoWrapper(obj.Entity);
-            Items.Add(wrapped);
-        }
-
-        public override async Task LoadAsync()
-        {
-            var recipients = await DataService.GetAllAsync();
-
-            foreach (var recipient in recipients)
-            {
-                var wrapper = new RecipientDtoWrapper(recipient);
-                Items.Add(wrapper);
-            }
-        }
     }
 }

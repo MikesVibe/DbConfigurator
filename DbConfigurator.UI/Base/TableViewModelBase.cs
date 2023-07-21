@@ -1,6 +1,9 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Contracts;
+using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
@@ -17,7 +20,7 @@ namespace DbConfigurator.UI.ViewModel.Base
 {
     public abstract class TableViewModelBase<TWrapper, TDto, TDataService> : NotifyBase, ITableViewModel
         where TWrapper : IWrapperWithId
-        where TDto : IEntityDto
+        where TDto : class, IEntityDto
         where TDataService : IGenericDataService<TDto>
     {
         protected readonly IWindowService WindowService;
@@ -74,7 +77,22 @@ namespace DbConfigurator.UI.ViewModel.Base
         public ObservableCollection<TWrapper> Items { get; set; } = new();
         public TWrapper? SelectedItem { get; set; }
 
-        public abstract Task LoadAsync();
+        public async virtual Task LoadAsync()
+        {
+            var distributionInformations = await DataService.GetAllAsync();
+
+            foreach (var distributionInformation in distributionInformations)
+            {
+                if (distributionInformation is null)
+                    continue;
+
+                var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), distributionInformation);
+                if (wrapped is null)
+                    continue;
+
+                Items.Add(wrapped);
+            }
+        }
 
         protected async virtual void OnAddExecute()
         {
@@ -123,6 +141,14 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected void RefreshItemsList()
         {
             throw new NotImplementedException();
+        }
+        protected void OnCreateExecute(IEventArgs<TDto> obj)
+        {
+            var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), obj.Entity);
+            if (wrapped is null)
+                return;
+
+            Items.Add(wrapped);
         }
         protected void OnEditExecute(IEventArgs<TDto> obj)
         {

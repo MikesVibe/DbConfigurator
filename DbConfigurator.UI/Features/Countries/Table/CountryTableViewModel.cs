@@ -30,23 +30,5 @@ namespace DbConfigurator.UI.Features.Countries
             EventAggregator.GetEvent<EditCountryEvent>()
                 .Subscribe(OnEditExecute);
         }
-
-
-        private void OnCreateExecute(CreateCountryEventArgs obj)
-        {
-            var wrapped = new CountryDtoWrapper(obj.Entity);
-            Items.Add(wrapped);
-        }
-
-
-        public override async Task LoadAsync()
-        {
-            var countries = await DataService.GetAllAsync();
-            foreach (var country in countries)
-            {
-                var wrapped = new CountryDtoWrapper(country);
-                Items.Add(wrapped);
-            }
-        }
     }
 }
