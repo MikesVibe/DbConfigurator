@@ -4,6 +4,7 @@ using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
+using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,20 +14,15 @@ namespace DbConfigurator.UI.Features.Regions
 {
     public class RegionDetailViewModel : DetailViewModelBase<IRegionService, RegionDto>
     {
-        private readonly AutoMapperConfig _autoMapper;
         private AreaDto? _selectedArea;
         private BuisnessUnitDto? _selectedBuisnessUnit;
         private CountryDto? _selectedCountry;
 
         public RegionDetailViewModel(
             IRegionService dataService,
-            AutoMapperConfig autoMapper
-            ) : base(dataService)
+            IEventAggregator eventAggregator
+            ) : base(dataService, eventAggregator)
         {
-            _autoMapper = autoMapper;
-            var region = new RegionDto();
-            Region = new RegionDtoWrapper(region);
-
             SelectedAreaChanged = new DelegateCommand(OnSelectedAreaChanged);
             SelectedBuisnessUnitChanged = new DelegateCommand(OnSelectedBuisnessUnitChanged);
             SelectedCountryChanged = new DelegateCommand(OnSelectedCountryChanged);
@@ -75,19 +71,19 @@ namespace DbConfigurator.UI.Features.Regions
 
         public async Task LoadAsync()
         {
-            var areas = await _dataService.GetAllAreasAsync();
+            var areas = await DataService.GetAllAreasAsync();
             foreach (var area in areas)
             {
                 Areas_ObservableCollection.Add(area);
             }
 
-            var buisnessUnits = await _dataService.GetAllBuisnessUnitsAsync();
+            var buisnessUnits = await DataService.GetAllBuisnessUnitsAsync();
             foreach (var buisnessUnit in buisnessUnits)
             {
                 BuisnessUnits_ObservableCollection.Add(buisnessUnit);
             }
 
-            var countries = await _dataService.GetAllCountriesAsync();
+            var countries = await DataService.GetAllCountriesAsync();
             foreach (var country in countries)
             {
                 Countries_ObservableCollection.Add(country);
@@ -104,7 +100,7 @@ namespace DbConfigurator.UI.Features.Regions
             }
 
         }
-        protected override bool OnAddCanExecute()
+        protected override bool OnSaveCanExecute()
         {
             return
                 Region is not null &&
@@ -132,6 +128,16 @@ namespace DbConfigurator.UI.Features.Regions
                 return;
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+        }
+
+        protected override void OnCreate()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void OnUpdate()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -113,5 +113,10 @@ namespace DbConfigurator.UI.ViewModel.Base
             ((DelegateCommand)RemoveCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)EditCommand).RaiseCanExecuteChanged();
         }
+
+        protected void RefreshItemsList()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

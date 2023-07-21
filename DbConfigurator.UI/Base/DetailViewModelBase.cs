@@ -1,6 +1,8 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.UI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -14,16 +16,17 @@ namespace DbConfigurator.UI.ViewModel.Base
     {
         protected enum ModelAction { Create = 0, Update = 1 }
 
-        protected readonly TDataService _dataService;
+        protected readonly TDataService DataService;
+        protected readonly IEventAggregator EventAggregator;
 
-        public DetailViewModelBase(TDataService dataService)
+        public DetailViewModelBase(TDataService dataService, IEventAggregator eventAggregator)
         {
-            _dataService = dataService;
-
+            DataService = dataService;
+            EventAggregator = eventAggregator;
             Title = "EditingWindow";
             ViewWidth = 1000;
             ViewHeight = 500;
-            SaveCommand = new DelegateCommand(OnAddExecute, OnAddCanExecute);
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             CancelCommand = new DelegateCommand(Cancel);
         }
         protected ModelAction Action { get; set; } = ModelAction.Update;
@@ -36,12 +39,12 @@ namespace DbConfigurator.UI.ViewModel.Base
         public int ViewWidth { get; set; }
         public int ViewHeight { get; set; }
         public string Title { get; set; }
-        public TEntityDto? EntityDto;
+        public TEntityDto? EntityDto { get; set; }
 
         public virtual async Task LoadAsync(int entityId)
         {
             EntityDto = (entityId > 0) ?
-                    await _dataService.GetByIdAsync(entityId) :
+                    await DataService.GetByIdAsync(entityId) :
                     CreateNew();
         }
 
@@ -51,26 +54,35 @@ namespace DbConfigurator.UI.ViewModel.Base
             return new TEntityDto();
         }
 
-        protected virtual void OnAddExecute()
+        private void OnSaveExecute()
         {
-            if (Action == ModelAction.Update)
+            if (Action == ModelAction.Create)
             {
-                _dataService.UpdateAsync(EntityDto!);
+                DataService.AddAsync(EntityDto!);
+                OnCreate();
             }
-            else if (Action == ModelAction.Create)
+            else if (Action == ModelAction.Update)
             {
-                _dataService.AddAsync(EntityDto!);
+                DataService.UpdateAsync(EntityDto!);
+                OnUpdate();
             }
             else
             {
                 return;
             }
+            WasCancelled = false;
             CloseAction?.Invoke(true);
         }
-        protected virtual bool OnAddCanExecute()
+
+
+        protected virtual bool OnSaveCanExecute()
         {
             return EntityDto is not null;
         }
+
+        protected abstract void OnCreate();
+        protected abstract void OnUpdate();
+
         protected virtual void Cancel()
         {
             WasCancelled = true;

@@ -24,7 +24,7 @@
         <DataTemplate DataType="{x:Type Country:CountryDetailViewModel}">
             <detailView:CountryDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type DI:DistibutionInformationDetailViewModel}">
+        <DataTemplate DataType="{x:Type DI:DistributionInformationDetailViewModel}">
             <detailView:DistributionInformationDetailView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type Recipient:RecipientDetailViewModel}">

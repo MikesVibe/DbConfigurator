@@ -17,7 +17,7 @@
         <StackPanel Grid.Row="1" Margin="10" Width="340">
             <Label Content="Area Name:" FontSize="20"/>
             <TextBox x:Name="areaTextBox" FontSize="20"
-                      Text="{Binding Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
+                      Text="{Binding EntityDto.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal"  HorizontalAlignment="Center" >

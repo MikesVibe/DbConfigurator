@@ -3,31 +3,28 @@ using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Base;
+using Prism.Events;
 using System.ComponentModel;
 
 namespace DbConfigurator.UI.Features.BuisnessUnits
 {
     public class BuisnessUnitDetailViewModel : DetailViewModelBase<IBuisnessUnitService, BuisnessUnitDto>, IDetailViewModel, INotifyPropertyChanged
     {
-        public BuisnessUnitDetailViewModel(IBuisnessUnitService buisnessUnitService) : base(buisnessUnitService)
+        public BuisnessUnitDetailViewModel(IBuisnessUnitService buisnessUnitService, IEventAggregator eventAggregator) : base(buisnessUnitService, eventAggregator)
         {
-            BuisnessUnitDto buisnessUnit = new();
-            BuisnessUnit = new(buisnessUnit);
-            BuisnessUnit.Name = "";
             Title = "BuisnessUnit";
             ViewWidth = 560;
             ViewHeight = 340;
         }
-        //public BuisnessUnitDetailViewModel(BuisnessUnitDto buisnessUnitDto)
-        //{
-        //    BuisnessUnit = new(buisnessUnitDto);
-        //}
 
-        protected override bool OnAddCanExecute()
+        protected override void OnCreate()
         {
-            return true;
+            throw new System.NotImplementedException();
         }
 
-        public BuisnessUnitDtoWrapper BuisnessUnit { get; set; }
+        protected override void OnUpdate()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
