@@ -19,7 +19,7 @@
                 <Label Content="Area:" />
                 <ComboBox Name="AreaComboBox" 
                               ItemsSource="{Binding Areas_ObservableCollection}"
-                              SelectedItem="{Binding Region.Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding EntityDto.Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
@@ -32,7 +32,7 @@
                 <Label Content="Buisness Unit:" />
                 <ComboBox Name="CountryClusterComboBox"
                               ItemsSource="{Binding BuisnessUnits_ObservableCollection}"
-                              SelectedItem="{Binding Region.BuisnessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding EntityDto.BuisnessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
@@ -45,7 +45,7 @@
                 <Label Content="Country:" />
                 <ComboBox Name="CountryComboBox"
                               ItemsSource="{Binding Countries_ObservableCollection }"
-                              SelectedItem="{Binding Region.Country, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding EntityDto.Country, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="CountryName" SelectedValuePath="Id">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">

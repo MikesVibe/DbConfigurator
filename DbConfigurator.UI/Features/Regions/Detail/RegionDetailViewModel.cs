@@ -69,10 +69,11 @@ namespace DbConfigurator.UI.Features.Regions
                 OnPropertyChanged();
             }
         }
-        public RegionDtoWrapper? Region { get; set; }
 
-        public async Task LoadAsync()
+        public override async Task LoadAsync(int entityId)
         {
+            await base.LoadAsync(entityId);
+
             var areas = await DataService.GetAllAreasAsync();
             foreach (var area in areas)
             {
@@ -91,42 +92,41 @@ namespace DbConfigurator.UI.Features.Regions
                 Countries_ObservableCollection.Add(country);
             }
 
-            if (Region is not null)
+            if (EntityDto is not null)
             {
-                if (Region.Area is not null)
-                    Region.Area = Areas_ObservableCollection.Where(c => c.Id == Region.Area.Id).FirstOrDefault() ?? Region.Area;
-                if (Region.BuisnessUnit is not null)
-                    Region.BuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == Region.BuisnessUnit.Id).FirstOrDefault() ?? Region.BuisnessUnit;
-                if (Region.Country is not null)
-                    Region.Country = Countries_ObservableCollection?.Where(c => c.Id == Region.Country.Id).FirstOrDefault() ?? Region.Country;
+                if (EntityDto.Area is not null)
+                    EntityDto.Area = Areas_ObservableCollection.Where(c => c.Id == EntityDto.Area.Id).FirstOrDefault() ?? EntityDto.Area;
+                if (EntityDto.BuisnessUnit is not null)
+                    EntityDto.BuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == EntityDto.BuisnessUnit.Id).FirstOrDefault() ?? EntityDto.BuisnessUnit;
+                if (EntityDto.Country is not null)
+                    EntityDto.Country = Countries_ObservableCollection?.Where(c => c.Id == EntityDto.Country.Id).FirstOrDefault() ?? EntityDto.Country;
             }
-
         }
         protected override bool OnSaveCanExecute()
         {
             return
-                Region is not null &&
-                Region.Area is not null &&
-                Region.BuisnessUnit is not null &&
-                Region.Country is not null;
+                EntityDto is not null &&
+                EntityDto.Area is not null &&
+                EntityDto.BuisnessUnit is not null &&
+                EntityDto.Country is not null;
         }
         private void OnSelectedCountryChanged()
         {
-            if (Region == null)
+            if (EntityDto == null)
                 return;
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
         private void OnSelectedBuisnessUnitChanged()
         {
-            if (Region == null)
+            if (EntityDto == null)
                 return;
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
         private void OnSelectedAreaChanged()
         {
-            if (Region == null)
+            if (EntityDto == null)
                 return;
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();

@@ -18,12 +18,12 @@
         <StackPanel Grid.Row="1" Margin="10" Width="340">
             <Label Content="Country Name:" FontSize="20"/>
             <TextBox x:Name="countryNameTextBox" FontSize="20" 
-                     Text="{Binding Country.CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
+                     Text="{Binding EntityDto.CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Margin="10" Width="340">
             <Label Content="Country Code:" FontSize="20"/>
             <TextBox x:Name="countryCodeTextBox" FontSize="20"
-                     Text="{Binding Country.CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
+                     Text="{Binding EntityDto.CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal"  HorizontalAlignment="Center" >
