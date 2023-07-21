@@ -1,5 +1,7 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.UI.Event;
+using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
@@ -132,12 +134,40 @@ namespace DbConfigurator.UI.Features.Regions
 
         protected override void OnCreate()
         {
-            throw new System.NotImplementedException();
+            if (EntityDto is null)
+                return;
+
+            EventAggregator.GetEvent<CreateRegionEvent>()
+                  .Publish(
+                new CreateRegionEventArgs
+                {
+                    Region = new RegionDto
+                    {
+                        Id = EntityDto.Id,
+                        Area = EntityDto.Area,
+                        BuisnessUnit = EntityDto.BuisnessUnit,
+                        Country = EntityDto.Country
+                    }
+                });
         }
 
         protected override void OnUpdate()
         {
-            throw new System.NotImplementedException();
+            if (EntityDto is null)
+                return;
+
+            EventAggregator.GetEvent<EditRegionEvent>()
+                  .Publish(
+                new EditRegionEventArgs
+                {
+                    Region = new RegionDto
+                    {
+                        Id = EntityDto.Id,
+                        Area = EntityDto.Area,
+                        BuisnessUnit = EntityDto.BuisnessUnit,
+                        Country = EntityDto.Country
+                    }
+                });
         }
     }
 }
