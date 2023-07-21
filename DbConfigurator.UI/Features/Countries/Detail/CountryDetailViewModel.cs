@@ -1,5 +1,7 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.UI.Event;
+using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Base;
@@ -19,12 +21,38 @@ namespace DbConfigurator.UI.Features.Countries
 
         protected override void OnCreate()
         {
-            throw new System.NotImplementedException();
+            if (EntityDto is null)
+                return;
+
+            EventAggregator.GetEvent<CreateCountryEvent>()
+                  .Publish(
+                new CreateCountryEventArgs
+                {
+                    Country = new CountryDto
+                    {
+                        Id = EntityDto.Id,
+                        CountryName = EntityDto.CountryName,
+                        CountryCode = EntityDto.CountryCode
+                    }
+                });
         }
 
         protected override void OnUpdate()
         {
-            throw new System.NotImplementedException();
+            if (EntityDto is null)
+                return;
+
+            EventAggregator.GetEvent<EditCountryEvent>()
+                  .Publish(
+                new EditCountryEventArgs
+                {
+                    Country = new CountryDto
+                    {
+                        Id = EntityDto.Id,
+                        CountryName = EntityDto.CountryName,
+                        CountryCode = EntityDto.CountryCode
+                    }
+                });
         }
     }
 }

@@ -1,11 +1,15 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.Model.Entities.Wrapper;
+using DbConfigurator.UI.Event;
+using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Countries
@@ -20,6 +24,30 @@ namespace DbConfigurator.UI.Features.Countries
             Func<CountryDetailViewModel> countryDetailViewModelCreator)
             : base(eventAggregator, dialogService, dataService, countryDetailViewModelCreator)
         {
+            EventAggregator.GetEvent<CreateCountryEvent>()
+                .Subscribe(OnCreateExecute);
+            EventAggregator.GetEvent<EditCountryEvent>()
+                .Subscribe(OnEditExecute);
+        }
+
+
+        private void OnCreateExecute(CreateCountryEventArgs obj)
+        {
+            var wrapped = new CountryDtoWrapper(obj.Country);
+            Items.Add(wrapped);
+        }
+        private void OnEditExecute(EditCountryEventArgs obj)
+        {
+            var country = Items.Where(a => a.Id == obj.Country.Id).FirstOrDefault();
+            if (country is null)
+            {
+                RefreshItemsList();
+                return;
+            }
+
+            var countryDto = obj.Country;
+            country.CountryName = countryDto.CountryName;
+            country.CountryCode = countryDto.CountryCode;
         }
 
         public override async Task LoadAsync()
@@ -31,31 +59,5 @@ namespace DbConfigurator.UI.Features.Countries
                 Items.Add(wrapped);
             }
         }
-        //protected override void OnAddExecute()
-        //{
-        //    var detailsViewModel = _countryDetailViewModelCreator();
-
-        //    bool? result = WindowService.ShowWindow(detailsViewModel);
-        //    if (result == false)
-        //        return;
-
-        //    var dto = DataService.Add(detailsViewModel.Country.Model);
-        //    var wrapped = new CountryDtoWrapper(dto);
-        //    Items.Add(wrapped);
-        //}
-        //protected override void OnEditExecute()
-        //{
-        //    var detailViewModel = _countryDetailViewModelCreator();
-        //    detailViewModel.Country = new CountryDtoWrapper(SelectedItem!.Model);
-
-        //    bool? result = WindowService.ShowWindow(detailViewModel);
-        //    if (result == false)
-        //        return;
-
-        //    var status = DataService.Update(SelectedItem!.Model);
-
-        //    SelectedItem.CountryName = SelectedItem!.Model.CountryName;
-        //    SelectedItem.CountryCode = SelectedItem!.Model.CountryCode;
-        //}
     }
 }
