@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
@@ -16,18 +17,24 @@ namespace DbConfigurator.UI.ViewModel.Base
         where TDto : IEntityDto
         where TDataService : IGenericDataService<TDto>
     {
-        protected readonly IWindowService DialogService;
+        protected readonly IWindowService WindowService;
         protected readonly IEventAggregator EventAggregator;
         protected readonly TDataService DataService;
+        protected readonly Func<IDetailViewModel> DetailViewModelCreator;
 
         private int _id;
         private bool _hasChanges;
 
-        public TableViewModelBase(IEventAggregator eventAggregator, IWindowService dialogService, TDataService dataService)
+        public TableViewModelBase(IEventAggregator eventAggregator,
+            IWindowService dialogService,
+            TDataService dataService,
+            Func<IDetailViewModel> detailViewModel
+            )
         {
             EventAggregator = eventAggregator;
-            DialogService = dialogService;
+            WindowService = dialogService;
             DataService = dataService;
+            DetailViewModelCreator = detailViewModel;
 
             AddCommand = new DelegateCommand(OnAddExecute);
             EditCommand = new DelegateCommand(OnEditExecute, OnEditCanExecute);
@@ -64,8 +71,18 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         public abstract Task LoadAsync();
 
-        protected abstract void OnAddExecute();
-        protected abstract void OnEditExecute();
+        protected async virtual void OnAddExecute()
+        {
+            var detailViewModel = DetailViewModelCreator();
+            await detailViewModel.LoadAsync(-1);
+            WindowService.ShowWindow(detailViewModel);
+        }
+        protected async virtual void OnEditExecute()
+        {
+            var detailViewModel = DetailViewModelCreator();
+            await detailViewModel.LoadAsync(SelectedItem!.Id);
+            WindowService.ShowWindow(detailViewModel);
+        }
         protected virtual bool OnEditCanExecute()
         {
             return SelectedItem is not null;

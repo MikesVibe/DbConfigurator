@@ -13,17 +13,15 @@ namespace DbConfigurator.UI.ViewModel.Tables
     public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper, DistributionInformationDto, IDistributionInformationService>
     {
         private readonly IDistributionInformationService _dataService;
-        private readonly Func<DistibutionInformationDetailViewModel> _detailViewModelCreator;
 
         public DistributionInformationTableViewModel(IWindowService dialogService,
             IEventAggregator eventAggregator,
             IDistributionInformationService dataService,
-            Func<DistibutionInformationDetailViewModel> addDistributionInformationCreator,
+            Func<DistibutionInformationDetailViewModel> DistributionInformationDetailVmCreator,
             AutoMapperConfig autoMapper
-            ) : base(eventAggregator, dialogService, dataService)
+            ) : base(eventAggregator, dialogService, dataService, DistributionInformationDetailVmCreator)
         {
             _dataService = dataService;
-            _detailViewModelCreator = addDistributionInformationCreator;
         }
 
         public async override Task LoadAsync()
@@ -37,37 +35,34 @@ namespace DbConfigurator.UI.ViewModel.Tables
             }
         }
 
-        protected override async void OnAddExecute()
-        {
-            var detailViewModel = _detailViewModelCreator();
-            await detailViewModel.LoadAsync(-1);
-            DialogService.ShowDialog(detailViewModel);
-   
-
-            //Mapping DistributionInformationDto to new DistributionInformation entity
-            var distributionInformationDto = detailViewModel.DistributionInformation;
+        //protected override async void OnAddExecute()
+        //{
+        //    var detailViewModel = _detailViewModelCreator();
+        //    await detailViewModel.LoadAsync(-1);
+        //    WindowService.ShowWindow(detailViewModel);
 
 
-            var wrapped = new DistributionInformationDtoWrapper(distributionInformationDto);
-            Items.Add(wrapped);
-        }
 
-        protected override async void OnEditExecute()
-        {
-            var distributionInformationViewModel = _detailViewModelCreator();
 
-            await distributionInformationViewModel.LoadAsync(SelectedItem!.Id);
+        //    var wrapped = new DistributionInformationDtoWrapper(detailViewModel.EntityDto!);
+        //    Items.Add(wrapped);
+        //}
 
-            bool? result = DialogService.ShowDialog(distributionInformationViewModel);
-            if (result == false)
-                return;
+        //protected override async void OnEditExecute()
+        //{
+        //    var distributionInformationViewModel = _detailViewModelCreator();
+        //    await distributionInformationViewModel.LoadAsync(SelectedItem!.Id);
+        //    WindowService.ShowWindow(distributionInformationViewModel);
 
-            var disInfoDto = distributionInformationViewModel.DistributionInformation;
+        //    if (distributionInformationViewModel.WasCancelled == true)
+        //        return;
 
-            SelectedItem.Region = disInfoDto.Region;
-            SelectedItem.Priority = disInfoDto.Priority;
-            SelectedItem.RecipientsTo = disInfoDto.RecipientsTo;
-            SelectedItem.RecipientsCc = disInfoDto.RecipientsCc;
-        }
+
+        //    var disInfoDto = distributionInformationViewModel.EntityDto;
+        //    SelectedItem.Region = disInfoDto.Region;
+        //    SelectedItem.Priority = disInfoDto.Priority;
+        //    SelectedItem.RecipientsTo = disInfoDto.RecipientsTo;
+        //    SelectedItem.RecipientsCc = disInfoDto.RecipientsCc;
+        //}
     }
 }

@@ -13,16 +13,14 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class CountryTableViewModel : TableViewModelBase<CountryDtoWrapper, CountryDto, ICountryService>, ITableViewModel
     {
-        private readonly Func<CountryDetailViewModel> _countryDetailViewModelCreator;
 
         public CountryTableViewModel(IEventAggregator eventAggregator,
             IWindowService dialogService,
             ICountryService dataService,
             AutoMapperConfig autoMapper,
             Func<CountryDetailViewModel> countryDetailViewModelCreator)
-            : base(eventAggregator, dialogService, dataService)
+            : base(eventAggregator, dialogService, dataService, countryDetailViewModelCreator)
         {
-            _countryDetailViewModelCreator = countryDetailViewModelCreator;
         }
 
         public override async Task LoadAsync()
@@ -34,31 +32,31 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 Items.Add(wrapped);
             }
         }
-        protected override void OnAddExecute()
-        {
-            var detailsViewModel = _countryDetailViewModelCreator();
+        //protected override void OnAddExecute()
+        //{
+        //    var detailsViewModel = _countryDetailViewModelCreator();
 
-            bool? result = DialogService.ShowDialog(detailsViewModel);
-            if (result == false)
-                return;
+        //    bool? result = WindowService.ShowWindow(detailsViewModel);
+        //    if (result == false)
+        //        return;
 
-            var dto = DataService.Add(detailsViewModel.Country.Model);
-            var wrapped = new CountryDtoWrapper(dto);
-            Items.Add(wrapped);
-        }
-        protected override void OnEditExecute()
-        {
-            var detailViewModel = _countryDetailViewModelCreator();
-            detailViewModel.Country = new CountryDtoWrapper(SelectedItem!.Model);
+        //    var dto = DataService.Add(detailsViewModel.Country.Model);
+        //    var wrapped = new CountryDtoWrapper(dto);
+        //    Items.Add(wrapped);
+        //}
+        //protected override void OnEditExecute()
+        //{
+        //    var detailViewModel = _countryDetailViewModelCreator();
+        //    detailViewModel.Country = new CountryDtoWrapper(SelectedItem!.Model);
 
-            bool? result = DialogService.ShowDialog(detailViewModel);
-            if (result == false)
-                return;
+        //    bool? result = WindowService.ShowWindow(detailViewModel);
+        //    if (result == false)
+        //        return;
 
-            var status = DataService.Update(SelectedItem!.Model);
+        //    var status = DataService.Update(SelectedItem!.Model);
 
-            SelectedItem.CountryName = SelectedItem!.Model.CountryName;
-            SelectedItem.CountryCode = SelectedItem!.Model.CountryCode;
-        }
+        //    SelectedItem.CountryName = SelectedItem!.Model.CountryName;
+        //    SelectedItem.CountryCode = SelectedItem!.Model.CountryCode;
+        //}
     }
 }

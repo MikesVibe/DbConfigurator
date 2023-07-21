@@ -4,6 +4,6 @@ namespace DbConfigurator.UI.Services.Interfaces
 {
     public interface IWindowService
     {
-        bool? ShowDialog(IDetailViewModel viewModel);
+        void ShowWindow(IDetailViewModel viewModel);
     }
 }

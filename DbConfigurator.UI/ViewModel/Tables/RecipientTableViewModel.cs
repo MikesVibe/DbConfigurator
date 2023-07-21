@@ -12,7 +12,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class RecipientTableViewModel : TableViewModelBase<RecipientDtoWrapper, RecipientDto, IRecipientService>
     {
-        private readonly Func<RecipientDetailViewModel> _addRecipientViewModelCreator;
 
         public RecipientTableViewModel(
             IEventAggregator eventAggregator,
@@ -20,9 +19,8 @@ namespace DbConfigurator.UI.ViewModel.Tables
             IRecipientService dataService,
             AutoMapperConfig autoMapper,
             Func<RecipientDetailViewModel> addRecipientViewModelCreator
-            ) : base(eventAggregator, dialogService, dataService)
+            ) : base(eventAggregator, dialogService, dataService, addRecipientViewModelCreator)
         {
-            _addRecipientViewModelCreator = addRecipientViewModelCreator;
         }
 
 
@@ -36,53 +34,53 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 Items.Add(wrapper);
             }
         }
-        protected async override void OnAddExecute()
-        {
-            //var recipientViewModel = _addRecipientViewModelCreator();
-            //bool? result = DialogService.ShowDialog(recipientViewModel);
-            //if (result == false)
-            //    return;
+        //protected async override void OnAddExecute()
+        //{
+        //    var recipientViewModel = _addRecipientViewModelCreator();
+        //    bool? result = DialogService.ShowDialog(recipientViewModel);
+        //    if (result == false)
+        //        return;
 
-            //var recipientDto = recipientViewModel.Recipient;
-            ////Create New Recipient
-            //var recipientEntity = new Recipient()
-            //{
-            //    FirstName = recipientDto.FirstName,
-            //    LastName = recipientDto.LastName,
-            //    Email = recipientDto.Email
-            //};
+        //    var recipientDto = recipientViewModel.Recipient;
+        //    //Create New Recipient
+        //    var recipientEntity = new Recipient()
+        //    {
+        //        FirstName = recipientDto.FirstName,
+        //        LastName = recipientDto.LastName,
+        //        Email = recipientDto.Email
+        //    };
 
-            //await _dataService.AddAsync(recipientEntity);
-            //await _dataService.SaveChangesAsync();
+        //    await _dataService.AddAsync(recipientEntity);
+        //    await _dataService.SaveChangesAsync();
 
-            //var mapped = _autoMapper.Mapper.Map<RecipientDto>(recipientEntity);
-            //var wrapped = new RecipientDtoWrapper(mapped);
+        //    var mapped = _autoMapper.Mapper.Map<RecipientDto>(recipientEntity);
+        //    var wrapped = new RecipientDtoWrapper(mapped);
 
-            //Items.Add(wrapped);
-            //SelectedItem = wrapped;
-        }
+        //    Items.Add(wrapped);
+        //    SelectedItem = wrapped;
+        //}
 
-        protected override async void OnEditExecute()
-        {
-            //var recipientWrapper = _autoMapper.Mapper.Map<RecipientDtoWrapper>(SelectedItem!.Model);
-            //var recipientViewModel = _addRecipientViewModelCreator();
-            //recipientViewModel.Recipient = recipientWrapper;
-            //bool? result = DialogService.ShowDialog(recipientViewModel);
-            //if (result == false)
-            //    return;
+        //protected override async void OnEditExecute()
+        //{
+        //    var recipientWrapper = _autoMapper.Mapper.Map<RecipientDtoWrapper>(SelectedItem!.Model);
+        //    var recipientViewModel = _addRecipientViewModelCreator();
+        //    recipientViewModel.Recipient = recipientWrapper;
+        //    bool? result = DialogService.ShowDialog(recipientViewModel);
+        //    if (result == false)
+        //        return;
 
-            //var recipient = recipientViewModel.Recipient;
+        //    var recipient = recipientViewModel.Recipient;
 
-            //var recipientEntity = await _dataService.GetRecipientByIdAsync(SelectedItem!.Id);
-            //if (recipientEntity is null)
-            //{
-            //    //Log some error
-            //    return;
-            //}
-            //_autoMapper.Mapper.Map(recipient.Model, recipientEntity);
+        //    var recipientEntity = await _dataService.GetRecipientByIdAsync(SelectedItem!.Id);
+        //    if (recipientEntity is null)
+        //    {
+        //        //Log some error
+        //        return;
+        //    }
+        //    _autoMapper.Mapper.Map(recipient.Model, recipientEntity);
 
-            //_dataService.SaveChanges();
-            //SelectedItem.FirstName = recipient.FirstName;
-        }
+        //    _dataService.SaveChanges();
+        //    SelectedItem.FirstName = recipient.FirstName;
+        //}
     }
 }

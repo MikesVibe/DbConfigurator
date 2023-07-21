@@ -13,16 +13,14 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper, BuisnessUnitDto, IBuisnessUnitService>, ITableViewModel
     {
-        private readonly Func<BuisnessUnitDetailViewModel> _buisnessUnitDetailViewModelCreator;
 
         public BuisnessUnitTableViewModel(IEventAggregator eventAggregator,
             IWindowService dialogService,
             IBuisnessUnitService dataService,
             AutoMapperConfig autoMapper,
             Func<BuisnessUnitDetailViewModel> buisnessUnitDetailViewModelCreator)
-            : base(eventAggregator, dialogService, dataService)
+            : base(eventAggregator, dialogService, dataService, buisnessUnitDetailViewModelCreator)
         {
-            _buisnessUnitDetailViewModelCreator = buisnessUnitDetailViewModelCreator;
         }
 
         public override async Task LoadAsync()
@@ -34,31 +32,26 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 Items.Add(wrapped);
             }
         }
-        protected override void OnAddExecute()
-        {
-            var addbuisnessUnitViewModel = _buisnessUnitDetailViewModelCreator();
+        //protected override void OnAddExecute()
+        //{
+        //    var buisnessUnitDetailVm = _buisnessUnitDetailViewModelCreator();
+        //    WindowService.ShowWindow(buisnessUnitDetailVm);
+        //    if (buisnessUnitDetailVm.WasCancelled == true)
+        //        return;
 
-            bool? result = DialogService.ShowDialog(addbuisnessUnitViewModel);
+        //    var wrapped = new BuisnessUnitDtoWrapper(buisnessUnitDetailVm.EntityDto!);
+        //    Items.Add(wrapped);
+        //}
+        //protected override void OnEditExecute()
+        //{
+        //    var buisnessUnitDetailViewModel = _buisnessUnitDetailViewModelCreator();
+        //    buisnessUnitDetailViewModel.BuisnessUnit = new BuisnessUnitDtoWrapper(SelectedItem!.Model);
+        //    WindowService.ShowWindow(buisnessUnitDetailViewModel);
+        //    if (buisnessUnitDetailViewModel.WasCancelled == true)
+        //        return;
 
-            if (result == false)
-                return;
 
-            var buisnessUnitDto = DataService.Add(addbuisnessUnitViewModel.BuisnessUnit.Model);
-            var wrapped = new BuisnessUnitDtoWrapper(buisnessUnitDto);
-            Items.Add(wrapped);
-        }
-        protected override void OnEditExecute()
-        {
-            var buisnessUnitDetailViewModel = _buisnessUnitDetailViewModelCreator();
-            buisnessUnitDetailViewModel.BuisnessUnit = new BuisnessUnitDtoWrapper(SelectedItem!.Model);
-
-            bool? result = DialogService.ShowDialog(buisnessUnitDetailViewModel);
-            if (result == false)
-                return;
-
-            var status = DataService.Update(SelectedItem!.Model);
-
-            SelectedItem.Name = SelectedItem!.Model.Name;
-        }
+        //    SelectedItem.Name = SelectedItem!.Model.Name;
+        //}
     }
 }

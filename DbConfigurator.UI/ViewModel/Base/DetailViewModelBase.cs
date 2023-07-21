@@ -4,13 +4,14 @@ using DbConfigurator.UI.Services.Interfaces;
 using Prism.Commands;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
     public abstract class DetailViewModelBase<TDataService, TEntityDto> : ViewModelBase, IDetailViewModel, INotifyPropertyChanged
         where TDataService : IGenericDataService<TEntityDto>
-        where TEntityDto : IEntityDto
+        where TEntityDto : IEntityDto, new()
     {
         protected enum ModelAction { Create = 0, Update = 1 }
         
@@ -32,10 +33,24 @@ namespace DbConfigurator.UI.ViewModel.Base
         public ICommand CancelCommand { get; }
 
         public Action<bool>? CloseAction { get; set; }
+        public bool WasCancelled { get; set; } = false;
         public int ViewWidth { get; set; }
         public int ViewHeight { get; set; }
         public string Title { get; set; }
-        protected TEntityDto? EntityDto;
+        public TEntityDto? EntityDto;
+
+        public virtual async Task LoadAsync(int entityId)
+        {
+            EntityDto = (entityId > 0) ?
+                    await _dataService.GetByIdAsync(entityId) :
+                    CreateNew();
+        }
+
+        protected virtual TEntityDto CreateNew()
+        {
+            Action = ModelAction.Create;
+            return new TEntityDto();
+        }
 
         protected virtual void OnAddExecute()
         {
@@ -59,6 +74,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         }
         protected virtual void Cancel()
         {
+            WasCancelled = true;
             CloseAction?.Invoke(false);
         }
     }

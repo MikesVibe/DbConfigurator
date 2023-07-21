@@ -16,9 +16,8 @@ namespace DbConfigurator.UI.Windows
             editingViewModel.CloseAction = new(CloseWindow);
         }
 
-        private void CloseWindow(bool dialogResult)
+        private void CloseWindow(bool obj)
         {
-            this.DialogResult = dialogResult;
             this.Close();
         }
     }

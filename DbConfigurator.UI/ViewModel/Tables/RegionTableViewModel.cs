@@ -13,7 +13,6 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class RegionTableViewModel : TableViewModelBase<RegionDtoWrapper, RegionDto, IRegionService>
     {
-        private readonly Func<RegionDetailViewModel> _addRegionCreator;
         private readonly IRegionService _regionService;
 
         public RegionTableViewModel(
@@ -22,10 +21,9 @@ namespace DbConfigurator.UI.ViewModel.Tables
             IRegionService dataService,
             AutoMapperConfig autoMapper,
             Func<RegionDetailViewModel> addRegionCreator
-            ) : base(eventAggregator, dialogService, dataService)
+            ) : base(eventAggregator, dialogService, dataService, addRegionCreator)
         {
             _regionService = dataService;
-            _addRegionCreator = addRegionCreator;
             Items = new ObservableCollection<RegionDtoWrapper>();
         }
 
@@ -38,41 +36,41 @@ namespace DbConfigurator.UI.ViewModel.Tables
                 Items.Add(wrapped);
             }
         }
-        protected override async void OnAddExecute()
-        {
-            var regionViewModel = _addRegionCreator();
-            await regionViewModel.LoadAsync();
-            bool? result = DialogService.ShowDialog(regionViewModel);
-            if (result == false || regionViewModel.Region is null)
-                return;
+        //protected override async void OnAddExecute()
+        //{
+        //    var regionViewModel = _addRegionCreator();
+        //    await regionViewModel.LoadAsync();
+        //    bool? result = WindowService.ShowWindow(regionViewModel);
+        //    if (result == false || regionViewModel.Region is null)
+        //        return;
 
-            var regionWrapper = regionViewModel.Region;
-            if (regionWrapper is null || regionWrapper.Model is null)
-                throw new ArgumentNullException();
+        //    var regionWrapper = regionViewModel.Region;
+        //    if (regionWrapper is null || regionWrapper.Model is null)
+        //        throw new ArgumentNullException();
 
-            var region = await _regionService.AddAsync(regionWrapper.Model);
+        //    var region = await _regionService.AddAsync(regionWrapper.Model);
 
-            Items.Add(new RegionDtoWrapper(region));
-        }
-        protected override async void OnEditExecute()
-        {
-            var regionViewModel = _addRegionCreator();
-            regionViewModel.Region = SelectedItem;
-            await regionViewModel.LoadAsync();
-            bool? result = DialogService.ShowDialog(regionViewModel);
-            if (result == false || regionViewModel.Region is null)
-                return;
+        //    Items.Add(new RegionDtoWrapper(region));
+        //}
+        //protected override async void OnEditExecute()
+        //{
+        //    var regionViewModel = _addRegionCreator();
+        //    regionViewModel.Region = SelectedItem;
+        //    await regionViewModel.LoadAsync();
+        //    bool? result = WindowService.ShowWindow(regionViewModel);
+        //    if (result == false || regionViewModel.Region is null)
+        //        return;
 
-            var regionDto = regionViewModel.Region.Model;
-            var status = await _regionService.UpdateAsync(regionDto);
-            if (status == false)
-                return;
+        //    var regionDto = regionViewModel.Region.Model;
+        //    var status = await _regionService.UpdateAsync(regionDto);
+        //    if (status == false)
+        //        return;
 
 
-            SelectedItem!.Area = regionDto.Area;
-            SelectedItem!.BuisnessUnit = regionDto.BuisnessUnit;
-            SelectedItem!.Country = regionDto.Country;
-        }
+        //    SelectedItem!.Area = regionDto.Area;
+        //    SelectedItem!.BuisnessUnit = regionDto.BuisnessUnit;
+        //    SelectedItem!.Country = regionDto.Country;
+        //}
 
     }
 }

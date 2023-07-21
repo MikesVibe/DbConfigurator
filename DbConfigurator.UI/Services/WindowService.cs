@@ -7,10 +7,10 @@ namespace DbConfigurator.UI.Services
 
     public class WindowService : IWindowService
     {
-        public bool? ShowDialog(IDetailViewModel viewModel)
+        public void ShowWindow(IDetailViewModel viewModel)
         {
             var window = new EditingWindow(viewModel);
-            return window.ShowDialog();
+            window.Show();
         }
     }
 }
