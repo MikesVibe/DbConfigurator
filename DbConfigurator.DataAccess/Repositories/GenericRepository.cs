@@ -62,9 +62,12 @@ namespace DbConfigurator.DataAccess.Repository
         {
             _context.SaveChanges();
         }
-        public virtual async Task AddAsync(T entity)
+        public virtual async Task<int> AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
+            await SaveChangesAsync();
+            _context.Entry(entity).State = EntityState.Detached;
+            return entity.Id;
         }
         public virtual async Task UpdateAsync(T entity)
         {
@@ -77,6 +80,7 @@ namespace DbConfigurator.DataAccess.Repository
         public virtual async Task<bool> RemoveByIdAsync(int id)
         {
             var entity = await _context.Set<T>().FindAsync(id);
+
             if (entity is null)
                 return false;
 
@@ -85,7 +89,7 @@ namespace DbConfigurator.DataAccess.Repository
         }
         public virtual async Task<T?> GetByIdAsync(int id)
         {
-            return await _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+            return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
         }
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
@@ -93,7 +97,7 @@ namespace DbConfigurator.DataAccess.Repository
         }
         public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _context.Set<T>().Where(predicate).ToListAsync();
+            return await _context.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
         }
     }
 }

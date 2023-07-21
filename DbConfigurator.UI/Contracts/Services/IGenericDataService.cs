@@ -7,7 +7,7 @@ namespace DbConfigurator.UI.Services.Interfaces
     public interface IGenericDataService<TDto> where TDto : IEntityDto
     {
         TDto Add(TDto dto);
-        Task<TDto> AddAsync(TDto dto);
+        Task<int> AddAsync(TDto dto);
         Task<IEnumerable<TDto>> GetAllAsync();
         TDto GetById(int id);
         Task<TDto> GetByIdAsync(int id);

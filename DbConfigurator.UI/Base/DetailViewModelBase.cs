@@ -58,7 +58,8 @@ namespace DbConfigurator.UI.ViewModel.Base
         {
             if (Action == ModelAction.Create)
             {
-                EntityDto = await DataService.AddAsync(EntityDto!);
+                var entityId = await DataService.AddAsync(EntityDto!);
+                EntityDto = await DataService.GetByIdAsync(entityId);
                 OnCreate();
             }
             else if (Action == ModelAction.Update)

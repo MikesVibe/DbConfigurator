@@ -21,27 +21,33 @@ namespace DbConfigurator.UI.Features.Areas
 
         protected override void OnCreate()
         {
+            if (EntityDto is null)
+                return;
+
             EventAggregator.GetEvent<CreateAreaEvent>()
                   .Publish(
                 new CreateAreaEventArgs
                 {
                     Entity = new AreaDto
                     {
-                        Id = EntityDto!.Id,
-                        Name = EntityDto!.Name,
+                        Id = EntityDto.Id,
+                        Name = EntityDto.Name,
                     }
                 });
         }
         protected override void OnUpdate()
         {
+            if (EntityDto is null)
+                return;
+
             EventAggregator.GetEvent<EditAreaEvent>()
                   .Publish(
                 new EditAreaEventArgs
                 {
                     Entity = new AreaDto
                     {
-                        Id = EntityDto!.Id,
-                        Name = EntityDto!.Name,
+                        Id = EntityDto.Id,
+                        Name = EntityDto.Name,
                     }
                 });
         }

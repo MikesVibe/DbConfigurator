@@ -16,9 +16,6 @@ namespace DbConfigurator.UI.Features.DistributionInformations
 {
     public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper, DistributionInformationDto, IDistributionInformationService>
     {
-        private readonly IDistributionInformationService _dataService;
-        private readonly AutoMapperConfig _autoMapper;
-
         public DistributionInformationTableViewModel(IWindowService dialogService,
             IEventAggregator eventAggregator,
             IDistributionInformationService dataService,
@@ -26,9 +23,6 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             AutoMapperConfig autoMapper
             ) : base(eventAggregator, dialogService, dataService, DistributionInformationDetailVmCreator, autoMapper)
         {
-            _dataService = dataService;
-            _autoMapper = autoMapper;
-
             EventAggregator.GetEvent<CreateDistributionInformationEvent>()
                 .Subscribe(OnCreateExecute);
             EventAggregator.GetEvent<EditDistributionInformationEvent>()

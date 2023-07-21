@@ -43,7 +43,8 @@ namespace DbConfigurator.DataAccess.Repository
                 .Include(d => d.RecipientsTo)
                 .Include(d => d.RecipientsCc)
                 .Include(d => d.Priority)
-                .AsNoTracking().ToListAsync();
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public override async Task<DistributionInformation?> GetByIdAsync(int id)
@@ -56,7 +57,7 @@ namespace DbConfigurator.DataAccess.Repository
              .Include(t => t.RecipientsTo)
              .Include(t => t.RecipientsCc)
              .Include(p => p.Priority)
-             //.AsNoTracking()
+             .AsNoTracking()
              .FirstOrDefaultAsync();
         }
 
@@ -97,7 +98,7 @@ namespace DbConfigurator.DataAccess.Repository
             }
         }
 
-        public override async Task AddAsync(DistributionInformation disInfo)
+        public override async Task<int> AddAsync(DistributionInformation disInfo)
         {
             var entity = new DistributionInformation
             {
@@ -106,16 +107,14 @@ namespace DbConfigurator.DataAccess.Repository
             };
             _context.DistributionInformation.Add(entity);
 
-            //await SaveChangesAsync();
-
             // Optimized Handling the RecipientsTo
             UpdateRecipients(entity.RecipientsTo, disInfo.RecipientsTo);
 
             // Optimized Handling the RecipientsCc
             UpdateRecipients(entity.RecipientsCc, disInfo.RecipientsCc);
             await SaveChangesAsync();
-
-            disInfo = entity;
+            _context.Entry(entity).State = EntityState.Detached;
+            return entity.Id;
         }
     }
 }

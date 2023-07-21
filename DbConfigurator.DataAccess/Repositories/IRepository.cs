@@ -13,7 +13,7 @@ namespace DbConfigurator.DataAccess.Repositories
         IEnumerable<TEntity> GetAll();
         TEntity? GetById(int id);
 
-        Task AddAsync(TEntity entity);
+        Task<int> AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task SaveChangesAsync();
         Task<IEnumerable<TEntity>> GetAllAsync();

@@ -2,6 +2,7 @@
 using DbConfigurator.Model.Contracts;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -58,13 +59,14 @@ namespace DbConfigurator.UI.Services
             return _autoMapper.Mapper.Map<TDto>(entity);
         }
 
-        public virtual async Task<TDto> AddAsync(TDto dto)
+        public virtual async Task<int> AddAsync(TDto dto)
         {
             var entity = _autoMapper.Mapper.Map<TEntity>(dto);
-            await _repository.AddAsync(entity);
-            await _repository.SaveChangesAsync();
+            var returnedId = await _repository.AddAsync(entity);
 
-            return _autoMapper.Mapper.Map<TDto>(await _repository.GetByIdAsync(entity.Id));
+            //var test = await _repository.GetByIdAsync(returnedId);
+            //var testMapped = _autoMapper.Mapper.Map<TDto>(test);
+            return returnedId;
         }
         public virtual async Task<bool> UpdateAsync(TDto dto)
         {
