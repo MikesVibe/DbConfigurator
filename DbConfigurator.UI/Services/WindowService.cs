@@ -5,7 +5,7 @@ using DbConfigurator.UI.Windows;
 namespace DbConfigurator.UI.Services
 {
 
-    public class DialogService : IDialogService
+    public class WindowService : IWindowService
     {
         public bool? ShowDialog(IDetailViewModel viewModel)
         {

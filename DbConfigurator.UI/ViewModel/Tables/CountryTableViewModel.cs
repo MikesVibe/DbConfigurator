@@ -12,7 +12,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 {
     public class CountryTableViewModel : TableViewModelBase<CountryDtoWrapper, CountryDto, ICountryService>, ITableViewModel
     {
-        public CountryTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, ICountryService dataService, AutoMapperConfig autoMapper)
+        public CountryTableViewModel(IEventAggregator eventAggregator, IWindowService dialogService, ICountryService dataService, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService, dataService)
         {
         }

@@ -13,7 +13,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
     {
         public AreaTableViewModel(
             IEventAggregator eventAggregator,
-            IDialogService dialogService,
+            IWindowService dialogService,
             IAreaService dataService)
             : base(eventAggregator, dialogService, dataService)
         {

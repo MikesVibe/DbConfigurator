@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.UI.Services.Interfaces
 {
-    public interface IDialogService
+    public interface IWindowService
     {
         bool? ShowDialog(IDetailViewModel viewModel);
     }

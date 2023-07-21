@@ -38,7 +38,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<DistributionInformationRepository>().AsSelf();
 
             //Services
-            builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
+            builder.RegisterType<WindowService>().As<IWindowService>().SingleInstance();
             builder.RegisterType<CombinedDataService>().As<ICombinedDataService>().SingleInstance();
             builder.RegisterType<DistributionInformationService>().As<IDistributionInformationService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();

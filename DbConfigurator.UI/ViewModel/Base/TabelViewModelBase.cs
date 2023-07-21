@@ -16,14 +16,14 @@ namespace DbConfigurator.UI.ViewModel.Base
         where TDto : IEntityDto
         where TDataService : IGenericDataService<TDto>
     {
-        protected readonly IDialogService DialogService;
+        protected readonly IWindowService DialogService;
         protected readonly IEventAggregator EventAggregator;
         protected readonly TDataService DataService;
 
         private int _id;
         private bool _hasChanges;
 
-        public TableViewModelBase(IEventAggregator eventAggregator, IDialogService dialogService, TDataService dataService)
+        public TableViewModelBase(IEventAggregator eventAggregator, IWindowService dialogService, TDataService dataService)
         {
             EventAggregator = eventAggregator;
             DialogService = dialogService;

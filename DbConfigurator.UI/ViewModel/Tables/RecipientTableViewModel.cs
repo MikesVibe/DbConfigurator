@@ -16,7 +16,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public RecipientTableViewModel(
             IEventAggregator eventAggregator,
-            IDialogService dialogService,
+            IWindowService dialogService,
             IRecipientService dataService,
             AutoMapperConfig autoMapper,
             Func<RecipientDetailViewModel> addRecipientViewModelCreator

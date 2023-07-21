@@ -13,7 +13,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
     public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper, BuisnessUnitDto, IBuisnessUnitService>, ITableViewModel
     {
 
-        public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IDialogService dialogService, IBuisnessUnitService dataService, AutoMapperConfig autoMapper)
+        public BuisnessUnitTableViewModel(IEventAggregator eventAggregator, IWindowService dialogService, IBuisnessUnitService dataService, AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService, dataService)
         {
         }

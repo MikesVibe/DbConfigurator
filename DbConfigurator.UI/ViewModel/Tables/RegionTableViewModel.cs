@@ -18,7 +18,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
 
         public RegionTableViewModel(
             IEventAggregator eventAggregator,
-            IDialogService dialogService,
+            IWindowService dialogService,
             IRegionService dataService,
             AutoMapperConfig autoMapper,
             Func<RegionDetailViewModel> addRegionCreator

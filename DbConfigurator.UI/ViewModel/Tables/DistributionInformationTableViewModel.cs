@@ -15,7 +15,7 @@ namespace DbConfigurator.UI.ViewModel.Tables
         private readonly IDistributionInformationService _dataService;
         private readonly Func<DistibutionInformationDetailViewModel> _detailViewModelCreator;
 
-        public DistributionInformationTableViewModel(IDialogService dialogService,
+        public DistributionInformationTableViewModel(IWindowService dialogService,
             IEventAggregator eventAggregator,
             IDistributionInformationService dataService,
             Func<DistibutionInformationDetailViewModel> addDistributionInformationCreator,
