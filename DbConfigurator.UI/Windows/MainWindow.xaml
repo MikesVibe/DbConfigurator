@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
         xmlns:test="clr-namespace:DbConfigurator.UI.View.Panel"
-        xmlns:panel="clr-namespace:DbConfigurator.UI.ViewModel.Panel"
+        xmlns:panel="clr-namespace:DbConfigurator.UI.Features.Panel"
         mc:Ignorable="d"
         Title="DbConfigurator" Height="750" Width="1200"
         WindowStartupLocation="CenterScreen"

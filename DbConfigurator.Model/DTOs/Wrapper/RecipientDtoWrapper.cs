@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.Contracts;
+using DbConfigurator.Model.DTOs.Core;
 
 namespace DbConfigurator.Model.Entities.Wrapper
 {

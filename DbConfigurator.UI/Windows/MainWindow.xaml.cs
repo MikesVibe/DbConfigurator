@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.DataAccess;
-using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
 using System.IO;
 using System.Windows;
@@ -9,17 +8,15 @@ namespace DbConfigurator.UI.Windows
     public partial class MainWindow : Window
     {
         private MainViewModel _viewModel;
-        private ICombinedDataService _dataService;
         private readonly ISeeder _seeder;
 
         //private IDistributionInformationRepository? _repository;
 
-        public MainWindow(MainViewModel viewModel, ICombinedDataService dataService, ISeeder seeder)
+        public MainWindow(MainViewModel viewModel, ISeeder seeder)
         {
             InitializeComponent();
             _seeder = seeder;
             _viewModel = viewModel;
-            _dataService = dataService;
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
         }

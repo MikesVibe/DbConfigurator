@@ -4,28 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:detailView ="clr-namespace:DbConfigurator.UI.View.Detail"
-        xmlns:viewModel="clr-namespace:DbConfigurator.UI.ViewModel.Detail"
+        xmlns:Area="clr-namespace:DbConfigurator.UI.Features.Areas"
+        xmlns:BuisnessUnit="clr-namespace:DbConfigurator.UI.Features.BuisnessUnits"
+        xmlns:Country="clr-namespace:DbConfigurator.UI.Features.Countries"
+        xmlns:DI="clr-namespace:DbConfigurator.UI.Features.DistributionInformations"
+        xmlns:Recipient="clr-namespace:DbConfigurator.UI.Features.Recipients"
+        xmlns:Region="clr-namespace:DbConfigurator.UI.Features.Regions"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="{Binding ViewHeight, Mode=TwoWay}" Width="{Binding ViewWidth, Mode=TwoWay}">
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:AreaDetailViewModel}">
+        <DataTemplate DataType="{x:Type Area:AreaDetailViewModel}">
             <detailView:AreaDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:BuisnessUnitDetailViewModel}">
+        <DataTemplate DataType="{x:Type BuisnessUnit:BuisnessUnitDetailViewModel}">
             <detailView:BuisnessUnitDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:CountryDetailViewModel}">
+        <DataTemplate DataType="{x:Type Country:CountryDetailViewModel}">
             <detailView:CountryDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:DistibutionInformationDetailViewModel}">
+        <DataTemplate DataType="{x:Type DI:DistibutionInformationDetailViewModel}">
             <detailView:DistributionInformationDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:RecipientDetailViewModel}">
+        <DataTemplate DataType="{x:Type Recipient:RecipientDetailViewModel}">
             <detailView:RecipientDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:RegionDetailViewModel}">
+        <DataTemplate DataType="{x:Type Region:RegionDetailViewModel}">
             <detailView:RegionDetailView/>
         </DataTemplate>
     </Window.Resources>

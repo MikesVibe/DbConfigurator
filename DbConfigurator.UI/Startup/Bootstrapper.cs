@@ -2,13 +2,17 @@
 using DbConfigurator.DataAccess;
 using DbConfigurator.DataAccess.Repositories;
 using DbConfigurator.DataAccess.Repository;
+using DbConfigurator.UI.Features.Areas;
+using DbConfigurator.UI.Features.BuisnessUnits;
+using DbConfigurator.UI.Features.Countries;
+using DbConfigurator.UI.Features.DistributionInformations;
+using DbConfigurator.UI.Features.Panel;
+using DbConfigurator.UI.Features.Recipients;
+using DbConfigurator.UI.Features.Regions;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
-using DbConfigurator.UI.ViewModel.Detail;
 using DbConfigurator.UI.ViewModel.Interfaces;
-using DbConfigurator.UI.ViewModel.Panel;
-using DbConfigurator.UI.ViewModel.Tables;
 using DbConfigurator.UI.Windows;
 using Prism.Events;
 
@@ -39,7 +43,6 @@ namespace DbConfigurator.UI.Startup
 
             //Services
             builder.RegisterType<WindowService>().As<IWindowService>().SingleInstance();
-            builder.RegisterType<CombinedDataService>().As<ICombinedDataService>().SingleInstance();
             builder.RegisterType<DistributionInformationService>().As<IDistributionInformationService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
             builder.RegisterType<AreaService>().As<IAreaService>().SingleInstance();

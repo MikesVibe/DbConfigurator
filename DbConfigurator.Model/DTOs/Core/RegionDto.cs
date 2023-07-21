@@ -1,4 +1,6 @@
-﻿namespace DbConfigurator.Model.DTOs.Core
+﻿using DbConfigurator.Model.Contracts;
+
+namespace DbConfigurator.Model.DTOs.Core
 {
     public class RegionDto : IEntityDto
     {

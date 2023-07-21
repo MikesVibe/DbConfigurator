@@ -1,5 +1,5 @@
 ﻿using DbConfigurator.DataAccess.Repositories;
-using DbConfigurator.Model;
+using DbConfigurator.Model.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

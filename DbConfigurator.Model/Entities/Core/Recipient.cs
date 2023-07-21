@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DbConfigurator.Model.Contracts;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.Entities.Core

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DbConfigurator.Model.Contracts;
+using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.DTOs.Core
 {
