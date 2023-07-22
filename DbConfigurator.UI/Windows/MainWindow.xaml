@@ -3,26 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DbConfigurator.UI.Windows"
-        xmlns:test="clr-namespace:DbConfigurator.UI.View.Panel"
-        xmlns:panel="clr-namespace:DbConfigurator.UI.Features.Panel"
+        xmlns:nav="clr-namespace:DbConfigurator.UI.Features.Panels.Navigation"
+        xmlns:dis="clr-namespace:DbConfigurator.UI.Features.Panels.DistributionInformation"
+        xmlns:rec="clr-namespace:DbConfigurator.UI.Features.Panels.Recipient"
+        xmlns:reg="clr-namespace:DbConfigurator.UI.Features.Panels.Region"
+        xmlns:cr="clr-namespace:DbConfigurator.UI.Features.Panels.Creation"
         mc:Ignorable="d"
         Title="DbConfigurator" Height="750" Width="1200"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
 
     <Window.Resources>
-        <DataTemplate DataType="{x:Type panel:DistributionInformationPanelViewModel}">
-            <test:DistributionInformationPanelView/>
+        <DataTemplate DataType="{x:Type dis:DistributionInformationPanelViewModel}">
+            <dis:DistributionInformationPanelView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type panel:RegionPanelViewModel}">
-            <test:RegionPanelView/>
+        <DataTemplate DataType="{x:Type reg:RegionPanelViewModel}">
+            <reg:RegionPanelView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type panel:RecipientPanelViewModel}">
-            <test:RecipientPanelView/>
+        <DataTemplate DataType="{x:Type rec:RecipientPanelViewModel}">
+            <rec:RecipientPanelView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type panel:CreationPanelViewModel}">
-            <test:CreationPanelView/>
+        <DataTemplate DataType="{x:Type cr:CreationPanelViewModel}">
+            <cr:CreationPanelView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -35,7 +37,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <test:NavigationPanelView Grid.Column="0" Margin="10"
+        <nav:NavigationPanelView Grid.Column="0" Margin="10"
             DataContext="{Binding NavigationViewModel}"/>
 
         <ContentControl Grid.Column="1"  Content="{Binding SelectedMainPanelViewModel}"/>

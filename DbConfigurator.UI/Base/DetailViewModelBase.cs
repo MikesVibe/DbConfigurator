@@ -1,6 +1,5 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.UI.Services.Interfaces;
-using Microsoft.EntityFrameworkCore.Update.Internal;
 using Prism.Commands;
 using Prism.Events;
 using System;

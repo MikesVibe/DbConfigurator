@@ -7,12 +7,12 @@ namespace DbConfigurator.UI.Windows
 {
     public partial class MainWindow : Window
     {
-        private MainViewModel _viewModel;
+        private MainWindowViewModel _viewModel;
         private readonly ISeeder _seeder;
 
         //private IDistributionInformationRepository? _repository;
 
-        public MainWindow(MainViewModel viewModel, ISeeder seeder)
+        public MainWindow(MainWindowViewModel viewModel, ISeeder seeder)
         {
             InitializeComponent();
             _seeder = seeder;
@@ -41,7 +41,6 @@ namespace DbConfigurator.UI.Windows
             }
 
 #endif
-
             await _viewModel.LoadAsync();
         }
     }

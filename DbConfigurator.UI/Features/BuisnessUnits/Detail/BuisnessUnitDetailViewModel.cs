@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;

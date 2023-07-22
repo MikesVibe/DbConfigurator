@@ -1,9 +1,5 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.DTOs.Wrapper;
-using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Contracts;
-using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
@@ -23,7 +19,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         where TDto : class, IEntityDto
         where TDataService : IGenericDataService<TDto>
     {
-        protected readonly IWindowService WindowService;
+        protected readonly IEditingWindowService WindowService;
         protected readonly IEventAggregator EventAggregator;
         protected readonly TDataService DataService;
         protected readonly Func<IDetailViewModel> DetailViewModelCreator;
@@ -33,7 +29,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         private bool _hasChanges;
 
         public TableViewModelBase(IEventAggregator eventAggregator,
-            IWindowService dialogService,
+            IEditingWindowService dialogService,
             TDataService dataService,
             Func<IDetailViewModel> detailViewModel,
             AutoMapperConfig autoMapper)

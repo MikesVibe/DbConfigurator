@@ -1,6 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
-using DbConfigurator.UI.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
@@ -9,8 +8,6 @@ using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Areas
 {
@@ -19,7 +16,7 @@ namespace DbConfigurator.UI.Features.Areas
 
         public AreaTableViewModel(
             IEventAggregator eventAggregator,
-            IWindowService dialogService,
+            IEditingWindowService dialogService,
             IAreaService dataService,
             Func<AreaDetailViewModel> areaDetailViewModelCreator,
             AutoMapperConfig autoMapper)

@@ -2,7 +2,6 @@
 using DbConfigurator.Model.Contracts;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

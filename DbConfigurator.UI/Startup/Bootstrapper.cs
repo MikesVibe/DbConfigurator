@@ -6,7 +6,11 @@ using DbConfigurator.UI.Features.Areas;
 using DbConfigurator.UI.Features.BuisnessUnits;
 using DbConfigurator.UI.Features.Countries;
 using DbConfigurator.UI.Features.DistributionInformations;
-using DbConfigurator.UI.Features.Panel;
+using DbConfigurator.UI.Features.Panels.Creation;
+using DbConfigurator.UI.Features.Panels.DistributionInformation;
+using DbConfigurator.UI.Features.Panels.Navigation;
+using DbConfigurator.UI.Features.Panels.Recipient;
+using DbConfigurator.UI.Features.Panels.Region;
 using DbConfigurator.UI.Features.Recipients;
 using DbConfigurator.UI.Features.Regions;
 using DbConfigurator.UI.Services;
@@ -27,7 +31,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<AutoMapperConfig>().AsSelf().SingleInstance();
 
             builder.RegisterType<Windows.MainWindow>().AsSelf();
-            builder.RegisterType<MainViewModel>().AsSelf();
+            builder.RegisterType<MainWindowViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
 
             builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
@@ -42,7 +46,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<DistributionInformationRepository>().AsSelf();
 
             //Services
-            builder.RegisterType<WindowService>().As<IWindowService>().SingleInstance();
+            builder.RegisterType<EditingWindowService>().As<IEditingWindowService>().SingleInstance();
             builder.RegisterType<DistributionInformationService>().As<IDistributionInformationService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
             builder.RegisterType<AreaService>().As<IAreaService>().SingleInstance();

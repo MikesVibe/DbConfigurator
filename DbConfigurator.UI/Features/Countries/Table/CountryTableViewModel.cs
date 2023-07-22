@@ -1,7 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
-using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
@@ -10,8 +8,6 @@ using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Countries
 {
@@ -19,7 +15,7 @@ namespace DbConfigurator.UI.Features.Countries
     {
 
         public CountryTableViewModel(IEventAggregator eventAggregator,
-            IWindowService dialogService,
+            IEditingWindowService dialogService,
             ICountryService dataService,
             AutoMapperConfig autoMapper,
             Func<CountryDetailViewModel> countryDetailViewModelCreator)

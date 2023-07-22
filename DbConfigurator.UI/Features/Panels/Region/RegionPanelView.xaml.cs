@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DbConfigurator.UI.View.Panel
+namespace DbConfigurator.UI.Features.Panels.Region
 {
     /// <summary>
     /// Interaction logic for RegionPanelView.xaml

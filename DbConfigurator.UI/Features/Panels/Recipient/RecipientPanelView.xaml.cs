@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DbConfigurator.UI.View.Panel
+namespace DbConfigurator.UI.Features.Panels.Recipient
 {
     /// <summary>
     /// Interaction logic for RecipientPanelView.xaml
@@ -11,6 +11,5 @@ namespace DbConfigurator.UI.View.Panel
         {
             InitializeComponent();
         }
-
     }
 }

@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
@@ -31,7 +30,7 @@ namespace DbConfigurator.UI.Features.Recipients
                         Id = EntityDto.Id,
                         FirstName = EntityDto.FirstName,
                         LastName = EntityDto.LastName,
-                        Email= EntityDto.Email
+                        Email = EntityDto.Email
                     }
                 });
         }

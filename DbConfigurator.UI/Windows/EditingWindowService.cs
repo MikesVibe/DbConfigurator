@@ -5,7 +5,7 @@ using DbConfigurator.UI.Windows;
 namespace DbConfigurator.UI.Services
 {
 
-    public class WindowService : IWindowService
+    public class EditingWindowService : IEditingWindowService
     {
         public void ShowWindow(IDetailViewModel viewModel)
         {

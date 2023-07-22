@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public class MainViewModel : NotifyBase
+    public class MainWindowViewModel : NotifyBase
     {
         private IIndex<string, IMainPanelViewModel> _mainViewModelCreator;
         private IEventAggregator _eventAggregator;
@@ -17,7 +17,7 @@ namespace DbConfigurator.UI.ViewModel
         private IMainPanelViewModel? _selectedMainViewModel;
         private bool _openTableReady = true;
 
-        public MainViewModel(
+        public MainWindowViewModel(
             INavigationPanelViewModel navigationViewModel,
             IIndex<string, IMainPanelViewModel> tabelViewModelCreator,
             IEventAggregator eventAggregator

@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.UI.Services.Interfaces
 {
-    public interface IWindowService
+    public interface IEditingWindowService
     {
         void ShowWindow(IDetailViewModel viewModel);
     }

@@ -4,15 +4,15 @@ using Prism.Commands;
 using Prism.Events;
 using System.Windows.Input;
 
-namespace DbConfigurator.UI.ViewModel.Navigation
+namespace DbConfigurator.UI.Features.Panels.Navigation
 {
-    public class NavigationItemViewModel : NotifyBase
+    public class NavigationItem : NotifyBase
     {
         private string _displayMember;
         private string _detailViewModelName;
         private IEventAggregator _eventAggregator;
 
-        public NavigationItemViewModel(int id, string displayMember,
+        public NavigationItem(int id, string displayMember,
             string detailViewModelName,
             IEventAggregator eventAggregator)
         {
