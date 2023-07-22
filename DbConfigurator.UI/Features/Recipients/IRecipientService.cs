@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.UI.Services.Interfaces
 {
-    public interface IAreaService : IGenericDataService<AreaDto>
+    public interface IRecipientService : IDataService<RecipientDto>
     {
     }
 }

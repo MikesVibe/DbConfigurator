@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.UI.Services.Interfaces
 {
-    public interface ICountryService : IGenericDataService<CountryDto>
+    public interface ICountryService : IDataService<CountryDto>
     {
     }
 }

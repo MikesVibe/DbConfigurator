@@ -17,7 +17,7 @@ namespace DbConfigurator.UI.ViewModel.Base
     public abstract class TableViewModelBase<TWrapper, TDto, TDataService> : NotifyBase, ITableViewModel
         where TWrapper : IWrapperWithId
         where TDto : class, IEntityDto
-        where TDataService : IGenericDataService<TDto>
+        where TDataService : IDataService<TDto>
     {
         protected readonly IEditingWindowService WindowService;
         protected readonly IEventAggregator EventAggregator;

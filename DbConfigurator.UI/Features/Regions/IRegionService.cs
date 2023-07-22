@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services.Interfaces
 {
-    public interface IRegionService : IGenericDataService<RegionDto>
+    public interface IRegionService : IDataService<RegionDto>
     {
         Task<ICollection<AreaDto>> GetAllAreasAsync();
         Task<ICollection<BuisnessUnitDto>> GetAllBuisnessUnitsAsync();

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services.Interfaces
 {
-    public interface IGenericDataService<TDto> where TDto : IEntityDto
+    public interface IDataService<TDto> where TDto : IEntityDto
     {
         TDto Add(TDto dto);
         Task<int> AddAsync(TDto dto);

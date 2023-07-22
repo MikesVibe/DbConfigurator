@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services.Interfaces
 {
-    public interface IDistributionInformationService : IGenericDataService<DistributionInformationDto>
+    public interface IDistributionInformationService : IDataService<DistributionInformationDto>
     {
         //Task AddRecipientsCcAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsCc_ToAdd);
         //Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd);

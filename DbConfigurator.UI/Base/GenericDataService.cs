@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class GenericDataService<TEntity, TDto, TRepository> : IGenericDataService<TDto>
+    public class GenericDataService<TEntity, TDto, TRepository> : IDataService<TDto>
         where TEntity : IEntity
         where TDto : IEntityDto
         where TRepository : IRepository<TEntity>
