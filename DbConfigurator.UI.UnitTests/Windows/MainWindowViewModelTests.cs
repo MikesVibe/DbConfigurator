@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace DbConfigurator.UI.UnitTests
+namespace DbConfigurator.UI.UnitTests.Windows
 {
     public class MainWindowViewModelTests
     {
@@ -35,6 +35,9 @@ namespace DbConfigurator.UI.UnitTests
             // Create a mock for IDistributionInformationPanelViewModel and setup IIndex to return it for the specified key
             var fake = new Mock<IIndex<string, ITableViewModel>>();
             var mockDistributionInformationPanelViewModel = new DistributionInformationPanelViewModel(fake.Object);
+            //var mockDistributionInformationPanelViewModel = new Mock<DistributionInformationPanelViewModel>();
+
+
             _tableViewModelCreatorMock = new Mock<IIndex<string, IMainPanelViewModel>>();
             _tableViewModelCreatorMock.Setup(i => i[nameof(DistributionInformationPanelViewModel)])
                 .Returns(mockDistributionInformationPanelViewModel);
@@ -69,6 +72,23 @@ namespace DbConfigurator.UI.UnitTests
             var models = _viewModel.MainViewModels;
             Assert.Equal(1, models.Count);
             Assert.Equal(panelName, models.First().GetType().Name);
+        }
+
+        [Fact]
+        public void ShouldOpenMainPanelOnlyOnce()
+        {
+            string panelName = nameof(DistributionInformationPanelViewModel);
+            var @event = new OpenPanelViewEventArgs
+            {
+                Id = 1,
+                ViewModelName = panelName
+            };
+
+            _openTableViewEvent.Publish(@event);
+            _openTableViewEvent.Publish(@event);
+
+            var models = _viewModel.MainViewModels;
+            Assert.Equal(1, models.Count);
         }
     }
 }

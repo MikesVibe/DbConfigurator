@@ -7,5 +7,6 @@ namespace DbConfigurator.UI.ViewModel.Interfaces
         int Id { get; }
 
         Task LoadAsync();
+        void SetId(int id);
     }
 }

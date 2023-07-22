@@ -68,6 +68,8 @@ namespace DbConfigurator.UI.ViewModel
             if (tabelViewModel == null)
             {
                 tabelViewModel = _mainViewModelCreator[args.ViewModelName];
+
+                tabelViewModel.SetId(args.Id);
                 await tabelViewModel.LoadAsync();
 
                 MainViewModels.Add(tabelViewModel);
