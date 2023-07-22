@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.Model", "DbC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.DataAccess", "DbConfigurator.DataAccess\DbConfigurator.DataAccess.csproj", "{B7912BE8-2794-4E58-86B9-E0217A0CDBE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbConfigurator.UI.UnitTests", "DbConfigurator.UI.UnitTests\DbConfigurator.UI.UnitTests.csproj", "{604AA0E9-18D0-4042-9035-56229FBADA1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.UI.UnitTests", "DbConfigurator.UI.UnitTests\DbConfigurator.UI.UnitTests.csproj", "{604AA0E9-18D0-4042-9035-56229FBADA1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
