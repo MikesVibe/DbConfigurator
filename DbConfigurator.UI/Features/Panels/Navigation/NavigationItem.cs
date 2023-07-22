@@ -38,9 +38,9 @@ namespace DbConfigurator.UI.Features.Panels.Navigation
 
         private void OnOpenTabelViewExecute()
         {
-            _eventAggregator.GetEvent<OpenTabelViewEvent>()
+            _eventAggregator.GetEvent<OpenPanelViewEvent>()
                   .Publish(
-                new OpenTabelViewEventArgs
+                new OpenPanelViewEventArgs
                 {
                     Id = Id,
                     ViewModelName = _detailViewModelName

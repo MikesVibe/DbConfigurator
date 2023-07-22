@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Panels.DistributionInformation
 {
-    public class DistributionInformationPanelViewModel : PanelViewModelBase
+    public class DistributionInformationPanelViewModel : PanelViewModelBase, IDistributionInformationPanelViewModel
     {
         public DistributionInformationPanelViewModel(IIndex<string, ITableViewModel> tableViewModelCreator)
         {
@@ -17,6 +17,9 @@ namespace DbConfigurator.UI.Features.Panels.DistributionInformation
 
         public override async Task LoadAsync()
         {
+            if (DistributionInformationTable is null)
+                return;
+
             await DistributionInformationTable.LoadAsync();
         }
     }

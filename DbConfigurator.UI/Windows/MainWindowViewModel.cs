@@ -29,8 +29,8 @@ namespace DbConfigurator.UI.ViewModel
 
             MainViewModels = new ObservableCollection<IMainPanelViewModel>();
 
-            _eventAggregator.GetEvent<OpenTabelViewEvent>()
-                .Subscribe(OnOpenTabelView);
+            _eventAggregator.GetEvent<OpenPanelViewEvent>()
+                .Subscribe(OnOpenPanelView);
         }
 
         public ObservableCollection<IMainPanelViewModel> MainViewModels { get; }
@@ -53,7 +53,7 @@ namespace DbConfigurator.UI.ViewModel
         {
             await NavigationViewModel.LoadAsync();
         }
-        private async void OnOpenTabelView(OpenTabelViewEventArgs args)
+        private async void OnOpenPanelView(OpenPanelViewEventArgs args)
         {
             if (!_openTableReady)
                 return;

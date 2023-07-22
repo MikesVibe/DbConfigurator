@@ -2,10 +2,10 @@
 
 namespace DbConfigurator.UI.Event
 {
-    public class OpenTabelViewEvent : PubSubEvent<OpenTabelViewEventArgs>
+    public class OpenPanelViewEvent : PubSubEvent<OpenPanelViewEventArgs>
     {
     }
-    public class OpenTabelViewEventArgs
+    public class OpenPanelViewEventArgs
     {
         public int Id { get; set; }
         public string ViewModelName { get; set; }

@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <None Remove="Regions.csv" />
+    <None Remove="Windows\MainWindowViewModel.cs~RF6a1b373.TMP" />
   </ItemGroup>
 
   <ItemGroup>
