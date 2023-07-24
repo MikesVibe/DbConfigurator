@@ -281,7 +281,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
 
         private void SelectPriorityComboBox()
         {
-            if (EntityDto!.Priority is null)
+            if (EntityDto is null || EntityDto.Priority is null)
                 return;
 
             SelectedPriority = Priority_Collection?.Where(c => c.Id == EntityDto!.Priority.Id).FirstOrDefault();

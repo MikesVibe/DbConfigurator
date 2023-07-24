@@ -27,6 +27,8 @@ namespace DbConfigurator.UI.ViewModel.Base
             ViewHeight = 500;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             CancelCommand = new DelegateCommand(Cancel);
+
+            EntityDto = CreateNew();
         }
         protected ModelAction Action { get; set; } = ModelAction.Update;
 
@@ -38,16 +40,25 @@ namespace DbConfigurator.UI.ViewModel.Base
         public int ViewWidth { get; set; }
         public int ViewHeight { get; set; }
         public string Title { get; set; }
-        public TEntityDto? EntityDto { get; set; }
+        public TEntityDto EntityDto { get; set; }
 
         public virtual async Task LoadAsync(int entityId)
         {
-            EntityDto = (entityId > 0) ?
-                    await DataService.GetByIdAsync(entityId) :
-                    CreateNew();
+            try
+            {
+                var entity = await DataService.GetByIdAsync(entityId);
+                if (entity is null)
+                    return;
+
+                EntityDto = entity;
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
-        protected virtual TEntityDto CreateNew()
+        private TEntityDto CreateNew()
         {
             Action = ModelAction.Create;
             return new TEntityDto();
