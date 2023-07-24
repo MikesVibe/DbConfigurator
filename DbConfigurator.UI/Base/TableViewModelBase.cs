@@ -96,7 +96,7 @@ namespace DbConfigurator.UI.ViewModel.Base
             }
         }
 
-        protected async virtual void OnAddExecute()
+        protected virtual void OnAddExecute()
         {
             var detailViewModel = DetailViewModelCreator();
             WindowService.ShowWindow(detailViewModel);

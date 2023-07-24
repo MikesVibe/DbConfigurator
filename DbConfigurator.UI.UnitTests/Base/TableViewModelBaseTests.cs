@@ -1,6 +1,11 @@
 ﻿using DbConfigurator.Model.Contracts;
+using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.UI.Event;
+using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Features.DistributionInformations;
+using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Base;
 using Moq;
@@ -20,25 +25,27 @@ namespace DbConfigurator.UI.UnitTests.Base
         where TDataService : class, IDataService<TDto>
         where TDetailVm : IDetailViewModel
     {
-        protected Mock<IEventAggregator> _eventAggregatorMock;
+        protected Mock<IEventAggregator> EventAggregatorMock;
 
-        protected Mock<IEditingWindowService> editingWindow;
-        protected Mock<TDataService> dataServiceMock;
-        protected Func<TDetailVm> detailVmCreator;
-        protected TableViewModelBase<TWrapper, TDto, TDataService> viewModel;
+        protected Mock<IEditingWindowService> EditingWindow;
+        protected Mock<TDataService> DataServiceMock;
+        protected Func<TDetailVm> DetailVmCreator;
+        protected TableViewModelBase<TWrapper, TDto, TDataService> ViewModel;
 
         public TableViewModelBaseTests()
         {
-            _eventAggregatorMock = new Mock<IEventAggregator>();
-            editingWindow = new Mock<IEditingWindowService>();
-
-            detailVmCreator = CreateNewDetailViewModel();
-            viewModel = CreateViewModel();
+            EventAggregatorMock = new Mock<IEventAggregator>();
+            EditingWindow = new Mock<IEditingWindowService>();
+            DataServiceMock = new Mock<TDataService>();
+            
+            DetailVmCreator = CreateNewDetailViewModel;
+            ViewModel = CreateViewModel();
         }
 
 
         protected abstract TableViewModelBase<TWrapper, TDto, TDataService> CreateViewModel();
-        protected abstract Func<TDetailVm> CreateNewDetailViewModel();
+        protected abstract TDetailVm CreateNewDetailViewModel();
+        protected abstract TDto CreateNewEntityDtoItem();
 
 
         [Fact]
@@ -50,44 +57,48 @@ namespace DbConfigurator.UI.UnitTests.Base
             testData.Add(CreateNewEntityDtoItem());
             testData.Add(CreateNewEntityDtoItem());
             
-            dataServiceMock.Setup(ds => ds.GetAllAsync()).ReturnsAsync(testData);
-
+            DataServiceMock.Setup(ds => ds.GetAllAsync()).ReturnsAsync(testData);
 
             // Act
-            await viewModel.LoadAsync();
+            await ViewModel.LoadAsync();
 
             // Assert
             // Check if the Items collection was populated with the test data
-            Assert.Equal(testData.Count, viewModel.Items.Count);
+            Assert.Equal(testData.Count, ViewModel.Items.Count);
 
             foreach (var item in testData)
             {
-                var wrappedItem = viewModel.Items.FirstOrDefault(w => w.Id == item.Id);
+                var wrappedItem = ViewModel.Items.FirstOrDefault(w => w.Id == item.Id);
                 Assert.NotNull(wrappedItem);
                 // Perform additional assertions if needed.
             }
         }
 
-        protected abstract TDto CreateNewEntityDtoItem();
 
         [Fact]
         public void ShouldOpenEditingWindowAfterPressingAddButton()
         {
-            var test = detailVmCreator();
-            viewModel.AddCommand.Execute(null);
+            var test = DetailVmCreator();
+            ViewModel.AddCommand.Execute(null);
 
-            editingWindow.Verify(ew => ew.ShowWindow(It.IsAny<IDetailViewModel>()), Times.Once);
+            EditingWindow.Verify(ew => ew.ShowWindow(It.IsAny<IDetailViewModel>()), Times.Once);
         }
         [Fact]
-        public async void ShouldOpenEditingWindowAfterPressingEditButton()
+        public void ShouldOpenEditingWindowAfterPressingEditButton()
         {
-            int distributionInformationId = 7;
+            ViewModel.AddCommand.Execute(null);
 
-            var test = detailVmCreator();
-            await test.LoadAsync(distributionInformationId);
-            viewModel.AddCommand.Execute(null);
-
-            editingWindow.Verify(ew => ew.ShowWindow(It.IsAny<IDetailViewModel>()), Times.Once);
+            EditingWindow.Verify(ew => ew.ShowWindow(It.IsAny<IDetailViewModel>()), Times.Once);
         }
+        //[Fact]
+        //public void ShouldCallLoadAsyncMethodOnDetailVmAfterPressingEditButton()
+        //{
+        //    int distributionInformationId = 7;
+        //    ViewModel.AddCommand.Execute(null);
+
+        //    EditingWindow.Verify(ew => ew.ShowWindow(It.IsAny<IDetailViewModel>()), Times.Once);
+        //}
+
+
     }
 }

@@ -13,6 +13,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,11 +31,11 @@ namespace DbConfigurator.UI.UnitTests.Features.Area
         {
         }
 
-        protected override Func<DistributionInformationDetailViewModel> CreateNewDetailViewModel()
+        protected override DistributionInformationDetailViewModel CreateNewDetailViewModel()
         {
-            return () => new DistributionInformationDetailViewModel(
-                dataServiceMock.Object,
-                _eventAggregatorMock.Object);
+            return new DistributionInformationDetailViewModel(
+                DataServiceMock.Object,
+                EventAggregatorMock.Object);
         }
 
         protected override DistributionInformationDto CreateNewEntityDtoItem()
@@ -76,17 +77,16 @@ namespace DbConfigurator.UI.UnitTests.Features.Area
             IDistributionInformationService>
             CreateViewModel()
         {
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<EditDistributionInformationEvent>())
+            EventAggregatorMock.Setup(ea => ea.GetEvent<EditDistributionInformationEvent>())
                 .Returns(new EditDistributionInformationEvent());
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<CreateDistributionInformationEvent>())
+            EventAggregatorMock.Setup(ea => ea.GetEvent<CreateDistributionInformationEvent>())
                 .Returns(new CreateDistributionInformationEvent());
-            dataServiceMock = new Mock<IDistributionInformationService>();
 
             return new DistributionInformationTableViewModel(
-                editingWindow.Object,
-                _eventAggregatorMock.Object,
-                dataServiceMock.Object,
-                detailVmCreator,
+                EditingWindow.Object,
+                EventAggregatorMock.Object,
+                DataServiceMock.Object,
+                DetailVmCreator,
                 new AutoMapperConfig());
         }
     }

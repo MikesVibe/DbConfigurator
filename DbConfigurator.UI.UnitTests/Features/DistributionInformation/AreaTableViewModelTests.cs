@@ -33,11 +33,11 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
         {
         }
 
-        protected override Func<AreaDetailViewModel> CreateNewDetailViewModel()
+        protected override AreaDetailViewModel CreateNewDetailViewModel()
         {
-            return () => new AreaDetailViewModel(
-                dataServiceMock.Object,
-                _eventAggregatorMock.Object);
+            return new AreaDetailViewModel(
+                DataServiceMock.Object,
+                EventAggregatorMock.Object);
         }
 
         protected override AreaDto CreateNewEntityDtoItem()
@@ -51,17 +51,17 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
             IAreaService>
             CreateViewModel()
         {
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<EditAreaEvent>())
+            EventAggregatorMock.Setup(ea => ea.GetEvent<EditAreaEvent>())
                 .Returns(new EditAreaEvent());
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<CreateAreaEvent>())
+            EventAggregatorMock.Setup(ea => ea.GetEvent<CreateAreaEvent>())
                 .Returns(new CreateAreaEvent());
-            dataServiceMock = new Mock<IAreaService>();
+            DataServiceMock = new Mock<IAreaService>();
 
             return new AreaTableViewModel(
-                _eventAggregatorMock.Object,
-                editingWindow.Object,
-                dataServiceMock.Object,
-                detailVmCreator,
+                EventAggregatorMock.Object,
+                EditingWindow.Object,
+                DataServiceMock.Object,
+                DetailVmCreator,
                 new AutoMapperConfig());
         }
     }
