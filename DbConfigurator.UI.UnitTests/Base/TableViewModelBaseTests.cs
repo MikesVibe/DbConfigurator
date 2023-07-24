@@ -12,6 +12,7 @@ using Moq;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +46,9 @@ namespace DbConfigurator.UI.UnitTests.Base
 
         protected abstract TableViewModelBase<TWrapper, TDto, TDataService> CreateViewModel();
         protected abstract TDetailVm CreateNewDetailViewModel();
-        protected abstract TDto CreateNewEntityDtoItem();
+        protected abstract TDto CreateNewEntityDtoItem(int id);
+        protected abstract IEnumerable<TWrapper> CreateItemsList();
+
 
 
         [Fact]
@@ -53,9 +56,9 @@ namespace DbConfigurator.UI.UnitTests.Base
         {
             // Arrange
             var testData = new List<TDto>();
-            testData.Add(CreateNewEntityDtoItem());
-            testData.Add(CreateNewEntityDtoItem());
-            testData.Add(CreateNewEntityDtoItem());
+            testData.Add(CreateNewEntityDtoItem(1));
+            testData.Add(CreateNewEntityDtoItem(2));
+            testData.Add(CreateNewEntityDtoItem(3));
             
             DataServiceMock.Setup(ds => ds.GetAllAsync()).ReturnsAsync(testData);
 
@@ -78,11 +81,15 @@ namespace DbConfigurator.UI.UnitTests.Base
         [Fact]
         public void ShouldOpenEditingWindowAfterPressingAddButton()
         {
-            var test = DetailVmCreator();
-            ViewModel.AddCommand.Execute(null);
+            ViewModel.Items = new ObservableCollection<TWrapper>(CreateItemsList());
+            ViewModel.SelectedItem = ViewModel.Items.First();
+
+            //ViewModel.SelectedItem = new TWrapper();
+            ViewModel.EditCommand.Execute(null);
 
             EditingWindow.Verify(ew => ew.ShowWindow(It.IsAny<IDetailViewModel>()), Times.Once);
         }
+
         [Fact]
         public void ShouldOpenEditingWindowAfterPressingEditButton()
         {

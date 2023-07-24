@@ -22,9 +22,9 @@ namespace DbConfigurator.UI.Features.Regions
             ) : base(eventAggregator, dialogService, dataService, addRegionCreator, autoMapper)
         {
             EventAggregator.GetEvent<CreateRegionEvent>()
-                .Subscribe(OnCreateExecute);
+                .Subscribe(OnAddEntityExecute);
             EventAggregator.GetEvent<EditRegionEvent>()
-                .Subscribe(OnEditExecute);
+                .Subscribe(OnEditEntityExecute);
 
             SubscribeToCreateEvent<CreateRegionEvent, CreateRegionEventArgs>();
             SubscribeToEditEvent<EditRegionEvent, EditRegionEventArgs>();

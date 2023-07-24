@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Features.DistributionInformations;
@@ -17,7 +18,7 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.UnitTests.Features.Area
+namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
 {
     public class DistributionInformationTableViewModelTests : TableViewModelBaseTests
         <DistributionInformationDtoWrapper,
@@ -27,8 +28,16 @@ namespace DbConfigurator.UI.UnitTests.Features.Area
     {
 
         public DistributionInformationTableViewModelTests()
-            : base()
+        : base()
         {
+        }
+
+        protected override IEnumerable<DistributionInformationDtoWrapper> CreateItemsList()
+        {
+            var list = new List<DistributionInformationDtoWrapper>();
+            list.Add(new DistributionInformationDtoWrapper(CreateNewEntityDtoItem(1)));
+            list.Add(new DistributionInformationDtoWrapper(CreateNewEntityDtoItem(2)));
+            return list;
         }
 
         protected override DistributionInformationDetailViewModel CreateNewDetailViewModel()
@@ -38,11 +47,11 @@ namespace DbConfigurator.UI.UnitTests.Features.Area
                 EventAggregatorMock.Object);
         }
 
-        protected override DistributionInformationDto CreateNewEntityDtoItem()
+        protected override DistributionInformationDto CreateNewEntityDtoItem(int id)
         {
             return new DistributionInformationDto
             {
-                Id = 1,
+                Id = id,
                 Region = new RegionDto
                 {
                     Id = 1,

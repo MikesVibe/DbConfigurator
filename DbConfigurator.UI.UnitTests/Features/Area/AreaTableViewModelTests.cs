@@ -18,9 +18,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
+namespace DbConfigurator.UI.UnitTests.Features.Area
 {
-    
+
     public class AreaTableViewModelTests : TableViewModelBaseTests
         <AreaDtoWrapper,
         AreaDto,
@@ -33,6 +33,14 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
         {
         }
 
+        protected override IEnumerable<AreaDtoWrapper> CreateItemsList()
+        {
+            var list = new List<AreaDtoWrapper>();
+            list.Add(new AreaDtoWrapper(CreateNewEntityDtoItem(1)));
+            list.Add(new AreaDtoWrapper(CreateNewEntityDtoItem(2)));
+            return list;
+        }
+
         protected override AreaDetailViewModel CreateNewDetailViewModel()
         {
             return new AreaDetailViewModel(
@@ -40,9 +48,9 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
                 EventAggregatorMock.Object);
         }
 
-        protected override AreaDto CreateNewEntityDtoItem()
+        protected override AreaDto CreateNewEntityDtoItem(int id)
         {
-            return new AreaDto();
+            return new AreaDto() { Id = id, Name = "Americas" };
         }
 
         protected override TableViewModelBase

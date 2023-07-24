@@ -149,17 +149,17 @@ namespace DbConfigurator.UI.ViewModel.Base
             where TCreateEventArgs : IEventArgs<TDto>, new()
         {
             EventAggregator.GetEvent<TCreateEvent>()
-                .Subscribe(args => OnCreateExecute(args));
+                .Subscribe(args => OnAddEntityExecute(args));
         }
         protected void SubscribeToEditEvent<TEditEvent, TEditEventArgs>()
             where TEditEvent : PubSubEvent<TEditEventArgs>, new()
             where TEditEventArgs : IEventArgs<TDto>, new()
         {
             EventAggregator.GetEvent<TEditEvent>()
-                .Subscribe(args => OnEditExecute(args));
+                .Subscribe(args => OnEditEntityExecute(args));
         }
 
-        protected void OnCreateExecute(IEventArgs<TDto> obj)
+        protected void OnAddEntityExecute(IEventArgs<TDto> obj)
         {
             var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), obj.Entity);
             if (wrapped is null)
@@ -167,7 +167,7 @@ namespace DbConfigurator.UI.ViewModel.Base
 
             Items.Add(wrapped);
         }
-        protected void OnEditExecute(IEventArgs<TDto> obj)
+        protected void OnEditEntityExecute(IEventArgs<TDto> obj)
         {
             var area = Items.Where(a => a.Id == obj.Entity.Id).FirstOrDefault();
             if (area is null)
