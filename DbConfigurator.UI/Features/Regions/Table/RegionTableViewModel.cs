@@ -25,6 +25,9 @@ namespace DbConfigurator.UI.Features.Regions
                 .Subscribe(OnCreateExecute);
             EventAggregator.GetEvent<EditRegionEvent>()
                 .Subscribe(OnEditExecute);
+
+            SubscribeToCreateEvent<CreateRegionEvent, CreateRegionEventArgs>();
+            SubscribeToEditEvent<EditRegionEvent, EditRegionEventArgs>();
         }
     }
 }

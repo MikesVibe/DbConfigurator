@@ -19,10 +19,8 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             AutoMapperConfig autoMapper
             ) : base(eventAggregator, dialogService, dataService, DistributionInformationDetailVmCreator, autoMapper)
         {
-            EventAggregator.GetEvent<CreateDistributionInformationEvent>()
-                .Subscribe(OnCreateExecute);
-            EventAggregator.GetEvent<EditDistributionInformationEvent>()
-                .Subscribe(OnEditExecute);
+            SubscribeToCreateEvent<CreateDistributionInformationEvent, CreateDistributionInformationEventArgs>();
+            SubscribeToEditEvent<EditDistributionInformationEvent, EditDistributionInformationEventArgs>();
         }
     }
 }

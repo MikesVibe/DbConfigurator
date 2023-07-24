@@ -22,10 +22,8 @@ namespace DbConfigurator.UI.Features.Areas
             AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService, dataService, areaDetailViewModelCreator, autoMapper)
         {
-            EventAggregator.GetEvent<CreateAreaEvent>()
-                .Subscribe(OnCreateExecute);
-            EventAggregator.GetEvent<EditAreaEvent>()
-                .Subscribe(OnEditExecute);
+            SubscribeToCreateEvent<CreateAreaEvent, CreateAreaEventArgs>();
+            SubscribeToEditEvent<EditAreaEvent, EditAreaEventArgs>();
         }
     }
 }

@@ -21,10 +21,8 @@ namespace DbConfigurator.UI.Features.Countries
             Func<CountryDetailViewModel> countryDetailViewModelCreator)
             : base(eventAggregator, dialogService, dataService, countryDetailViewModelCreator, autoMapper)
         {
-            EventAggregator.GetEvent<CreateCountryEvent>()
-                .Subscribe(OnCreateExecute);
-            EventAggregator.GetEvent<EditCountryEvent>()
-                .Subscribe(OnEditExecute);
+            SubscribeToCreateEvent<CreateCountryEvent, CreateCountryEventArgs>();
+            SubscribeToEditEvent<EditCountryEvent, EditCountryEventArgs>();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.UI.Contracts;
+using DbConfigurator.UI.Event;
+using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
@@ -35,6 +37,8 @@ namespace DbConfigurator.UI.ViewModel.Base
             AutoMapperConfig autoMapper)
         {
             EventAggregator = eventAggregator;
+
+
             WindowService = dialogService;
             DataService = dataService;
             DetailViewModelCreator = detailViewModel;
@@ -72,6 +76,8 @@ namespace DbConfigurator.UI.ViewModel.Base
         }
         public ObservableCollection<TWrapper> Items { get; set; } = new();
         public TWrapper? SelectedItem { get; set; }
+
+
 
         public async virtual Task LoadAsync()
         {
@@ -138,6 +144,22 @@ namespace DbConfigurator.UI.ViewModel.Base
         {
             throw new NotImplementedException();
         }
+
+        protected void SubscribeToCreateEvent<TCreateEvent, TCreateEventArgs>()
+            where TCreateEvent : PubSubEvent<TCreateEventArgs>, new()
+            where TCreateEventArgs : IEventArgs<TDto>, new()
+        {
+            EventAggregator.GetEvent<TCreateEvent>()
+                .Subscribe(args => OnCreateExecute(args));
+        }
+        protected void SubscribeToEditEvent<TEditEvent, TEditEventArgs>()
+            where TEditEvent : PubSubEvent<TEditEventArgs>, new()
+            where TEditEventArgs : IEventArgs<TDto>, new()
+        {
+            EventAggregator.GetEvent<TEditEvent>()
+                .Subscribe(args => OnEditExecute(args));
+        }
+
         protected void OnCreateExecute(IEventArgs<TDto> obj)
         {
             var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), obj.Entity);

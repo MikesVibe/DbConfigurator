@@ -21,10 +21,8 @@ namespace DbConfigurator.UI.Features.Recipients
             Func<RecipientDetailViewModel> addRecipientViewModelCreator
             ) : base(eventAggregator, dialogService, dataService, addRecipientViewModelCreator, autoMapper)
         {
-            EventAggregator.GetEvent<CreateRecipientEvent>()
-                .Subscribe(OnCreateExecute);
-            EventAggregator.GetEvent<EditRecipientEvent>()
-                .Subscribe(OnEditExecute);
+            SubscribeToCreateEvent<CreateRecipientEvent, CreateRecipientEventArgs>();
+            SubscribeToEditEvent<EditRecipientEvent, EditRecipientEventArgs>();
         }
     }
 }

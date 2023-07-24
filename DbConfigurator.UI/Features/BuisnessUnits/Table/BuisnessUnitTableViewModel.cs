@@ -20,10 +20,8 @@ namespace DbConfigurator.UI.Features.BuisnessUnits
             Func<BuisnessUnitDetailViewModel> buisnessUnitDetailViewModelCreator)
             : base(eventAggregator, dialogService, dataService, buisnessUnitDetailViewModelCreator, autoMapper)
         {
-            EventAggregator.GetEvent<CreateBuisnessUnitEvent>()
-                .Subscribe(OnCreateExecute);
-            EventAggregator.GetEvent<EditBuisnessUnitEvent>()
-                .Subscribe(OnEditExecute);
+            SubscribeToCreateEvent<CreateBuisnessUnitEvent, CreateBuisnessUnitEventArgs>();
+            SubscribeToEditEvent<EditBuisnessUnitEvent, EditBuisnessUnitEventArgs>();
         }
     }
 }
