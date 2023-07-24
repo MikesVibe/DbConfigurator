@@ -11,7 +11,9 @@ using System;
 
 namespace DbConfigurator.UI.Features.Countries
 {
-    public class CountryTableViewModel : TableViewModelBase<CountryDtoWrapper, CountryDto, ICountryService>, ITableViewModel
+    public class CountryTableViewModel : TableViewModelBase<CountryDtoWrapper, CountryDto, ICountryService,
+        CreateCountryEvent, CreateCountryEventArgs,
+        EditCountryEvent, EditCountryEventArgs>, ITableViewModel
     {
 
         public CountryTableViewModel(IEventAggregator eventAggregator,
@@ -21,8 +23,6 @@ namespace DbConfigurator.UI.Features.Countries
             Func<CountryDetailViewModel> countryDetailViewModelCreator)
             : base(eventAggregator, dialogService, dataService, countryDetailViewModelCreator, autoMapper)
         {
-            SubscribeToCreateEvent<CreateCountryEvent, CreateCountryEventArgs>();
-            SubscribeToEditEvent<EditCountryEvent, EditCountryEventArgs>();
         }
     }
 }

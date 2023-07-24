@@ -10,7 +10,9 @@ using System;
 
 namespace DbConfigurator.UI.Features.Recipients
 {
-    public class RecipientTableViewModel : TableViewModelBase<RecipientDtoWrapper, RecipientDto, IRecipientService>
+    public class RecipientTableViewModel : TableViewModelBase<RecipientDtoWrapper, RecipientDto, IRecipientService,
+        CreateRecipientEvent, CreateRecipientEventArgs,
+        EditRecipientEvent, EditRecipientEventArgs>
     {
 
         public RecipientTableViewModel(
@@ -21,8 +23,6 @@ namespace DbConfigurator.UI.Features.Recipients
             Func<RecipientDetailViewModel> addRecipientViewModelCreator
             ) : base(eventAggregator, dialogService, dataService, addRecipientViewModelCreator, autoMapper)
         {
-            SubscribeToCreateEvent<CreateRecipientEvent, CreateRecipientEventArgs>();
-            SubscribeToEditEvent<EditRecipientEvent, EditRecipientEventArgs>();
         }
     }
 }

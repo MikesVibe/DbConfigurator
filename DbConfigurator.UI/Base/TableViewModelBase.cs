@@ -16,10 +16,16 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class TableViewModelBase<TWrapper, TDto, TDataService> : NotifyBase, ITableViewModel
+    public abstract class TableViewModelBase<TWrapper, TDto, TDataService,
+        TCreateEvent, TCreateEventArgs,
+        TEditEvent, TEditEventArgs> : NotifyBase, ITableViewModel
         where TWrapper : IWrapperWithId
         where TDto : class, IEntityDto
         where TDataService : IDataService<TDto>
+        where TCreateEvent : PubSubEvent<TCreateEventArgs>, new()
+        where TCreateEventArgs : IEventArgs<TDto>, new()
+        where TEditEvent : PubSubEvent<TEditEventArgs>, new()
+        where TEditEventArgs : IEventArgs<TDto>, new()
     {
         protected readonly IEditingWindowService WindowService;
         protected readonly IEventAggregator EventAggregator;
@@ -37,7 +43,8 @@ namespace DbConfigurator.UI.ViewModel.Base
             AutoMapperConfig autoMapper)
         {
             EventAggregator = eventAggregator;
-
+            SubscribeToCreateEvent();
+            SubscribeToEditEvent();
 
             WindowService = dialogService;
             DataService = dataService;
@@ -144,22 +151,18 @@ namespace DbConfigurator.UI.ViewModel.Base
             throw new NotImplementedException();
         }
 
-        protected void SubscribeToCreateEvent<TCreateEvent, TCreateEventArgs>()
-            where TCreateEvent : PubSubEvent<TCreateEventArgs>, new()
-            where TCreateEventArgs : IEventArgs<TDto>, new()
+        protected void SubscribeToCreateEvent()
         {
             EventAggregator.GetEvent<TCreateEvent>()
                 .Subscribe(args => OnAddEntityExecute(args));
         }
-        protected void SubscribeToEditEvent<TEditEvent, TEditEventArgs>()
-            where TEditEvent : PubSubEvent<TEditEventArgs>, new()
-            where TEditEventArgs : IEventArgs<TDto>, new()
+        protected void SubscribeToEditEvent()
         {
             EventAggregator.GetEvent<TEditEvent>()
                 .Subscribe(args => OnEditEntityExecute(args));
         }
 
-        protected void OnAddEntityExecute(IEventArgs<TDto> obj)
+        protected void OnAddEntityExecute(TCreateEventArgs obj)
         {
             var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), obj.Entity);
             if (wrapped is null)

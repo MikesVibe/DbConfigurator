@@ -11,7 +11,9 @@ using System;
 
 namespace DbConfigurator.UI.Features.BuisnessUnits
 {
-    public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper, BuisnessUnitDto, IBuisnessUnitService>, ITableViewModel
+    public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper, BuisnessUnitDto, IBuisnessUnitService,
+        CreateBuisnessUnitEvent, CreateBuisnessUnitEventArgs,
+        EditBuisnessUnitEvent, EditBuisnessUnitEventArgs>, ITableViewModel
     {
         public BuisnessUnitTableViewModel(IEventAggregator eventAggregator,
             IEditingWindowService dialogService,
@@ -20,8 +22,6 @@ namespace DbConfigurator.UI.Features.BuisnessUnits
             Func<BuisnessUnitDetailViewModel> buisnessUnitDetailViewModelCreator)
             : base(eventAggregator, dialogService, dataService, buisnessUnitDetailViewModelCreator, autoMapper)
         {
-            SubscribeToCreateEvent<CreateBuisnessUnitEvent, CreateBuisnessUnitEventArgs>();
-            SubscribeToEditEvent<EditBuisnessUnitEvent, EditBuisnessUnitEventArgs>();
         }
     }
 }

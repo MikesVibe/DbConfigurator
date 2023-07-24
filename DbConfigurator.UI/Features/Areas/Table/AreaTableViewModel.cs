@@ -11,7 +11,9 @@ using System;
 
 namespace DbConfigurator.UI.Features.Areas
 {
-    public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper, AreaDto, IAreaService>, ITableViewModel
+    public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper, AreaDto, IAreaService,
+        CreateAreaEvent, CreateAreaEventArgs,
+        EditAreaEvent, EditAreaEventArgs>, ITableViewModel
     {
 
         public AreaTableViewModel(
@@ -22,8 +24,6 @@ namespace DbConfigurator.UI.Features.Areas
             AutoMapperConfig autoMapper)
             : base(eventAggregator, dialogService, dataService, areaDetailViewModelCreator, autoMapper)
         {
-            SubscribeToCreateEvent<CreateAreaEvent, CreateAreaEventArgs>();
-            SubscribeToEditEvent<EditAreaEvent, EditAreaEventArgs>();
         }
     }
 }

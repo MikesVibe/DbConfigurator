@@ -10,7 +10,9 @@ using System;
 
 namespace DbConfigurator.UI.Features.Regions
 {
-    public class RegionTableViewModel : TableViewModelBase<RegionDtoWrapper, RegionDto, IRegionService>
+    public class RegionTableViewModel : TableViewModelBase<RegionDtoWrapper, RegionDto, IRegionService,
+        CreateRegionEvent, CreateRegionEventArgs,
+        EditRegionEvent, EditRegionEventArgs>
     {
 
         public RegionTableViewModel(
@@ -21,13 +23,6 @@ namespace DbConfigurator.UI.Features.Regions
             Func<RegionDetailViewModel> addRegionCreator
             ) : base(eventAggregator, dialogService, dataService, addRegionCreator, autoMapper)
         {
-            EventAggregator.GetEvent<CreateRegionEvent>()
-                .Subscribe(OnAddEntityExecute);
-            EventAggregator.GetEvent<EditRegionEvent>()
-                .Subscribe(OnEditEntityExecute);
-
-            SubscribeToCreateEvent<CreateRegionEvent, CreateRegionEventArgs>();
-            SubscribeToEditEvent<EditRegionEvent, EditRegionEventArgs>();
         }
     }
 }

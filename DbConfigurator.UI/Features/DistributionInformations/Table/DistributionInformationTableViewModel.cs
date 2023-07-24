@@ -10,7 +10,11 @@ using System;
 
 namespace DbConfigurator.UI.Features.DistributionInformations
 {
-    public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper, DistributionInformationDto, IDistributionInformationService>
+    public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper,
+        DistributionInformationDto,
+        IDistributionInformationService,
+        CreateDistributionInformationEvent, CreateDistributionInformationEventArgs,
+        EditDistributionInformationEvent, EditDistributionInformationEventArgs>
     {
         public DistributionInformationTableViewModel(IEditingWindowService dialogService,
             IEventAggregator eventAggregator,
@@ -19,8 +23,6 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             AutoMapperConfig autoMapper
             ) : base(eventAggregator, dialogService, dataService, DistributionInformationDetailVmCreator, autoMapper)
         {
-            SubscribeToCreateEvent<CreateDistributionInformationEvent, CreateDistributionInformationEventArgs>();
-            SubscribeToEditEvent<EditDistributionInformationEvent, EditDistributionInformationEventArgs>();
         }
     }
 }

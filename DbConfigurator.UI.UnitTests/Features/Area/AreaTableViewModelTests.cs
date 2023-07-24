@@ -21,16 +21,18 @@ using Xunit;
 namespace DbConfigurator.UI.UnitTests.Features.Area
 {
 
-    public class AreaTableViewModelTests : TableViewModelBaseTests
+    public class AreaTableViewMmodelTests : TableViewModelBaseTests
         <AreaDtoWrapper,
         AreaDto,
         IAreaService,
-        AreaDetailViewModel>
+        AreaDetailViewModel,
+        CreateAreaEvent, CreateAreaEventArgs,
+        EditAreaEvent, EditAreaEventArgs>
     {
-
-        public AreaTableViewModelTests()
+        public AreaTableViewMmodelTests()
             : base()
         {
+
         }
 
         protected override IEnumerable<AreaDtoWrapper> CreateItemsList()
@@ -56,15 +58,11 @@ namespace DbConfigurator.UI.UnitTests.Features.Area
         protected override TableViewModelBase
             <AreaDtoWrapper,
             AreaDto,
-            IAreaService>
+            IAreaService,
+            CreateAreaEvent, CreateAreaEventArgs,
+            EditAreaEvent, EditAreaEventArgs>
             CreateViewModel()
         {
-            EventAggregatorMock.Setup(ea => ea.GetEvent<EditAreaEvent>())
-                .Returns(new EditAreaEvent());
-            EventAggregatorMock.Setup(ea => ea.GetEvent<CreateAreaEvent>())
-                .Returns(new CreateAreaEvent());
-            DataServiceMock = new Mock<IAreaService>();
-
             return new AreaTableViewModel(
                 EventAggregatorMock.Object,
                 EditingWindow.Object,

@@ -20,11 +20,12 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
 {
-    public class DistributionInformationTableViewModelTests : TableViewModelBaseTests
-        <DistributionInformationDtoWrapper,
+    public class DistributionInformationTableViewModelTests : TableViewModelBaseTests<DistributionInformationDtoWrapper,
         DistributionInformationDto,
         IDistributionInformationService,
-        DistributionInformationDetailViewModel>
+        DistributionInformationDetailViewModel,
+        CreateDistributionInformationEvent, CreateDistributionInformationEventArgs,
+        EditDistributionInformationEvent, EditDistributionInformationEventArgs>
     {
 
         public DistributionInformationTableViewModelTests()
@@ -80,23 +81,24 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
             };
         }
 
+
+
         protected override TableViewModelBase
             <DistributionInformationDtoWrapper,
             DistributionInformationDto,
-            IDistributionInformationService>
+            IDistributionInformationService,
+            CreateDistributionInformationEvent, CreateDistributionInformationEventArgs,
+            EditDistributionInformationEvent, EditDistributionInformationEventArgs>
             CreateViewModel()
         {
-            EventAggregatorMock.Setup(ea => ea.GetEvent<EditDistributionInformationEvent>())
-                .Returns(new EditDistributionInformationEvent());
-            EventAggregatorMock.Setup(ea => ea.GetEvent<CreateDistributionInformationEvent>())
-                .Returns(new CreateDistributionInformationEvent());
-
-            return new DistributionInformationTableViewModel(
+           return new DistributionInformationTableViewModel(
                 EditingWindow.Object,
                 EventAggregatorMock.Object,
                 DataServiceMock.Object,
                 DetailVmCreator,
                 new AutoMapperConfig());
         }
+
+
     }
 }

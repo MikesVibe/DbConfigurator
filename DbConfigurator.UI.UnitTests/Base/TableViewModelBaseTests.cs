@@ -1,8 +1,10 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.UI.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Features.DistributionInformations;
+using DbConfigurator.UI.Features.Panels.DistributionInformation;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
@@ -15,41 +17,60 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 using Xunit;
 
 namespace DbConfigurator.UI.UnitTests.Base
 {
-    public abstract class TableViewModelBaseTests<TWrapper, TDto, TDataService, TDetailVm>
+    public abstract class TableViewModelBaseTests<TWrapper, TDto, TDataService, TDetailVm,
+        TCreateEvent, TCreateEventArgs,
+        TEditEvent, TEditEventArgs>
         where TWrapper : IWrapperWithId
         where TDto : class, IEntityDto
         where TDataService : class, IDataService<TDto>
         where TDetailVm : IDetailViewModel
+        where TCreateEvent : PubSubEvent<TCreateEventArgs>, new()
+        where TCreateEventArgs : IEventArgs<TDto>, new()
+        where TEditEvent : PubSubEvent<TEditEventArgs>, new()
+        where TEditEventArgs : IEventArgs<TDto>, new()
     {
         protected Mock<IEventAggregator> EventAggregatorMock;
 
         protected Mock<IEditingWindowService> EditingWindow;
         protected Mock<TDataService> DataServiceMock;
         protected Func<TDetailVm> DetailVmCreator;
-        protected TableViewModelBase<TWrapper, TDto, TDataService> ViewModel;
+        protected TableViewModelBase<TWrapper, TDto, TDataService,
+        TCreateEvent, TCreateEventArgs,
+        TEditEvent, TEditEventArgs> ViewModel;
+        private TCreateEvent _createItemEvent;
+        private TEditEvent _editItemEvent;
 
         public TableViewModelBaseTests()
         {
             EventAggregatorMock = new Mock<IEventAggregator>();
+            _createItemEvent = new TCreateEvent();
+            _editItemEvent = new TEditEvent();
+            EventAggregatorMock.Setup(ea => ea.GetEvent<TCreateEvent>())
+                .Returns(_createItemEvent);
+            EventAggregatorMock.Setup(ea => ea.GetEvent<TEditEvent>())
+                .Returns(_editItemEvent);
+
             EditingWindow = new Mock<IEditingWindowService>();
             DataServiceMock = new Mock<TDataService>();
-            
+
             DetailVmCreator = CreateNewDetailViewModel;
             ViewModel = CreateViewModel();
         }
 
 
-        protected abstract TableViewModelBase<TWrapper, TDto, TDataService> CreateViewModel();
+        protected abstract TableViewModelBase<TWrapper, TDto, TDataService, TCreateEvent, TCreateEventArgs,
+        TEditEvent, TEditEventArgs> CreateViewModel();
         protected abstract TDetailVm CreateNewDetailViewModel();
         protected abstract TDto CreateNewEntityDtoItem(int id);
         protected abstract IEnumerable<TWrapper> CreateItemsList();
-
-
 
         [Fact]
         public async Task ShouldLoadItemsOnLoadAsyncMethod()
@@ -59,7 +80,7 @@ namespace DbConfigurator.UI.UnitTests.Base
             testData.Add(CreateNewEntityDtoItem(1));
             testData.Add(CreateNewEntityDtoItem(2));
             testData.Add(CreateNewEntityDtoItem(3));
-            
+
             DataServiceMock.Setup(ds => ds.GetAllAsync()).ReturnsAsync(testData);
 
             // Act
@@ -97,15 +118,25 @@ namespace DbConfigurator.UI.UnitTests.Base
 
             EditingWindow.Verify(ew => ew.ShowWindow(It.IsAny<IDetailViewModel>()), Times.Once);
         }
-        //[Fact]
-        //public void ShouldCallLoadAsyncMethodOnDetailVmAfterPressingEditButton()
+        [Fact]
+        public void ShouldAddNewItemToListAfterCreateEventWasCalled()
+        {
+            _createItemEvent.Publish(new TCreateEventArgs
+            {
+                Entity = CreateNewEntityDtoItem(1)
+            });
+            var items = ViewModel.Items;
+            Assert.Equal(1, items.Count);
+        }
+        //protected override void PublishCreateEvent()
         //{
-        //    int distributionInformationId = 7;
-        //    ViewModel.AddCommand.Execute(null);
+        //    var _openTableViewEvent = new CreateDistributionInformationEvent();
 
-        //    EditingWindow.Verify(ew => ew.ShowWindow(It.IsAny<IDetailViewModel>()), Times.Once);
+        //    _openTableViewEvent.Publish(new CreateDistributionInformationEventArgs
+        //    {
+        //        Entity = CreateNewEntityDtoItem(1)
+        //    });
         //}
-
 
     }
 }
