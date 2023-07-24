@@ -21,15 +21,14 @@ using Xunit;
 namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
 {
     
-    public class DistributionInformationTableViewModelTests : TableViewModelBaseTests
+    public class AreaTableViewModelTests : TableViewModelBaseTests
         <AreaDtoWrapper,
         AreaDto,
         IAreaService,
         AreaDetailViewModel>
     {
-        private Mock<IEventAggregator> _eventAggregatorMock;
 
-        public DistributionInformationTableViewModelTests()
+        public AreaTableViewModelTests()
             : base()
         {
         }
@@ -41,13 +40,17 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
                 _eventAggregatorMock.Object);
         }
 
+        protected override AreaDto CreateNewEntityDtoItem()
+        {
+            return new AreaDto();
+        }
+
         protected override TableViewModelBase
             <AreaDtoWrapper,
             AreaDto,
             IAreaService>
             CreateViewModel()
         {
-            _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<EditAreaEvent>())
                 .Returns(new EditAreaEvent());
             _eventAggregatorMock.Setup(ea => ea.GetEvent<CreateAreaEvent>())

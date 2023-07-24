@@ -18,15 +18,14 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.UnitTests.Features.Area
 {
-    public class AreaTableViewModelTests : TableViewModelBaseTests
+    public class DistributionInformationTableViewModelTests : TableViewModelBaseTests
         <DistributionInformationDtoWrapper,
         DistributionInformationDto,
         IDistributionInformationService,
         DistributionInformationDetailViewModel>
     {
-        private Mock<IEventAggregator> _eventAggregatorMock;
 
-        public AreaTableViewModelTests()
+        public DistributionInformationTableViewModelTests()
             : base()
         {
         }
@@ -38,14 +37,45 @@ namespace DbConfigurator.UI.UnitTests.Features.Area
                 _eventAggregatorMock.Object);
         }
 
+        protected override DistributionInformationDto CreateNewEntityDtoItem()
+        {
+            return new DistributionInformationDto
+            {
+                Id = 1,
+                Region = new RegionDto
+                {
+                    Id = 1,
+                    Area = new AreaDto
+                    {
+                        Id = 1,
+                        Name = "Americas"
+                    },
+                    BuisnessUnit = new BuisnessUnitDto
+                    {
+                        Id = 1,
+                        Name = "NAO"
+                    },
+                    Country = new CountryDto
+                    {
+                        Id = 1,
+                        CountryName = "Canada",
+                        CountryCode = "CA"
+                    }
+                },
+                Priority = new PriorityDto
+                {
+                    Id = 1,
+                    Name = "P1"
+                }
+            };
+        }
+
         protected override TableViewModelBase
             <DistributionInformationDtoWrapper,
             DistributionInformationDto,
             IDistributionInformationService>
             CreateViewModel()
         {
-            editingWindow = new Mock<IEditingWindowService>();
-            _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<EditDistributionInformationEvent>())
                 .Returns(new EditDistributionInformationEvent());
             _eventAggregatorMock.Setup(ea => ea.GetEvent<CreateDistributionInformationEvent>())

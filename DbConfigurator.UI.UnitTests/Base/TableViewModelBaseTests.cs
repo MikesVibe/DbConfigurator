@@ -4,6 +4,7 @@ using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Base;
 using Moq;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace DbConfigurator.UI.UnitTests.Base
         where TDataService : class, IDataService<TDto>
         where TDetailVm : IDetailViewModel
     {
+        protected Mock<IEventAggregator> _eventAggregatorMock;
+
         protected Mock<IEditingWindowService> editingWindow;
         protected Mock<TDataService> dataServiceMock;
         protected Func<TDetailVm> detailVmCreator;
@@ -26,6 +29,7 @@ namespace DbConfigurator.UI.UnitTests.Base
 
         public TableViewModelBaseTests()
         {
+            _eventAggregatorMock = new Mock<IEventAggregator>();
             editingWindow = new Mock<IEditingWindowService>();
 
             detailVmCreator = CreateNewDetailViewModel();
@@ -41,15 +45,13 @@ namespace DbConfigurator.UI.UnitTests.Base
         public async Task ShouldLoadItemsOnLoadAsyncMethod()
         {
             // Arrange
-            // Create a mock data service with test data
-            var mockDataService = new Mock<IDataService<TDto>>();
-            var testData = new List<TDto>
-            {
-                // Add test data items
-            };
-            mockDataService.Setup(ds => ds.GetAllAsync()).ReturnsAsync(testData);
+            var testData = new List<TDto>();
+            testData.Add(CreateNewEntityDtoItem());
+            testData.Add(CreateNewEntityDtoItem());
+            testData.Add(CreateNewEntityDtoItem());
+            
+            dataServiceMock.Setup(ds => ds.GetAllAsync()).ReturnsAsync(testData);
 
-            // Create an instance of the TableViewModelBase class with the mock dependencies
 
             // Act
             await viewModel.LoadAsync();
@@ -65,6 +67,8 @@ namespace DbConfigurator.UI.UnitTests.Base
                 // Perform additional assertions if needed.
             }
         }
+
+        protected abstract TDto CreateNewEntityDtoItem();
 
         [Fact]
         public void ShouldOpenEditingWindowAfterPressingAddButton()
