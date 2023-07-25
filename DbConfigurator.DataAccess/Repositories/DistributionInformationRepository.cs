@@ -16,6 +16,7 @@ namespace DbConfigurator.DataAccess.Repository
         {
             var entity = await GetByIdAsync(distributionInformation.Id);
 
+
             if (entity is null)
             {
                 return false;
@@ -23,7 +24,9 @@ namespace DbConfigurator.DataAccess.Repository
 
             entity.RegionId = distributionInformation.RegionId;
             entity.PriorityId = distributionInformation.PriorityId;
-
+            _context.Entry(entity).State = EntityState.Modified;
+            await SaveChangesAsync();
+            _context.Entry(entity).State = EntityState.Detached;
             // Optimized Handling the RecipientsTo
             UpdateRecipients(entity.RecipientsTo, distributionInformation.RecipientsTo);
 

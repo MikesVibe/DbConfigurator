@@ -50,6 +50,7 @@ namespace DbConfigurator.UI.ViewModel.Base
                 if (entity is null)
                     return;
 
+                Action = ModelAction.Update;
                 EntityDto = entity;
             }
             catch(Exception ex)

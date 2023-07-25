@@ -43,8 +43,10 @@ namespace DbConfigurator.UI.ViewModel.Base
             AutoMapperConfig autoMapper)
         {
             EventAggregator = eventAggregator;
-            SubscribeToCreateEvent();
-            SubscribeToEditEvent();
+            EventAggregator.GetEvent<TCreateEvent>()
+                .Subscribe(args => OnAddEntityExecute(args));
+            EventAggregator.GetEvent<TEditEvent>()
+                .Subscribe(args => OnEditEntityExecute(args));
 
             WindowService = dialogService;
             DataService = dataService;
@@ -152,16 +154,7 @@ namespace DbConfigurator.UI.ViewModel.Base
             throw new NotImplementedException();
         }
 
-        protected void SubscribeToCreateEvent()
-        {
-            EventAggregator.GetEvent<TCreateEvent>()
-                .Subscribe(args => OnAddEntityExecute(args));
-        }
-        protected void SubscribeToEditEvent()
-        {
-            EventAggregator.GetEvent<TEditEvent>()
-                .Subscribe(args => OnEditEntityExecute(args));
-        }
+
 
         protected void OnAddEntityExecute(TCreateEventArgs obj)
         {

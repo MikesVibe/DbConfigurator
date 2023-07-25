@@ -71,11 +71,14 @@ namespace DbConfigurator.DataAccess.Repository
         }
         public virtual async Task UpdateAsync(T entity)
         {
-            var existing = await _context.Set<T>().FindAsync(entity.Id);
+            var existing = await GetByIdAsync(entity.Id);
             if (existing is null)
                 return;
 
             _context.Entry(existing).CurrentValues.SetValues(entity);
+            _context.Entry(existing).State = EntityState.Modified;
+            await SaveChangesAsync();
+            _context.Entry(existing).State = EntityState.Detached;
         }
         public virtual async Task<bool> RemoveByIdAsync(int id)
         {
