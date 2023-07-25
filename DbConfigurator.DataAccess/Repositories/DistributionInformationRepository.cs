@@ -12,29 +12,30 @@ namespace DbConfigurator.DataAccess.Repository
         {
         }
 
-        public override async Task<bool> UpdateAsync(DistributionInformation distributionInformation)
+        public override async Task UpdateAsync(DistributionInformation distributionInformation)
         {
             var entity = await GetByIdAsync(distributionInformation.Id);
-
-
             if (entity is null)
             {
-                return false;
+                return;
             }
 
             entity.RegionId = distributionInformation.RegionId;
             entity.PriorityId = distributionInformation.PriorityId;
-            _context.Entry(entity).State = EntityState.Modified;
-            await SaveChangesAsync();
+
+            await _context.SaveChangesAsync();
             _context.Entry(entity).State = EntityState.Detached;
+
+
             // Optimized Handling the RecipientsTo
             UpdateRecipients(entity.RecipientsTo, distributionInformation.RecipientsTo);
 
             // Optimized Handling the RecipientsCc
             UpdateRecipients(entity.RecipientsCc, distributionInformation.RecipientsCc);
 
+            _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return true;
+            _context.Entry(entity).State = EntityState.Detached;
         }
 
         public override async Task<IEnumerable<DistributionInformation>> GetAllAsync()
