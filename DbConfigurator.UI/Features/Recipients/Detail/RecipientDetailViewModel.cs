@@ -12,8 +12,8 @@ namespace DbConfigurator.UI.Features.Recipients
         public RecipientDetailViewModel(IRecipientService recipientService, IEventAggregator eventAggregator) : base(recipientService, eventAggregator)
         {
             Title = "Recipient";
-            ViewWidth = 560;
-            ViewHeight = 340;
+            ViewWidth = 640;
+            ViewHeight = 440;
         }
 
         protected override void OnCreate()
