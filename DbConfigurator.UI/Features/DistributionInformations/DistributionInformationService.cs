@@ -18,7 +18,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         private readonly RecipientRepository _recipientRepository;
         private readonly PriorityRepository _priorityRepository;
         private readonly RegionRepository _regionRepository;
-        private readonly BuisnessUnitRepository _buisnessUnitRepository;
+        private readonly BusinessUnitRepository _BusinessUnitRepository;
         private readonly CountryRepository _countryRepository;
 
         public DistributionInformationService(
@@ -26,7 +26,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             RecipientRepository recipientRepository,
             PriorityRepository priorityRepository,
             RegionRepository regionRepository,
-            BuisnessUnitRepository buisnessUnitRepository,
+            BusinessUnitRepository BusinessUnitRepository,
             CountryRepository countryRepository,
             AutoMapperConfig autoMapper
             )
@@ -35,7 +35,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             _recipientRepository = recipientRepository;
             _priorityRepository = priorityRepository;
             _regionRepository = regionRepository;
-            _buisnessUnitRepository = buisnessUnitRepository;
+            _BusinessUnitRepository = BusinessUnitRepository;
             _countryRepository = countryRepository;
         }
 
@@ -47,22 +47,22 @@ namespace DbConfigurator.UI.Features.DistributionInformations
 
             return _autoMapper.Mapper.Map<IEnumerable<AreaDto>>(countries);
         }
-        public async Task<IEnumerable<BuisnessUnitDto>> GetUniqueBuisnessUnitsFromRegionAsync(int? areaId = null)
+        public async Task<IEnumerable<BusinessUnitDto>> GetUniqueBusinessUnitsFromRegionAsync(int? areaId = null)
         {
             IEnumerable<Region> regions = areaId is null ?
                 await _regionRepository.GetAllAsync() :
                 await _regionRepository.GetAllAsync(i => i.AreaId == areaId);
 
-            var buisnessUnitsIdList = regions.Select(r => r.BuisnessUnitId);
-            var buisnessUnits = await _buisnessUnitRepository.GetAllAsync(b => buisnessUnitsIdList.Contains(b.Id));
+            var BusinessUnitsIdList = regions.Select(r => r.BusinessUnitId);
+            var BusinessUnits = await _BusinessUnitRepository.GetAllAsync(b => BusinessUnitsIdList.Contains(b.Id));
 
-            return _autoMapper.Mapper.Map<IEnumerable<BuisnessUnitDto>>(buisnessUnits);
+            return _autoMapper.Mapper.Map<IEnumerable<BusinessUnitDto>>(BusinessUnits);
         }
-        public async Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? buisnessUnitId = null)
+        public async Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? BusinessUnitId = null)
         {
-            var regions = buisnessUnitId is null ?
+            var regions = BusinessUnitId is null ?
                 await _regionRepository.GetAllAsync() :
-                await _regionRepository.GetAllAsync(i => i.AreaId == areaId && i.BuisnessUnitId == buisnessUnitId);
+                await _regionRepository.GetAllAsync(i => i.AreaId == areaId && i.BusinessUnitId == BusinessUnitId);
 
             var countriesIdList = regions.Select(r => r.CountryId);
             var countries = await _countryRepository.GetAllAsync(c => countriesIdList.Contains(c.Id));
@@ -87,9 +87,9 @@ namespace DbConfigurator.UI.Features.DistributionInformations
 
             return _autoMapper.Mapper.Map<IEnumerable<PriorityDto>>(priorities);
         }
-        public async Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int buisnessUnitId, int countryId)
+        public async Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int BusinessUnitId, int countryId)
         {
-            var regions = await _regionRepository.GetRegionsWithAsync(areaId, buisnessUnitId, countryId);
+            var regions = await _regionRepository.GetRegionsWithAsync(areaId, BusinessUnitId, countryId);
 
             return _autoMapper.Mapper.Map<IEnumerable<RegionDto>>(regions);
         }

@@ -3,7 +3,7 @@ using DbConfigurator.DataAccess;
 using DbConfigurator.DataAccess.Repositories;
 using DbConfigurator.DataAccess.Repository;
 using DbConfigurator.UI.Features.Areas;
-using DbConfigurator.UI.Features.BuisnessUnits;
+using DbConfigurator.UI.Features.BusinessUnits;
 using DbConfigurator.UI.Features.Countries;
 using DbConfigurator.UI.Features.DistributionInformations;
 using DbConfigurator.UI.Features.Panels.Creation;
@@ -38,7 +38,7 @@ namespace DbConfigurator.UI.Startup
 
             //Repositories
             builder.RegisterType<AreaRepository>().AsSelf();
-            builder.RegisterType<BuisnessUnitRepository>().AsSelf();
+            builder.RegisterType<BusinessUnitRepository>().AsSelf();
             builder.RegisterType<CountryRepository>().AsSelf();
             builder.RegisterType<RegionRepository>().AsSelf();
             builder.RegisterType<PriorityRepository>().AsSelf();
@@ -50,7 +50,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<DistributionInformationService>().As<IDistributionInformationService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
             builder.RegisterType<AreaService>().As<IAreaService>().SingleInstance();
-            builder.RegisterType<BuisnessUnitService>().As<IBuisnessUnitService>().SingleInstance();
+            builder.RegisterType<BusinessUnitService>().As<IBusinessUnitService>().SingleInstance();
             builder.RegisterType<CountryService>().As<ICountryService>().SingleInstance();
             builder.RegisterType<RecipientService>().As<IRecipientService>().SingleInstance();
 
@@ -70,8 +70,8 @@ namespace DbConfigurator.UI.Startup
             //Table View Models
             builder.RegisterType<AreaTableViewModel>()
                  .Keyed<ITableViewModel>(nameof(AreaTableViewModel));
-            builder.RegisterType<BuisnessUnitTableViewModel>()
-                 .Keyed<ITableViewModel>(nameof(BuisnessUnitTableViewModel));
+            builder.RegisterType<BusinessUnitTableViewModel>()
+                 .Keyed<ITableViewModel>(nameof(BusinessUnitTableViewModel));
             builder.RegisterType<CountryTableViewModel>()
                  .Keyed<ITableViewModel>(nameof(CountryTableViewModel));
             builder.RegisterType<DistributionInformationTableViewModel>()
@@ -84,8 +84,8 @@ namespace DbConfigurator.UI.Startup
             //Editing View Models
             builder.RegisterType<AreaDetailViewModel>()
                  .Keyed<IDetailViewModel>(nameof(AreaDetailViewModel));
-            builder.RegisterType<BuisnessUnitDetailViewModel>()
-                 .Keyed<IDetailViewModel>(nameof(BuisnessUnitDetailViewModel));
+            builder.RegisterType<BusinessUnitDetailViewModel>()
+                 .Keyed<IDetailViewModel>(nameof(BusinessUnitDetailViewModel));
             builder.RegisterType<CountryDetailViewModel>()
                  .Keyed<IDetailViewModel>(nameof(CountryDetailViewModel));
             builder.RegisterType<RecipientDetailViewModel>()
@@ -96,7 +96,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<RecipientDetailViewModel>().AsSelf();
             builder.RegisterType<RegionDetailViewModel>().AsSelf();
             builder.RegisterType<AreaDetailViewModel>().AsSelf();
-            builder.RegisterType<BuisnessUnitDetailViewModel>().AsSelf();
+            builder.RegisterType<BusinessUnitDetailViewModel>().AsSelf();
             builder.RegisterType<CountryDetailViewModel>().AsSelf();
 
         }

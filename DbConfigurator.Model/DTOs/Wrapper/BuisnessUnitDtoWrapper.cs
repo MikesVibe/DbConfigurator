@@ -4,9 +4,9 @@ using DbConfigurator.Model.Entities.Wrapper;
 
 namespace DbConfigurator.Model.DTOs.Wrapper
 {
-    public class BuisnessUnitDtoWrapper : ModelWrapper<BuisnessUnitDto>, IWrapperWithId
+    public class BusinessUnitDtoWrapper : ModelWrapper<BusinessUnitDto>, IWrapperWithId
     {
-        public BuisnessUnitDtoWrapper(BuisnessUnitDto model) : base(model)
+        public BusinessUnitDtoWrapper(BusinessUnitDto model) : base(model)
         {
         }
         public int Id

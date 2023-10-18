@@ -6,7 +6,7 @@ namespace DbConfigurator.DataAccess
     internal class GenericDataForTabels
     {
         public List<AreaForCreationDto> Areas { get; private set; } = new List<AreaForCreationDto>();
-        public List<BuisnessUnitForCreationDto> BuisnessUnits { get; private set; } = new List<BuisnessUnitForCreationDto>();
+        public List<BusinessUnitForCreationDto> BusinessUnits { get; private set; } = new List<BusinessUnitForCreationDto>();
         public List<CountryForCreationDto> Countries { get; private set; } = new List<CountryForCreationDto>();
         public List<PriorityForCreationDto> Priorities { get; private set; } = new List<PriorityForCreationDto>();
 
@@ -28,22 +28,22 @@ namespace DbConfigurator.DataAccess
                  new AreaForCreationDto(99, "ANY")
             };
 
-            BuisnessUnits = new List<BuisnessUnitForCreationDto>()
+            BusinessUnits = new List<BusinessUnitForCreationDto>()
             {
-                new BuisnessUnitForCreationDto( 1, "NAO"),
-                new BuisnessUnitForCreationDto( 2, "SAM"),
-                new BuisnessUnitForCreationDto( 3, "GER"),
-                new BuisnessUnitForCreationDto( 4, "CEE"),
-                new BuisnessUnitForCreationDto( 5, "MEK"),
-                new BuisnessUnitForCreationDto( 6, "AFR"),
-                new BuisnessUnitForCreationDto( 7, "IND"),
-                new BuisnessUnitForCreationDto( 8, "APAC"),
-                new BuisnessUnitForCreationDto( 9, "BTN"),
-                new BuisnessUnitForCreationDto( 10, "UK&I"),
-                new BuisnessUnitForCreationDto( 11, "ITA"),
-                new BuisnessUnitForCreationDto( 12, "IBE"),
-                new BuisnessUnitForCreationDto( 13, "FRA"),
-                new BuisnessUnitForCreationDto( 99, "ANY")
+                new BusinessUnitForCreationDto( 1, "NAO"),
+                new BusinessUnitForCreationDto( 2, "SAM"),
+                new BusinessUnitForCreationDto( 3, "GER"),
+                new BusinessUnitForCreationDto( 4, "CEE"),
+                new BusinessUnitForCreationDto( 5, "MEK"),
+                new BusinessUnitForCreationDto( 6, "AFR"),
+                new BusinessUnitForCreationDto( 7, "IND"),
+                new BusinessUnitForCreationDto( 8, "APAC"),
+                new BusinessUnitForCreationDto( 9, "BTN"),
+                new BusinessUnitForCreationDto( 10, "UK&I"),
+                new BusinessUnitForCreationDto( 11, "ITA"),
+                new BusinessUnitForCreationDto( 12, "IBE"),
+                new BusinessUnitForCreationDto( 13, "FRA"),
+                new BusinessUnitForCreationDto( 99, "ANY")
             };
 
             Countries = new List<CountryForCreationDto>()

@@ -23,7 +23,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         private ObservableCollection<RecipientDto> _recipientsToComboBox = new();
         private ObservableCollection<RecipientDto> _recipientsCcComboBox = new();
         private AreaDto? _selectedArea;
-        private CountryDto? _selectedBuisnessUnit;
+        private CountryDto? _selectedBusinessUnit;
         private CountryDto? _selectedCountry;
         private PriorityDto? _selectedPriority;
         private RecipientDto? _selectedRecipientToComboBox;
@@ -45,7 +45,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             RemoveCcRecipientCommand = new DelegateCommand(OnRemoveRecipientCcExecuteAsync, OnRemovRecipientCCeCanExecute);
             PriorityChangedCommand = new DelegateCommand(OnPriorityChanged);
             AreaChangedCommand = new DelegateCommand(OnAreaChanged);
-            BuisnessUnitChangedCommand = new DelegateCommand(OnBuisnessUnitChanged);
+            BusinessUnitChangedCommand = new DelegateCommand(OnBusinessUnitChanged);
             CountryChangedCommand = new DelegateCommand(OnCountryChanged);
             SelectionChangedCommand = new DelegateCommand(OnRegionChanged);
 
@@ -57,7 +57,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         public ICommand RemoveToRecipientCommand { get; set; }
         public ICommand PriorityChangedCommand { get; set; }
         public ICommand AreaChangedCommand { get; set; }
-        public ICommand BuisnessUnitChangedCommand { get; set; }
+        public ICommand BusinessUnitChangedCommand { get; set; }
         public ICommand CountryChangedCommand { get; set; }
         public ICommand SelectionChangedCommand { get; set; }
 
@@ -66,7 +66,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         public ObservableCollection<RegionDto> AllRegions { get; set; } = new ObservableCollection<RegionDto>();
         public ObservableCollection<RegionDto> FilteredRegions { get; set; } = new ObservableCollection<RegionDto>();
         public ObservableCollection<AreaDto> Area_Collection { get; set; } = new ObservableCollection<AreaDto>();
-        public ObservableCollection<BuisnessUnitDto> BuisnessUnit_Collection { get; set; } = new ObservableCollection<BuisnessUnitDto>();
+        public ObservableCollection<BusinessUnitDto> BusinessUnit_Collection { get; set; } = new ObservableCollection<BusinessUnitDto>();
         public ObservableCollection<CountryDto> Country_Collection { get; set; } = new ObservableCollection<CountryDto>();
         public ObservableCollection<PriorityDto> Priority_Collection { get; private set; } = new ObservableCollection<PriorityDto>();
         public ObservableCollection<RecipientDto> AvilableRecipientsTo
@@ -146,12 +146,12 @@ namespace DbConfigurator.UI.Features.DistributionInformations
                 OnPropertyChanged();
             }
         }
-        public CountryDto? SelectedBuisnessUnit
+        public CountryDto? SelectedBusinessUnit
         {
-            get { return _selectedBuisnessUnit; }
+            get { return _selectedBusinessUnit; }
             set
             {
-                _selectedBuisnessUnit = value;
+                _selectedBusinessUnit = value;
                 OnPropertyChanged();
             }
         }
@@ -326,12 +326,12 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         public async Task InitializeComboBoxes()
         {
             Area_Collection.Clear();
-            BuisnessUnit_Collection.Clear();
+            BusinessUnit_Collection.Clear();
             Country_Collection.Clear();
             Priority_Collection.Clear();
 
             await PopulateAreaCombobox();
-            await PopulateBuisnessUnitCombobox();
+            await PopulateBusinessUnitCombobox();
             await PopulateCountryCombobox();
             await PopulatePriorityCombobox();
 
@@ -349,18 +349,18 @@ namespace DbConfigurator.UI.Features.DistributionInformations
                 Area_Collection.Add(area);
             }
         }
-        private async Task PopulateBuisnessUnitCombobox(int? areaId = null)
+        private async Task PopulateBusinessUnitCombobox(int? areaId = null)
         {
-            var buisnessUnits = await DataService.GetUniqueBuisnessUnitsFromRegionAsync(areaId);
-            BuisnessUnit_Collection.Clear();
-            foreach (var buisnessUnit in buisnessUnits)
+            var BusinessUnits = await DataService.GetUniqueBusinessUnitsFromRegionAsync(areaId);
+            BusinessUnit_Collection.Clear();
+            foreach (var BusinessUnit in BusinessUnits)
             {
-                BuisnessUnit_Collection.Add(buisnessUnit);
+                BusinessUnit_Collection.Add(BusinessUnit);
             }
         }
-        private async Task PopulateCountryCombobox(int? areaId = null, int? buisnessUnitId = null)
+        private async Task PopulateCountryCombobox(int? areaId = null, int? BusinessUnitId = null)
         {
-            var countries = await DataService.GetUniqueCountriesFromRegionAsync(areaId, buisnessUnitId);
+            var countries = await DataService.GetUniqueCountriesFromRegionAsync(areaId, BusinessUnitId);
             Country_Collection.Clear();
             foreach (var country in countries)
             {
@@ -378,7 +378,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             if (SelectedArea is null || EntityDto is null)
                 return;
 
-            SelectedBuisnessUnit = null;
+            SelectedBusinessUnit = null;
             SelectedCountry = null;
 
             FilteredRegions.Clear();
@@ -390,9 +390,9 @@ namespace DbConfigurator.UI.Features.DistributionInformations
 
             SelectRegion();
         }
-        private void OnBuisnessUnitChanged()
+        private void OnBusinessUnitChanged()
         {
-            if (SelectedArea == null || SelectedBuisnessUnit == null || EntityDto! == null)
+            if (SelectedArea == null || SelectedBusinessUnit == null || EntityDto! == null)
                 return;
 
             SelectedCountry = null;
@@ -400,7 +400,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             FilteredRegions.Clear();
             foreach (var region in AllRegions)
             {
-                if (region.Area.Id == SelectedArea.Id && region.BuisnessUnit.Id == SelectedBuisnessUnit.Id)
+                if (region.Area.Id == SelectedArea.Id && region.BusinessUnit.Id == SelectedBusinessUnit.Id)
                     FilteredRegions.Add(region);
             }
 
@@ -408,13 +408,13 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         }
         private void OnCountryChanged()
         {
-            if (EntityDto! == null || SelectedCountry == null || SelectedArea == null || SelectedBuisnessUnit == null)
+            if (EntityDto! == null || SelectedCountry == null || SelectedArea == null || SelectedBusinessUnit == null)
                 return;
 
             FilteredRegions.Clear();
             foreach (var region in AllRegions)
             {
-                if (region.Area.Id == SelectedArea.Id && region.BuisnessUnit.Id == SelectedBuisnessUnit.Id && region.Country.Id == SelectedCountry.Id)
+                if (region.Area.Id == SelectedArea.Id && region.BusinessUnit.Id == SelectedBusinessUnit.Id && region.Country.Id == SelectedCountry.Id)
                     FilteredRegions.Add(region);
             }
 

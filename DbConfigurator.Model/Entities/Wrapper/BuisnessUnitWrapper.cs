@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace DbConfigurator.Model.Entities.Wrapper
 {
-    public class BuisnessUnitWrapper : ModelWrapper<BuisnessUnit>
+    public class BusinessUnitWrapper : ModelWrapper<BusinessUnit>
     {
-        public BuisnessUnitWrapper(BuisnessUnit model) : base(model)
+        public BusinessUnitWrapper(BusinessUnit model) : base(model)
         {
 
         }

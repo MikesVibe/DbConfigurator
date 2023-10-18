@@ -63,12 +63,12 @@
                 <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1"  Margin="0 0 10 20">
                     <Label Content="Country Cluster:" />
                     <ComboBox Name="CountryClusterComboBox"
-                              ItemsSource="{Binding BuisnessUnit_Collection}"
-                              SelectedItem="{Binding SelectedBuisnessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding BusinessUnit_Collection}"
+                              SelectedItem="{Binding SelectedBusinessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding BuisnessUnitChangedCommand }"/>
+                                <i:InvokeCommandAction Command="{Binding BusinessUnitChangedCommand }"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ComboBox>
@@ -101,7 +101,7 @@
                         <DataGridTextColumn Header="Area"  Width="*"
                                     Binding="{Binding Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <DataGridTextColumn Header="Buisness Unit" Width="*" 
-                                    Binding="{Binding BuisnessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    Binding="{Binding BusinessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <DataGridTextColumn Header="Country" Width="300" 
                                     Binding="{Binding Country.CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <!--<DataGridTextColumn Header="Country Code" Width="*" 

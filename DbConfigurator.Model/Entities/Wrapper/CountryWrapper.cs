@@ -29,7 +29,7 @@ namespace DbConfigurator.Model.Entities.Wrapper
                 SetValue(value);
             }
         }
-        public ICollection<BuisnessUnit> BuisnessUnits { get; set; }
+        public ICollection<BusinessUnit> BusinessUnits { get; set; }
         public ICollection<DistributionInformation> DistributionInformations { get; set; }
 
     }

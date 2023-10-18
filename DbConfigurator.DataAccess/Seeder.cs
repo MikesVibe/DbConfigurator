@@ -44,7 +44,7 @@ namespace DbConfigurator.DataAccess
             var regionsForCreation = JsonConvert.DeserializeObject<IEnumerable<RegionForCreationDto>>(regionsAsJson);
 
             var areas = await _dbConfiguratorDbContext.Set<Area>().ToListAsync();
-            var buisnessUnits = await _dbConfiguratorDbContext.Set<BuisnessUnit>().ToListAsync();
+            var BusinessUnits = await _dbConfiguratorDbContext.Set<BusinessUnit>().ToListAsync();
             var countries = await _dbConfiguratorDbContext.Set<Country>().ToListAsync();
 
             var regions = new List<Region>();
@@ -52,10 +52,10 @@ namespace DbConfigurator.DataAccess
             foreach (var region in regionsForCreation)
             {
                 var area = areas.Where(a => a.Name == region.Area).First();
-                var buisnessUnit = buisnessUnits.Where(bu => bu.Name == region.BuisnessUnit).First();
+                var BusinessUnit = BusinessUnits.Where(bu => bu.Name == region.BusinessUnit).First();
                 var country = countries.Where(c => c.CountryName == region.Country).First();
 
-                regions.Add(new Region { Area = area, BuisnessUnit = buisnessUnit, Country = country });
+                regions.Add(new Region { Area = area, BusinessUnit = BusinessUnit, Country = country });
             }
 
 

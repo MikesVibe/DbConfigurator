@@ -71,7 +71,7 @@ namespace DbConfigurator.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DbConfigurator.Model.Entities.Core.BuisnessUnit", b =>
+            modelBuilder.Entity("DbConfigurator.Model.Entities.Core.BusinessUnit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,7 +86,7 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BuisnessUnit");
+                    b.ToTable("BusinessUnit");
 
                     b.HasData(
                         new
@@ -812,7 +812,7 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.Property<int>("AreaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BuisnessUnitId")
+                    b.Property<int>("BusinessUnitId")
                         .HasColumnType("int");
 
                     b.Property<int>("CountryId")
@@ -822,7 +822,7 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.HasIndex("AreaId");
 
-                    b.HasIndex("BuisnessUnitId");
+                    b.HasIndex("BusinessUnitId");
 
                     b.HasIndex("CountryId");
 
@@ -894,9 +894,9 @@ namespace DbConfigurator.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DbConfigurator.Model.Entities.Core.BuisnessUnit", "BuisnessUnit")
+                    b.HasOne("DbConfigurator.Model.Entities.Core.BusinessUnit", "BusinessUnit")
                         .WithMany("Regions")
-                        .HasForeignKey("BuisnessUnitId")
+                        .HasForeignKey("BusinessUnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -908,7 +908,7 @@ namespace DbConfigurator.DataAccess.Migrations
 
                     b.Navigation("Area");
 
-                    b.Navigation("BuisnessUnit");
+                    b.Navigation("BusinessUnit");
 
                     b.Navigation("Country");
                 });
@@ -918,7 +918,7 @@ namespace DbConfigurator.DataAccess.Migrations
                     b.Navigation("Regions");
                 });
 
-            modelBuilder.Entity("DbConfigurator.Model.Entities.Core.BuisnessUnit", b =>
+            modelBuilder.Entity("DbConfigurator.Model.Entities.Core.BusinessUnit", b =>
                 {
                     b.Navigation("Regions");
                 });

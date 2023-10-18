@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.Model.DTOs.Core
 {
-    public class BuisnessUnitDto : IEntityDto
+    public class BusinessUnitDto : IEntityDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

@@ -22,11 +22,11 @@ namespace DbConfigurator.UI.Features.Regions
             var areas = await _repository.GetAllAreasAsync();
             return _autoMapper.Mapper.Map<ICollection<AreaDto>>(areas);
         }
-        public async Task<ICollection<BuisnessUnitDto>> GetAllBuisnessUnitsAsync()
+        public async Task<ICollection<BusinessUnitDto>> GetAllBusinessUnitsAsync()
         {
-            var buisnessUnits = await _repository.GetAllBuisnessUnitsAsync();
+            var BusinessUnits = await _repository.GetAllBusinessUnitsAsync();
 
-            return _autoMapper.Mapper.Map<ICollection<BuisnessUnitDto>>(buisnessUnits);
+            return _autoMapper.Mapper.Map<ICollection<BusinessUnitDto>>(BusinessUnits);
         }
         public async Task<ICollection<CountryDto>> GetAllCountriesAsync()
         {

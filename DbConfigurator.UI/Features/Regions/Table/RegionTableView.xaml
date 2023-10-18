@@ -31,7 +31,7 @@
                 <DataGridTextColumn Header="Area"  Width="*"
                                     Binding="{Binding Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Buisness Unit" Width="*" 
-                                    Binding="{Binding BuisnessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    Binding="{Binding BusinessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Country" Width="300" 
                                     Binding="{Binding Country.CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Country Code" Width="*" 

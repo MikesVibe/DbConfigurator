@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:detailView ="clr-namespace:DbConfigurator.UI.View.Detail"
         xmlns:Area="clr-namespace:DbConfigurator.UI.Features.Areas"
-        xmlns:BuisnessUnit="clr-namespace:DbConfigurator.UI.Features.BuisnessUnits"
+        xmlns:BusinessUnit="clr-namespace:DbConfigurator.UI.Features.BusinessUnits"
         xmlns:Country="clr-namespace:DbConfigurator.UI.Features.Countries"
         xmlns:DI="clr-namespace:DbConfigurator.UI.Features.DistributionInformations"
         xmlns:Recipient="clr-namespace:DbConfigurator.UI.Features.Recipients"
@@ -18,8 +18,8 @@
         <DataTemplate DataType="{x:Type Area:AreaDetailViewModel}">
             <detailView:AreaDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type BuisnessUnit:BuisnessUnitDetailViewModel}">
-            <detailView:BuisnessUnitDetailView/>
+        <DataTemplate DataType="{x:Type BusinessUnit:BusinessUnitDetailViewModel}">
+            <detailView:BusinessUnitDetailView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type Country:CountryDetailViewModel}">
             <detailView:CountryDetailView/>

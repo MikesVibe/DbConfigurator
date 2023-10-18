@@ -2,15 +2,15 @@
 {
     public class RegionForParserDto
     {
-        public RegionForParserDto(string area, string buisnessUnit, string country)
+        public RegionForParserDto(string area, string BusinessUnit, string country)
         {
             Area = area;
-            BuisnessUnit = buisnessUnit;
+            BusinessUnit = BusinessUnit;
             Country = country;
         }
 
         public string Area { get; set; }
-        public string BuisnessUnit { get; set; }
+        public string BusinessUnit { get; set; }
         public string Country { get; set; }
     }
 }

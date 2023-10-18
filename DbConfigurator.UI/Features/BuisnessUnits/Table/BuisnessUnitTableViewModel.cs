@@ -9,18 +9,18 @@ using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
 using System;
 
-namespace DbConfigurator.UI.Features.BuisnessUnits
+namespace DbConfigurator.UI.Features.BusinessUnits
 {
-    public class BuisnessUnitTableViewModel : TableViewModelBase<BuisnessUnitDtoWrapper, BuisnessUnitDto, IBuisnessUnitService,
-        CreateBuisnessUnitEvent, CreateBuisnessUnitEventArgs,
-        EditBuisnessUnitEvent, EditBuisnessUnitEventArgs>, ITableViewModel
+    public class BusinessUnitTableViewModel : TableViewModelBase<BusinessUnitDtoWrapper, BusinessUnitDto, IBusinessUnitService,
+        CreateBusinessUnitEvent, CreateBusinessUnitEventArgs,
+        EditBusinessUnitEvent, EditBusinessUnitEventArgs>, ITableViewModel
     {
-        public BuisnessUnitTableViewModel(IEventAggregator eventAggregator,
+        public BusinessUnitTableViewModel(IEventAggregator eventAggregator,
             IEditingWindowService dialogService,
-            IBuisnessUnitService dataService,
+            IBusinessUnitService dataService,
             AutoMapperConfig autoMapper,
-            Func<BuisnessUnitDetailViewModel> buisnessUnitDetailViewModelCreator)
-            : base(eventAggregator, dialogService, dataService, buisnessUnitDetailViewModelCreator, autoMapper)
+            Func<BusinessUnitDetailViewModel> BusinessUnitDetailViewModelCreator)
+            : base(eventAggregator, dialogService, dataService, BusinessUnitDetailViewModelCreator, autoMapper)
         {
         }
     }

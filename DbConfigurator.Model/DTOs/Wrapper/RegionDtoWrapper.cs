@@ -25,9 +25,9 @@ namespace DbConfigurator.Model.DTOs.Wrapper
                 SetValue(value);
             }
         }
-        public BuisnessUnitDto BuisnessUnit
+        public BusinessUnitDto BusinessUnit
         {
-            get { return GetValue<BuisnessUnitDto>(); }
+            get { return GetValue<BusinessUnitDto>(); }
             set
             {
                 SetValue(value);

@@ -17,7 +17,7 @@ namespace DbConfigurator.UI.Startup
             {
                 cfg.CreateMap<Region, RegionDto>();
                 cfg.CreateMap<Area, AreaDto>().ReverseMap();
-                cfg.CreateMap<BuisnessUnit, BuisnessUnitDto>().ReverseMap();
+                cfg.CreateMap<BusinessUnit, BusinessUnitDto>().ReverseMap();
                 cfg.CreateMap<Country, CountryDto>().ReverseMap();
                 cfg.CreateMap<Priority, PriorityDto>().ReverseMap();
                 cfg.CreateMap<Recipient, RecipientDto>().ReverseMap();
@@ -29,7 +29,7 @@ namespace DbConfigurator.UI.Startup
 
                 cfg.CreateMap<RegionDto, Region>()
                     .ForMember(dest => dest.Area, opt => opt.Ignore())
-                    .ForMember(dest => dest.BuisnessUnit, opt => opt.Ignore())
+                    .ForMember(dest => dest.BusinessUnit, opt => opt.Ignore())
                     .ForMember(dest => dest.Country, opt => opt.Ignore());
 
                 cfg.CreateMap<DistributionInformationDto, DistributionInformation>()
@@ -41,7 +41,7 @@ namespace DbConfigurator.UI.Startup
 
 
                 cfg.CreateMap<AreaDto, AreaDtoWrapper>();
-                cfg.CreateMap<BuisnessUnitDto, BuisnessUnitDtoWrapper>();
+                cfg.CreateMap<BusinessUnitDto, BusinessUnitDtoWrapper>();
                 cfg.CreateMap<CountryDto, CountryDtoWrapper>();
                 cfg.CreateMap<RegionDto, RegionDtoWrapper>();
                 cfg.CreateMap<RecipientDto, RecipientDtoWrapper>();

@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.UI.Services.Interfaces
 {
-    public interface IBuisnessUnitService : IDataService<BuisnessUnitDto>
+    public interface IBusinessUnitService : IDataService<BusinessUnitDto>
     {
     }
 }

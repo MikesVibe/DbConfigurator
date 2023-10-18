@@ -3,11 +3,11 @@
 namespace DbConfigurator.UI.View.Detail
 {
     /// <summary>
-    /// Interaction logic for BuisnessUnitDetailView.xaml
+    /// Interaction logic for BusinessUnitDetailView.xaml
     /// </summary>
-    public partial class BuisnessUnitDetailView : UserControl
+    public partial class BusinessUnitDetailView : UserControl
     {
-        public BuisnessUnitDetailView()
+        public BusinessUnitDetailView()
         {
             InitializeComponent();
         }

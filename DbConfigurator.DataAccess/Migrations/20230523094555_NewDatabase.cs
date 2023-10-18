@@ -26,7 +26,7 @@ namespace DbConfigurator.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BuisnessUnit",
+                name: "BusinessUnit",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -35,7 +35,7 @@ namespace DbConfigurator.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BuisnessUnit", x => x.Id);
+                    table.PrimaryKey("PK_BusinessUnit", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,7 +87,7 @@ namespace DbConfigurator.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AreaId = table.Column<int>(type: "int", nullable: false),
-                    BuisnessUnitId = table.Column<int>(type: "int", nullable: false),
+                    BusinessUnitId = table.Column<int>(type: "int", nullable: false),
                     CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -100,9 +100,9 @@ namespace DbConfigurator.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Region_BuisnessUnit_BuisnessUnitId",
-                        column: x => x.BuisnessUnitId,
-                        principalTable: "BuisnessUnit",
+                        name: "FK_Region_BusinessUnit_BusinessUnitId",
+                        column: x => x.BusinessUnitId,
+                        principalTable: "BusinessUnit",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -201,7 +201,7 @@ namespace DbConfigurator.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "BuisnessUnit",
+                table: "BusinessUnit",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
@@ -348,9 +348,9 @@ namespace DbConfigurator.DataAccess.Migrations
                 column: "AreaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Region_BuisnessUnitId",
+                name: "IX_Region_BusinessUnitId",
                 table: "Region",
-                column: "BuisnessUnitId");
+                column: "BusinessUnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Region_CountryId",
@@ -383,7 +383,7 @@ namespace DbConfigurator.DataAccess.Migrations
                 name: "Area");
 
             migrationBuilder.DropTable(
-                name: "BuisnessUnit");
+                name: "BusinessUnit");
 
             migrationBuilder.DropTable(
                 name: "Country");

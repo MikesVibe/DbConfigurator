@@ -30,7 +30,7 @@
                 <DataGridTextColumn Header="Area"  Width="150"
                             Binding="{Binding Region.Area.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Country Cluster" Width="100" 
-                            Binding="{Binding Region.BuisnessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Binding="{Binding Region.BusinessUnit.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Country" Width="100" 
                             Binding="{Binding Region.Country.CountryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Priority" Width="60" 

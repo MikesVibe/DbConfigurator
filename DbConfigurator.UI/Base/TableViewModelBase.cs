@@ -120,8 +120,8 @@ namespace DbConfigurator.UI.ViewModel.Base
         }
         protected virtual void OnRemoveExecute()
         {
-            var buisnessUnit = DataService.GetById(SelectedItem!.Id);
-            if (buisnessUnit is null)
+            var BusinessUnit = DataService.GetById(SelectedItem!.Id);
+            if (BusinessUnit is null)
             {
                 if (Debugger.IsAttached)
                 {
@@ -131,7 +131,7 @@ namespace DbConfigurator.UI.ViewModel.Base
                 return;
             }
 
-            DataService.RemoveById(buisnessUnit.Id);
+            DataService.RemoveById(BusinessUnit.Id);
 
             Items.Remove(SelectedItem!);
             SelectedItem = default(TWrapper);

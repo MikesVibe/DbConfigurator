@@ -1,8 +1,8 @@
 ﻿namespace DbConfigurator.Model.DTOs.Creation
 {
-    public class BuisnessUnitForCreationDto
+    public class BusinessUnitForCreationDto
     {
-        public BuisnessUnitForCreationDto(int id, string name)
+        public BusinessUnitForCreationDto(int id, string name)
         {
             Id = id;
             Name = name;

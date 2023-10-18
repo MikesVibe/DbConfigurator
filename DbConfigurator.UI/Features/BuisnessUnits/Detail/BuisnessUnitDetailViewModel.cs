@@ -7,13 +7,13 @@ using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System.ComponentModel;
 
-namespace DbConfigurator.UI.Features.BuisnessUnits
+namespace DbConfigurator.UI.Features.BusinessUnits
 {
-    public class BuisnessUnitDetailViewModel : DetailViewModelBase<IBuisnessUnitService, BuisnessUnitDto>, IDetailViewModel, INotifyPropertyChanged
+    public class BusinessUnitDetailViewModel : DetailViewModelBase<IBusinessUnitService, BusinessUnitDto>, IDetailViewModel, INotifyPropertyChanged
     {
-        public BuisnessUnitDetailViewModel(IBuisnessUnitService buisnessUnitService, IEventAggregator eventAggregator) : base(buisnessUnitService, eventAggregator)
+        public BusinessUnitDetailViewModel(IBusinessUnitService BusinessUnitService, IEventAggregator eventAggregator) : base(BusinessUnitService, eventAggregator)
         {
-            Title = "BuisnessUnit";
+            Title = "BusinessUnit";
             ViewWidth = 560;
             ViewHeight = 340;
         }
@@ -23,11 +23,11 @@ namespace DbConfigurator.UI.Features.BuisnessUnits
             if (EntityDto is null)
                 return;
 
-            EventAggregator.GetEvent<CreateBuisnessUnitEvent>()
+            EventAggregator.GetEvent<CreateBusinessUnitEvent>()
                   .Publish(
-                new CreateBuisnessUnitEventArgs
+                new CreateBusinessUnitEventArgs
                 {
-                    Entity = new BuisnessUnitDto
+                    Entity = new BusinessUnitDto
                     {
                         Id = EntityDto.Id,
                         Name = EntityDto.Name
@@ -40,11 +40,11 @@ namespace DbConfigurator.UI.Features.BuisnessUnits
             if (EntityDto is null)
                 return;
 
-            EventAggregator.GetEvent<EditBuisnessUnitEvent>()
+            EventAggregator.GetEvent<EditBusinessUnitEvent>()
                   .Publish(
-                new EditBuisnessUnitEventArgs
+                new EditBusinessUnitEventArgs
                 {
-                    Entity = new BuisnessUnitDto
+                    Entity = new BusinessUnitDto
                     {
                         Id = EntityDto.Id,
                         Name = EntityDto.Name

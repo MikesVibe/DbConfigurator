@@ -5,11 +5,11 @@ using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 
-namespace DbConfigurator.UI.Features.BuisnessUnits
+namespace DbConfigurator.UI.Features.BusinessUnits
 {
-    public class BuisnessUnitService : GenericDataService<BuisnessUnit, BuisnessUnitDto, BuisnessUnitRepository>, IBuisnessUnitService
+    public class BusinessUnitService : GenericDataService<BusinessUnit, BusinessUnitDto, BusinessUnitRepository>, IBusinessUnitService
     {
-        public BuisnessUnitService(BuisnessUnitRepository repository, AutoMapperConfig autoMapper) : base(repository, autoMapper)
+        public BusinessUnitService(BusinessUnitRepository repository, AutoMapperConfig autoMapper) : base(repository, autoMapper)
         {
         }
     }

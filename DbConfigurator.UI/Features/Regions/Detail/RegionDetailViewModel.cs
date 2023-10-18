@@ -15,7 +15,7 @@ namespace DbConfigurator.UI.Features.Regions
     public class RegionDetailViewModel : DetailViewModelBase<IRegionService, RegionDto>
     {
         private AreaDto? _selectedArea;
-        private CountryDto? _selectedBuisnessUnit;
+        private CountryDto? _selectedBusinessUnit;
         private CountryDto? _selectedCountry;
 
         public RegionDetailViewModel(
@@ -24,7 +24,7 @@ namespace DbConfigurator.UI.Features.Regions
             ) : base(dataService, eventAggregator)
         {
             SelectedAreaChanged = new DelegateCommand(OnSelectedAreaChanged);
-            SelectedBuisnessUnitChanged = new DelegateCommand(OnSelectedBuisnessUnitChanged);
+            SelectedBusinessUnitChanged = new DelegateCommand(OnSelectedBusinessUnitChanged);
             SelectedCountryChanged = new DelegateCommand(OnSelectedCountryChanged);
 
             Title = "Region";
@@ -33,11 +33,11 @@ namespace DbConfigurator.UI.Features.Regions
         }
 
         public ICommand SelectedAreaChanged { get; set; }
-        public ICommand SelectedBuisnessUnitChanged { get; set; }
+        public ICommand SelectedBusinessUnitChanged { get; set; }
         public ICommand SelectedCountryChanged { get; set; }
 
         public ObservableCollection<CountryDto> Countries_ObservableCollection { get; set; } = new ObservableCollection<CountryDto>();
-        public ObservableCollection<BuisnessUnitDto> BuisnessUnits_ObservableCollection { get; set; } = new ObservableCollection<BuisnessUnitDto>();
+        public ObservableCollection<BusinessUnitDto> BusinessUnits_ObservableCollection { get; set; } = new ObservableCollection<BusinessUnitDto>();
         public ObservableCollection<AreaDto> Areas_ObservableCollection { get; set; } = new ObservableCollection<AreaDto>();
 
         public AreaDto? SelectedArea
@@ -49,12 +49,12 @@ namespace DbConfigurator.UI.Features.Regions
                 OnPropertyChanged();
             }
         }
-        public CountryDto? SelectedBuisnessUnit
+        public CountryDto? SelectedBusinessUnit
         {
-            get { return _selectedBuisnessUnit; }
+            get { return _selectedBusinessUnit; }
             set
             {
-                _selectedBuisnessUnit = value;
+                _selectedBusinessUnit = value;
                 OnPropertyChanged();
             }
         }
@@ -78,10 +78,10 @@ namespace DbConfigurator.UI.Features.Regions
                 Areas_ObservableCollection.Add(area);
             }
 
-            var buisnessUnits = await DataService.GetAllBuisnessUnitsAsync();
-            foreach (var buisnessUnit in buisnessUnits)
+            var BusinessUnits = await DataService.GetAllBusinessUnitsAsync();
+            foreach (var BusinessUnit in BusinessUnits)
             {
-                BuisnessUnits_ObservableCollection.Add(buisnessUnit);
+                BusinessUnits_ObservableCollection.Add(BusinessUnit);
             }
 
             var countries = await DataService.GetAllCountriesAsync();
@@ -94,8 +94,8 @@ namespace DbConfigurator.UI.Features.Regions
             {
                 if (EntityDto.Area is not null)
                     EntityDto.Area = Areas_ObservableCollection.Where(c => c.Id == EntityDto.Area.Id).FirstOrDefault() ?? EntityDto.Area;
-                if (EntityDto.BuisnessUnit is not null)
-                    EntityDto.BuisnessUnit = BuisnessUnits_ObservableCollection?.Where(c => c.Id == EntityDto.BuisnessUnit.Id).FirstOrDefault() ?? EntityDto.BuisnessUnit;
+                if (EntityDto.BusinessUnit is not null)
+                    EntityDto.BusinessUnit = BusinessUnits_ObservableCollection?.Where(c => c.Id == EntityDto.BusinessUnit.Id).FirstOrDefault() ?? EntityDto.BusinessUnit;
                 if (EntityDto.Country is not null)
                     EntityDto.Country = Countries_ObservableCollection?.Where(c => c.Id == EntityDto.Country.Id).FirstOrDefault() ?? EntityDto.Country;
             }
@@ -105,7 +105,7 @@ namespace DbConfigurator.UI.Features.Regions
             return
                 EntityDto is not null &&
                 EntityDto.Area is not null &&
-                EntityDto.BuisnessUnit is not null &&
+                EntityDto.BusinessUnit is not null &&
                 EntityDto.Country is not null;
         }
         private void OnSelectedCountryChanged()
@@ -115,7 +115,7 @@ namespace DbConfigurator.UI.Features.Regions
 
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
-        private void OnSelectedBuisnessUnitChanged()
+        private void OnSelectedBusinessUnitChanged()
         {
             if (EntityDto == null)
                 return;
@@ -143,7 +143,7 @@ namespace DbConfigurator.UI.Features.Regions
                     {
                         Id = EntityDto.Id,
                         Area = EntityDto.Area,
-                        BuisnessUnit = EntityDto.BuisnessUnit,
+                        BusinessUnit = EntityDto.BusinessUnit,
                         Country = EntityDto.Country
                     }
                 });
@@ -162,7 +162,7 @@ namespace DbConfigurator.UI.Features.Regions
                     {
                         Id = EntityDto.Id,
                         Area = EntityDto.Area,
-                        BuisnessUnit = EntityDto.BuisnessUnit,
+                        BusinessUnit = EntityDto.BusinessUnit,
                         Country = EntityDto.Country
                     }
                 });

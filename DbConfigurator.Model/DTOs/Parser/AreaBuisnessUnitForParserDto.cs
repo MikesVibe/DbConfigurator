@@ -1,15 +1,15 @@
 ﻿namespace DbConfigurator.Model.DTOs.Parser
 {
-    public class AreaBuisnessUnitForParserDto
+    public class AreaBusinessUnitForParserDto
     {
-        public AreaBuisnessUnitForParserDto(string area, string buisnessUnit)
+        public AreaBusinessUnitForParserDto(string area, string BusinessUnit)
         {
             Area = area;
-            BuisnessUnit = buisnessUnit;
+            BusinessUnit = BusinessUnit;
         }
 
         public string Area { get; set; }
-        public string BuisnessUnit { get; set; }
+        public string BusinessUnit { get; set; }
 
     }
 }

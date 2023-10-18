@@ -9,28 +9,28 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.DataAccess.Repositories
 {
-    public class BuisnessUnitRepository : GenericRepository<BuisnessUnit>
+    public class BusinessUnitRepository : GenericRepository<BusinessUnit>
     {
-        public BuisnessUnitRepository(DbConfiguratorDbContext dbContext) : base(dbContext)
+        public BusinessUnitRepository(DbConfiguratorDbContext dbContext) : base(dbContext)
         {
         }
 
-        public override IEnumerable<BuisnessUnit> GetAll()
+        public override IEnumerable<BusinessUnit> GetAll()
         {
-            return GetBuisnessUnitsAsQueryable().AsNoTracking().ToList();
+            return GetBusinessUnitsAsQueryable().AsNoTracking().ToList();
         }
-        public override async Task<IEnumerable<BuisnessUnit>> GetAllAsync()
+        public override async Task<IEnumerable<BusinessUnit>> GetAllAsync()
         {
-            return await GetBuisnessUnitsAsQueryable().AsNoTracking().ToListAsync();
+            return await GetBusinessUnitsAsQueryable().AsNoTracking().ToListAsync();
         }
-        public override async Task<IEnumerable<BuisnessUnit>> GetAllAsync(Expression<Func<BuisnessUnit, bool>> predicate)
+        public override async Task<IEnumerable<BusinessUnit>> GetAllAsync(Expression<Func<BusinessUnit, bool>> predicate)
         {
-            return await GetBuisnessUnitsAsQueryable().OrderBy(r => r.Id).Where(predicate).AsNoTracking().ToListAsync();
+            return await GetBusinessUnitsAsQueryable().OrderBy(r => r.Id).Where(predicate).AsNoTracking().ToListAsync();
         }
 
-        protected IQueryable<BuisnessUnit> GetBuisnessUnitsAsQueryable()
+        protected IQueryable<BusinessUnit> GetBusinessUnitsAsQueryable()
         {
-            return _context.Set<BuisnessUnit>()
+            return _context.Set<BusinessUnit>()
                 .AsQueryable();
         }
     }

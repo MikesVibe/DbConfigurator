@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.Entities.Core
 {
-    public class BuisnessUnit : IEntity
+    public class BusinessUnit : IEntity
     {
         [Required]
         public int Id { get; set; }

@@ -4,11 +4,11 @@ using Prism.Events;
 
 namespace DbConfigurator.UI.Features.Areas.Event
 {
-    public class EditBuisnessUnitEvent : PubSubEvent<EditBuisnessUnitEventArgs>
+    public class EditBusinessUnitEvent : PubSubEvent<EditBusinessUnitEventArgs>
     {
     }
-    public class EditBuisnessUnitEventArgs : IEventArgs<BuisnessUnitDto>
+    public class EditBusinessUnitEventArgs : IEventArgs<BusinessUnitDto>
     {
-        public BuisnessUnitDto Entity { get; set; } = default!;
+        public BusinessUnitDto Entity { get; set; } = default!;
     }
 }

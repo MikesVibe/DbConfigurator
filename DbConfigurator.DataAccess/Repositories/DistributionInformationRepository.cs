@@ -38,7 +38,7 @@ namespace DbConfigurator.DataAccess.Repository
         {
             return await _context.Set<DistributionInformation>()
                 .Include(d => d.Region).ThenInclude(r => r.Area)
-                .Include(d => d.Region).ThenInclude(r => r.BuisnessUnit)
+                .Include(d => d.Region).ThenInclude(r => r.BusinessUnit)
                 .Include(d => d.Region).ThenInclude(r => r.Country)
                 .Include(d => d.RecipientsTo)
                 .Include(d => d.RecipientsCc)
@@ -51,7 +51,7 @@ namespace DbConfigurator.DataAccess.Repository
         {
             return await _context.DistributionInformation.Where(d => d.Id == id)
              .Include(d => d.Region).ThenInclude(r => r.Area)
-             .Include(d => d.Region).ThenInclude(r => r.BuisnessUnit)
+             .Include(d => d.Region).ThenInclude(r => r.BusinessUnit)
              .Include(d => d.Region).ThenInclude(r => r.Country)
              .Include(r => r.Region)
              .Include(t => t.RecipientsTo)

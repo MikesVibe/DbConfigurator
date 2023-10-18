@@ -31,12 +31,12 @@
             <StackPanel Orientation="Vertical"  Margin="20" Width="150" Grid.Column="1">
                 <Label Content="Buisness Unit:" />
                 <ComboBox Name="CountryClusterComboBox"
-                              ItemsSource="{Binding BuisnessUnits_ObservableCollection}"
-                              SelectedItem="{Binding EntityDto.BuisnessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding BusinessUnits_ObservableCollection}"
+                              SelectedItem="{Binding EntityDto.BusinessUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Name" SelectedValuePath="Id">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectedBuisnessUnitChanged }"/>
+                            <i:InvokeCommandAction Command="{Binding SelectedBusinessUnitChanged }"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>

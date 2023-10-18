@@ -11,9 +11,9 @@ namespace DbConfigurator.UI.Services.Interfaces
         Task<IEnumerable<PriorityDto>> GetAllPrioritiesAsync();
         IEnumerable<RecipientDto> GetAllRecipients();
         Task<IEnumerable<AreaDto>> GetUniqueAreasFromRegionAsync();
-        Task<IEnumerable<BuisnessUnitDto>> GetUniqueBuisnessUnitsFromRegionAsync(int? areaId = null);
-        Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? buisnessUnitId = null);
-        Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int buisnessUnitId, int countryId);
+        Task<IEnumerable<BusinessUnitDto>> GetUniqueBusinessUnitsFromRegionAsync(int? areaId = null);
+        Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? BusinessUnitId = null);
+        Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int BusinessUnitId, int countryId);
         Task<IEnumerable<RegionDto>> GetAllRegionsAsync();
         Task<IEnumerable<RecipientDto>> GetAllRecipientsAsync();
     }

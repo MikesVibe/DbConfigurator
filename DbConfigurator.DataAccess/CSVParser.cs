@@ -20,7 +20,7 @@ namespace DbConfigurator.DataAccess
             //List<RegionForParserDto> regionsToReturn = new();
             var lines = File.ReadAllLines(_filePath);
 
-            List<AreaBuisnessUnitForParserDto> allAreaBuisnessUnits = new();
+            List<AreaBusinessUnitForParserDto> allAreaBusinessUnits = new();
             List<string> allAreas = new();
 
             for (int i = 1; i < lines.Length; i++)
@@ -34,13 +34,13 @@ namespace DbConfigurator.DataAccess
 
                 yield return (new RegionForParserDto(lineParsed[0], lineParsed[1], lineParsed[2]));
 
-                allAreaBuisnessUnits.Add(new AreaBuisnessUnitForParserDto(lineParsed[0], lineParsed[1]));
+                allAreaBusinessUnits.Add(new AreaBusinessUnitForParserDto(lineParsed[0], lineParsed[1]));
                 allAreas.Add(lineParsed[0]);
             }
-            var aBuDistinct = allAreaBuisnessUnits.Distinct(new AreaBuisnessUnitComparer());
+            var aBuDistinct = allAreaBusinessUnits.Distinct(new AreaBusinessUnitComparer());
             foreach (var aBu in aBuDistinct)
             {
-                yield return (new RegionForParserDto(aBu.Area, aBu.BuisnessUnit, "ANY"));
+                yield return (new RegionForParserDto(aBu.Area, aBu.BusinessUnit, "ANY"));
             }
 
             foreach (var area in allAreas.Distinct())

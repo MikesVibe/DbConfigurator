@@ -5,9 +5,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace DbConfigurator.DataAccess
 {
-    public class AreaBuisnessUnitComparer : IEqualityComparer<AreaBuisnessUnitForParserDto>
+    public class AreaBusinessUnitComparer : IEqualityComparer<AreaBusinessUnitForParserDto>
     {
-        public bool Equals(AreaBuisnessUnitForParserDto? x, AreaBuisnessUnitForParserDto? y)
+        public bool Equals(AreaBusinessUnitForParserDto? x, AreaBusinessUnitForParserDto? y)
         {
             //Check whether the compared objects reference the same data.
             if (Object.ReferenceEquals(x, y))
@@ -18,10 +18,10 @@ namespace DbConfigurator.DataAccess
                 return false;
 
             //Check whether the products' properties are equal.
-            return x.Area == y.Area && x.BuisnessUnit == y.BuisnessUnit;
+            return x.Area == y.Area && x.BusinessUnit == y.BusinessUnit;
         }
 
-        public int GetHashCode([DisallowNull] AreaBuisnessUnitForParserDto obj)
+        public int GetHashCode([DisallowNull] AreaBusinessUnitForParserDto obj)
         {
             //Check whether the object is null
             if (Object.ReferenceEquals(obj, null)) return 0;
@@ -30,10 +30,10 @@ namespace DbConfigurator.DataAccess
             int hashAreaName = obj.Area == null ? 0 : obj.Area.GetHashCode();
 
             //Get hash code for the Code field.
-            int hashBuisnessUnit = obj.BuisnessUnit == null ? 0 : obj.BuisnessUnit.GetHashCode();
+            int hashBusinessUnit = obj.BusinessUnit == null ? 0 : obj.BusinessUnit.GetHashCode();
 
             //Calculate the hash code for the product.
-            return hashAreaName ^ hashBuisnessUnit;
+            return hashAreaName ^ hashBusinessUnit;
         }
     }
 }

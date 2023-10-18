@@ -38,12 +38,12 @@ namespace DbConfigurator.DataAccess.Repository
             return await GetRegionsAsQueryable().OrderBy(r => r.Id).Where(predicate).AsNoTracking().ToListAsync();
         }
 
-        public async Task<IEnumerable<Region>> GetRegionsWithAsync(int areaId, int buisnessUnitId, int countryId)
+        public async Task<IEnumerable<Region>> GetRegionsWithAsync(int areaId, int BusinessUnitId, int countryId)
         {
             return await GetRegionsAsQueryable()
                 .Where(r =>
                 r.AreaId == areaId &&
-                r.BuisnessUnitId == buisnessUnitId &&
+                r.BusinessUnitId == BusinessUnitId &&
                 r.CountryId == countryId).AsNoTracking().ToListAsync();
         }
 
@@ -53,9 +53,9 @@ namespace DbConfigurator.DataAccess.Repository
 
             return collection;
         }
-        public async Task<ICollection<BuisnessUnit>> GetAllBuisnessUnitsAsync()
+        public async Task<ICollection<BusinessUnit>> GetAllBusinessUnitsAsync()
         {
-            var collection = await _context.Set<BuisnessUnit>().AsNoTracking().ToListAsync();
+            var collection = await _context.Set<BusinessUnit>().AsNoTracking().ToListAsync();
 
             return collection;
         }
@@ -70,7 +70,7 @@ namespace DbConfigurator.DataAccess.Repository
         {
             return _context.Set<Region>()
                 .Include(r => r.Area)
-                .Include(r => r.BuisnessUnit)
+                .Include(r => r.BusinessUnit)
                 .Include(r => r.Country)
                 .AsQueryable();
         }
