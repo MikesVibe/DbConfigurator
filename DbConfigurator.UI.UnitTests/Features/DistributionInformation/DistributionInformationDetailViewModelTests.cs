@@ -34,7 +34,7 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
                         Id = 1,
                         Name = "Americas"
                     },
-                    BuisnessUnit = new BuisnessUnitDto
+                    BusinessUnit = new BusinessUnitDto
                     {
                         Id = 1,
                         Name = "NAO"

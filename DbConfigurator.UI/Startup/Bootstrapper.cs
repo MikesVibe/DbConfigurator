@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DbConfigurator.DataAccess;
+using DbConfigurator.DataAccess.Controllers;
 using DbConfigurator.DataAccess.Repositories;
 using DbConfigurator.DataAccess.Repository;
 using DbConfigurator.UI.Features.Areas;
@@ -98,6 +99,9 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<AreaDetailViewModel>().AsSelf();
             builder.RegisterType<BusinessUnitDetailViewModel>().AsSelf();
             builder.RegisterType<CountryDetailViewModel>().AsSelf();
+
+            builder.RegisterType<AreaController>().AsSelf();
+
 
         }
         public static IContainer Build(this ContainerBuilder builder)
