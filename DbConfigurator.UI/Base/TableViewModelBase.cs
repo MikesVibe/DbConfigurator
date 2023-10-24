@@ -121,9 +121,9 @@ namespace DbConfigurator.UI.ViewModel.Base
         {
             return SelectedItem is not null;
         }
-        protected virtual void OnRemoveExecute()
+        protected virtual async void OnRemoveExecute()
         {
-            var BusinessUnit = DataService.GetById(SelectedItem!.Id);
+            var BusinessUnit = await DataService.GetByIdAsync(SelectedItem!.Id);
             if (BusinessUnit is null)
             {
                 if (Debugger.IsAttached)
@@ -134,7 +134,7 @@ namespace DbConfigurator.UI.ViewModel.Base
                 return;
             }
 
-            DataService.RemoveById(BusinessUnit.Id);
+            await DataService.RemoveByIdAsync(BusinessUnit.Id);
 
             Items.Remove(SelectedItem!);
             SelectedItem = default(TWrapper);
