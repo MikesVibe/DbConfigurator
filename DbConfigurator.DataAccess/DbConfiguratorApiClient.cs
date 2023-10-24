@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.DataAccess.Controllers;
-using DbConfigurator.DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

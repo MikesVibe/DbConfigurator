@@ -1,5 +1,4 @@
-﻿using DbConfigurator.DataAccess.Repository;
-using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
@@ -9,30 +8,45 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Regions
 {
-    public class RegionService : GenericDataService<Region, RegionDto, RegionRepository>, IRegionService
+    public class RegionService : GenericDataService<Region, RegionDto>, IRegionService
     {
         public RegionService(
-            RegionRepository regionRepository,
-            AutoMapperConfig autoMapper) : base(regionRepository, autoMapper)
+            AutoMapperConfig autoMapper)
+            //: base(regionRepository, autoMapper)
         {
 
         }
-        public async Task<ICollection<AreaDto>> GetAllAreasAsync()
-        {
-            var areas = await _repository.GetAllAreasAsync();
-            return _autoMapper.Mapper.Map<ICollection<AreaDto>>(areas);
-        }
-        public async Task<ICollection<BusinessUnitDto>> GetAllBusinessUnitsAsync()
-        {
-            var BusinessUnits = await _repository.GetAllBusinessUnitsAsync();
 
-            return _autoMapper.Mapper.Map<ICollection<BusinessUnitDto>>(BusinessUnits);
-        }
-        public async Task<ICollection<CountryDto>> GetAllCountriesAsync()
+        public Task<ICollection<AreaDto>> GetAllAreasAsync()
         {
-            var countries = await _repository.GetAllCountriesAsync();
-
-            return _autoMapper.Mapper.Map<ICollection<CountryDto>>(countries);
+            throw new System.NotImplementedException();
         }
+
+        public Task<ICollection<BusinessUnitDto>> GetAllBusinessUnitsAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<ICollection<CountryDto>> GetAllCountriesAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+        //public async Task<ICollection<AreaDto>> GetAllAreasAsync()
+        //{
+        //    var areas = await _repository.GetAllAreasAsync();
+        //    return _autoMapper.Mapper.Map<ICollection<AreaDto>>(areas);
+        //}
+        //public async Task<ICollection<BusinessUnitDto>> GetAllBusinessUnitsAsync()
+        //{
+        //    var BusinessUnits = await _repository.GetAllBusinessUnitsAsync();
+
+        //    return _autoMapper.Mapper.Map<ICollection<BusinessUnitDto>>(BusinessUnits);
+        //}
+        //public async Task<ICollection<CountryDto>> GetAllCountriesAsync()
+        //{
+        //    var countries = await _repository.GetAllCountriesAsync();
+
+        //    return _autoMapper.Mapper.Map<ICollection<CountryDto>>(countries);
+        //}
     }
 }

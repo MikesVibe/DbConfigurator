@@ -1,8 +1,6 @@
 ﻿using Autofac;
 using DbConfigurator.DataAccess;
 using DbConfigurator.DataAccess.Controllers;
-using DbConfigurator.DataAccess.Repositories;
-using DbConfigurator.DataAccess.Repository;
 using DbConfigurator.UI.Features.Areas;
 using DbConfigurator.UI.Features.BusinessUnits;
 using DbConfigurator.UI.Features.Countries;
@@ -28,23 +26,12 @@ namespace DbConfigurator.UI.Startup
         public static void AddApplicationServices(this ContainerBuilder builder)
         {
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            builder.RegisterType<Seeder>().As<ISeeder>().SingleInstance();
             builder.RegisterType<AutoMapperConfig>().AsSelf().SingleInstance();
 
             builder.RegisterType<Windows.MainWindow>().AsSelf();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
 
-            builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
-
-            //Repositories
-            builder.RegisterType<AreaRepository>().AsSelf();
-            builder.RegisterType<BusinessUnitRepository>().AsSelf();
-            builder.RegisterType<CountryRepository>().AsSelf();
-            builder.RegisterType<RegionRepository>().AsSelf();
-            builder.RegisterType<PriorityRepository>().AsSelf();
-            builder.RegisterType<RecipientRepository>().AsSelf();
-            builder.RegisterType<DistributionInformationRepository>().AsSelf();
 
             //Services
             builder.RegisterType<EditingWindowService>().As<IEditingWindowService>().SingleInstance();
