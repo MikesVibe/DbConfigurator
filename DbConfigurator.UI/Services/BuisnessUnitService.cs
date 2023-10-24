@@ -5,7 +5,7 @@ using DbConfigurator.UI.Startup;
 
 namespace DbConfigurator.UI.Services
 {
-    public class BusinessUnitService : GenericDataService<CreateAreaDto, UpdateAreaDto, Area>, IBusinessUnitService
+    public class BusinessUnitService : GenericDataService<Area>, IBusinessUnitService
     {
         //public BusinessUnitService(BusinessUnitRepository repository, AutoMapperConfig autoMapper) : base(repository, autoMapper)
         //{

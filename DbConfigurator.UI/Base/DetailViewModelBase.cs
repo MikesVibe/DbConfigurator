@@ -12,7 +12,7 @@ using System.Windows.Input;
 namespace DbConfigurator.UI.ViewModel.Base
 {
     public abstract class DetailViewModelBase<TDataService, TEntityDto> : NotifyBase, IDetailViewModel, INotifyPropertyChanged
-        where TDataService : IDataService<CreateAreaDto, UpdateAreaDto, Area>
+        where TDataService : IDataService<Area>
         where TEntityDto : IEntityDto, new()
     {
         protected enum ModelAction { Create = 0, Update = 1 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class RegionService : GenericDataService<CreateAreaDto, UpdateAreaDto, Area>, IRegionService
+    public class RegionService : GenericDataService<Area>, IRegionService
     {
         public RegionService(
             AutoMapperConfig autoMapper)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class AreaService : GenericDataService<CreateAreaDto, UpdateAreaDto, Area>, IAreaService
+    public class AreaService : GenericDataService<Area>, IAreaService
     {
         private readonly AreaController _areaController;
 

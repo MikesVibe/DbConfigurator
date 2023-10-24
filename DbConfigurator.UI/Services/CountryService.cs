@@ -5,7 +5,7 @@ using DbConfigurator.UI.Startup;
 
 namespace DbConfigurator.UI.Services
 {
-    public class CountryService : GenericDataService<CreateAreaDto, UpdateAreaDto, Area>, ICountryService
+    public class CountryService : GenericDataService<Area>, ICountryService
     {
         public CountryService(AutoMapperConfig autoMapper)
         //: base(repository, autoMapper)

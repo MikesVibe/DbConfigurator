@@ -24,7 +24,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         TEditEvent, TEditEventArgs> : NotifyBase, ITableViewModel
         where TWrapper : IWrapperWithId
         where TDto : class, IEntityDto
-        where TDataService : IDataService<CreateAreaDto, UpdateAreaDto, Area>
+        where TDataService : IDataService<Area>
         where TCreateEvent : PubSubEvent<TCreateEventArgs>, new()
         where TCreateEventArgs : IEventArgs<TDto>, new()
         where TEditEvent : PubSubEvent<TEditEventArgs>, new()
@@ -32,7 +32,7 @@ namespace DbConfigurator.UI.ViewModel.Base
     {
         protected readonly IEditingWindowService WindowService;
         protected readonly IEventAggregator EventAggregator;
-        protected readonly IDataService<CreateAreaDto, UpdateAreaDto, Area> DataService;
+        protected readonly IDataService<Area> DataService;
         protected readonly Func<IDetailViewModel> DetailViewModelCreator;
         protected readonly AutoMapperConfig AutoMapper;
 

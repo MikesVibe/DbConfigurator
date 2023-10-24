@@ -5,19 +5,11 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public interface IDataService<TCreateDto, TUpdateDto, TEntity>
-        where TCreateDto : class
-        where TUpdateDto : class
+    public interface IDataService<TEntity>
         where TEntity : class, new()
     {
-        //Task<int> AddAsync(TDto dto);
-        //Task<IEnumerable<TDto>> GetAllAsync();
-        //Task<TDto> GetByIdAsync(int id);
-        //Task<bool> RemoveByIdAsync(int id);
-        //Task<bool> UpdateAsync(TDto dto);
-
-        TEntity Create(TCreateDto createDto);
-        TEntity Update(TUpdateDto createDto);
+        TEntity Create(TEntity createDto);
+        TEntity Update(TEntity createDto);
         Task<TEntity> DeleteAsync(int id);
         Task<TEntity> GetByIdAsync(int id);
         Task<IEnumerable<TEntity>> GetAllAsync();

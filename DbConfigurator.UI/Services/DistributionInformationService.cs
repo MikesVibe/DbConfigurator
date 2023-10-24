@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class DistributionInformationService : GenericDataService<CreateAreaDto, UpdateAreaDto, Area>, IDistributionInformationService
+    public class DistributionInformationService : GenericDataService<Area>, IDistributionInformationService
     {
 
 

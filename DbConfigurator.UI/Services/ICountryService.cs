@@ -4,7 +4,7 @@ using DbConfigurator.Model.Entities.Core;
 
 namespace DbConfigurator.UI.Services
 {
-    public interface ICountryService : IDataService<CreateAreaDto, UpdateAreaDto, Area>
+    public interface ICountryService : IDataService<Area>
     {
     }
 }

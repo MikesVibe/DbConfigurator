@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public interface IDistributionInformationService : IDataService<CreateAreaDto, UpdateAreaDto, Area>
+    public interface IDistributionInformationService : IDataService<Area>
     {
         //Task AddRecipientsCcAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsCc_ToAdd);
         //Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd);

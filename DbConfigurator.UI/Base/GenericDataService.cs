@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class GenericDataService<TCreateDto, TUpdateDto, TEntity> : IDataService<TCreateDto, TUpdateDto, TEntity>
-        where TCreateDto : class
-        where TUpdateDto : class
+    public class GenericDataService<TEntity> : IDataService<TEntity>
+
         where TEntity : class, new()
         
     {
@@ -112,7 +111,7 @@ namespace DbConfigurator.UI.Services
         //{
         //    throw new System.NotImplementedException();
         //}
-        public TEntity Create(TCreateDto createDto)
+        public TEntity Create(TEntity createDto)
         {
             throw new System.NotImplementedException();
         }
@@ -133,7 +132,7 @@ namespace DbConfigurator.UI.Services
             throw new System.NotImplementedException();
         }
 
-        public TEntity Update(TUpdateDto createDto)
+        public TEntity Update(TEntity createDto)
         {
             throw new System.NotImplementedException();
         }

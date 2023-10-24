@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public interface IRegionService : IDataService<CreateAreaDto, UpdateAreaDto, Area>
+    public interface IRegionService : IDataService<Area>
     {
         Task<ICollection<AreaDto>> GetAllAreasAsync();
         Task<ICollection<BusinessUnitDto>> GetAllBusinessUnitsAsync();
