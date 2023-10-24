@@ -1,7 +1,10 @@
-﻿using DbConfigurator.Model.Contracts;
+﻿using DbConfigurator.DataAccess.DTOs.AreaDto;
+using DbConfigurator.Model.Contracts;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
+using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Interfaces;
@@ -21,7 +24,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         TEditEvent, TEditEventArgs> : NotifyBase, ITableViewModel
         where TWrapper : IWrapperWithId
         where TDto : class, IEntityDto
-        where TDataService : IDataService<TDto>
+        where TDataService : IDataService<CreateAreaDto, UpdateAreaDto, Area>
         where TCreateEvent : PubSubEvent<TCreateEventArgs>, new()
         where TCreateEventArgs : IEventArgs<TDto>, new()
         where TEditEvent : PubSubEvent<TEditEventArgs>, new()
@@ -29,7 +32,7 @@ namespace DbConfigurator.UI.ViewModel.Base
     {
         protected readonly IEditingWindowService WindowService;
         protected readonly IEventAggregator EventAggregator;
-        protected readonly TDataService DataService;
+        protected readonly IDataService<CreateAreaDto, UpdateAreaDto, Area> DataService;
         protected readonly Func<IDetailViewModel> DetailViewModelCreator;
         protected readonly AutoMapperConfig AutoMapper;
 
@@ -134,7 +137,7 @@ namespace DbConfigurator.UI.ViewModel.Base
                 return;
             }
 
-            await DataService.RemoveByIdAsync(BusinessUnit.Id);
+            await DataService.DeleteAsync(BusinessUnit.Id);
 
             Items.Remove(SelectedItem!);
             SelectedItem = default(TWrapper);

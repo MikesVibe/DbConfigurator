@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.DataAccess.Controllers
 {
-    public class BaseController<TCreateDto, TUpdateDto, TDto> 
+    public class BaseController<TCreateDto, TUpdateDto, TEntity> 
         where TCreateDto : class
         where TUpdateDto : class
-        where TDto : class, new()
+        where TEntity : class, new()
     {
         protected readonly HttpClient _httpClient;
 
@@ -23,29 +23,29 @@ namespace DbConfigurator.DataAccess.Controllers
             };
         }
 
-        public TDto Create(TCreateDto createDto)
+        public TEntity Create(TCreateDto createDto)
         {
-            return new TDto();
+            return new TEntity();
         }
-        public TDto Update(TUpdateDto createDto)
+        public TEntity Update(TUpdateDto createDto)
         {
-            return new TDto();
+            return new TEntity();
         }
-        public async Task<TDto> Delete(int id)
+        public async Task<TEntity> Delete(int id)
         {
             await Task.CompletedTask;
-            return new TDto();
+            return new TEntity();
         }
-        public async Task<TDto> GetById(int id)
+        public async Task<TEntity> GetById(int id)
         {
-            var dto = await  _httpClient.GetFromJsonAsync<IEnumerable<TDto>>($"area/{id}");
-            return new TDto();
+            var dto = await  _httpClient.GetFromJsonAsync<IEnumerable<TEntity>>($"area/{id}");
+            return new TEntity();
         }
-        public virtual async Task<IEnumerable<TDto>> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
-            var dto = await _httpClient.GetFromJsonAsync<TDto>($"area/all");
+            var dto = await _httpClient.GetFromJsonAsync<TEntity>($"area/all");
             
-            return new List<TDto>();
+            return new List<TEntity>();
         }
     }
 }

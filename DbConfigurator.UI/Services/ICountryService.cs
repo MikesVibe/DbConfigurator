@@ -1,9 +1,10 @@
-﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.UI.Services.Interfaces;
+﻿using DbConfigurator.DataAccess.DTOs.AreaDto;
+using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 
 namespace DbConfigurator.UI.Services
 {
-    public interface ICountryService : IDataService<CountryDto>
+    public interface ICountryService : IDataService<CreateAreaDto, UpdateAreaDto, Area>
     {
     }
 }

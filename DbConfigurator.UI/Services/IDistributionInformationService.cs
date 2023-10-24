@@ -1,11 +1,12 @@
-﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.UI.Services.Interfaces;
+﻿using DbConfigurator.DataAccess.DTOs.AreaDto;
+using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public interface IDistributionInformationService : IDataService<DistributionInformationDto>
+    public interface IDistributionInformationService : IDataService<CreateAreaDto, UpdateAreaDto, Area>
     {
         //Task AddRecipientsCcAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsCc_ToAdd);
         //Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd);

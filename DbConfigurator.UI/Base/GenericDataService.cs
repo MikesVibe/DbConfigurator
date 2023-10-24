@@ -1,15 +1,20 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class GenericDataService<TEntity, TDto> : IDataService<TDto>
-        where TEntity : IEntity
-        where TDto : IEntityDto, new()
+    public class GenericDataService<TCreateDto, TUpdateDto, TEntity> : IDataService<TCreateDto, TUpdateDto, TEntity>
+        where TCreateDto : class
+        where TUpdateDto : class
+        where TEntity : class, new()
+        
     {
+        //where TCreateDto : class
+        //where TUpdateDto : class
+        //where TEntity : class, new() 
+
         //protected readonly TRepository _repository;
         //protected readonly AutoMapperConfig _autoMapper;
 
@@ -82,28 +87,53 @@ namespace DbConfigurator.UI.Services
         //{
         //    return _autoMapper.Mapper.Map<IEnumerable<TDto>>(await _repository.GetAllAsync());
         //}
-        public Task<int> AddAsync(TDto dto)
+        //public Task<int> AddAsync(TDto dto)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+
+        //public async Task<IEnumerable<TDto>> GetAllAsync()
+        //{
+        //    await Task.CompletedTask;
+        //    return new List<TDto>();
+        //}
+
+        //public Task<TDto> GetByIdAsync(int id)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+
+        //public Task<bool> RemoveByIdAsync(int id)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+
+        //public Task<bool> UpdateAsync(TDto dto)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+        public TEntity Create(TCreateDto createDto)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<TDto>> GetAllAsync()
+        public Task<TEntity> DeleteAsync(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             await Task.CompletedTask;
-            return new List<TDto>();
+            return new List<TEntity>();
         }
 
-        public Task<TDto> GetByIdAsync(int id)
+        public Task<TEntity> GetByIdAsync(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<bool> RemoveByIdAsync(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<bool> UpdateAsync(TDto dto)
+        public TEntity Update(TUpdateDto createDto)
         {
             throw new System.NotImplementedException();
         }

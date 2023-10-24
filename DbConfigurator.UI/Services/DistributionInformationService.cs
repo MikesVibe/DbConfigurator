@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.DataAccess.DTOs.AreaDto;
+using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class DistributionInformationService : GenericDataService<DistributionInformation, DistributionInformationDto>, IDistributionInformationService
+    public class DistributionInformationService : GenericDataService<CreateAreaDto, UpdateAreaDto, Area>, IDistributionInformationService
     {
 
 

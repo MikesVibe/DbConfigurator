@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.DataAccess.Controllers;
+using DbConfigurator.DataAccess.DTOs.AreaDto;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class AreaService : GenericDataService<Area, AreaDto>, IAreaService
+    public class AreaService : GenericDataService<CreateAreaDto, UpdateAreaDto, Area>, IAreaService
     {
         private readonly AreaController _areaController;
 

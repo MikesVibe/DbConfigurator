@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.DataAccess.DTOs.AreaDto;
+using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class RegionService : GenericDataService<Region, RegionDto>, IRegionService
+    public class RegionService : GenericDataService<CreateAreaDto, UpdateAreaDto, Area>, IRegionService
     {
         public RegionService(
             AutoMapperConfig autoMapper)
