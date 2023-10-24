@@ -1,12 +1,13 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 
 namespace DbConfigurator.Model.DTOs.Wrapper
 {
-    public class AreaDtoWrapper : ModelWrapper<AreaDto>, IWrapperWithId
+    public class AreaWrapper : ModelWrapper<Area>, IWrapperWithId
     {
-        public AreaDtoWrapper(AreaDto model) : base(model)
+        public AreaWrapper(Area model) : base(model)
         {
         }
         public int Id

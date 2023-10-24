@@ -1,5 +1,4 @@
-﻿using DbConfigurator.DataAccess.DTOs.AreaDto;
-using DbConfigurator.Model.Contracts;
+﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Contracts;
 using DbConfigurator.UI.Event;
@@ -23,8 +22,8 @@ namespace DbConfigurator.UI.ViewModel.Base
         TCreateEvent, TCreateEventArgs,
         TEditEvent, TEditEventArgs> : NotifyBase, ITableViewModel
         where TWrapper : IWrapperWithId
-        where TDto : class, IEntityDto
-        where TDataService : IDataService<Area>
+        where TDto : class, IEntity, new()
+        where TDataService : IDataService<TDto>
         where TCreateEvent : PubSubEvent<TCreateEventArgs>, new()
         where TCreateEventArgs : IEventArgs<TDto>, new()
         where TEditEvent : PubSubEvent<TEditEventArgs>, new()
@@ -32,7 +31,7 @@ namespace DbConfigurator.UI.ViewModel.Base
     {
         protected readonly IEditingWindowService WindowService;
         protected readonly IEventAggregator EventAggregator;
-        protected readonly IDataService<Area> DataService;
+        protected readonly TDataService DataService;
         protected readonly Func<IDetailViewModel> DetailViewModelCreator;
         protected readonly AutoMapperConfig AutoMapper;
 
@@ -86,8 +85,10 @@ namespace DbConfigurator.UI.ViewModel.Base
                 }
             }
         }
-        public ObservableCollection<TWrapper> Items { get; set; } = new();
-        public TWrapper? SelectedItem { get; set; }
+        //public ObservableCollection<TWrapper> Items { get; set; } = new();
+        //public TWrapper? SelectedItem { get; set; }
+        public ObservableCollection<TDto> Items { get; set; } = new();
+        public TDto? SelectedItem { get; set; }
 
 
 
@@ -100,11 +101,11 @@ namespace DbConfigurator.UI.ViewModel.Base
                 if (distributionInformation is null)
                     continue;
 
-                var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), distributionInformation);
-                if (wrapped is null)
-                    continue;
+                //var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), distributionInformation);
+                //if (wrapped is null)
+                //    continue;
 
-                Items.Add(wrapped);
+                //Items.Add(wrapped);
             }
         }
 
@@ -126,21 +127,21 @@ namespace DbConfigurator.UI.ViewModel.Base
         }
         protected virtual async void OnRemoveExecute()
         {
-            var BusinessUnit = await DataService.GetByIdAsync(SelectedItem!.Id);
-            if (BusinessUnit is null)
-            {
-                if (Debugger.IsAttached)
-                {
-                    throw new Exception();
-                }
-                //Log some error mesage here
-                return;
-            }
+            //var BusinessUnit = await DataService.GetByIdAsync(SelectedItem!.Id);
+            //if (BusinessUnit is null)
+            //{
+            //    if (Debugger.IsAttached)
+            //    {
+            //        throw new Exception();
+            //    }
+            //    //Log some error mesage here
+            //    return;
+            //}
 
-            await DataService.DeleteAsync(BusinessUnit.Id);
+            //await DataService.DeleteAsync(BusinessUnit.Id);
 
-            Items.Remove(SelectedItem!);
-            SelectedItem = default(TWrapper);
+            //Items.Remove(SelectedItem!);
+            //SelectedItem = default(TWrapper);
         }
         protected virtual bool OnRemoveCanExecute()
         {
@@ -161,11 +162,11 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         protected void OnAddEntityExecute(TCreateEventArgs obj)
         {
-            var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), obj.Entity);
-            if (wrapped is null)
-                return;
+            //var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), obj.Entity);
+            //if (wrapped is null)
+            //    return;
 
-            Items.Add(wrapped);
+            //Items.Add(wrapped);
         }
         protected void OnEditEntityExecute(IEventArgs<TDto> obj)
         {

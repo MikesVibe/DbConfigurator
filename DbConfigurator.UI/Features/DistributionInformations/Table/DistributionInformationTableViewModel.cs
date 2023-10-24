@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services;
@@ -11,8 +12,8 @@ using System;
 
 namespace DbConfigurator.UI.Features.DistributionInformations
 {
-    public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationDtoWrapper,
-        DistributionInformationDto,
+    public class DistributionInformationTableViewModel : TableViewModelBase<DistributionInformationWrapper,
+        DistributionInformation,
         IDistributionInformationService,
         CreateDistributionInformationEvent, CreateDistributionInformationEventArgs,
         EditDistributionInformationEvent, EditDistributionInformationEventArgs>

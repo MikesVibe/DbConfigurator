@@ -1,14 +1,13 @@
-﻿using DbConfigurator.DataAccess.DTOs.AreaDto;
-using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
 
 namespace DbConfigurator.UI.Services
 {
-    public class RecipientService : GenericDataService<Area>, IRecipientService
+    public class RecipientService : GenericDataService<Recipient>, IRecipientService
     {
         public RecipientService(AutoMapperConfig autoMapper)
-        //: base(repository, autoMapper)
+        : base(autoMapper)
         {
         }
     }

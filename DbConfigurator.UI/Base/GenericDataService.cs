@@ -1,6 +1,12 @@
-﻿using DbConfigurator.Model.Contracts;
+﻿using AutoMapper;
+using DbConfigurator.Model.Contracts;
+using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
@@ -111,6 +117,20 @@ namespace DbConfigurator.UI.Services
         //{
         //    throw new System.NotImplementedException();
         //}
+
+        protected readonly HttpClient _httpClient;
+        private readonly AutoMapperConfig _mapper;
+
+        public GenericDataService(AutoMapperConfig mapper)//IMapper mapper)
+        {
+            _httpClient = new HttpClient()
+            {
+                BaseAddress = new Uri("https://localhost:8443/api/")
+            };
+            _mapper = mapper;
+        }
+
+
         public TEntity Create(TEntity createDto)
         {
             throw new System.NotImplementedException();
@@ -123,8 +143,18 @@ namespace DbConfigurator.UI.Services
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            await Task.CompletedTask;
-            return new List<TEntity>();
+            IEnumerable<TEntity> toReturn;
+            try
+            {
+                var dto = await _httpClient.GetFromJsonAsync<IEnumerable<Area>>($"area/all");
+                toReturn = _mapper.Mapper.Map<IEnumerable<TEntity>>(dto);
+            }
+            catch
+            {
+                return new List<TEntity>();
+            }
+
+            return toReturn;
         }
 
         public Task<TEntity> GetByIdAsync(int id)

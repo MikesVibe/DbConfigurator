@@ -1,12 +1,13 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 
 namespace DbConfigurator.Model.DTOs.Wrapper
 {
-    public class RegionDtoWrapper : ModelWrapper<RegionDto>, IWrapperWithId
+    public class RegionWrapper : ModelWrapper<Region>, IWrapperWithId
     {
-        public RegionDtoWrapper(RegionDto model) : base(model)
+        public RegionWrapper(Region model) : base(model)
         {
         }
         public int Id
@@ -17,25 +18,25 @@ namespace DbConfigurator.Model.DTOs.Wrapper
                 SetValue(value);
             }
         }
-        public AreaDto Area
+        public Area Area
         {
-            get { return GetValue<AreaDto>(); }
+            get { return GetValue<Area>(); }
             set
             {
                 SetValue(value);
             }
         }
-        public BusinessUnitDto BusinessUnit
+        public BusinessUnit BusinessUnit
         {
-            get { return GetValue<BusinessUnitDto>(); }
+            get { return GetValue<BusinessUnit>(); }
             set
             {
                 SetValue(value);
             }
         }
-        public CountryDto Country
+        public Country Country
         {
-            get { return GetValue<CountryDto>(); }
+            get { return GetValue<Country>(); }
             set
             {
                 SetValue(value);

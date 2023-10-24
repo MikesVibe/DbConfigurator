@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services;
@@ -12,7 +13,7 @@ using System;
 
 namespace DbConfigurator.UI.Features.Areas
 {
-    public class AreaTableViewModel : TableViewModelBase<AreaDtoWrapper, AreaDto, IAreaService,
+    public class AreaTableViewModel : TableViewModelBase<AreaWrapper, Area, IAreaService,
         CreateAreaEvent, CreateAreaEventArgs,
         EditAreaEvent, EditAreaEventArgs>, ITableViewModel
     {

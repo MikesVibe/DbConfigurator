@@ -1,11 +1,12 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 
 namespace DbConfigurator.Model.Entities.Wrapper
 {
-    public class RecipientDtoWrapper : ModelWrapper<RecipientDto>, IWrapperWithId
+    public class RecipientWrapper : ModelWrapper<Recipient>, IWrapperWithId
     {
-        public RecipientDtoWrapper(RecipientDto model) : base(model)
+        public RecipientWrapper(Recipient model) : base(model)
         {
         }
 

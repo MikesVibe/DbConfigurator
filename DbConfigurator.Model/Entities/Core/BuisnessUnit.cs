@@ -11,7 +11,5 @@ namespace DbConfigurator.Model.Entities.Core
         [Required]
         [MaxLength(250)]
         public string Name { get; set; }
-
-        public ICollection<Region> Regions { get; set; }
     }
 }

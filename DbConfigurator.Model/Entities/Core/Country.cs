@@ -16,8 +16,5 @@ namespace DbConfigurator.Model.Entities.Core
         [Required]
         [MaxLength(3)]
         public string CountryCode { get; set; }
-
-
-        public ICollection<Region> Regions { get; set; }
     }
 }

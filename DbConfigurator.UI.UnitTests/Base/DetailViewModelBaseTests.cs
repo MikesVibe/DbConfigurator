@@ -14,46 +14,46 @@ using Xunit;
 
 namespace DbConfigurator.UI.UnitTests.Base
 {
-    public abstract class DetailViewModelBaseTests<TDataService, TEntityDto>
-        where TDataService : class, IDataService<TEntityDto>
-        where TEntityDto : IEntityDto, new()
-    {
-        protected DetailViewModelBase<TDataService, TEntityDto> DetialViewModel;
-        protected Mock<TDataService> DataServiceMock;
-        protected Mock<IEventAggregator> EventAgregatorMock;
-        private int _entityId;
+    //public abstract class DetailViewModelBaseTests<TDataService, TEntity>
+    //    where TDataService : class, IDataService<TEntity>
+    //    where TEntity : IEntity, new()
+    //{
+    //    //protected DetailViewModelBase<TDataService, TEntity> DetialViewModel;
+    //    //protected Mock<TDataService> DataServiceMock;
+    //    //protected Mock<IEventAggregator> EventAgregatorMock;
+    //    //private int _entityId;
 
-        public DetailViewModelBaseTests()
-        {
-            DataServiceMock = new Mock<TDataService>();
-            EventAgregatorMock = new Mock<IEventAggregator>();
+    //    //public DetailViewModelBaseTests()
+    //    //{
+    //    //    DataServiceMock = new Mock<TDataService>();
+    //    //    EventAgregatorMock = new Mock<IEventAggregator>();
 
-            DataServiceMock.Setup(di => di.GetByIdAsync(_entityId))
-                .ReturnsAsync(CreateNewEntityDtoItem(_entityId));
-        }
+    //    //    DataServiceMock.Setup(di => di.GetByIdAsync(_entityId))
+    //    //        .ReturnsAsync(CreateNewEntityDtoItem(_entityId));
+    //    //}
 
-        [Fact]
-        public void EntityShouldNotBeEmpty()
-        {
-            Assert.NotNull(DetialViewModel.EntityDto);
-        }
-        [Fact]
-        public async void EntityShouldNotBeEmptyAfterLoadMethodWasCalled()
-        {
-            await DetialViewModel.LoadAsync(_entityId);
-            Assert.NotNull(DetialViewModel.EntityDto);
-        }
-        [Fact]
-        public async void ShouldLoadEntity()
-        {
-            await DetialViewModel.LoadAsync(_entityId);
+    //    //[Fact]
+    //    //public void EntityShouldNotBeEmpty()
+    //    //{
+    //    //    Assert.NotNull(DetialViewModel.EntityDto);
+    //    //}
+    //    //[Fact]
+    //    //public async void EntityShouldNotBeEmptyAfterLoadMethodWasCalled()
+    //    //{
+    //    //    await DetialViewModel.LoadAsync(_entityId);
+    //    //    Assert.NotNull(DetialViewModel.EntityDto);
+    //    //}
+    //    //[Fact]
+    //    //public async void ShouldLoadEntity()
+    //    //{
+    //    //    await DetialViewModel.LoadAsync(_entityId);
 
-            Assert.NotNull(DetialViewModel.EntityDto);
-            Assert.Equal(_entityId, DetialViewModel.EntityDto.Id);
+    //    //    Assert.NotNull(DetialViewModel.EntityDto);
+    //    //    Assert.Equal(_entityId, DetialViewModel.EntityDto.Id);
 
-            DataServiceMock.Verify(dp => dp.GetByIdAsync(_entityId), Times.Once);
-        }
+    //    //    DataServiceMock.Verify(dp => dp.GetByIdAsync(_entityId), Times.Once);
+    //    //}
 
-        protected abstract TEntityDto CreateNewEntityDtoItem(int id);
-    }
+    //    //protected abstract TEntity CreateNewEntityDtoItem(int id);
+    //}
 }

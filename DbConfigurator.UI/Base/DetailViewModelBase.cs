@@ -1,5 +1,4 @@
-﻿using DbConfigurator.DataAccess.DTOs.AreaDto;
-using DbConfigurator.Model.Contracts;
+﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services;
 using Prism.Commands;
@@ -11,9 +10,9 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class DetailViewModelBase<TDataService, TEntityDto> : NotifyBase, IDetailViewModel, INotifyPropertyChanged
-        where TDataService : IDataService<Area>
-        where TEntityDto : IEntityDto, new()
+    public abstract class DetailViewModelBase<TDataService, TEntity> : NotifyBase, IDetailViewModel, INotifyPropertyChanged
+        where TDataService : IDataService<TEntity>
+        where TEntity : class, IEntity, new()
     {
         protected enum ModelAction { Create = 0, Update = 1 }
 
@@ -42,7 +41,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         public int ViewWidth { get; set; }
         public int ViewHeight { get; set; }
         public string Title { get; set; }
-        public TEntityDto EntityDto { get; set; }
+        public TEntity EntityDto { get; set; }
 
         public virtual async Task LoadAsync(int entityId)
         {
@@ -61,10 +60,10 @@ namespace DbConfigurator.UI.ViewModel.Base
             //}
         }
 
-        private TEntityDto CreateNew()
+        private TEntity CreateNew()
         {
             Action = ModelAction.Create;
-            return new TEntityDto();
+            return new TEntity();
         }
 
         private async void OnSaveExecute()

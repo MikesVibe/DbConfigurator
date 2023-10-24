@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.DTOs.Core
 {
-    public class AreaDto : IEntityDto
+    public class AreaDto
     {
         public int Id { get; set; }
         [Required]

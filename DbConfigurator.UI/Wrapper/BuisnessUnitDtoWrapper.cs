@@ -1,12 +1,13 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 
 namespace DbConfigurator.Model.DTOs.Wrapper
 {
-    public class BusinessUnitDtoWrapper : ModelWrapper<BusinessUnitDto>, IWrapperWithId
+    public class BusinessUnitWrapper : ModelWrapper<BusinessUnit>, IWrapperWithId
     {
-        public BusinessUnitDtoWrapper(BusinessUnitDto model) : base(model)
+        public BusinessUnitWrapper(BusinessUnit model) : base(model)
         {
         }
         public int Id

@@ -2,7 +2,7 @@
 
 namespace DbConfigurator.Model.DTOs.Core
 {
-    public class RegionDto : IEntityDto
+    public class RegionDto
     {
         public int Id { get; init; }
         public AreaDto Area { get; set; }

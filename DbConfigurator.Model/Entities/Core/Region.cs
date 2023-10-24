@@ -15,7 +15,5 @@ namespace DbConfigurator.Model.Entities.Core
         public int BusinessUnitId { get; set; }
         public Country Country { get; set; }
         public int CountryId { get; set; }
-
-        public ICollection<DistributionInformation> DistributionInformations { get; set; }
     }
 }

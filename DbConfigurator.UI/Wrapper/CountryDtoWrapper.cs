@@ -1,12 +1,13 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 
 namespace DbConfigurator.Model.DTOs.Wrapper
 {
-    public class CountryDtoWrapper : ModelWrapper<CountryDto>, IWrapperWithId
+    public class CountryWrapper : ModelWrapper<Country>, IWrapperWithId
     {
-        public CountryDtoWrapper(CountryDto model) : base(model)
+        public CountryWrapper(Country model) : base(model)
         {
         }
         public int Id

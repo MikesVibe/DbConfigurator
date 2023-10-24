@@ -1,22 +1,21 @@
-﻿using DbConfigurator.DataAccess.DTOs.AreaDto;
-using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public interface IDistributionInformationService : IDataService<Area>
+    public interface IDistributionInformationService : IDataService<DistributionInformation>
     {
-        //Task AddRecipientsCcAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsCc_ToAdd);
-        //Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<RecipientDto> recipientsTo_ToAdd);
+        //Task AddRecipientsCcAsync(int distributionInformationId, IEnumerable<Recipient> recipientsCc_ToAdd);
+        //Task AddRecipientsToAsync(int distributionInformationId, IEnumerable<Recipient> recipientsTo_ToAdd);
         Task<IEnumerable<PriorityDto>> GetAllPrioritiesAsync();
-        IEnumerable<RecipientDto> GetAllRecipients();
-        Task<IEnumerable<AreaDto>> GetUniqueAreasFromRegionAsync();
-        Task<IEnumerable<BusinessUnitDto>> GetUniqueBusinessUnitsFromRegionAsync(int? areaId = null);
-        Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? BusinessUnitId = null);
-        Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int BusinessUnitId, int countryId);
-        Task<IEnumerable<RegionDto>> GetAllRegionsAsync();
-        Task<IEnumerable<RecipientDto>> GetAllRecipientsAsync();
+        IEnumerable<Recipient> GetAllRecipients();
+        Task<IEnumerable<Area>> GetUniqueAreasFromRegionAsync();
+        Task<IEnumerable<BusinessUnit>> GetUniqueBusinessUnitsFromRegionAsync(int? areaId = null);
+        Task<IEnumerable<Country>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? BusinessUnitId = null);
+        Task<IEnumerable<Region>> GetRegionsWithAsync(int areaId, int BusinessUnitId, int countryId);
+        Task<IEnumerable<Region>> GetAllRegionsAsync();
+        Task<IEnumerable<Recipient>> GetAllRecipientsAsync();
     }
 }

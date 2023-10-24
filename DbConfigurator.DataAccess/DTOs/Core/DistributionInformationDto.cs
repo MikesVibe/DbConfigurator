@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace DbConfigurator.Model.DTOs.Core
 {
-    public class DistributionInformationDto : IEntityDto
+    public class DistributionInformationDto
     {
         public DistributionInformationDto()
         { }

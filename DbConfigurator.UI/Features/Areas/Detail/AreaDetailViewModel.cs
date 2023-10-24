@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services;
@@ -9,7 +10,7 @@ using System.ComponentModel;
 
 namespace DbConfigurator.UI.Features.Areas
 {
-    public class AreaDetailViewModel : DetailViewModelBase<IAreaService, AreaDto>, IDetailViewModel, INotifyPropertyChanged
+    public class AreaDetailViewModel : DetailViewModelBase<IAreaService, Area>, IDetailViewModel, INotifyPropertyChanged
     {
         public AreaDetailViewModel(IAreaService areaService, IEventAggregator eventAggregator) : base(areaService, eventAggregator)
         {
@@ -20,35 +21,35 @@ namespace DbConfigurator.UI.Features.Areas
 
         protected override void OnCreate()
         {
-            if (EntityDto is null)
-                return;
+            //if (EntityDto is null)
+            //    return;
 
-            EventAggregator.GetEvent<CreateAreaEvent>()
-                  .Publish(
-                new CreateAreaEventArgs
-                {
-                    Entity = new AreaDto
-                    {
-                        Id = EntityDto.Id,
-                        Name = EntityDto.Name,
-                    }
-                });
+            //EventAggregator.GetEvent<CreateAreaEvent>()
+            //      .Publish(
+            //    new CreateAreaEventArgs
+            //    {
+            //        Entity = new Area
+            //        {
+            //            Id = EntityDto.Id,
+            //            Name = EntityDto.Name,
+            //        }
+            //    });
         }
         protected override void OnUpdate()
         {
-            if (EntityDto is null)
-                return;
+            //if (EntityDto is null)
+            //    return;
 
-            EventAggregator.GetEvent<EditAreaEvent>()
-                  .Publish(
-                new EditAreaEventArgs
-                {
-                    Entity = new AreaDto
-                    {
-                        Id = EntityDto.Id,
-                        Name = EntityDto.Name,
-                    }
-                });
+            //EventAggregator.GetEvent<EditAreaEvent>()
+            //      .Publish(
+            //    new EditAreaEventArgs
+            //    {
+            //        Entity = new Area
+            //        {
+            //            Id = EntityDto.Id,
+            //            Name = EntityDto.Name,
+            //        }
+            //    });
         }
     }
 }

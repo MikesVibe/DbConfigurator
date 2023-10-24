@@ -1,5 +1,4 @@
-﻿using DbConfigurator.DataAccess.DTOs.AreaDto;
-using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +9,15 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {
-    public class DistributionInformationService : GenericDataService<Area>, IDistributionInformationService
+    public class DistributionInformationService : GenericDataService<DistributionInformation>, IDistributionInformationService
     {
+        public DistributionInformationService(
 
+            AutoMapperConfig autoMapper
+            )
+            : base(autoMapper)
+        {
+        }
 
         //public DistributionInformationService(
 
@@ -29,13 +34,13 @@ namespace DbConfigurator.UI.Services
 
 
 
-        //public async Task<IEnumerable<AreaDto>> GetUniqueAreasFromRegionAsync()
+        //public async Task<IEnumerable<Area>> GetUniqueAreasFromRegionAsync()
         //{
         //    var countries = await _regionRepository.GetUniqueAreasFromRegionAsync();
 
-        //    return _autoMapper.Mapper.Map<IEnumerable<AreaDto>>(countries);
+        //    return _autoMapper.Mapper.Map<IEnumerable<Area>>(countries);
         //}
-        //public async Task<IEnumerable<BusinessUnitDto>> GetUniqueBusinessUnitsFromRegionAsync(int? areaId = null)
+        //public async Task<IEnumerable<BusinessUnit>> GetUniqueBusinessUnitsFromRegionAsync(int? areaId = null)
         //{
         //    IEnumerable<Region> regions = areaId is null ?
         //        await _regionRepository.GetAllAsync() :
@@ -44,9 +49,9 @@ namespace DbConfigurator.UI.Services
         //    var BusinessUnitsIdList = regions.Select(r => r.BusinessUnitId);
         //    var BusinessUnits = await _BusinessUnitRepository.GetAllAsync(b => BusinessUnitsIdList.Contains(b.Id));
 
-        //    return _autoMapper.Mapper.Map<IEnumerable<BusinessUnitDto>>(BusinessUnits);
+        //    return _autoMapper.Mapper.Map<IEnumerable<BusinessUnit>>(BusinessUnits);
         //}
-        //public async Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? BusinessUnitId = null)
+        //public async Task<IEnumerable<Country>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? BusinessUnitId = null)
         //{
         //    var regions = BusinessUnitId is null ?
         //        await _regionRepository.GetAllAsync() :
@@ -55,19 +60,19 @@ namespace DbConfigurator.UI.Services
         //    var countriesIdList = regions.Select(r => r.CountryId);
         //    var countries = await _countryRepository.GetAllAsync(c => countriesIdList.Contains(c.Id));
 
-        //    return _autoMapper.Mapper.Map<IEnumerable<CountryDto>>(countries);
+        //    return _autoMapper.Mapper.Map<IEnumerable<Country>>(countries);
         //}
-        //public IEnumerable<RecipientDto> GetAllRecipients()
+        //public IEnumerable<Recipient> GetAllRecipients()
         //{
         //    var recipients = _recipientRepository.GetAll();
 
-        //    return _autoMapper.Mapper.Map<IEnumerable<RecipientDto>>(recipients);
+        //    return _autoMapper.Mapper.Map<IEnumerable<Recipient>>(recipients);
         //}
-        //public async Task<IEnumerable<RecipientDto>> GetAllRecipientsAsync()
+        //public async Task<IEnumerable<Recipient>> GetAllRecipientsAsync()
         //{
         //    var recipients = await _recipientRepository.GetAllAsync();
 
-        //    return _autoMapper.Mapper.Map<IEnumerable<RecipientDto>>(recipients);
+        //    return _autoMapper.Mapper.Map<IEnumerable<Recipient>>(recipients);
         //}
         //public async Task<IEnumerable<PriorityDto>> GetAllPrioritiesAsync()
         //{
@@ -75,60 +80,60 @@ namespace DbConfigurator.UI.Services
 
         //    return _autoMapper.Mapper.Map<IEnumerable<PriorityDto>>(priorities);
         //}
-        //public async Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int BusinessUnitId, int countryId)
+        //public async Task<IEnumerable<Region>> GetRegionsWithAsync(int areaId, int BusinessUnitId, int countryId)
         //{
         //    var regions = await _regionRepository.GetRegionsWithAsync(areaId, BusinessUnitId, countryId);
 
-        //    return _autoMapper.Mapper.Map<IEnumerable<RegionDto>>(regions);
+        //    return _autoMapper.Mapper.Map<IEnumerable<Region>>(regions);
         //}
-        //public async Task<IEnumerable<RegionDto>> GetAllRegionsAsync()
+        //public async Task<IEnumerable<Region>> GetAllRegionsAsync()
         //{
         //    var regions = await _regionRepository.GetAllAsync();
 
-        //    return _autoMapper.Mapper.Map<IEnumerable<RegionDto>>(regions);
+        //    return _autoMapper.Mapper.Map<IEnumerable<Region>>(regions);
         //}
-        //public override async Task<IEnumerable<DistributionInformationDto>> GetAllAsync()
+        //public override async Task<IEnumerable<DistributionInformation>> GetAllAsync()
         //{
         //    var distributionInformations = await _repository.GetAllAsync();
 
-        //    return _autoMapper.Mapper.Map<IEnumerable<DistributionInformationDto>>(distributionInformations);
+        //    return _autoMapper.Mapper.Map<IEnumerable<DistributionInformation>>(distributionInformations);
         //}
         public Task<IEnumerable<PriorityDto>> GetAllPrioritiesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<RecipientDto> GetAllRecipients()
+        public IEnumerable<Recipient> GetAllRecipients()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<RecipientDto>> GetAllRecipientsAsync()
+        public Task<IEnumerable<Recipient>> GetAllRecipientsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<RegionDto>> GetAllRegionsAsync()
+        public Task<IEnumerable<Region>> GetAllRegionsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<RegionDto>> GetRegionsWithAsync(int areaId, int BusinessUnitId, int countryId)
+        public Task<IEnumerable<Region>> GetRegionsWithAsync(int areaId, int BusinessUnitId, int countryId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<AreaDto>> GetUniqueAreasFromRegionAsync()
+        public Task<IEnumerable<Area>> GetUniqueAreasFromRegionAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BusinessUnitDto>> GetUniqueBusinessUnitsFromRegionAsync(int? areaId = null)
+        public Task<IEnumerable<BusinessUnit>> GetUniqueBusinessUnitsFromRegionAsync(int? areaId = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CountryDto>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? BusinessUnitId = null)
+        public Task<IEnumerable<Country>> GetUniqueCountriesFromRegionAsync(int? areaId = null, int? BusinessUnitId = null)
         {
             throw new NotImplementedException();
         }

@@ -12,7 +12,5 @@ namespace DbConfigurator.Model.Entities.Core
         [Required]
         [MaxLength(6)]
         public string Name { get; set; }
-
-        public ICollection<DistributionInformation> DistributionInformations { get; set; }
     }
 }

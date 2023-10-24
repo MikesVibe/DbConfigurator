@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.DTOs.Core
 {
-    public class RecipientDto : IEntityDto
+    public class RecipientDto
     {
         public int Id { get; init; }
 

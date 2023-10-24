@@ -3,7 +3,7 @@
 namespace DbConfigurator.UI.Contracts
 {
     public interface IEventArgs<T>
-        where T : IEntityDto
+        where T : IEntity
     {
         T Entity { get; set; }
     }

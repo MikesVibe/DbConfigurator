@@ -1,13 +1,14 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 using System.Collections.ObjectModel;
 
 namespace DbConfigurator.Model.DTOs.Wrapper
 {
-    public class DistributionInformationDtoWrapper : ModelWrapper<DistributionInformationDto>, IWrapperWithId
+    public class DistributionInformationWrapper : ModelWrapper<DistributionInformation>, IWrapperWithId
     {
-        public DistributionInformationDtoWrapper(DistributionInformationDto model) : base(model)
+        public DistributionInformationWrapper(DistributionInformation model) : base(model)
         {
         }
 
@@ -19,9 +20,9 @@ namespace DbConfigurator.Model.DTOs.Wrapper
                 SetValue(value);
             }
         }
-        public RegionDto Region
+        public Region Region
         {
-            get { return GetValue<RegionDto>(); }
+            get { return GetValue<Region>(); }
             set
             {
                 SetValue(value);
@@ -36,17 +37,17 @@ namespace DbConfigurator.Model.DTOs.Wrapper
             }
         }
 
-        public ObservableCollection<RecipientDto> RecipientsTo
+        public ObservableCollection<Recipient> RecipientsTo
         {
-            get { return GetValue<ObservableCollection<RecipientDto>>(); }
+            get { return GetValue<ObservableCollection<Recipient>>(); }
             set
             {
                 SetValue(value);
             }
         }
-        public ObservableCollection<RecipientDto> RecipientsCc
+        public ObservableCollection<Recipient> RecipientsCc
         {
-            get { return GetValue<ObservableCollection<RecipientDto>>(); }
+            get { return GetValue<ObservableCollection<Recipient>>(); }
             set
             {
                 SetValue(value);

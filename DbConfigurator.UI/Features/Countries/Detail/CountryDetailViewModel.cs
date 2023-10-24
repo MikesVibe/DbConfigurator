@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services;
@@ -9,7 +10,7 @@ using System.ComponentModel;
 
 namespace DbConfigurator.UI.Features.Countries
 {
-    public class CountryDetailViewModel : DetailViewModelBase<ICountryService, CountryDto>, IDetailViewModel, INotifyPropertyChanged
+    public class CountryDetailViewModel : DetailViewModelBase<ICountryService, Country>, IDetailViewModel, INotifyPropertyChanged
     {
         public CountryDetailViewModel(ICountryService countryService, IEventAggregator eventAggregator) : base(countryService, eventAggregator)
         {
@@ -27,7 +28,7 @@ namespace DbConfigurator.UI.Features.Countries
                   .Publish(
                 new CreateCountryEventArgs
                 {
-                    Entity = new CountryDto
+                    Entity = new Country
                     {
                         Id = EntityDto.Id,
                         CountryName = EntityDto.CountryName,
@@ -45,7 +46,7 @@ namespace DbConfigurator.UI.Features.Countries
                   .Publish(
                 new EditCountryEventArgs
                 {
-                    Entity = new CountryDto
+                    Entity = new Country
                     {
                         Id = EntityDto.Id,
                         CountryName = EntityDto.CountryName,

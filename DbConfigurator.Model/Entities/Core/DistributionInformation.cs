@@ -15,9 +15,5 @@ namespace DbConfigurator.Model.Entities.Core
         [Required]
         public int PriorityId { get; set; }
         public Priority Priority { get; set; }
-
-
-        public ICollection<Recipient> RecipientsTo { get; set; } = new Collection<Recipient>();
-        public ICollection<Recipient> RecipientsCc { get; set; } = new Collection<Recipient>();
     }
 }

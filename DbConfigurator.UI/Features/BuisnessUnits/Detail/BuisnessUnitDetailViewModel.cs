@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services;
@@ -9,7 +10,7 @@ using System.ComponentModel;
 
 namespace DbConfigurator.UI.Features.BusinessUnits
 {
-    public class BusinessUnitDetailViewModel : DetailViewModelBase<IBusinessUnitService, BusinessUnitDto>, IDetailViewModel, INotifyPropertyChanged
+    public class BusinessUnitDetailViewModel : DetailViewModelBase<IBusinessUnitService, BusinessUnit>, IDetailViewModel, INotifyPropertyChanged
     {
         public BusinessUnitDetailViewModel(IBusinessUnitService BusinessUnitService, IEventAggregator eventAggregator) : base(BusinessUnitService, eventAggregator)
         {
@@ -27,7 +28,7 @@ namespace DbConfigurator.UI.Features.BusinessUnits
                   .Publish(
                 new CreateBusinessUnitEventArgs
                 {
-                    Entity = new BusinessUnitDto
+                    Entity = new BusinessUnit
                     {
                         Id = EntityDto.Id,
                         Name = EntityDto.Name
@@ -44,7 +45,7 @@ namespace DbConfigurator.UI.Features.BusinessUnits
                   .Publish(
                 new EditBusinessUnitEventArgs
                 {
-                    Entity = new BusinessUnitDto
+                    Entity = new BusinessUnit
                     {
                         Id = EntityDto.Id,
                         Name = EntityDto.Name
