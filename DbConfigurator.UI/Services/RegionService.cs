@@ -1,18 +1,16 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Services;
-using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Features.Regions
+namespace DbConfigurator.UI.Services
 {
     public class RegionService : GenericDataService<Region, RegionDto>, IRegionService
     {
         public RegionService(
             AutoMapperConfig autoMapper)
-            //: base(regionRepository, autoMapper)
+        //: base(regionRepository, autoMapper)
         {
 
         }

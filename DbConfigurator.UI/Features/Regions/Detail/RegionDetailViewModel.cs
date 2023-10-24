@@ -1,7 +1,7 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
-using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Services;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
 using Prism.Events;

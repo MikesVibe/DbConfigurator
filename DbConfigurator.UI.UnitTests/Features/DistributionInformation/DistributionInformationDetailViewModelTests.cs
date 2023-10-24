@@ -1,7 +1,7 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.UI.Features.DistributionInformations;
-using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Services;
 using DbConfigurator.UI.UnitTests.Base;
 using DbConfigurator.UI.ViewModel.Base;
 using System;

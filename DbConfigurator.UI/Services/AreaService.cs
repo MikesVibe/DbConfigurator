@@ -1,20 +1,18 @@
 ﻿using DbConfigurator.DataAccess.Controllers;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Services;
-using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Features.Areas
+namespace DbConfigurator.UI.Services
 {
     public class AreaService : GenericDataService<Area, AreaDto>, IAreaService
     {
         private readonly AreaController _areaController;
 
         public AreaService(AutoMapperConfig autoMapper, AreaController areaController)
-            //: base(autoMapper)
+        //: base(autoMapper)
         {
             _areaController = areaController;
         }
