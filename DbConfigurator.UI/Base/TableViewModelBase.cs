@@ -87,9 +87,6 @@ namespace DbConfigurator.UI.ViewModel.Base
         }
         public ObservableCollection<TEntityWrapper> Items { get; set; } = new();
         public TEntityWrapper? SelectedItem { get; set; }
-        //public ObservableCollection<TEntity> Items { get; set; } = new();
-        //public TEntity? SelectedItem { get; set; }
-
 
 
         public async virtual Task LoadAsync()
@@ -111,14 +108,14 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         protected async virtual void OnAddExecute()
         {
+            await Task.CompletedTask;
             var detailViewModel = DetailViewModelCreator();
-            await detailViewModel.LoadAsync(-1);
             WindowService.ShowWindow(detailViewModel);
         }
         protected async virtual void OnEditExecute()
         {
             var detailViewModel = DetailViewModelCreator();
-            await detailViewModel.LoadAsync(SelectedItem!.Id);
+            await detailViewModel.LoadAsync(SelectedItem!.Entity);
             WindowService.ShowWindow(detailViewModel);
         }
         protected virtual bool OnEditCanExecute()
@@ -127,21 +124,21 @@ namespace DbConfigurator.UI.ViewModel.Base
         }
         protected virtual async void OnRemoveExecute()
         {
-            //var BusinessUnit = await DataService.GetByIdAsync(SelectedItem!.Id);
-            //if (BusinessUnit is null)
-            //{
-            //    if (Debugger.IsAttached)
-            //    {
-            //        throw new Exception();
-            //    }
-            //    //Log some error mesage here
-            //    return;
-            //}
+            var entity = await DataService.DeleteAsync(SelectedItem!.Id);
+            if (entity == false)
+            {
+                
+                if (Debugger.IsAttached)
+                {
+                    throw new Exception();
+                }
+                //Entity could not be deleted
+                //Log some error mesage here
+                return;
+            }
 
-            //await DataService.DeleteAsync(BusinessUnit.Id);
-
-            //Items.Remove(SelectedItem!);
-            //SelectedItem = default(TWrapper);
+            Items.Remove(SelectedItem!);
+            SelectedItem = default(TEntityWrapper);
         }
         protected virtual bool OnRemoveCanExecute()
         {
@@ -162,11 +159,11 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         protected void OnAddEntityExecute(TCreateEventArgs obj)
         {
-            //var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), obj.Entity);
-            //if (wrapped is null)
-            //    return;
+            var wrapped = (TEntityWrapper?)Activator.CreateInstance(typeof(TEntityWrapper), obj.Entity);
+            if (wrapped is null)
+                return;
 
-            //Items.Add(wrapped);
+            Items.Add(wrapped);
         }
         protected void OnEditEntityExecute(IEventArgs<TEntity> obj)
         {

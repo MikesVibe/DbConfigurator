@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.Contracts;
+using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Extensions;
@@ -177,10 +178,9 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         }
         public Region? SelectedRegion { get; set; }
 
-        public override async Task LoadAsync(int DistributionInformationId)
+        public override async Task LoadAsync(IEntity entity)
         {
-            await base.LoadAsync(DistributionInformationId);
-
+            await base.LoadAsync(entity);
 
             _allRecipients = await DataService.GetAllRecipientsAsync();
             await InitializeComboBoxes();

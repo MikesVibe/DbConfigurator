@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DbConfigurator.Model.Contracts;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
@@ -9,9 +10,11 @@ namespace DbConfigurator.Model.Entities.Wrapper
         public ModelWrapper(T model)
         {
             Model = model;
+            Entity = (IEntity)model;
         }
 
         public T Model { get; }
+        public IEntity Entity { get; }
 
 
         protected virtual TValue GetValue<TValue>([CallerMemberName] string propertyName = null)

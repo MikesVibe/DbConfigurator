@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.Contracts;
+using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
@@ -69,9 +70,9 @@ namespace DbConfigurator.UI.Features.Regions
             }
         }
 
-        public override async Task LoadAsync(int entityId)
+        public override async Task LoadAsync(IEntity entity)
         {
-            await base.LoadAsync(entityId);
+            await base.LoadAsync(entity);
 
             var areas = await DataService.GetAllAreasAsync();
             foreach (var area in areas)

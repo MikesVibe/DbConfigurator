@@ -3,6 +3,7 @@ using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
+using FluentResults;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -16,6 +17,55 @@ namespace DbConfigurator.UI.Services
         where TEntity : class, new()
 
     {
+        protected readonly HttpClient _httpClient;
+        protected readonly AutoMapperConfig _mapper;
+
+        public GenericDataService(AutoMapperConfig mapper)//IMapper mapper)
+        {
+            _httpClient = new HttpClient()
+            {
+                BaseAddress = new Uri("https://localhost:8443/api/")
+            };
+            _mapper = mapper;
+        }
+
+
+        public async Task<bool> CreateAsync(TEntity createDto)
+        {
+            await Task.CompletedTask;
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            await Task.CompletedTask;
+            return true;
+        }
+
+        public async Task<bool> ExistsAsync(int entityId)
+        {
+            await Task.CompletedTask;
+            return true;
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            await Task.CompletedTask;
+            return new List<TEntity>();
+        }
+
+        public async Task<TEntity> GetByIdAsync(int id)
+        {
+            await Task.CompletedTask;
+            return new TEntity();
+        }
+
+        public async Task<bool> UpdateAsync(TEntity createDto)
+        {
+            await Task.CompletedTask;
+            return true;
+        }
+
         //where TCreateDto : class
         //where TUpdateDto : class
         //where TEntity : class, new() 
@@ -117,43 +167,5 @@ namespace DbConfigurator.UI.Services
         //{
         //    throw new System.NotImplementedException();
         //}
-
-        protected readonly HttpClient _httpClient;
-        protected readonly AutoMapperConfig _mapper;
-
-        public GenericDataService(AutoMapperConfig mapper)//IMapper mapper)
-        {
-            _httpClient = new HttpClient()
-            {
-                BaseAddress = new Uri("https://localhost:8443/api/")
-            };
-            _mapper = mapper;
-        }
-
-
-        public TEntity Create(TEntity createDto)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<TEntity> DeleteAsync(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            return new List<TEntity>();
-        }
-
-        public Task<TEntity> GetByIdAsync(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public TEntity Update(TEntity createDto)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
