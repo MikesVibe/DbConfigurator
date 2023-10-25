@@ -10,7 +10,7 @@ namespace DbConfigurator.UI.Services
     {
         public RegionService(
             AutoMapperConfig autoMapper)
-        : base(autoMapper)
+        : base(autoMapper, "Region")
         {
 
         }

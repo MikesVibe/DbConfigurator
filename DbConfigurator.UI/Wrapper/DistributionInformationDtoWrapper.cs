@@ -28,9 +28,9 @@ namespace DbConfigurator.Model.DTOs.Wrapper
                 SetValue(value);
             }
         }
-        public PriorityDto Priority
+        public Priority Priority
         {
-            get { return GetValue<PriorityDto>(); }
+            get { return GetValue<Priority>(); }
             set
             {
                 SetValue(value);

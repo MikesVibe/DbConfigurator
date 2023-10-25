@@ -14,7 +14,7 @@ namespace DbConfigurator.UI.Services
         private readonly AreaController _areaController;
 
         public AreaService(AutoMapperConfig autoMapper)
-        : base(autoMapper)
+        : base(autoMapper, "Area")
         {
         }
 
@@ -27,20 +27,6 @@ namespace DbConfigurator.UI.Services
         //{
         //    return _autoMapper.Mapper.Map<IEnumerable<Area>>(await _areaController.GetAll());
         //}
-        public override async Task<IEnumerable<Area>> GetAllAsync()
-        {
-            IEnumerable<Area> toReturn;
-            try
-            {
-                var dto = await _httpClient.GetFromJsonAsync<IEnumerable<Area>>($"area/all");
-                toReturn = _mapper.Mapper.Map<IEnumerable<Area>>(dto);
-            }
-            catch
-            {
-                return new List<Area>();
-            }
 
-            return toReturn;
-        }
     }
 }

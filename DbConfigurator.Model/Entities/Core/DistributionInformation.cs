@@ -9,11 +9,11 @@ namespace DbConfigurator.Model.Entities.Core
     {
         [Required]
         public int Id { get; set; }
-        public Region Region { get; set; }
-        public int RegionId { get; set; }
-
         [Required]
-        public int PriorityId { get; set; }
+        public Region Region { get; set; }
+        [Required]
         public Priority Priority { get; set; }
+        public ObservableCollection<Recipient> RecipientsTo { get; set; } = new ObservableCollection<Recipient>();
+        public ObservableCollection<Recipient> RecipientsCc { get; set; } = new ObservableCollection<Recipient>();
     }
 }

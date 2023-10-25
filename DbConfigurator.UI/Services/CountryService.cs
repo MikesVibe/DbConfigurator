@@ -7,7 +7,7 @@ namespace DbConfigurator.UI.Services
     public class CountryService : GenericDataService<Country>, ICountryService
     {
         public CountryService(AutoMapperConfig autoMapper)
-            : base(autoMapper)
+            : base(autoMapper, "Country")
         {
         }
     }

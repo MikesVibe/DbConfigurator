@@ -19,14 +19,16 @@ namespace DbConfigurator.UI.Services
     {
         protected readonly HttpClient _httpClient;
         protected readonly AutoMapperConfig _mapper;
+        protected readonly string _controllerName;
 
-        public GenericDataService(AutoMapperConfig mapper)//IMapper mapper)
+        public GenericDataService(AutoMapperConfig mapper, string controllerName)
         {
             _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri("https://localhost:8443/api/")
             };
             _mapper = mapper;
+            _controllerName = controllerName;
         }
 
 
@@ -50,8 +52,18 @@ namespace DbConfigurator.UI.Services
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            await Task.CompletedTask;
-            return new List<TEntity>();
+            IEnumerable<TEntity> toReturn;
+            try
+            {
+                var dto = await _httpClient.GetFromJsonAsync<IEnumerable<TEntity>>($"{_controllerName}/all");
+                toReturn = _mapper.Mapper.Map<IEnumerable<TEntity>>(dto);
+            }
+            catch
+            {
+                return new List<TEntity>();
+            }
+
+            return toReturn;
         }
 
         public async Task<TEntity> GetByIdAsync(int id)

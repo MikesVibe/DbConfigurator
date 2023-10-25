@@ -15,7 +15,7 @@ namespace DbConfigurator.UI.Services
 
             AutoMapperConfig autoMapper
             )
-            : base(autoMapper)
+            : base(autoMapper, "DistributionInformation")
         {
         }
 

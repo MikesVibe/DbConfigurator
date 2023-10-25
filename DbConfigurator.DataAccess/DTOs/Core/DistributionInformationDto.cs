@@ -1,34 +1,34 @@
 ﻿using DbConfigurator.Model.Contracts;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace DbConfigurator.Model.DTOs.Core
 {
     public class DistributionInformationDto
     {
-        public DistributionInformationDto()
-        { }
-        public DistributionInformationDto(DistributionInformationDto other)
-        {
-            if (other is null)
-                return;
+        //public DistributionInformationDto(DistributionInformationDto other)
+        //{
+        //    if (other is null)
+        //        return;
 
-            this.Id = other.Id;
+        //    this.Id = other.Id;
 
-            this.Region = other.Region;
-            this.Priority = other.Priority;
+        //    this.Region = other.Region;
+        //    this.Priority = other.Priority;
 
-            this.RecipientsTo = new ObservableCollection<RecipientDto>();
-            foreach (var recipient in other.RecipientsTo)
-            {
-                this.RecipientsTo.Add(recipient);
-            }
+        //    this.RecipientsTo = new ObservableCollection<RecipientDto>();
+        //    foreach (var recipient in other.RecipientsTo)
+        //    {
+        //        this.RecipientsTo.Add(recipient);
+        //    }
 
-            this.RecipientsCc = new ObservableCollection<RecipientDto>();
-            foreach (var recipient in other.RecipientsCc)
-            {
-                this.RecipientsCc.Add(recipient);
-            }
-        }
+        //    this.RecipientsCc = new ObservableCollection<RecipientDto>();
+        //    foreach (var recipient in other.RecipientsCc)
+        //    {
+        //        this.RecipientsCc.Add(recipient);
+        //    }
+        //}
 
         public int Id { get; init; }
 

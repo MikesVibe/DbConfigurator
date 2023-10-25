@@ -7,7 +7,7 @@ namespace DbConfigurator.UI.Services
     public class RecipientService : GenericDataService<Recipient>, IRecipientService
     {
         public RecipientService(AutoMapperConfig autoMapper)
-        : base(autoMapper)
+        : base(autoMapper, "Recipient")
         {
         }
     }

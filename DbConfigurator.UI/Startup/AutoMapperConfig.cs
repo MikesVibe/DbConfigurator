@@ -15,13 +15,13 @@ namespace DbConfigurator.UI.Startup
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Region, RegionDto>();
+                cfg.CreateMap<Region, RegionDto>().ReverseMap();
                 cfg.CreateMap<Area, AreaDto>().ReverseMap();
                 cfg.CreateMap<BusinessUnit, BusinessUnitDto>().ReverseMap();
                 cfg.CreateMap<Country, CountryDto>().ReverseMap();
                 cfg.CreateMap<Priority, PriorityDto>().ReverseMap();
                 cfg.CreateMap<Recipient, RecipientDto>().ReverseMap();
-                cfg.CreateMap<DistributionInformation, DistributionInformationDto>();
+                cfg.CreateMap<DistributionInformation, DistributionInformationDto>().ReverseMap();
                             //.ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
                             //    rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
                             //.ForMember(d => d.RecipientsCc, opt => opt.MapFrom(

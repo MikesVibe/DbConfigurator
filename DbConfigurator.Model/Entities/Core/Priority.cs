@@ -6,11 +6,11 @@ namespace DbConfigurator.Model.Entities.Core
 {
     public class Priority : IEntity
     {
-        [Required]
+        //[Required]
         public int Id { get; set; }
 
-        [Required]
-        [MaxLength(6)]
+        //[Required]
+        //[MaxLength(6)]
         public string Name { get; set; }
     }
 }
