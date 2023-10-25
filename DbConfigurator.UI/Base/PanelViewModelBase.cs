@@ -1,4 +1,4 @@
-﻿using DbConfigurator.UI.ViewModel.Interfaces;
+﻿using DbConfigurator.UI.Base.Contracts;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel.Base

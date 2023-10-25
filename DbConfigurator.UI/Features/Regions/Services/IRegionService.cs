@@ -1,8 +1,9 @@
 ﻿using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Base.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Services
+namespace DbConfigurator.UI.Features.Regions.Services
 {
     public interface IRegionService : IDataService<Region>
     {

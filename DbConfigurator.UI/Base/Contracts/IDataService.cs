@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Services
+namespace DbConfigurator.UI.Base.Contracts
 {
     public interface IDataService<TEntity>
         where TEntity : class, new()

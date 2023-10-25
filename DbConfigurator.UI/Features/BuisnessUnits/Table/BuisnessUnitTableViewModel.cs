@@ -1,12 +1,11 @@
 ﻿using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
-using DbConfigurator.UI.Services;
-using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Features.BuisnessUnits.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
-using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
 using System;
 

@@ -1,5 +1,5 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.UI.Services;
+using DbConfigurator.UI.Base.Contracts;
 using Prism.Commands;
 using Prism.Events;
 using System;

@@ -1,7 +1,7 @@
 ﻿using Autofac.Features.Indexed;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.DistributionInformations;
 using DbConfigurator.UI.ViewModel.Base;
-using DbConfigurator.UI.ViewModel.Interfaces;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Panels.DistributionInformation

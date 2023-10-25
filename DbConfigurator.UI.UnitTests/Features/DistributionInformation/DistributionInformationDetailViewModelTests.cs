@@ -1,6 +1,6 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.UI.Features.DistributionInformations;
-using DbConfigurator.UI.Services;
+using DbConfigurator.UI.Features.DistributionInformations.Services;
 
 namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
 {

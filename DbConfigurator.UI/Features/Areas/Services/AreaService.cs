@@ -1,16 +1,16 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Base;
 using DbConfigurator.UI.Startup;
 
-namespace DbConfigurator.UI.Services
+namespace DbConfigurator.UI.Features.Areas.Services
 {
-    public class RecipientService : GenericDataService<Recipient>, IRecipientService
+    public class AreaService : GenericDataService<Area>, IAreaService
     {
-        public RecipientService(
+        public AreaService(
             IDbConfiguratorApiClient client,
-
             AutoMapperConfig autoMapper)
-        : base(client, autoMapper, "Recipient")
+        : base(client, autoMapper, "Area")
         {
         }
     }

@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.DataAccess;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Services
+namespace DbConfigurator.UI.Base
 {
     public class GenericDataService<TEntity> : IDataService<TEntity>
         where TEntity : class, new()

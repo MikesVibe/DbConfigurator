@@ -1,9 +1,6 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.UI.Contracts;
-using DbConfigurator.UI.Services;
-using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using System;

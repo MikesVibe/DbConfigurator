@@ -1,6 +1,4 @@
-﻿using DbConfigurator.UI.ViewModel;
-
-namespace DbConfigurator.UI.Services.Interfaces
+﻿namespace DbConfigurator.UI.Base.Contracts
 {
     public interface IEditingWindowService
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.ViewModel
+namespace DbConfigurator.UI.Base.Contracts
 {
     public interface IDetailViewModel
     {

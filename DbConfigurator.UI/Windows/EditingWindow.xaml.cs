@@ -1,4 +1,4 @@
-﻿using DbConfigurator.UI.ViewModel;
+﻿using DbConfigurator.UI.Base.Contracts;
 using System.Windows;
 
 namespace DbConfigurator.UI.Windows

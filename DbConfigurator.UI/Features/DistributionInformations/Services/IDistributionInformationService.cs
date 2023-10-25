@@ -1,9 +1,10 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Base.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Services
+namespace DbConfigurator.UI.Features.DistributionInformations.Services
 {
     public interface IDistributionInformationService : IDataService<DistributionInformation>
     {

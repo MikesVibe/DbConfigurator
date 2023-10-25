@@ -1,8 +1,5 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.UI.Contracts;
-using DbConfigurator.UI.Services;
-using DbConfigurator.UI.Services.Interfaces;
-using DbConfigurator.UI.ViewModel;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.ViewModel.Base;
 using Moq;
 using Prism.Events;

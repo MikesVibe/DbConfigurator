@@ -1,8 +1,7 @@
 ﻿using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Extensions;
-using DbConfigurator.UI.Services;
+using DbConfigurator.UI.Features.DistributionInformations.Services;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
 using Prism.Events;
@@ -368,7 +367,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         private async Task PopulatePriorityCombobox()
         {
             var priorities = await DataService.GetAllPrioritiesAsync();
-            Priority_Collection = priorities.ToObservableCollection();
+            Priority_Collection = new ObservableCollection<PriorityDto>(priorities);
         }
 
         private void OnAreaChanged()

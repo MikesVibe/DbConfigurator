@@ -1,8 +1,8 @@
 ﻿using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
-using DbConfigurator.UI.Services;
-using DbConfigurator.UI.ViewModel;
+using DbConfigurator.UI.Features.Areas.Services;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System.ComponentModel;

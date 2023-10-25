@@ -1,4 +1,4 @@
-﻿using DbConfigurator.UI.ViewModel.Interfaces;
+﻿using DbConfigurator.UI.Base.Contracts;
 
 namespace DbConfigurator.UI.Features.Panels.DistributionInformation
 {

@@ -1,20 +1,25 @@
 ﻿using Autofac;
 using DbConfigurator.DataAccess;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Areas;
+using DbConfigurator.UI.Features.Areas.Services;
+using DbConfigurator.UI.Features.BuisnessUnits.Services;
 using DbConfigurator.UI.Features.BusinessUnits;
 using DbConfigurator.UI.Features.Countries;
+using DbConfigurator.UI.Features.Countries.Services;
 using DbConfigurator.UI.Features.DistributionInformations;
+using DbConfigurator.UI.Features.DistributionInformations.Services;
 using DbConfigurator.UI.Features.Panels.Creation;
 using DbConfigurator.UI.Features.Panels.DistributionInformation;
 using DbConfigurator.UI.Features.Panels.Navigation;
 using DbConfigurator.UI.Features.Panels.Recipient;
 using DbConfigurator.UI.Features.Panels.Region;
 using DbConfigurator.UI.Features.Recipients;
+using DbConfigurator.UI.Features.Recipients.Services;
 using DbConfigurator.UI.Features.Regions;
+using DbConfigurator.UI.Features.Regions.Services;
 using DbConfigurator.UI.Services;
-using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
-using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Windows;
 using Prism.Events;
 

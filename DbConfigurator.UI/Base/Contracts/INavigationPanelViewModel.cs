@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.ViewModel.Interfaces
+namespace DbConfigurator.UI.Base.Contracts
 {
     public interface INavigationPanelViewModel
     {

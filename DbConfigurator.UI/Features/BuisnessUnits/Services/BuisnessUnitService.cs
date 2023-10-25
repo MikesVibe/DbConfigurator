@@ -1,8 +1,9 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Base;
 using DbConfigurator.UI.Startup;
 
-namespace DbConfigurator.UI.Services
+namespace DbConfigurator.UI.Features.BuisnessUnits.Services
 {
     public class BusinessUnitService : GenericDataService<BusinessUnit>, IBusinessUnitService
     {

@@ -2,7 +2,7 @@
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas;
 using DbConfigurator.UI.Features.Areas.Event;
-using DbConfigurator.UI.Services;
+using DbConfigurator.UI.Features.Areas.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.UnitTests.Base;
 using DbConfigurator.UI.ViewModel.Base;

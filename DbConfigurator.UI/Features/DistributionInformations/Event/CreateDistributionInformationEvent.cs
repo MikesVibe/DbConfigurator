@@ -1,5 +1,5 @@
 ﻿using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Contracts;
+using DbConfigurator.UI.Base.Contracts;
 using Prism.Events;
 
 namespace DbConfigurator.UI.Event

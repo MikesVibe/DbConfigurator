@@ -1,10 +1,14 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Base;
+using DbConfigurator.UI.Features.Areas.Services;
+using DbConfigurator.UI.Features.BuisnessUnits.Services;
+using DbConfigurator.UI.Features.Countries.Services;
 using DbConfigurator.UI.Startup;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Services
+namespace DbConfigurator.UI.Features.Regions.Services
 {
     public class RegionService : GenericDataService<Region>, IRegionService
     {
