@@ -14,7 +14,7 @@ namespace DbConfigurator.UI.Services
     public class GenericDataService<TEntity> : IDataService<TEntity>
 
         where TEntity : class, new()
-        
+
     {
         //where TCreateDto : class
         //where TUpdateDto : class
@@ -119,7 +119,7 @@ namespace DbConfigurator.UI.Services
         //}
 
         protected readonly HttpClient _httpClient;
-        private readonly AutoMapperConfig _mapper;
+        protected readonly AutoMapperConfig _mapper;
 
         public GenericDataService(AutoMapperConfig mapper)//IMapper mapper)
         {
@@ -141,20 +141,9 @@ namespace DbConfigurator.UI.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            IEnumerable<TEntity> toReturn;
-            try
-            {
-                var dto = await _httpClient.GetFromJsonAsync<IEnumerable<Area>>($"area/all");
-                toReturn = _mapper.Mapper.Map<IEnumerable<TEntity>>(dto);
-            }
-            catch
-            {
-                return new List<TEntity>();
-            }
-
-            return toReturn;
+            return new List<TEntity>();
         }
 
         public Task<TEntity> GetByIdAsync(int id)

@@ -15,29 +15,29 @@ namespace DbConfigurator.UI.Startup
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Region, Region>();
-                cfg.CreateMap<Area, Area>().ReverseMap();
-                cfg.CreateMap<BusinessUnit, BusinessUnit>().ReverseMap();
-                cfg.CreateMap<Country, Country>().ReverseMap();
+                cfg.CreateMap<Region, RegionDto>();
+                cfg.CreateMap<Area, AreaDto>().ReverseMap();
+                cfg.CreateMap<BusinessUnit, BusinessUnitDto>().ReverseMap();
+                cfg.CreateMap<Country, CountryDto>().ReverseMap();
                 cfg.CreateMap<Priority, PriorityDto>().ReverseMap();
-                cfg.CreateMap<Recipient, Recipient>().ReverseMap();
-                cfg.CreateMap<DistributionInformation, DistributionInformation>();
+                cfg.CreateMap<Recipient, RecipientDto>().ReverseMap();
+                cfg.CreateMap<DistributionInformation, DistributionInformationDto>();
                             //.ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
                             //    rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
                             //.ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
                             //    rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
 
-                cfg.CreateMap<Region, Region>()
-                    .ForMember(dest => dest.Area, opt => opt.Ignore())
-                    .ForMember(dest => dest.BusinessUnit, opt => opt.Ignore())
-                    .ForMember(dest => dest.Country, opt => opt.Ignore());
+                //cfg.CreateMap<Region, Region>()
+                //    .ForMember(dest => dest.Area, opt => opt.Ignore())
+                //    .ForMember(dest => dest.BusinessUnit, opt => opt.Ignore())
+                //    .ForMember(dest => dest.Country, opt => opt.Ignore());
 
-                cfg.CreateMap<DistributionInformation, DistributionInformation>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                    .ForMember(dest => dest.Region, opt => opt.Ignore())
-                    .ForMember(dest => dest.Priority, opt => opt.Ignore());
-                    //.ForMember(dest => dest.RecipientsTo, opt => opt.MapFrom(src => src.RecipientsTo))
-                    //.ForMember(dest => dest.RecipientsCc, opt => opt.MapFrom(src => src.RecipientsCc));
+                //cfg.CreateMap<DistributionInformation, DistributionInformation>()
+                //    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                //    .ForMember(dest => dest.Region, opt => opt.Ignore())
+                //    .ForMember(dest => dest.Priority, opt => opt.Ignore());
+                //    //.ForMember(dest => dest.RecipientsTo, opt => opt.MapFrom(src => src.RecipientsTo))
+                //    //.ForMember(dest => dest.RecipientsCc, opt => opt.MapFrom(src => src.RecipientsCc));
 
 
                 cfg.CreateMap<Area, AreaWrapper>();

@@ -18,16 +18,16 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class TableViewModelBase<TWrapper, TDto, TDataService,
+    public abstract class TableViewModelBase<TEntityWrapper, TEntity, TDataService,
         TCreateEvent, TCreateEventArgs,
         TEditEvent, TEditEventArgs> : NotifyBase, ITableViewModel
-        where TWrapper : IWrapperWithId
-        where TDto : class, IEntity, new()
-        where TDataService : IDataService<TDto>
+        where TEntityWrapper : IWrapperWithId
+        where TEntity : class, IEntity, new()
+        where TDataService : IDataService<TEntity>
         where TCreateEvent : PubSubEvent<TCreateEventArgs>, new()
-        where TCreateEventArgs : IEventArgs<TDto>, new()
+        where TCreateEventArgs : IEventArgs<TEntity>, new()
         where TEditEvent : PubSubEvent<TEditEventArgs>, new()
-        where TEditEventArgs : IEventArgs<TDto>, new()
+        where TEditEventArgs : IEventArgs<TEntity>, new()
     {
         protected readonly IEditingWindowService WindowService;
         protected readonly IEventAggregator EventAggregator;
@@ -85,10 +85,10 @@ namespace DbConfigurator.UI.ViewModel.Base
                 }
             }
         }
-        //public ObservableCollection<TWrapper> Items { get; set; } = new();
-        //public TWrapper? SelectedItem { get; set; }
-        public ObservableCollection<TDto> Items { get; set; } = new();
-        public TDto? SelectedItem { get; set; }
+        public ObservableCollection<TEntityWrapper> Items { get; set; } = new();
+        public TEntityWrapper? SelectedItem { get; set; }
+        //public ObservableCollection<TEntity> Items { get; set; } = new();
+        //public TEntity? SelectedItem { get; set; }
 
 
 
@@ -101,11 +101,11 @@ namespace DbConfigurator.UI.ViewModel.Base
                 if (distributionInformation is null)
                     continue;
 
-                //var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), distributionInformation);
-                //if (wrapped is null)
-                //    continue;
+                var wrapped = (TEntityWrapper?)Activator.CreateInstance(typeof(TEntityWrapper), distributionInformation);
+                if (wrapped is null)
+                    continue;
 
-                //Items.Add(wrapped);
+                Items.Add(wrapped);
             }
         }
 
@@ -168,7 +168,7 @@ namespace DbConfigurator.UI.ViewModel.Base
 
             //Items.Add(wrapped);
         }
-        protected void OnEditEntityExecute(IEventArgs<TDto> obj)
+        protected void OnEditEntityExecute(IEventArgs<TEntity> obj)
         {
             var area = Items.Where(a => a.Id == obj.Entity.Id).FirstOrDefault();
             if (area is null)

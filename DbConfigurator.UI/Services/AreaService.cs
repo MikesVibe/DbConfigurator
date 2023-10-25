@@ -1,8 +1,10 @@
 ﻿using DbConfigurator.DataAccess.Controllers;
+using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
 using System.Collections.Generic;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
@@ -25,5 +27,20 @@ namespace DbConfigurator.UI.Services
         //{
         //    return _autoMapper.Mapper.Map<IEnumerable<Area>>(await _areaController.GetAll());
         //}
+        public override async Task<IEnumerable<Area>> GetAllAsync()
+        {
+            IEnumerable<Area> toReturn;
+            try
+            {
+                var dto = await _httpClient.GetFromJsonAsync<IEnumerable<Area>>($"area/all");
+                toReturn = _mapper.Mapper.Map<IEnumerable<Area>>(dto);
+            }
+            catch
+            {
+                return new List<Area>();
+            }
+
+            return toReturn;
+        }
     }
 }
