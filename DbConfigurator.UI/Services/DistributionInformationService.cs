@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.DataAccess;
+using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
 using System;
@@ -10,10 +11,11 @@ namespace DbConfigurator.UI.Services
     public class DistributionInformationService : GenericDataService<DistributionInformation>, IDistributionInformationService
     {
         public DistributionInformationService(
+            IDbConfiguratorApiClient client,
 
             AutoMapperConfig autoMapper
             )
-            : base(autoMapper, "DistributionInformation")
+            : base(client, autoMapper, "DistributionInformation")
         {
         }
 

@@ -6,8 +6,8 @@ namespace DbConfigurator.UI.Services
 {
     public interface IRegionService : IDataService<Region>
     {
-        Task<ICollection<Area>> GetAllAreasAsync();
-        Task<ICollection<BusinessUnit>> GetAllBusinessUnitsAsync();
-        Task<ICollection<Country>> GetAllCountriesAsync();
+        Task<IEnumerable<Area>> GetAllAreasAsync();
+        Task<IEnumerable<BusinessUnit>> GetAllBusinessUnitsAsync();
+        Task<IEnumerable<Country>> GetAllCountriesAsync();
     }
 }

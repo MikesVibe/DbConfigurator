@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.DataAccess;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,26 +8,39 @@ namespace DbConfigurator.UI.Services
 {
     public class RegionService : GenericDataService<Region>, IRegionService
     {
+        private readonly IAreaService _areaService;
+        private readonly IBusinessUnitService _businessUnitService;
+        private readonly ICountryService _countryService;
+        private readonly AutoMapperConfig _autoMapper;
+
         public RegionService(
+            IDbConfiguratorApiClient client,
+            IAreaService areaService,
+            IBusinessUnitService businessUnitService,
+            ICountryService countryService,
             AutoMapperConfig autoMapper)
-        : base(autoMapper, "Region")
+        : base(client, autoMapper, "Region")
         {
+            _areaService = areaService;
+            _businessUnitService = businessUnitService;
+            _countryService = countryService;
+            _autoMapper = autoMapper;
+        }
+
+        public async Task<IEnumerable<Area>> GetAllAreasAsync()
+        {
+            return await _areaService.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<BusinessUnit>> GetAllBusinessUnitsAsync()
+        {
+            return await _businessUnitService.GetAllAsync();
 
         }
 
-        public Task<ICollection<Area>> GetAllAreasAsync()
+        public async Task<IEnumerable<Country>> GetAllCountriesAsync()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<ICollection<BusinessUnit>> GetAllBusinessUnitsAsync()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<ICollection<Country>> GetAllCountriesAsync()
-        {
-            throw new System.NotImplementedException();
+            return await _countryService.GetAllAsync();
         }
         //public async Task<ICollection<Area>> GetAllAreasAsync()
         //{

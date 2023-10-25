@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using DbConfigurator.DataAccess.Controllers;
+using DbConfigurator.DataAccess;
 using DbConfigurator.UI.Features.Areas;
 using DbConfigurator.UI.Features.BusinessUnits;
 using DbConfigurator.UI.Features.Countries;
@@ -31,9 +31,11 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<MainWindowViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
 
+            builder.RegisterType<DbConfiguratorApiClient>().As<IDbConfiguratorApiClient>().SingleInstance();
 
             //Services
             builder.RegisterType<EditingWindowService>().As<IEditingWindowService>().SingleInstance();
+            
             builder.RegisterType<DistributionInformationService>().As<IDistributionInformationService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
             builder.RegisterType<AreaService>().As<IAreaService>().SingleInstance();
@@ -86,7 +88,6 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<BusinessUnitDetailViewModel>().AsSelf();
             builder.RegisterType<CountryDetailViewModel>().AsSelf();
 
-            builder.RegisterType<AreaController>().AsSelf();
 
 
         }

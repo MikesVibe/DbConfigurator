@@ -1,4 +1,5 @@
-﻿using DbConfigurator.UI.Startup;
+﻿using DbConfigurator.DataAccess;
+using DbConfigurator.UI.Startup;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -12,15 +13,15 @@ namespace DbConfigurator.UI.Services
         where TEntity : class, new()
 
     {
+        private readonly IDbConfiguratorApiClient _client;
         protected readonly AutoMapperConfig _mapper;
         protected readonly string _controllerName;
-        protected readonly HttpClient _httpClient = new()
-        {
-            BaseAddress = new Uri("https://localhost:8443/api/")
-        };
 
-        public GenericDataService(AutoMapperConfig mapper, string controllerName)
+        public GenericDataService(
+            IDbConfiguratorApiClient client,
+            AutoMapperConfig mapper, string controllerName)
         {
+            _client = client;
             _mapper = mapper;
             _controllerName = controllerName;
         }
@@ -46,18 +47,21 @@ namespace DbConfigurator.UI.Services
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            IEnumerable<TEntity> toReturn;
-            try
+            using (var client = _client.CreateClient())
             {
-                var dto = await _httpClient.GetFromJsonAsync<IEnumerable<TEntity>>($"{_controllerName}/all");
-                toReturn = _mapper.Mapper.Map<IEnumerable<TEntity>>(dto);
-            }
-            catch
-            {
-                return new List<TEntity>();
-            }
+                IEnumerable<TEntity> toReturn;
+                try
+                {
+                    var dto = await client.GetFromJsonAsync<IEnumerable<TEntity>>($"{_controllerName}/all");
+                    toReturn = _mapper.Mapper.Map<IEnumerable<TEntity>>(dto);
+                }
+                catch
+                {
+                    return new List<TEntity>();
+                }
 
-            return toReturn;
+                return toReturn;
+            }
         }
 
         //public async Task<TEntity> GetByIdAsync(int id)
