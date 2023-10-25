@@ -1,13 +1,7 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Contracts;
-using DbConfigurator.UI.Event;
-using DbConfigurator.UI.Features.Areas.Event;
-using DbConfigurator.UI.Features.DistributionInformations;
-using DbConfigurator.UI.Features.Panels.DistributionInformation;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
-using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.ViewModel.Base;
 using Moq;
@@ -16,11 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 using Xunit;
 
 namespace DbConfigurator.UI.UnitTests.Base

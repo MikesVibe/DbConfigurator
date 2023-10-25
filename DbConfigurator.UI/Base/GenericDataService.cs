@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.Entities.Core;
-using DbConfigurator.UI.Startup;
-using FluentResults;
+﻿using DbConfigurator.UI.Startup;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -17,16 +12,15 @@ namespace DbConfigurator.UI.Services
         where TEntity : class, new()
 
     {
-        protected readonly HttpClient _httpClient;
         protected readonly AutoMapperConfig _mapper;
         protected readonly string _controllerName;
+        protected readonly HttpClient _httpClient = new()
+        {
+            BaseAddress = new Uri("https://localhost:8443/api/")
+        };
 
         public GenericDataService(AutoMapperConfig mapper, string controllerName)
         {
-            _httpClient = new HttpClient()
-            {
-                BaseAddress = new Uri("https://localhost:8443/api/")
-            };
             _mapper = mapper;
             _controllerName = controllerName;
         }
@@ -66,11 +60,11 @@ namespace DbConfigurator.UI.Services
             return toReturn;
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
-        {
-            await Task.CompletedTask;
-            return new TEntity();
-        }
+        //public async Task<TEntity> GetByIdAsync(int id)
+        //{
+        //    await Task.CompletedTask;
+        //    return new TEntity();
+        //}
 
         public async Task<bool> UpdateAsync(TEntity createDto)
         {

@@ -1,6 +1,4 @@
 ﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.DTOs.Wrapper;
-using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Features.DistributionInformations;
@@ -8,15 +6,7 @@ using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.UnitTests.Base;
 using DbConfigurator.UI.ViewModel.Base;
-using DbConfigurator.UI.Windows;
-using Moq;
-using Prism.Events;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.Xml;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
 {
@@ -91,12 +81,12 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
             EditDistributionInformationEvent, EditDistributionInformationEventArgs>
             CreateViewModel()
         {
-           return new DistributionInformationTableViewModel(
-                EditingWindow.Object,
-                EventAggregatorMock.Object,
-                DataServiceMock.Object,
-                DetailVmCreator,
-                new AutoMapperConfig());
+            return new DistributionInformationTableViewModel(
+                 EditingWindow.Object,
+                 EventAggregatorMock.Object,
+                 DataServiceMock.Object,
+                 DetailVmCreator,
+                 new AutoMapperConfig());
         }
 
 

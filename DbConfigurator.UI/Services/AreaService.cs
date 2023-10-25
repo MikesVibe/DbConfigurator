@@ -1,11 +1,6 @@
 ﻿using DbConfigurator.DataAccess.Controllers;
-using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Startup;
-using System.Collections.Generic;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Services
 {

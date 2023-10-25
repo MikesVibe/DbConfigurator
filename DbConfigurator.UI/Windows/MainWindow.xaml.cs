@@ -1,6 +1,4 @@
-﻿using DbConfigurator.DataAccess;
-using DbConfigurator.UI.ViewModel;
-using System.IO;
+﻿using DbConfigurator.UI.ViewModel;
 using System.Windows;
 
 namespace DbConfigurator.UI.Windows

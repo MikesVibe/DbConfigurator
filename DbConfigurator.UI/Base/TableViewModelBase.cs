@@ -1,8 +1,5 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Contracts;
-using DbConfigurator.UI.Event;
-using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.Startup;
@@ -127,7 +124,7 @@ namespace DbConfigurator.UI.ViewModel.Base
             var entity = await DataService.DeleteAsync(SelectedItem!.Id);
             if (entity == false)
             {
-                
+
                 if (Debugger.IsAttached)
                 {
                     throw new Exception();

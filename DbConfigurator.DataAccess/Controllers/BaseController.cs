@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.DataAccess.Controllers
 {
-    public class BaseController<TCreateDto, TUpdateDto, TEntity> 
+    public class BaseController<TCreateDto, TUpdateDto, TEntity>
         where TCreateDto : class
         where TUpdateDto : class
         where TEntity : class, new()
@@ -38,13 +36,13 @@ namespace DbConfigurator.DataAccess.Controllers
         }
         public async Task<TEntity> GetById(int id)
         {
-            var dto = await  _httpClient.GetFromJsonAsync<IEnumerable<TEntity>>($"area/{id}");
+            var dto = await _httpClient.GetFromJsonAsync<IEnumerable<TEntity>>($"area/{id}");
             return new TEntity();
         }
         public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
             var dto = await _httpClient.GetFromJsonAsync<TEntity>($"area/all");
-            
+
             return new List<TEntity>();
         }
     }

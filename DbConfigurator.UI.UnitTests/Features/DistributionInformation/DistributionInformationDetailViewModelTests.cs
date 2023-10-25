@@ -1,14 +1,6 @@
-﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.UI.Features.DistributionInformations;
 using DbConfigurator.UI.Services;
-using DbConfigurator.UI.UnitTests.Base;
-using DbConfigurator.UI.ViewModel.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
 {

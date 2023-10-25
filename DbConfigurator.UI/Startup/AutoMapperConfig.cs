@@ -3,7 +3,6 @@ using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
-using System.Linq;
 
 namespace DbConfigurator.UI.Startup
 {
@@ -22,10 +21,10 @@ namespace DbConfigurator.UI.Startup
                 cfg.CreateMap<Priority, PriorityDto>().ReverseMap();
                 cfg.CreateMap<Recipient, RecipientDto>().ReverseMap();
                 cfg.CreateMap<DistributionInformation, DistributionInformationDto>().ReverseMap();
-                            //.ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
-                            //    rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
-                            //.ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
-                            //    rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
+                //.ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
+                //    rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
+                //.ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
+                //    rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
 
                 //cfg.CreateMap<Region, Region>()
                 //    .ForMember(dest => dest.Area, opt => opt.Ignore())

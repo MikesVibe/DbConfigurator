@@ -1,5 +1,4 @@
-﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Model.Entities.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

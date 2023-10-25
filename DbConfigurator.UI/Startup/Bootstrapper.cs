@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using DbConfigurator.DataAccess;
 using DbConfigurator.DataAccess.Controllers;
 using DbConfigurator.UI.Features.Areas;
 using DbConfigurator.UI.Features.BusinessUnits;

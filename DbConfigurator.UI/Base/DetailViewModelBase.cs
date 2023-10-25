@@ -1,7 +1,5 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Services;
-using FluentResults;
 using Prism.Commands;
 using Prism.Events;
 using System;

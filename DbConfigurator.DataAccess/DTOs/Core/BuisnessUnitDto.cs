@@ -1,6 +1,4 @@
-﻿using DbConfigurator.Model.Contracts;
-
-namespace DbConfigurator.Model.DTOs.Core
+﻿namespace DbConfigurator.Model.DTOs.Core
 {
     public class BusinessUnitDto
     {

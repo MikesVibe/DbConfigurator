@@ -1,7 +1,4 @@
-﻿using DbConfigurator.Model.Contracts;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace DbConfigurator.Model.DTOs.Core
 {

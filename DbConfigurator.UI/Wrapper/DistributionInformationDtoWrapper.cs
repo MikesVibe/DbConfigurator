@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.DTOs.Core;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 using System.Collections.ObjectModel;

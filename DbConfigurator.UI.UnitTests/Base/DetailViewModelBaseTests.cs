@@ -1,18 +1,4 @@
-﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.UI.Services;
-using DbConfigurator.UI.ViewModel;
-using DbConfigurator.UI.ViewModel.Base;
-using Moq;
-using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace DbConfigurator.UI.UnitTests.Base
+﻿namespace DbConfigurator.UI.UnitTests.Base
 {
     //public abstract class DetailViewModelBaseTests<TDataService, TEntity>
     //    where TDataService : class, IDataService<TEntity>
