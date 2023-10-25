@@ -1,4 +1,4 @@
-﻿namespace DbConfigurator.DataAccess.DTOs.AreaDto
+﻿namespace DbConfigurator.DataAccess.DTOs.AreaDtos
 {
     public class CreateAreaDto
     {

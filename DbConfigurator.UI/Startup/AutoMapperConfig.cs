@@ -1,5 +1,11 @@
 ﻿using AutoMapper;
-using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.DataAccess.DTOs.AreaDtos;
+using DbConfigurator.DataAccess.DTOs.BusinessUnitDtos;
+using DbConfigurator.DataAccess.DTOs.CountryDtos;
+using DbConfigurator.DataAccess.DTOs.DistributionInformationDtos;
+using DbConfigurator.DataAccess.DTOs.PriorityDtos;
+using DbConfigurator.DataAccess.DTOs.RecipientDtos;
+using DbConfigurator.DataAccess.DTOs.RegionDtos;
 using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;

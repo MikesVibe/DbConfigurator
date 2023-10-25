@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Base
 {
-    public class GenericDataService<TEntity> : IDataService<TEntity>
+    public class GenericDataService<TCreateDto, TUpdateDto, TEntity> : IDataService<TEntity>
         where TEntity : class, new()
     {
         private readonly IDbConfiguratorApiClient _client;

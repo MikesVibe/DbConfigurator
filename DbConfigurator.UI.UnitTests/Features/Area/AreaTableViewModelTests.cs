@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.DataAccess.DTOs.AreaDtos;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas;
 using DbConfigurator.UI.Features.Areas.Event;

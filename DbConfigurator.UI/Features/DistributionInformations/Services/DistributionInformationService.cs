@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.DataAccess;
-using DbConfigurator.Model.DTOs.Core;
+using DbConfigurator.DataAccess.DTOs.DistributionInformationDtos;
+using DbConfigurator.DataAccess.DTOs.PriorityDtos;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base;
 using DbConfigurator.UI.Startup;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.DistributionInformations.Services
 {
-    public class DistributionInformationService : GenericDataService<DistributionInformation>, IDistributionInformationService
+    public class DistributionInformationService : GenericDataService<CreateDistributionInformationDto, UpdateDistributionInformationDto, DistributionInformation>, IDistributionInformationService
     {
         public DistributionInformationService(
             IDbConfiguratorApiClient client,

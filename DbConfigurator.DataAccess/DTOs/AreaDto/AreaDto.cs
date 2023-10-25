@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DbConfigurator.Model.DTOs.Core
+namespace DbConfigurator.DataAccess.DTOs.AreaDtos
 {
     public class AreaDto
     {

@@ -1,4 +1,4 @@
-﻿namespace DbConfigurator.Model.DTOs.Core
+﻿namespace DbConfigurator.DataAccess.DTOs.PriorityDtos
 {
     public class PriorityDto
     {

@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.DataAccess.DTOs.DistributionInformationDtos;
 using DbConfigurator.UI.Features.DistributionInformations;
 using DbConfigurator.UI.Features.DistributionInformations.Services;
 

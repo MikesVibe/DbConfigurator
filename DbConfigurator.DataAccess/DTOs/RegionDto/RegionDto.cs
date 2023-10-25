@@ -1,4 +1,8 @@
-﻿namespace DbConfigurator.Model.DTOs.Core
+﻿using DbConfigurator.DataAccess.DTOs.AreaDtos;
+using DbConfigurator.DataAccess.DTOs.BusinessUnitDtos;
+using DbConfigurator.DataAccess.DTOs.CountryDtos;
+
+namespace DbConfigurator.DataAccess.DTOs.RegionDtos
 {
     public class RegionDto
     {

@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.DataAccess.DTOs.PriorityDtos;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base.Contracts;
 using System.Collections.Generic;

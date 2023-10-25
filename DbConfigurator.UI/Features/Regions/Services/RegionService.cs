@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.DataAccess;
+using DbConfigurator.DataAccess.DTOs.RegionDtos;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base;
 using DbConfigurator.UI.Features.Areas.Services;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Regions.Services
 {
-    public class RegionService : GenericDataService<Region>, IRegionService
+    public class RegionService : GenericDataService<CreateRegionDto, UpdateRegionDto, Region>, IRegionService
     {
         private readonly IAreaService _areaService;
         private readonly IBusinessUnitService _businessUnitService;

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DbConfigurator.Model.DTOs.Core
+namespace DbConfigurator.DataAccess.DTOs.CountryDtos
 {
     public class CountryDto
     {

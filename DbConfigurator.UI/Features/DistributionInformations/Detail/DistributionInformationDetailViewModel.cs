@@ -1,5 +1,5 @@
-﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.DataAccess.DTOs.PriorityDtos;
+using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Features.DistributionInformations.Services;
 using DbConfigurator.UI.ViewModel.Base;

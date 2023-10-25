@@ -1,6 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using DbConfigurator.DataAccess.DTOs.PriorityDtos;
+using DbConfigurator.DataAccess.DTOs.RecipientDtos;
+using DbConfigurator.DataAccess.DTOs.RegionDtos;
+using System.Collections.ObjectModel;
 
-namespace DbConfigurator.Model.DTOs.Core
+namespace DbConfigurator.DataAccess.DTOs.DistributionInformationDtos
 {
     public class DistributionInformationDto
     {
