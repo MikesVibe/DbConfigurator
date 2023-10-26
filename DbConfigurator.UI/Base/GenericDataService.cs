@@ -46,13 +46,12 @@ namespace DbConfigurator.UI.Base
                 // Create the HTTP request content
                 StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                // Send POST request
+                // Send PUT request
                 HttpResponseMessage response = await client.PostAsync($"{_controllerName}", content);
 
                 // Check if the request was successful
                 if (response.IsSuccessStatusCode)
                 {
-                    int a = 0;
                     //Console.WriteLine("Data sent successfully!");
                     return true;
                 }
@@ -62,13 +61,28 @@ namespace DbConfigurator.UI.Base
                     return false;
                 }
             }
-            return true;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            await Task.CompletedTask;
-            return true;
+            using (HttpClient client = _client.CreateClient())
+            {
+
+                // Send DELETE requests
+                HttpResponseMessage response = await client.DeleteAsync($"{_controllerName}?id={id}");
+
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    //Console.WriteLine("Data sent successfully!");
+                    return true;
+                }
+                else
+                {
+                    //Console.WriteLine($"Error sending data. Status code: {response.StatusCode}");
+                    return false;
+                }
+            }
         }
 
         public async Task<bool> ExistsAsync(int entityId)
