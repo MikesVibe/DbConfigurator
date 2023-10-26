@@ -25,7 +25,10 @@ namespace DbConfigurator.UI.Startup
                 cfg.CreateMap<Country, CreateCountryDto>();
                 cfg.CreateMap<DistributionInformation, CreateDistributionInformationDto>();
                 cfg.CreateMap<Recipient, CreateRecipientDto>();
-                cfg.CreateMap<Region, CreateRegionDto>();
+                cfg.CreateMap<Region, CreateRegionDto>()
+                    .ForMember(r => r.AreaId, opt => opt.MapFrom(rg => rg.Area.Id))
+                    .ForMember(r => r.CountryId, opt => opt.MapFrom(rg => rg.Country.Id))
+                    .ForMember(r => r.BusinessUnitId, opt => opt.MapFrom(rg => rg.BusinessUnit.Id));
 
 
                 cfg.CreateMap<Region, RegionDto>().ReverseMap();
