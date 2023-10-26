@@ -8,5 +8,6 @@ namespace DbConfigurator.DataAccess.DTOs.BusinessUnitDtos
 {
     public class CreateBuisnessUnitDto
     {
+        public string Name { get; set; } = string.Empty;
     }
 }

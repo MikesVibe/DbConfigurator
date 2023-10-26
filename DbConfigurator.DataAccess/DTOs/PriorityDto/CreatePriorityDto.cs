@@ -8,5 +8,6 @@ namespace DbConfigurator.DataAccess.DTOs.PriorityDtos
 {
     public class CreatePriorityDto
     {
+        public string Name { get; set; } = string.Empty;
     }
 }

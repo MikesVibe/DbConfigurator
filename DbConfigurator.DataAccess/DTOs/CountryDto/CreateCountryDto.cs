@@ -8,5 +8,6 @@ namespace DbConfigurator.DataAccess.DTOs.CountryDtos
 {
     public class CreateCountryDto
     {
+        public string Name { get; set; } = string.Empty;
     }
 }
