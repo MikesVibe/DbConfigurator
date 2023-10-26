@@ -23,7 +23,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         private ObservableCollection<Recipient> _recipientsToComboBox = new();
         private ObservableCollection<Recipient> _recipientsCcComboBox = new();
         private Area? _selectedArea;
-        private Country? _selectedBusinessUnit;
+        private BusinessUnit? _selectedBusinessUnit;
         private Country? _selectedCountry;
         private Priority? _selectedPriority;
         private Recipient? _selectedRecipientToComboBox;
@@ -146,7 +146,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
                 OnPropertyChanged();
             }
         }
-        public Country? SelectedBusinessUnit
+        public BusinessUnit? SelectedBusinessUnit
         {
             get { return _selectedBusinessUnit; }
             set
@@ -357,7 +357,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
         }
         private async Task PopulateCountryCombobox(int? areaId = null, int? BusinessUnitId = null)
         {
-            var countries = await DataService.GetCountriyFiltersForRegionAsync(areaId, BusinessUnitId);
+            var countries = await DataService.GetCountryFiltersForRegionAsync(areaId, BusinessUnitId);
             Country_Collection.Clear();
             foreach (var country in countries)
             {

@@ -14,6 +14,7 @@ using DbConfigurator.UI.Features.Panels.DistributionInformation;
 using DbConfigurator.UI.Features.Panels.Navigation;
 using DbConfigurator.UI.Features.Panels.Recipient;
 using DbConfigurator.UI.Features.Panels.Region;
+using DbConfigurator.UI.Features.Priorities.Services;
 using DbConfigurator.UI.Features.Recipients;
 using DbConfigurator.UI.Features.Recipients.Services;
 using DbConfigurator.UI.Features.Regions;
@@ -47,6 +48,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<BusinessUnitService>().As<IBusinessUnitService>().SingleInstance();
             builder.RegisterType<CountryService>().As<ICountryService>().SingleInstance();
             builder.RegisterType<RecipientService>().As<IRecipientService>().SingleInstance();
+            builder.RegisterType<PriorityService>().As<IPriorityService>().SingleInstance();
 
             //Navigation Panel
             builder.RegisterType<NavigationPanelViewModel>().As<INavigationPanelViewModel>();

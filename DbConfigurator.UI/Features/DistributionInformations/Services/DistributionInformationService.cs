@@ -7,6 +7,7 @@ using DbConfigurator.UI.Base;
 using DbConfigurator.UI.Features.Areas.Services;
 using DbConfigurator.UI.Features.BuisnessUnits.Services;
 using DbConfigurator.UI.Features.Countries.Services;
+using DbConfigurator.UI.Features.Priorities.Services;
 using DbConfigurator.UI.Features.Recipients.Services;
 using DbConfigurator.UI.Features.Regions.Services;
 using DbConfigurator.UI.Startup;
@@ -25,6 +26,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations.Services
         private readonly IAreaService _areaService;
         private readonly IBusinessUnitService _businessUnitService;
         private readonly ICountryService _countryService;
+        private readonly IPriorityService _priorityService;
 
         public DistributionInformationService(
             IRecipientService recipientService,
@@ -32,6 +34,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations.Services
             IAreaService areaService,
             IBusinessUnitService businessUnitService,
             ICountryService countryService,
+            IPriorityService priorityService,
             IDbConfiguratorApiClient client,
             AutoMapperConfig autoMapper
             )
@@ -42,12 +45,14 @@ namespace DbConfigurator.UI.Features.DistributionInformations.Services
             _areaService = areaService;
             _businessUnitService = businessUnitService;
             _countryService = countryService;
+            _priorityService = priorityService;
         }
 
         public async Task<IEnumerable<Priority>> GetAllPrioritiesAsync()
         {
-            await Task.CompletedTask;
-            return new List<Priority>();
+            var dtos = await _priorityService.GetAllAsync();
+            var mapped = _mapper.Mapper.Map<IEnumerable<Priority>>(dtos);
+            return mapped;
         }
 
         public async Task<IEnumerable<Recipient>> GetAllRecipientsAsync()
@@ -93,7 +98,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations.Services
             return businessUnits;
         }
 
-        public async Task<IEnumerable<Country>> GetCountriyFiltersForRegionAsync(int? areaId = null, int? businessUnitId = null)
+        public async Task<IEnumerable<Country>> GetCountryFiltersForRegionAsync(int? areaId = null, int? businessUnitId = null)
         {
             var regions = await _regionService.GetAllAsync();
             if (areaId is not null && businessUnitId is not null)

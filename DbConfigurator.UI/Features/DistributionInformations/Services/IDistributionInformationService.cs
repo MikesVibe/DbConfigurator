@@ -13,7 +13,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations.Services
         Task<IEnumerable<Priority>> GetAllPrioritiesAsync();
         Task<IEnumerable<Area>> GetAllAreaFiltersForRegionAsync();
         Task<IEnumerable<BusinessUnit>> GetAllBusinessUnitFiltersForRegionAsync(int? areaId = null);
-        Task<IEnumerable<Country>> GetCountriyFiltersForRegionAsync(int? areaId = null, int? BusinessUnitId = null);
+        Task<IEnumerable<Country>> GetCountryFiltersForRegionAsync(int? areaId = null, int? BusinessUnitId = null);
         Task<IEnumerable<Region>> GetRegionsWithAsync(int areaId, int BusinessUnitId, int countryId);
         Task<IEnumerable<Region>> GetAllRegionsAsync();
         Task<IEnumerable<Recipient>> GetAllRecipientsAsync();
