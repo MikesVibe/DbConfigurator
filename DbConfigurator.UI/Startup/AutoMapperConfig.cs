@@ -20,6 +20,9 @@ namespace DbConfigurator.UI.Startup
         {
             var config = new MapperConfiguration(cfg =>
             {
+                cfg.CreateMap<Area, CreateAreaDto>();
+
+
                 cfg.CreateMap<Region, RegionDto>().ReverseMap();
                 cfg.CreateMap<Area, AreaDto>().ReverseMap();
                 cfg.CreateMap<BusinessUnit, BusinessUnitDto>().ReverseMap();

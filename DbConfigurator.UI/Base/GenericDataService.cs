@@ -4,7 +4,10 @@ using DbConfigurator.UI.Startup;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Base
@@ -27,9 +30,34 @@ namespace DbConfigurator.UI.Base
             _controllerName = controllerName;
         }
 
-        public async Task<bool> CreateAsync(TEntity createDto)
+        public async Task<bool> CreateAsync(TEntity entity)
         {
-            await Task.CompletedTask;
+            var toCreate = _mapper.Mapper.Map<TCreateDto>(entity);
+
+            using (HttpClient client = _client.CreateClient())
+            {
+                // Convert ClassDto to JSON
+                string jsonData = JsonSerializer.Serialize(toCreate);
+
+                // Set content type to JSON
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Create the HTTP request content
+                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                // Send POST request
+                HttpResponseMessage response = await client.PostAsync($"{_controllerName}", content);
+
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    //Console.WriteLine("Data sent successfully!");
+                }
+                else
+                {
+                    //Console.WriteLine($"Error sending data. Status code: {response.StatusCode}");
+                }
+            }
             return true;
         }
 
