@@ -1,4 +1,5 @@
-﻿using DbConfigurator.DataAccess.DTOs.PriorityDtos;
+﻿using DbConfigurator.DataAccess.DTOs.DistributionInformationDto;
+using DbConfigurator.DataAccess.DTOs.PriorityDtos;
 using DbConfigurator.DataAccess.DTOs.RecipientDtos;
 using DbConfigurator.DataAccess.DTOs.RegionDtos;
 using System;
@@ -14,7 +15,7 @@ namespace DbConfigurator.DataAccess.DTOs.DistributionInformationDtos
     {
         public int RegionId { get; set; }
         public int PriorityId { get; set; }
-        public IEnumerable<int> RecipientsTo { get; set; } = new List<int>();
-        public IEnumerable<int> RecipientsCc { get; set; } = new List<int>();
+        public ICollection<RecipientIdDto> RecipientsTo { get; set; } = new Collection<RecipientIdDto>();
+        public ICollection<RecipientIdDto> RecipientsCc { get; set; } = new Collection<RecipientIdDto>();
     }
 }

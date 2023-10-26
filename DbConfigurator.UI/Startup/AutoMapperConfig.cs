@@ -2,6 +2,7 @@
 using DbConfigurator.DataAccess.DTOs.AreaDtos;
 using DbConfigurator.DataAccess.DTOs.BusinessUnitDtos;
 using DbConfigurator.DataAccess.DTOs.CountryDtos;
+using DbConfigurator.DataAccess.DTOs.DistributionInformationDto;
 using DbConfigurator.DataAccess.DTOs.DistributionInformationDtos;
 using DbConfigurator.DataAccess.DTOs.PriorityDtos;
 using DbConfigurator.DataAccess.DTOs.RecipientDtos;
@@ -9,6 +10,7 @@ using DbConfigurator.DataAccess.DTOs.RegionDtos;
 using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
+using System.Linq;
 
 namespace DbConfigurator.UI.Startup
 {
@@ -23,9 +25,27 @@ namespace DbConfigurator.UI.Startup
                 cfg.CreateMap<Area, CreateAreaDto>();
                 cfg.CreateMap<BusinessUnit, CreateBuisnessUnitDto>();
                 cfg.CreateMap<Country, CreateCountryDto>();
-                cfg.CreateMap<DistributionInformation, CreateDistributionInformationDto>();
+                cfg.CreateMap<DistributionInformation, CreateDistributionInformationDto>()
+                    .ForMember(d => d.RegionId, opt => opt.MapFrom(di => di.Region.Id))
+                    .ForMember(d => d.PriorityId, opt => opt.MapFrom(di => di.Priority.Id))
+                    .ForMember(d => d.RecipientsTo, opt => opt.MapFrom(di => di.RecipientsTo.Select(r => new RecipientIdDto { Id = r.Id })))
+                    .ForMember(d => d.RecipientsCc, opt => opt.MapFrom(di => di.RecipientsCc.Select(r => new RecipientIdDto { Id = r.Id })));
                 cfg.CreateMap<Recipient, CreateRecipientDto>();
                 cfg.CreateMap<Region, CreateRegionDto>()
+                    .ForMember(r => r.AreaId, opt => opt.MapFrom(rg => rg.Area.Id))
+                    .ForMember(r => r.CountryId, opt => opt.MapFrom(rg => rg.Country.Id))
+                    .ForMember(r => r.BusinessUnitId, opt => opt.MapFrom(rg => rg.BusinessUnit.Id));
+
+                cfg.CreateMap<Area, UpdateAreaDto>();
+                cfg.CreateMap<BusinessUnit, UpdateBuisnessUnitDto>();
+                cfg.CreateMap<Country, UpdateCountryDto>();
+                cfg.CreateMap<DistributionInformation, UpdateDistributionInformationDto>()
+                    .ForMember(d => d.RegionId, opt => opt.MapFrom(di => di.Region.Id))
+                    .ForMember(d => d.PriorityId, opt => opt.MapFrom(di => di.Priority.Id))
+                    .ForMember(d => d.RecipientsTo, opt => opt.MapFrom(di => di.RecipientsTo.Select(r => new RecipientIdDto { Id = r.Id })))
+                    .ForMember(d => d.RecipientsCc, opt => opt.MapFrom(di => di.RecipientsCc.Select(r => new RecipientIdDto { Id = r.Id })));
+                cfg.CreateMap<Recipient, UpdateRecipientDto>();
+                cfg.CreateMap<Region, UpdateRegionDto>()
                     .ForMember(r => r.AreaId, opt => opt.MapFrom(rg => rg.Area.Id))
                     .ForMember(r => r.CountryId, opt => opt.MapFrom(rg => rg.Country.Id))
                     .ForMember(r => r.BusinessUnitId, opt => opt.MapFrom(rg => rg.BusinessUnit.Id));
@@ -38,23 +58,6 @@ namespace DbConfigurator.UI.Startup
                 cfg.CreateMap<Priority, PriorityDto>().ReverseMap();
                 cfg.CreateMap<Recipient, RecipientDto>().ReverseMap();
                 cfg.CreateMap<DistributionInformation, DistributionInformationDto>().ReverseMap();
-                //.ForMember(d => d.RecipientsTo, opt => opt.MapFrom(
-                //    rg => (rg.RecipientsTo != null) ? rg.RecipientsTo : Enumerable.Empty<Recipient>()))
-                //.ForMember(d => d.RecipientsCc, opt => opt.MapFrom(
-                //    rg => (rg.RecipientsCc != null) ? rg.RecipientsCc : Enumerable.Empty<Recipient>()));
-
-                //cfg.CreateMap<Region, Region>()
-                //    .ForMember(dest => dest.Area, opt => opt.Ignore())
-                //    .ForMember(dest => dest.BusinessUnit, opt => opt.Ignore())
-                //    .ForMember(dest => dest.Country, opt => opt.Ignore());
-
-                //cfg.CreateMap<DistributionInformation, DistributionInformation>()
-                //    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                //    .ForMember(dest => dest.Region, opt => opt.Ignore())
-                //    .ForMember(dest => dest.Priority, opt => opt.Ignore());
-                //    //.ForMember(dest => dest.RecipientsTo, opt => opt.MapFrom(src => src.RecipientsTo))
-                //    //.ForMember(dest => dest.RecipientsCc, opt => opt.MapFrom(src => src.RecipientsCc));
-
 
                 cfg.CreateMap<Area, AreaWrapper>();
                 cfg.CreateMap<BusinessUnit, Model.DTOs.Wrapper.BusinessUnitWrapper>();

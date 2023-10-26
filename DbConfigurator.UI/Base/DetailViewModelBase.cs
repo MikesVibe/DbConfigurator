@@ -112,7 +112,6 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         private void Error()
         {
-            throw new NotImplementedException();
         }
 
         protected virtual bool OnSaveCanExecute()

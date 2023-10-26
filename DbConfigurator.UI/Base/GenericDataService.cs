@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.DataAccess;
+using DbConfigurator.Model.Contracts;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
 using System;
@@ -53,10 +54,12 @@ namespace DbConfigurator.UI.Base
                 {
                     int a = 0;
                     //Console.WriteLine("Data sent successfully!");
+                    return true;
                 }
                 else
                 {
                     //Console.WriteLine($"Error sending data. Status code: {response.StatusCode}");
+                    return false;
                 }
             }
             return true;
@@ -93,10 +96,36 @@ namespace DbConfigurator.UI.Base
         //    return new TEntity();
         //}
 
-        public async Task<bool> UpdateAsync(TEntity createDto)
+        public async Task<bool> UpdateAsync(TEntity entity)
         {
-            await Task.CompletedTask;
-            return true;
+            var toUpdate = _mapper.Mapper.Map<TUpdateDto>(entity);
+
+            using (HttpClient client = _client.CreateClient())
+            {
+                // Convert ClassDto to JSON
+                string jsonData = JsonSerializer.Serialize(toUpdate);
+
+                // Set content type to JSON
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Create the HTTP request content
+                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                // Send POST request
+                HttpResponseMessage response = await client.PutAsync($"{_controllerName}", content);
+
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    //Console.WriteLine("Data sent successfully!");
+                    return true;
+                }
+                else
+                {
+                    //Console.WriteLine($"Error sending data. Status code: {response.StatusCode}");
+                    return false;
+                }
+            }
         }
 
         private async Task LoadEntities()
