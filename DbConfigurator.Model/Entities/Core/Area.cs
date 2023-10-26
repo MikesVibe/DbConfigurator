@@ -10,5 +10,10 @@ namespace DbConfigurator.Model.Entities.Core
         [Required]
         [MaxLength(250)]
         public string Name { get; set; }
+
+        public IEntity CreateCopy()
+        {
+            return new Area { Id = Id, Name = Name };
+        }
     }
 }

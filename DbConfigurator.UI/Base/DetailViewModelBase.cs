@@ -44,14 +44,16 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         public virtual async Task LoadAsync(IEntity entity)
         {
+            var copy = entity.CreateCopy();
+
             try
             {
-                var result = await DataService.ExistsAsync(entity.Id);
+                var result = await DataService.ExistsAsync(copy.Id);
                 if (result == false)
                     return;
 
                 Action = ModelAction.Update;
-                EntityDto = (TEntity)entity;
+                EntityDto = (TEntity)copy;
             }
             catch (Exception ex)
             {

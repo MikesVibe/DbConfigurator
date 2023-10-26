@@ -161,14 +161,14 @@ namespace DbConfigurator.UI.ViewModel.Base
         }
         protected void OnEditEntityExecute(IEventArgs<TEntity> obj)
         {
-            var area = Items.Where(a => a.Id == obj.Entity.Id).FirstOrDefault();
-            if (area is null)
+            var item = Items.Where(a => a.Id == obj.Entity.Id).FirstOrDefault();
+            if (item is null)
             {
                 RefreshItemsList();
                 return;
             }
 
-            AutoMapper.Mapper.Map(obj.Entity, area);
+            AutoMapper.Mapper.Map(obj.Entity, item);
         }
     }
 }
