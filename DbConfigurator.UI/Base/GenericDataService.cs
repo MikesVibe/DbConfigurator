@@ -1,88 +1,160 @@
-﻿using DbConfigurator.DataAccess.Repositories;
+﻿using DbConfigurator.DataAccess;
 using DbConfigurator.Model.Contracts;
-using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Services
+namespace DbConfigurator.UI.Base
 {
-    public class GenericDataService<TEntity, TDto, TRepository> : IDataService<TDto>
-        where TEntity : IEntity
-        where TDto : IEntityDto
-        where TRepository : IRepository<TEntity>
+    public class GenericDataService<TCreateDto, TUpdateDto, TEntity> : IDataService<TEntity>
+        where TEntity : class, new()
     {
-        protected readonly TRepository _repository;
-        protected readonly AutoMapperConfig _autoMapper;
+        private readonly IDbConfiguratorApiClient _client;
+        protected readonly AutoMapperConfig _mapper;
+        protected readonly string _controllerName;
+        private IEnumerable<TEntity> _entities = new List<TEntity>();
+        private bool _entitiesLoaded;
 
-        public GenericDataService(TRepository repository, AutoMapperConfig autoMapper)
+        public GenericDataService(
+            IDbConfiguratorApiClient client,
+            AutoMapperConfig mapper, string controllerName)
         {
-            _repository = repository;
-            _autoMapper = autoMapper;
+            _client = client;
+            _mapper = mapper;
+            _controllerName = controllerName;
         }
 
-        public virtual TDto Add(TDto dto)
+        public async Task<bool> CreateAsync(TEntity entity)
         {
-            var entity = _autoMapper.Mapper.Map<TEntity>(dto);
-            _repository.Add(entity);
-            _repository.SaveChanges();
+            var toCreate = _mapper.Mapper.Map<TCreateDto>(entity);
 
-            return _autoMapper.Mapper.Map<TDto>(_repository.GetById(entity.Id));
+            using (HttpClient client = _client.CreateClient())
+            {
+                // Convert ClassDto to JSON
+                string jsonData = JsonSerializer.Serialize(toCreate);
+
+                // Set content type to JSON
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Create the HTTP request content
+                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                // Send PUT request
+                HttpResponseMessage response = await client.PostAsync($"{_controllerName}", content);
+
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    //Console.WriteLine("Data sent successfully!");
+                    return true;
+                }
+                else
+                {
+                    //Console.WriteLine($"Error sending data. Status code: {response.StatusCode}");
+                    return false;
+                }
+            }
         }
-        public virtual bool Update(TDto dto)
+
+        public async Task<bool> DeleteAsync(int id)
         {
-            var entity = _autoMapper.Mapper.Map<TEntity>(dto);
-            _repository.Update(entity);
-            _repository.SaveChanges();
+            using (HttpClient client = _client.CreateClient())
+            {
+
+                // Send DELETE requests
+                HttpResponseMessage response = await client.DeleteAsync($"{_controllerName}?id={id}");
+
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    //Console.WriteLine("Data sent successfully!");
+                    return true;
+                }
+                else
+                {
+                    //Console.WriteLine($"Error sending data. Status code: {response.StatusCode}");
+                    return false;
+                }
+            }
+        }
+
+        public async Task<bool> ExistsAsync(int entityId)
+        {
+            await Task.CompletedTask;
             return true;
         }
-        public virtual TDto GetById(int id)
-        {
-            var entity = _repository.GetById(id);
-            return _autoMapper.Mapper.Map<TDto>(entity);
-        }
-        public virtual bool RemoveById(int id)
-        {
-            var entiy = _repository.GetById(id);
-            if (entiy is null)
-                return false;
 
-            _repository.Remove(entiy);
-            _repository.SaveChanges();
-            return true;
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            if (_entitiesLoaded == false)
+            {
+                await LoadEntities();
+                _entitiesLoaded = true;
+            }
+
+            return _entities;
         }
 
-        public virtual async Task<TDto> GetByIdAsync(int id)
+
+
+        //public async Task<TEntity> GetByIdAsync(int id)
+        //{
+        //    await Task.CompletedTask;
+        //    return new TEntity();
+        //}
+
+        public async Task<bool> UpdateAsync(TEntity entity)
         {
-            var entity = await _repository.GetByIdAsync(id);
-            return _autoMapper.Mapper.Map<TDto>(entity);
+            var toUpdate = _mapper.Mapper.Map<TUpdateDto>(entity);
+
+            using (HttpClient client = _client.CreateClient())
+            {
+                // Convert ClassDto to JSON
+                string jsonData = JsonSerializer.Serialize(toUpdate);
+
+                // Set content type to JSON
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Create the HTTP request content
+                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                // Send POST request
+                HttpResponseMessage response = await client.PutAsync($"{_controllerName}", content);
+
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    //Console.WriteLine("Data sent successfully!");
+                    return true;
+                }
+                else
+                {
+                    //Console.WriteLine($"Error sending data. Status code: {response.StatusCode}");
+                    return false;
+                }
+            }
         }
 
-        public virtual async Task<int> AddAsync(TDto dto)
+        private async Task LoadEntities()
         {
-            var entity = _autoMapper.Mapper.Map<TEntity>(dto);
-            var returnedId = await _repository.AddAsync(entity);
-
-            //var test = await _repository.GetByIdAsync(returnedId);
-            //var testMapped = _autoMapper.Mapper.Map<TDto>(test);
-            return returnedId;
-        }
-        public virtual async Task<bool> UpdateAsync(TDto dto)
-        {
-            var entity = _autoMapper.Mapper.Map<TEntity>(dto);
-            await _repository.UpdateAsync(entity);
-            await _repository.SaveChangesAsync();
-            return true;
-        }
-        public virtual async Task<bool> RemoveByIdAsync(int id)
-        {
-            await _repository.RemoveByIdAsync(id);
-            await _repository.SaveChangesAsync();
-            return true;
-        }
-        public virtual async Task<IEnumerable<TDto>> GetAllAsync()
-        {
-            return _autoMapper.Mapper.Map<IEnumerable<TDto>>(await _repository.GetAllAsync());
+            using (var client = _client.CreateClient())
+            {
+                try
+                {
+                    var dto = await client.GetFromJsonAsync<IEnumerable<TEntity>>($"{_controllerName}/all");
+                    _entities = _mapper.Mapper.Map<IEnumerable<TEntity>>(dto);
+                }
+                catch
+                {
+                }
+            }
         }
     }
 }

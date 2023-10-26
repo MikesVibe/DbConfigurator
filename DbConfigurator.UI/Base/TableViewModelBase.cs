@@ -1,10 +1,6 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.UI.Contracts;
-using DbConfigurator.UI.Event;
-using DbConfigurator.UI.Features.Areas.Event;
-using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
-using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -16,16 +12,16 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class TableViewModelBase<TWrapper, TDto, TDataService,
+    public abstract class TableViewModelBase<TEntityWrapper, TEntity, TDataService,
         TCreateEvent, TCreateEventArgs,
         TEditEvent, TEditEventArgs> : NotifyBase, ITableViewModel
-        where TWrapper : IWrapperWithId
-        where TDto : class, IEntityDto
-        where TDataService : IDataService<TDto>
+        where TEntityWrapper : IWrapperWithId
+        where TEntity : class, IEntity, new()
+        where TDataService : IDataService<TEntity>
         where TCreateEvent : PubSubEvent<TCreateEventArgs>, new()
-        where TCreateEventArgs : IEventArgs<TDto>, new()
+        where TCreateEventArgs : IEventArgs<TEntity>, new()
         where TEditEvent : PubSubEvent<TEditEventArgs>, new()
-        where TEditEventArgs : IEventArgs<TDto>, new()
+        where TEditEventArgs : IEventArgs<TEntity>, new()
     {
         protected readonly IEditingWindowService WindowService;
         protected readonly IEventAggregator EventAggregator;
@@ -83,9 +79,8 @@ namespace DbConfigurator.UI.ViewModel.Base
                 }
             }
         }
-        public ObservableCollection<TWrapper> Items { get; set; } = new();
-        public TWrapper? SelectedItem { get; set; }
-
+        public ObservableCollection<TEntityWrapper> Items { get; set; } = new();
+        public TEntityWrapper? SelectedItem { get; set; }
 
 
         public async virtual Task LoadAsync()
@@ -97,7 +92,7 @@ namespace DbConfigurator.UI.ViewModel.Base
                 if (distributionInformation is null)
                     continue;
 
-                var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), distributionInformation);
+                var wrapped = (TEntityWrapper?)Activator.CreateInstance(typeof(TEntityWrapper), distributionInformation);
                 if (wrapped is null)
                     continue;
 
@@ -108,36 +103,36 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected async virtual void OnAddExecute()
         {
             var detailViewModel = DetailViewModelCreator();
-            await detailViewModel.LoadAsync(-1);
+            await detailViewModel.LoadAsync();
             WindowService.ShowWindow(detailViewModel);
         }
         protected async virtual void OnEditExecute()
         {
             var detailViewModel = DetailViewModelCreator();
-            await detailViewModel.LoadAsync(SelectedItem!.Id);
+            await detailViewModel.LoadAsync(SelectedItem!.Entity);
             WindowService.ShowWindow(detailViewModel);
         }
         protected virtual bool OnEditCanExecute()
         {
             return SelectedItem is not null;
         }
-        protected virtual void OnRemoveExecute()
+        protected virtual async void OnRemoveExecute()
         {
-            var BusinessUnit = DataService.GetById(SelectedItem!.Id);
-            if (BusinessUnit is null)
+            var entity = await DataService.DeleteAsync(SelectedItem!.Id);
+            if (entity == false)
             {
+
                 if (Debugger.IsAttached)
                 {
                     throw new Exception();
                 }
+                //Entity could not be deleted
                 //Log some error mesage here
                 return;
             }
 
-            DataService.RemoveById(BusinessUnit.Id);
-
             Items.Remove(SelectedItem!);
-            SelectedItem = default(TWrapper);
+            SelectedItem = default(TEntityWrapper);
         }
         protected virtual bool OnRemoveCanExecute()
         {
@@ -158,22 +153,22 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         protected void OnAddEntityExecute(TCreateEventArgs obj)
         {
-            var wrapped = (TWrapper?)Activator.CreateInstance(typeof(TWrapper), obj.Entity);
+            var wrapped = (TEntityWrapper?)Activator.CreateInstance(typeof(TEntityWrapper), obj.Entity);
             if (wrapped is null)
                 return;
 
             Items.Add(wrapped);
         }
-        protected void OnEditEntityExecute(IEventArgs<TDto> obj)
+        protected void OnEditEntityExecute(IEventArgs<TEntity> obj)
         {
-            var area = Items.Where(a => a.Id == obj.Entity.Id).FirstOrDefault();
-            if (area is null)
+            var item = Items.Where(a => a.Id == obj.Entity.Id).FirstOrDefault();
+            if (item is null)
             {
                 RefreshItemsList();
                 return;
             }
 
-            AutoMapper.Mapper.Map(obj.Entity, area);
+            AutoMapper.Mapper.Map(obj.Entity, item);
         }
     }
 }

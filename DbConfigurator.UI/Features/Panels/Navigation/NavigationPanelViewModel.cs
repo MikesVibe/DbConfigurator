@@ -1,9 +1,9 @@
-﻿using DbConfigurator.UI.Features.Panels.Creation;
+﻿using DbConfigurator.UI.Base.Contracts;
+using DbConfigurator.UI.Features.Panels.Creation;
 using DbConfigurator.UI.Features.Panels.DistributionInformation;
 using DbConfigurator.UI.Features.Panels.Recipient;
 using DbConfigurator.UI.Features.Panels.Region;
 using DbConfigurator.UI.ViewModel.Base;
-using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;

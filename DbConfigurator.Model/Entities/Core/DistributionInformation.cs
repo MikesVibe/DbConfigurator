@@ -1,5 +1,4 @@
 using DbConfigurator.Model.Contracts;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,15 +8,23 @@ namespace DbConfigurator.Model.Entities.Core
     {
         [Required]
         public int Id { get; set; }
-        public Region Region { get; set; }
-        public int RegionId { get; set; }
-
         [Required]
-        public int PriorityId { get; set; }
+        public Region Region { get; set; }
+        [Required]
         public Priority Priority { get; set; }
+        public ObservableCollection<Recipient> RecipientsTo { get; set; } = new ObservableCollection<Recipient>();
+        public ObservableCollection<Recipient> RecipientsCc { get; set; } = new ObservableCollection<Recipient>();
 
-
-        public ICollection<Recipient> RecipientsTo { get; set; } = new Collection<Recipient>();
-        public ICollection<Recipient> RecipientsCc { get; set; } = new Collection<Recipient>();
+        public IEntity CreateCopy()
+        {
+            return new DistributionInformation 
+            { 
+                Id = Id, 
+                Region = Region, 
+                Priority = Priority, 
+                RecipientsCc = new ObservableCollection<Recipient>(RecipientsCc),
+                RecipientsTo = new ObservableCollection<Recipient>(RecipientsTo)
+            };
+        }
     }
 }

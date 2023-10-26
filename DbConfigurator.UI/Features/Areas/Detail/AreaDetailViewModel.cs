@@ -1,15 +1,15 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
-using DbConfigurator.UI.Services.Interfaces;
-using DbConfigurator.UI.ViewModel;
+using DbConfigurator.UI.Features.Areas.Services;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System.ComponentModel;
 
 namespace DbConfigurator.UI.Features.Areas
 {
-    public class AreaDetailViewModel : DetailViewModelBase<IAreaService, AreaDto>, IDetailViewModel, INotifyPropertyChanged
+    public class AreaDetailViewModel : DetailViewModelBase<IAreaService, Area>, IDetailViewModel, INotifyPropertyChanged
     {
         public AreaDetailViewModel(IAreaService areaService, IEventAggregator eventAggregator) : base(areaService, eventAggregator)
         {
@@ -27,7 +27,7 @@ namespace DbConfigurator.UI.Features.Areas
                   .Publish(
                 new CreateAreaEventArgs
                 {
-                    Entity = new AreaDto
+                    Entity = new Area
                     {
                         Id = EntityDto.Id,
                         Name = EntityDto.Name,
@@ -43,7 +43,7 @@ namespace DbConfigurator.UI.Features.Areas
                   .Publish(
                 new EditAreaEventArgs
                 {
-                    Entity = new AreaDto
+                    Entity = new Area
                     {
                         Id = EntityDto.Id,
                         Name = EntityDto.Name,

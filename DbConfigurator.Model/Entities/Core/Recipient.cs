@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.Model.Contracts;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.Entities.Core
@@ -20,7 +19,10 @@ namespace DbConfigurator.Model.Entities.Core
         [EmailAddress]
         [MaxLength(250)]
         public string Email { get; set; }
-        public ICollection<DistributionInformation> RecipientGroupTo { get; set; }
-        public ICollection<DistributionInformation> RecipientGroupCc { get; set; }
+
+        public IEntity CreateCopy()
+        {
+            return new Recipient { Id = Id, FirstName = FirstName, LastName = LastName };
+        }
     }
 }

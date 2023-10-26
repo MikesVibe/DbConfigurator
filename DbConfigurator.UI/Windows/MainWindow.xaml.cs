@@ -1,6 +1,4 @@
-﻿using DbConfigurator.DataAccess;
-using DbConfigurator.UI.ViewModel;
-using System.IO;
+﻿using DbConfigurator.UI.ViewModel;
 using System.Windows;
 
 namespace DbConfigurator.UI.Windows
@@ -8,14 +6,12 @@ namespace DbConfigurator.UI.Windows
     public partial class MainWindow : Window
     {
         private MainWindowViewModel _viewModel;
-        private readonly ISeeder _seeder;
 
         //private IDistributionInformationRepository? _repository;
 
-        public MainWindow(MainWindowViewModel viewModel, ISeeder seeder)
+        public MainWindow(MainWindowViewModel viewModel)
         {
             InitializeComponent();
-            _seeder = seeder;
             _viewModel = viewModel;
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
@@ -23,24 +19,6 @@ namespace DbConfigurator.UI.Windows
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-
-#if DEBUG
-            if (!await _seeder.AnyRegionInDatabaseAsync())
-            {
-                var regionsAsJason = File.ReadAllText("Regions.json");
-
-                await _seeder.SeedRegions(regionsAsJason);
-            }
-            if (!await _seeder.AnyRecipientInDatabaseAsync())
-            {
-                await _seeder.SeedRecipients();
-            }
-            if (!await _seeder.AnyDistributionInformationAsync())
-            {
-                await _seeder.SeedDistributionInformation();
-            }
-
-#endif
             await _viewModel.LoadAsync();
         }
     }

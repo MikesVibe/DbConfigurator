@@ -1,13 +1,10 @@
 using Autofac.Features.Indexed;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Panels.DistributionInformation;
 using DbConfigurator.UI.ViewModel;
-using DbConfigurator.UI.ViewModel.Interfaces;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Moq;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 

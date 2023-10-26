@@ -1,7 +1,8 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.Contracts;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
-using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Features.Regions.Services;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
 using Prism.Events;
@@ -12,11 +13,11 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.Features.Regions
 {
-    public class RegionDetailViewModel : DetailViewModelBase<IRegionService, RegionDto>
+    public class RegionDetailViewModel : DetailViewModelBase<IRegionService, Region>
     {
-        private AreaDto? _selectedArea;
-        private CountryDto? _selectedBusinessUnit;
-        private CountryDto? _selectedCountry;
+        private Area? _selectedArea;
+        private Country? _selectedBusinessUnit;
+        private Country? _selectedCountry;
 
         public RegionDetailViewModel(
             IRegionService dataService,
@@ -36,11 +37,11 @@ namespace DbConfigurator.UI.Features.Regions
         public ICommand SelectedBusinessUnitChanged { get; set; }
         public ICommand SelectedCountryChanged { get; set; }
 
-        public ObservableCollection<CountryDto> Countries_ObservableCollection { get; set; } = new ObservableCollection<CountryDto>();
-        public ObservableCollection<BusinessUnitDto> BusinessUnits_ObservableCollection { get; set; } = new ObservableCollection<BusinessUnitDto>();
-        public ObservableCollection<AreaDto> Areas_ObservableCollection { get; set; } = new ObservableCollection<AreaDto>();
+        public ObservableCollection<Country> Countries_ObservableCollection { get; set; } = new ObservableCollection<Country>();
+        public ObservableCollection<BusinessUnit> BusinessUnits_ObservableCollection { get; set; } = new ObservableCollection<BusinessUnit>();
+        public ObservableCollection<Area> Areas_ObservableCollection { get; set; } = new ObservableCollection<Area>();
 
-        public AreaDto? SelectedArea
+        public Area? SelectedArea
         {
             get { return _selectedArea; }
             set
@@ -49,7 +50,7 @@ namespace DbConfigurator.UI.Features.Regions
                 OnPropertyChanged();
             }
         }
-        public CountryDto? SelectedBusinessUnit
+        public Country? SelectedBusinessUnit
         {
             get { return _selectedBusinessUnit; }
             set
@@ -58,7 +59,7 @@ namespace DbConfigurator.UI.Features.Regions
                 OnPropertyChanged();
             }
         }
-        public CountryDto? SelectedCountry
+        public Country? SelectedCountry
         {
             get { return _selectedCountry; }
             set
@@ -68,10 +69,14 @@ namespace DbConfigurator.UI.Features.Regions
             }
         }
 
-        public override async Task LoadAsync(int entityId)
-        {
-            await base.LoadAsync(entityId);
+        //public override async Task LoadAsync(IEntity entity)
+        //{
+        //    await base.LoadAsync(entity);
 
+
+        //}
+        public override async Task LoadAsync()
+        {
             var areas = await DataService.GetAllAreasAsync();
             foreach (var area in areas)
             {
@@ -100,6 +105,7 @@ namespace DbConfigurator.UI.Features.Regions
                     EntityDto.Country = Countries_ObservableCollection?.Where(c => c.Id == EntityDto.Country.Id).FirstOrDefault() ?? EntityDto.Country;
             }
         }
+
         protected override bool OnSaveCanExecute()
         {
             return
@@ -139,7 +145,7 @@ namespace DbConfigurator.UI.Features.Regions
                   .Publish(
                 new CreateRegionEventArgs
                 {
-                    Entity = new RegionDto
+                    Entity = new Region
                     {
                         Id = EntityDto.Id,
                         Area = EntityDto.Area,
@@ -158,7 +164,7 @@ namespace DbConfigurator.UI.Features.Regions
                   .Publish(
                 new EditRegionEventArgs
                 {
-                    Entity = new RegionDto
+                    Entity = new Region
                     {
                         Id = EntityDto.Id,
                         Area = EntityDto.Area,

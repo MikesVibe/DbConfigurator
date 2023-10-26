@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.Model.Contracts;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.Entities.Core
@@ -17,7 +16,9 @@ namespace DbConfigurator.Model.Entities.Core
         [MaxLength(3)]
         public string CountryCode { get; set; }
 
-
-        public ICollection<Region> Regions { get; set; }
+        public IEntity CreateCopy()
+        {
+            return new Country { Id = Id, CountryName = CountryName, CountryCode = CountryCode };
+        }
     }
 }

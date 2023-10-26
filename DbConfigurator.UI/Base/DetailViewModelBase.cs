@@ -1,5 +1,5 @@
 ﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Base.Contracts;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -9,9 +9,9 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
-    public abstract class DetailViewModelBase<TDataService, TEntityDto> : NotifyBase, IDetailViewModel, INotifyPropertyChanged
-        where TDataService : IDataService<TEntityDto>
-        where TEntityDto : IEntityDto, new()
+    public abstract class DetailViewModelBase<TDataService, TEntity> : NotifyBase, IDetailViewModel, INotifyPropertyChanged
+        where TDataService : IDataService<TEntity>
+        where TEntity : class, IEntity, new()
     {
         protected enum ModelAction { Create = 0, Update = 1 }
 
@@ -40,52 +40,81 @@ namespace DbConfigurator.UI.ViewModel.Base
         public int ViewWidth { get; set; }
         public int ViewHeight { get; set; }
         public string Title { get; set; }
-        public TEntityDto EntityDto { get; set; }
+        public TEntity EntityDto { get; set; }
 
-        public virtual async Task LoadAsync(int entityId)
+        public virtual async Task LoadAsync(IEntity entity)
         {
+            var copy = entity.CreateCopy();
+
             try
             {
-                var entity = await DataService.GetByIdAsync(entityId);
-                if (entity is null)
+                var result = await DataService.ExistsAsync(copy.Id);
+                if (result == false)
                     return;
 
                 Action = ModelAction.Update;
-                EntityDto = entity;
+                EntityDto = (TEntity)copy;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
+            await LoadAsync();
+        }
+        public virtual async Task LoadAsync()
+        {
+            await Task.CompletedTask;
         }
 
-        private TEntityDto CreateNew()
+        private TEntity CreateNew()
         {
             Action = ModelAction.Create;
-            return new TEntityDto();
+            return new TEntity();
         }
 
         private async void OnSaveExecute()
         {
-            if (Action == ModelAction.Create)
+            switch (Action)
             {
-                var entityId = await DataService.AddAsync(EntityDto!);
-                EntityDto = await DataService.GetByIdAsync(entityId);
-                OnCreate();
+                case ModelAction.Update:
+                    {
+                        var result = await DataService.UpdateAsync(EntityDto!);
+                        if (result)
+                        {
+                            OnUpdate();
+                        }
+                        else
+                        {
+                            Error();
+                        }
+                        break;
+                    }
+
+                case ModelAction.Create:
+                    {
+                        var result = await DataService.CreateAsync(EntityDto!);
+                        if (result)
+                        {
+                            OnCreate();
+                        }
+                        else
+                        {
+                            Error();
+                        }
+                        break;
+                    }
+                default:
+                    Cancel();
+                    return;
             }
-            else if (Action == ModelAction.Update)
-            {
-                await DataService.UpdateAsync(EntityDto!);
-                OnUpdate();
-            }
-            else
-            {
-                return;
-            }
+
             WasCancelled = false;
             CloseAction?.Invoke(true);
         }
 
+        private void Error()
+        {
+        }
 
         protected virtual bool OnSaveCanExecute()
         {

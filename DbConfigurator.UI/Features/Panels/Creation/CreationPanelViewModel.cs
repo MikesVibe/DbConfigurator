@@ -1,9 +1,9 @@
 ﻿using Autofac.Features.Indexed;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Areas;
 using DbConfigurator.UI.Features.BusinessUnits;
 using DbConfigurator.UI.Features.Countries;
 using DbConfigurator.UI.ViewModel.Base;
-using DbConfigurator.UI.ViewModel.Interfaces;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Panels.Creation

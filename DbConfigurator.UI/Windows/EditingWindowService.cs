@@ -1,5 +1,4 @@
-﻿using DbConfigurator.UI.Services.Interfaces;
-using DbConfigurator.UI.ViewModel;
+﻿using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Windows;
 
 namespace DbConfigurator.UI.Services

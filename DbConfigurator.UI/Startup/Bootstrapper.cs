@@ -1,23 +1,26 @@
 ﻿using Autofac;
 using DbConfigurator.DataAccess;
-using DbConfigurator.DataAccess.Controllers;
-using DbConfigurator.DataAccess.Repositories;
-using DbConfigurator.DataAccess.Repository;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Areas;
+using DbConfigurator.UI.Features.Areas.Services;
+using DbConfigurator.UI.Features.BuisnessUnits.Services;
 using DbConfigurator.UI.Features.BusinessUnits;
 using DbConfigurator.UI.Features.Countries;
+using DbConfigurator.UI.Features.Countries.Services;
 using DbConfigurator.UI.Features.DistributionInformations;
+using DbConfigurator.UI.Features.DistributionInformations.Services;
 using DbConfigurator.UI.Features.Panels.Creation;
 using DbConfigurator.UI.Features.Panels.DistributionInformation;
 using DbConfigurator.UI.Features.Panels.Navigation;
 using DbConfigurator.UI.Features.Panels.Recipient;
 using DbConfigurator.UI.Features.Panels.Region;
+using DbConfigurator.UI.Features.Priorities.Services;
 using DbConfigurator.UI.Features.Recipients;
+using DbConfigurator.UI.Features.Recipients.Services;
 using DbConfigurator.UI.Features.Regions;
+using DbConfigurator.UI.Features.Regions.Services;
 using DbConfigurator.UI.Services;
-using DbConfigurator.UI.Services.Interfaces;
 using DbConfigurator.UI.ViewModel;
-using DbConfigurator.UI.ViewModel.Interfaces;
 using DbConfigurator.UI.Windows;
 using Prism.Events;
 
@@ -28,32 +31,24 @@ namespace DbConfigurator.UI.Startup
         public static void AddApplicationServices(this ContainerBuilder builder)
         {
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
-            builder.RegisterType<Seeder>().As<ISeeder>().SingleInstance();
             builder.RegisterType<AutoMapperConfig>().AsSelf().SingleInstance();
 
             builder.RegisterType<Windows.MainWindow>().AsSelf();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
 
-            builder.RegisterType<DbConfiguratorDbContext>().InstancePerDependency();
-
-            //Repositories
-            builder.RegisterType<AreaRepository>().AsSelf();
-            builder.RegisterType<BusinessUnitRepository>().AsSelf();
-            builder.RegisterType<CountryRepository>().AsSelf();
-            builder.RegisterType<RegionRepository>().AsSelf();
-            builder.RegisterType<PriorityRepository>().AsSelf();
-            builder.RegisterType<RecipientRepository>().AsSelf();
-            builder.RegisterType<DistributionInformationRepository>().AsSelf();
+            builder.RegisterType<DbConfiguratorApiClient>().As<IDbConfiguratorApiClient>().SingleInstance();
 
             //Services
             builder.RegisterType<EditingWindowService>().As<IEditingWindowService>().SingleInstance();
+            
             builder.RegisterType<DistributionInformationService>().As<IDistributionInformationService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
             builder.RegisterType<AreaService>().As<IAreaService>().SingleInstance();
             builder.RegisterType<BusinessUnitService>().As<IBusinessUnitService>().SingleInstance();
             builder.RegisterType<CountryService>().As<ICountryService>().SingleInstance();
             builder.RegisterType<RecipientService>().As<IRecipientService>().SingleInstance();
+            builder.RegisterType<PriorityService>().As<IPriorityService>().SingleInstance();
 
             //Navigation Panel
             builder.RegisterType<NavigationPanelViewModel>().As<INavigationPanelViewModel>();
@@ -100,7 +95,6 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<BusinessUnitDetailViewModel>().AsSelf();
             builder.RegisterType<CountryDetailViewModel>().AsSelf();
 
-            builder.RegisterType<AreaController>().AsSelf();
 
 
         }

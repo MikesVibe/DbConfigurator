@@ -1,5 +1,4 @@
 ﻿using DbConfigurator.Model.Contracts;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DbConfigurator.Model.Entities.Core
@@ -12,6 +11,9 @@ namespace DbConfigurator.Model.Entities.Core
         [MaxLength(250)]
         public string Name { get; set; }
 
-        public ICollection<Region> Regions { get; set; }
+        public IEntity CreateCopy()
+        {
+            return new Area { Id = Id, Name = Name };
+        }
     }
 }

@@ -1,5 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Core;
-using DbConfigurator.UI.Contracts;
+﻿using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Base.Contracts;
 using Prism.Events;
 
 namespace DbConfigurator.UI.Features.Areas.Event
@@ -7,8 +7,8 @@ namespace DbConfigurator.UI.Features.Areas.Event
     public class EditDistributionInformationEvent : PubSubEvent<EditDistributionInformationEventArgs>
     {
     }
-    public class EditDistributionInformationEventArgs : IEventArgs<DistributionInformationDto>
+    public class EditDistributionInformationEventArgs : IEventArgs<DistributionInformation>
     {
-        public DistributionInformationDto Entity { get; set; } = default!;
+        public DistributionInformation Entity { get; set; } = default!;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Autofac.Features.Indexed;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.ViewModel.Base;
-using DbConfigurator.UI.ViewModel.Interfaces;
 using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Linq;

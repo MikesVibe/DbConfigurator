@@ -1,15 +1,15 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
-using DbConfigurator.UI.Services.Interfaces;
-using DbConfigurator.UI.ViewModel;
+using DbConfigurator.UI.Features.BuisnessUnits.Services;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System.ComponentModel;
 
 namespace DbConfigurator.UI.Features.BusinessUnits
 {
-    public class BusinessUnitDetailViewModel : DetailViewModelBase<IBusinessUnitService, BusinessUnitDto>, IDetailViewModel, INotifyPropertyChanged
+    public class BusinessUnitDetailViewModel : DetailViewModelBase<IBusinessUnitService, BusinessUnit>, IDetailViewModel, INotifyPropertyChanged
     {
         public BusinessUnitDetailViewModel(IBusinessUnitService BusinessUnitService, IEventAggregator eventAggregator) : base(BusinessUnitService, eventAggregator)
         {
@@ -27,7 +27,7 @@ namespace DbConfigurator.UI.Features.BusinessUnits
                   .Publish(
                 new CreateBusinessUnitEventArgs
                 {
-                    Entity = new BusinessUnitDto
+                    Entity = new BusinessUnit
                     {
                         Id = EntityDto.Id,
                         Name = EntityDto.Name
@@ -44,7 +44,7 @@ namespace DbConfigurator.UI.Features.BusinessUnits
                   .Publish(
                 new EditBusinessUnitEventArgs
                 {
-                    Entity = new BusinessUnitDto
+                    Entity = new BusinessUnit
                     {
                         Id = EntityDto.Id,
                         Name = EntityDto.Name

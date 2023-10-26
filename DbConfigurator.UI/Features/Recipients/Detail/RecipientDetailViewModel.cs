@@ -1,13 +1,13 @@
-﻿using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
-using DbConfigurator.UI.Services.Interfaces;
+using DbConfigurator.UI.Features.Recipients.Services;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 
 namespace DbConfigurator.UI.Features.Recipients
 {
-    public class RecipientDetailViewModel : DetailViewModelBase<IRecipientService, RecipientDto>
+    public class RecipientDetailViewModel : DetailViewModelBase<IRecipientService, Recipient>
     {
         public RecipientDetailViewModel(IRecipientService recipientService, IEventAggregator eventAggregator) : base(recipientService, eventAggregator)
         {
@@ -25,7 +25,7 @@ namespace DbConfigurator.UI.Features.Recipients
                   .Publish(
                 new CreateRecipientEventArgs
                 {
-                    Entity = new RecipientDto
+                    Entity = new Recipient
                     {
                         Id = EntityDto.Id,
                         FirstName = EntityDto.FirstName,
@@ -44,7 +44,7 @@ namespace DbConfigurator.UI.Features.Recipients
                   .Publish(
                 new EditRecipientEventArgs
                 {
-                    Entity = new RecipientDto
+                    Entity = new Recipient
                     {
                         Id = EntityDto.Id,
                         FirstName = EntityDto.FirstName,
