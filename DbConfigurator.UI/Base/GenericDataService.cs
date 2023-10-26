@@ -51,6 +51,7 @@ namespace DbConfigurator.UI.Base
                 // Check if the request was successful
                 if (response.IsSuccessStatusCode)
                 {
+                    int a = 0;
                     //Console.WriteLine("Data sent successfully!");
                 }
                 else

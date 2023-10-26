@@ -69,10 +69,14 @@ namespace DbConfigurator.UI.Features.Regions
             }
         }
 
-        public override async Task LoadAsync(IEntity entity)
-        {
-            await base.LoadAsync(entity);
+        //public override async Task LoadAsync(IEntity entity)
+        //{
+        //    await base.LoadAsync(entity);
 
+
+        //}
+        public override async Task LoadAsync()
+        {
             var areas = await DataService.GetAllAreasAsync();
             foreach (var area in areas)
             {
@@ -101,6 +105,7 @@ namespace DbConfigurator.UI.Features.Regions
                     EntityDto.Country = Countries_ObservableCollection?.Where(c => c.Id == EntityDto.Country.Id).FirstOrDefault() ?? EntityDto.Country;
             }
         }
+
         protected override bool OnSaveCanExecute()
         {
             return

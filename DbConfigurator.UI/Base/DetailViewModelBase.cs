@@ -57,6 +57,11 @@ namespace DbConfigurator.UI.ViewModel.Base
             {
 
             }
+            await LoadAsync();
+        }
+        public virtual async Task LoadAsync()
+        {
+            await Task.CompletedTask;
         }
 
         private TEntity CreateNew()

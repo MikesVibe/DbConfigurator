@@ -8,5 +8,6 @@ namespace DbConfigurator.UI.Base.Contracts
     {
         Action<bool>? CloseAction { get; set; }
         Task LoadAsync(IEntity entity);
+        Task LoadAsync();
     }
 }

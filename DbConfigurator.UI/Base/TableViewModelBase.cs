@@ -102,8 +102,8 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         protected async virtual void OnAddExecute()
         {
-            await Task.CompletedTask;
             var detailViewModel = DetailViewModelCreator();
+            await detailViewModel.LoadAsync();
             WindowService.ShowWindow(detailViewModel);
         }
         protected async virtual void OnEditExecute()
