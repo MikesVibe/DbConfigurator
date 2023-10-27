@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model.Contracts;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
 using Prism.Commands;
@@ -23,11 +24,11 @@ namespace DbConfigurator.UI.ViewModel.Base
         where TEditEvent : PubSubEvent<TEditEventArgs>, new()
         where TEditEventArgs : IEventArgs<TEntity>, new()
     {
-        protected readonly IEditingWindowService WindowService;
-        protected readonly IEventAggregator EventAggregator;
-        protected readonly TDataService DataService;
-        protected readonly Func<IDetailViewModel> DetailViewModelCreator;
-        protected readonly AutoMapperConfig AutoMapper;
+        protected readonly IEditingWindowService _windowService;
+        protected readonly IEventAggregator _eventAggregator;
+        protected readonly TDataService _dataService;
+        protected readonly Func<IDetailViewModel> _detailViewModelCreator;
+        protected readonly AutoMapperConfig _autoMapper;
 
         private int _id;
         private bool _hasChanges;
@@ -38,16 +39,16 @@ namespace DbConfigurator.UI.ViewModel.Base
             Func<IDetailViewModel> detailViewModel,
             AutoMapperConfig autoMapper)
         {
-            EventAggregator = eventAggregator;
-            EventAggregator.GetEvent<TCreateEvent>()
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<TCreateEvent>()
                 .Subscribe(args => OnAddEntityExecute(args));
-            EventAggregator.GetEvent<TEditEvent>()
+            _eventAggregator.GetEvent<TEditEvent>()
                 .Subscribe(args => OnEditEntityExecute(args));
 
-            WindowService = dialogService;
-            DataService = dataService;
-            DetailViewModelCreator = detailViewModel;
-            AutoMapper = autoMapper;
+            _windowService = dialogService;
+            _dataService = dataService;
+            _detailViewModelCreator = detailViewModel;
+            _autoMapper = autoMapper;
 
             AddCommand = new DelegateCommand(OnAddExecute);
             EditCommand = new DelegateCommand(OnEditExecute, OnEditCanExecute);
@@ -85,32 +86,53 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         public async virtual Task LoadAsync()
         {
-            var distributionInformations = await DataService.GetAllAsync();
+            var allItems = await _dataService.GetAllAsync();
 
-            foreach (var distributionInformation in distributionInformations)
+            foreach (var item in allItems)
             {
-                if (distributionInformation is null)
+                if (item is null)
                     continue;
 
-                var wrapped = (TEntityWrapper?)Activator.CreateInstance(typeof(TEntityWrapper), distributionInformation);
+                var wrapped = (TEntityWrapper?)Activator.CreateInstance(typeof(TEntityWrapper), item);
                 if (wrapped is null)
                     continue;
 
                 Items.Add(wrapped);
             }
         }
+        public async virtual Task Refresh()
+        {
+            var allItems = await _dataService.GetAllAsync();
+            bool success = true; //check if data service returns success
+            
+            if (success == false)
+                return;
 
+            Items.Clear();
+
+            foreach (var item in allItems)
+            {
+                if (item is null)
+                    continue;
+
+                var wrapped = (TEntityWrapper?)Activator.CreateInstance(typeof(TEntityWrapper), item);
+                if (wrapped is null)
+                    continue;
+
+                Items.Add(wrapped);
+            }
+        }
         protected async virtual void OnAddExecute()
         {
-            var detailViewModel = DetailViewModelCreator();
+            var detailViewModel = _detailViewModelCreator();
             await detailViewModel.LoadAsync();
-            WindowService.ShowWindow(detailViewModel);
+            _windowService.ShowWindow(detailViewModel);
         }
         protected async virtual void OnEditExecute()
         {
-            var detailViewModel = DetailViewModelCreator();
+            var detailViewModel = _detailViewModelCreator();
             await detailViewModel.LoadAsync(SelectedItem!.Entity);
-            WindowService.ShowWindow(detailViewModel);
+            _windowService.ShowWindow(detailViewModel);
         }
         protected virtual bool OnEditCanExecute()
         {
@@ -118,16 +140,9 @@ namespace DbConfigurator.UI.ViewModel.Base
         }
         protected virtual async void OnRemoveExecute()
         {
-            var entity = await DataService.DeleteAsync(SelectedItem!.Id);
+            var entity = await _dataService.DeleteAsync(SelectedItem!.Id);
             if (entity == false)
             {
-
-                if (Debugger.IsAttached)
-                {
-                    throw new Exception();
-                }
-                //Entity could not be deleted
-                //Log some error mesage here
                 return;
             }
 
@@ -168,7 +183,9 @@ namespace DbConfigurator.UI.ViewModel.Base
                 return;
             }
 
-            AutoMapper.Mapper.Map(obj.Entity, item);
+            _autoMapper.Mapper.Map(obj.Entity, item);
         }
+
+
     }
 }

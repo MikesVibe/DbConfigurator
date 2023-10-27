@@ -19,5 +19,9 @@ namespace DbConfigurator.UI.Features.Panels.Recipient
         {
             await RecipientTable.LoadAsync();
         }
+        public override async Task Refresh()
+        {
+            await RecipientTable.Refresh();
+        }
     }
 }

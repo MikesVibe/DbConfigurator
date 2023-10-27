@@ -4,6 +4,8 @@ using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -14,13 +16,14 @@ using System.Threading.Tasks;
 namespace DbConfigurator.UI.Base
 {
     public class GenericDataService<TCreateDto, TUpdateDto, TEntity> : IDataService<TEntity>
-        where TEntity : class, new()
+        where TEntity : class, IEntity, new()
     {
         private readonly IDbConfiguratorApiClient _client;
         protected readonly AutoMapperConfig _mapper;
         protected readonly string _controllerName;
-        private IEnumerable<TEntity> _entities = new List<TEntity>();
+        private List<TEntity> _entities = new List<TEntity>();
         private bool _entitiesLoaded;
+        protected bool _hasChanges;
 
         public GenericDataService(
             IDbConfiguratorApiClient client,
@@ -53,6 +56,8 @@ namespace DbConfigurator.UI.Base
                 if (response.IsSuccessStatusCode)
                 {
                     //Console.WriteLine("Data sent successfully!");
+                    _entities.Add(entity);
+                    _hasChanges = true;
                     return true;
                 }
                 else
@@ -74,12 +79,20 @@ namespace DbConfigurator.UI.Base
                 // Check if the request was successful
                 if (response.IsSuccessStatusCode)
                 {
-                    //Console.WriteLine("Data sent successfully!");
+                    var entity = _entities.Where(e => e.Id == id).Single();
+                    _entities.Remove(entity);
+                    _hasChanges = true;
                     return true;
                 }
                 else
                 {
-                    //Console.WriteLine($"Error sending data. Status code: {response.StatusCode}");
+                    //Entity could not be deleted
+                    //Log some error mesage here
+                    if (Debugger.IsAttached)
+                    {
+                        Debugger.Break();
+                    }
+
                     return false;
                 }
             }
@@ -91,14 +104,14 @@ namespace DbConfigurator.UI.Base
             return true;
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(bool refresh = false)
         {
-            if (_entitiesLoaded == false)
+            if (_entitiesLoaded == false || ChildrenHaveChanges())
             {
                 await LoadEntities();
                 _entitiesLoaded = true;
             }
-
+            _hasChanges = false;
             return _entities;
         }
 
@@ -131,12 +144,21 @@ namespace DbConfigurator.UI.Base
                 // Check if the request was successful
                 if (response.IsSuccessStatusCode)
                 {
+                    //var entityInList = _entities.Where(e => e.Id == entity.Id).;
+                    //_entities.ElementAt(entityInList).
                     //Console.WriteLine("Data sent successfully!");
+                    _hasChanges = true;
                     return true;
                 }
                 else
                 {
-                    //Console.WriteLine($"Error sending data. Status code: {response.StatusCode}");
+                    //Entity could not be updated
+                    //Log some error mesage here
+                    if (Debugger.IsAttached)
+                    {
+                        Debugger.Break();
+                    }
+
                     return false;
                 }
             }
@@ -149,12 +171,22 @@ namespace DbConfigurator.UI.Base
                 try
                 {
                     var dto = await client.GetFromJsonAsync<IEnumerable<TEntity>>($"{_controllerName}/all");
-                    _entities = _mapper.Mapper.Map<IEnumerable<TEntity>>(dto);
+                    _entities = _mapper.Mapper.Map<List<TEntity>>(dto);
                 }
                 catch
                 {
                 }
             }
+        }
+
+        public virtual bool HasChanges()
+        {
+            return _hasChanges;
+        }
+
+        public virtual bool ChildrenHaveChanges()
+        {
+            return false;
         }
     }
 }

@@ -113,7 +113,10 @@ namespace DbConfigurator.UI.Features.DistributionInformations.Services
 
             return countries;
         }
-
+        public override bool ChildrenHaveChanges()
+        {
+            return _regionService.ChildrenHaveChanges() || _priorityService.HasChanges() || _recipientService.HasChanges() || base.ChildrenHaveChanges();
+        }
         //public DistributionInformationService(
 
         //    AutoMapperConfig autoMapper

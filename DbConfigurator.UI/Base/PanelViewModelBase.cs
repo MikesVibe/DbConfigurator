@@ -9,6 +9,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         public int Id { get; protected set; }
 
         public abstract Task LoadAsync();
+        public abstract Task Refresh();
 
         public void SetId(int id)
         {
@@ -18,5 +19,6 @@ namespace DbConfigurator.UI.ViewModel.Base
             Id = id;
             _idHasBeenSet = true;
         }
+
     }
 }

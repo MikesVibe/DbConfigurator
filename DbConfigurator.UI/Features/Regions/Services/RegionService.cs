@@ -47,22 +47,9 @@ namespace DbConfigurator.UI.Features.Regions.Services
         {
             return await _countryService.GetAllAsync();
         }
-        //public async Task<ICollection<Area>> GetAllAreasAsync()
-        //{
-        //    var areas = await _repository.GetAllAreasAsync();
-        //    return _autoMapper.Mapper.Map<ICollection<Area>>(areas);
-        //}
-        //public async Task<ICollection<BusinessUnit>> GetAllBusinessUnitsAsync()
-        //{
-        //    var BusinessUnits = await _repository.GetAllBusinessUnitsAsync();
-
-        //    return _autoMapper.Mapper.Map<ICollection<BusinessUnit>>(BusinessUnits);
-        //}
-        //public async Task<ICollection<Country>> GetAllCountriesAsync()
-        //{
-        //    var countries = await _repository.GetAllCountriesAsync();
-
-        //    return _autoMapper.Mapper.Map<ICollection<Country>>(countries);
-        //}
+        public override bool ChildrenHaveChanges()
+        {
+            return _areaService.HasChanges() || _businessUnitService.HasChanges() || _countryService.HasChanges() || base.ChildrenHaveChanges();
+        }
     }
 }

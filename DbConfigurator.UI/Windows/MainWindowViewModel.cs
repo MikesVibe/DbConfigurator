@@ -74,6 +74,10 @@ namespace DbConfigurator.UI.ViewModel
 
                 MainViewModels.Add(tabelViewModel);
             }
+            else
+            {
+                await tabelViewModel.Refresh();
+            }
 
             SelectedMainPanelViewModel = tabelViewModel;
             _openTableReady = true;

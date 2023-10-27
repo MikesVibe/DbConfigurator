@@ -22,5 +22,9 @@ namespace DbConfigurator.UI.Features.Panels.DistributionInformation
 
             await DistributionInformationTable.LoadAsync();
         }
+        public override async Task Refresh()
+        {
+            await DistributionInformationTable.Refresh();
+        }
     }
 }

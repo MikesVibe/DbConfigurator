@@ -29,5 +29,12 @@ namespace DbConfigurator.UI.Features.Panels.Creation
             await BusinessUnitTable.LoadAsync();
             await CountryTable.LoadAsync();
         }
+
+        public override async Task Refresh()
+        {
+            await AreaTable.Refresh();
+            await BusinessUnitTable.Refresh();
+            await CountryTable.Refresh();
+        }
     }
 }

@@ -19,5 +19,9 @@ namespace DbConfigurator.UI.Features.Panels.Region
         {
             await RegionTable.LoadAsync();
         }
+        public override async Task Refresh()
+        {
+            await RegionTable.Refresh();
+        }
     }
 }
