@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using DbConfigurator.DataAccess;
 using DbConfigurator.UI.Base.Contracts;
+using DbConfigurator.UI.Features.Account.Services;
 using DbConfigurator.UI.Features.Areas;
 using DbConfigurator.UI.Features.Areas.Services;
 using DbConfigurator.UI.Features.BuisnessUnits.Services;
@@ -49,6 +50,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<CountryService>().As<ICountryService>().SingleInstance();
             builder.RegisterType<RecipientService>().As<IRecipientService>().SingleInstance();
             builder.RegisterType<PriorityService>().As<IPriorityService>().SingleInstance();
+            builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
 
             //Navigation Panel
             builder.RegisterType<NavigationPanelViewModel>().As<INavigationPanelViewModel>();

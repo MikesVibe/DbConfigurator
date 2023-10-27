@@ -4,8 +4,10 @@ using DbConfigurator.UI.Features.Panels.DistributionInformation;
 using DbConfigurator.UI.Features.Panels.Recipient;
 using DbConfigurator.UI.Features.Panels.Region;
 using DbConfigurator.UI.ViewModel.Base;
+using Prism.Commands;
 using Prism.Events;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Panels.Navigation
@@ -35,6 +37,8 @@ namespace DbConfigurator.UI.Features.Panels.Navigation
                 new NavigationItem(2, "Regions", nameof(RegionPanelViewModel), _eventAggregator));
             NavigationItems_ObservableCollection.Add(
                    new NavigationItem(3, "Create", nameof(CreationPanelViewModel), _eventAggregator));
+
+            NavigationItems_ObservableCollection.First().OpenTabelViewCommand.Execute(new object());
         }
     }
 }

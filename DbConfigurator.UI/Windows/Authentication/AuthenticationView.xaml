@@ -1,0 +1,57 @@
+﻿<Window x:Class="DbConfigurator.UI.Windows.Authentication.AuthenticationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DbConfigurator.UI.Windows.Authentication"
+        mc:Ignorable="d"
+        Title="AuthenticationView" Height="450" Width="800">
+
+    <Grid FocusManager.FocusedElement="{Binding ElementName=userTextbox}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.InputBindings>
+            <KeyBinding Command="{Binding EnterClickCommand, Mode=OneWay}" Key="Return"
+                      CommandParameter="{Binding ElementName=passwordBox}"/>
+        </Grid.InputBindings>
+
+        <TextBlock Text="DbConfigurator" Grid.Row="0" Grid.ColumnSpan="2"
+                 HorizontalAlignment="Center" VerticalAlignment="Center" 
+                 FontWeight="Bold" FontSize="25" 
+                 Margin="20 0 0 0"/>
+
+        <TextBlock Text="Username:" Grid.Row="1" VerticalAlignment="Center" 
+                 FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+        <TextBlock Text="Password:" Grid.Row="2" VerticalAlignment="Center"
+                 FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+        <TextBox x:Name="userTextbox" Text="{Binding Username}" Height="30"
+               Grid.Row="1" Grid.Column="1" Margin="0,5,50,5" VerticalContentAlignment="Center">
+        </TextBox>
+        <PasswordBox x:Name="passwordBox" Height="30" Grid.Row="2" Grid.Column="1" Margin="0,5,50,5" VerticalContentAlignment="Center"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+            <Button Content="Log in" FontSize="15" FontWeight="Bold" Height="30" Width="120" Margin="0,15,0,0"                     
+                  Command="{Binding LoginCommand, Mode=OneTime}"
+                  CommandParameter="{Binding ElementName=passwordBox}"
+                  HorizontalAlignment="Center">
+            </Button>
+
+            <Button Content="Log out" FontSize="15" FontWeight="Bold" Height="30" Width="120" Margin="5,15,0,0"
+                  Command="{Binding LogoutCommand, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}"
+                  HorizontalAlignment="Center">
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

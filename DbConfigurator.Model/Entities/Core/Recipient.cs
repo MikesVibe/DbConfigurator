@@ -22,7 +22,7 @@ namespace DbConfigurator.Model.Entities.Core
 
         public IEntity CreateCopy()
         {
-            return new Recipient { Id = Id, FirstName = FirstName, LastName = LastName };
+            return new Recipient { Id = Id, FirstName = FirstName, LastName = LastName, Email = Email };
         }
     }
 }
