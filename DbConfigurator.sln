@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.DataAccess",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbConfigurator.UI.UnitTests", "DbConfigurator.UI.UnitTests\DbConfigurator.UI.UnitTests.csproj", "{6EE56CCA-AED2-48CB-B18D-EB5260D45843}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbConfigurator.Authentication", "DbConfigurator.Authentication\DbConfigurator.Authentication.csproj", "{EC4BCDCD-AA87-43D1-839C-C9DACFC207EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6EE56CCA-AED2-48CB-B18D-EB5260D45843}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EE56CCA-AED2-48CB-B18D-EB5260D45843}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EE56CCA-AED2-48CB-B18D-EB5260D45843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC4BCDCD-AA87-43D1-839C-C9DACFC207EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC4BCDCD-AA87-43D1-839C-C9DACFC207EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC4BCDCD-AA87-43D1-839C-C9DACFC207EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC4BCDCD-AA87-43D1-839C-C9DACFC207EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

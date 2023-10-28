@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DbConfigurator.Authentication;
 using DbConfigurator.DataAccess;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Account.Services;
@@ -37,6 +38,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<Windows.MainWindow>().AsSelf();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
+            builder.RegisterType<SecuritySettings>().AsSelf().SingleInstance();
 
             builder.RegisterType<DbConfiguratorApiClient>().As<IDbConfiguratorApiClient>().SingleInstance();
 

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using DbConfigurator.DataAccess;
 using System.Text.Json;
 using FluentResults;
+using DbConfigurator.Authentication;
 
 namespace DbConfigurator.UI.Features.Account.Services
 {
@@ -41,7 +42,8 @@ namespace DbConfigurator.UI.Features.Account.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var resultValue = await response.Content.ReadAsStringAsync();
-                    var user = JsonSerializer.Deserialize<User>(resultValue);
+                    var serializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    var user = JsonSerializer.Deserialize<User>(resultValue, serializerOptions);
                     if(user is null)
                     {
                         return Result.Fail("Could not login user.");

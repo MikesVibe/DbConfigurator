@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DbConfigurator.Authentication;
 using DbConfigurator.UI.Features.Account.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel;
@@ -38,7 +39,7 @@ namespace DbConfigurator
             var app = builder.Build();
             MainWindow = app.Resolve<MainWindow>();
 
-            if (Debugger.IsAttached)
+            if (false)//Debugger.IsAttached)
             {
                 RunApp();
             }
@@ -46,20 +47,26 @@ namespace DbConfigurator
             {
                 MainWindow.Hide();
 
-                var accountService = app.Resolve<IAccountService>();
-                var viewModel = new AuthenticationViewModel(accountService);
-                var loginWindow = new AuthenticationView(viewModel);
-                viewModel.Window = loginWindow;
-                loginWindow.ShowDialog();
+                for (int i = 0; i < 3; i++)
+                {
+                    var accountService = app.Resolve<IAccountService>();
+                    var securitySettings = app.Resolve<SecuritySettings>();
+                    var viewModel = new AuthenticationViewModel(accountService, securitySettings);
+                    var loginWindow = new AuthenticationView(viewModel);
+                    viewModel.Window = loginWindow;
+                    loginWindow.ShowDialog();
 
-                if (viewModel.IsAuthenticated)
-                {
-                    RunApp();
+                    if (securitySettings.IsAuthenticated)
+                    {
+                        RunApp();
+                        return;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to authenticate user.");
+                    }
                 }
-                else
-                {
-                    MainWindow.Close();
-                }
+                MainWindow.Close();
             }
         }
 

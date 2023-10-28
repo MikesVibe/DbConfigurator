@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Features.Account
+namespace DbConfigurator.Authentication
 {
     public class LoginDto
     {

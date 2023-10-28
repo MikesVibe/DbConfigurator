@@ -1,10 +1,12 @@
-﻿using DbConfigurator.UI.Features.Account;
+﻿using DbConfigurator.Authentication;
+using DbConfigurator.UI.Features.Account;
 using DbConfigurator.UI.Features.Account.Services;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,12 +17,14 @@ namespace DbConfigurator.UI.Windows.Authentication
     public class AuthenticationViewModel
     {
         private readonly IAccountService _accountService;
+        private readonly SecuritySettings _securitySettings;
 
-        public AuthenticationViewModel(IAccountService accountService)
+        public AuthenticationViewModel(IAccountService accountService, SecuritySettings securitySettings)
         {
             _accountService = accountService;
-            LoginCommand = new CustomDelegate(OnLoginExecute, () => !IsAuthenticated);
-            LogoutCommand = new CustomDelegate(OnLogoutExecute, () => IsAuthenticated);
+            _securitySettings = securitySettings;
+            LoginCommand = new CustomDelegate(OnLoginExecute, () => !_securitySettings.IsAuthenticated);
+            LogoutCommand = new CustomDelegate(OnLogoutExecute, () => _securitySettings.IsAuthenticated);
             EnterClickCommand = new CustomDelegate(OnLoginExecute);
         }
         public CustomDelegate LoginCommand { get; }
@@ -28,8 +32,6 @@ namespace DbConfigurator.UI.Windows.Authentication
         public CustomDelegate EnterClickCommand { get; }
 
         public Window Window { get; set; }
-        public bool IsAuthenticated { get; set; } = false;
-        public User? User { get; set; }
         public string Username { get; set; }
 
         private async void OnLoginExecute(object parameter)
@@ -40,19 +42,17 @@ namespace DbConfigurator.UI.Windows.Authentication
             var result = await _accountService.Login(new LoginDto { UserName = Username, Password = clearTextPassword});
             if(result.IsSuccess)
             {
-                IsAuthenticated = true;
-                User = result.Value;
+                _securitySettings.Login(result.Value);
                 Window.Close();
             }
             else
             {
-                IsAuthenticated = false;
                 Window.Close();
             }
         }
         private void OnLogoutExecute(object parameter)
         {
-            User = default;
+            _securitySettings.Logout();
         }
     }
 }
