@@ -18,6 +18,7 @@ namespace DbConfigurator.UI.Windows.Authentication
     {
         private readonly IAccountService _accountService;
         private readonly SecuritySettings _securitySettings;
+        private int _accessFailedCount = 0;
 
         public AuthenticationViewModel(IAccountService accountService, SecuritySettings securitySettings)
         {
@@ -39,13 +40,19 @@ namespace DbConfigurator.UI.Windows.Authentication
             var passwordBox = parameter as PasswordBox;
             var clearTextPassword = passwordBox!.Password;
 
-            var result = await _accountService.Login(new LoginDto { UserName = Username, Password = clearTextPassword});
-            if(result.IsSuccess)
+            var result = await _accountService.Login(new LoginDto { UserName = Username, Password = clearTextPassword });
+            if (result.IsSuccess)
             {
                 _securitySettings.Login(result.Value);
                 Window.Close();
             }
             else
+            {
+                _accessFailedCount++;
+                MessageBox.Show("Failed to authenticate user.");
+            }
+
+            if (_accessFailedCount == 3)
             {
                 Window.Close();
             }

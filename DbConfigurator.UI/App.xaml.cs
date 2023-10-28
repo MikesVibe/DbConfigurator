@@ -47,25 +47,20 @@ namespace DbConfigurator
             {
                 MainWindow.Hide();
 
-                for (int i = 0; i < 3; i++)
-                {
-                    var accountService = app.Resolve<IAccountService>();
-                    var securitySettings = app.Resolve<SecuritySettings>();
-                    var viewModel = new AuthenticationViewModel(accountService, securitySettings);
-                    var loginWindow = new AuthenticationView(viewModel);
-                    viewModel.Window = loginWindow;
-                    loginWindow.ShowDialog();
 
-                    if (securitySettings.IsAuthenticated)
-                    {
-                        RunApp();
-                        return;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to authenticate user.");
-                    }
+                var accountService = app.Resolve<IAccountService>();
+                var securitySettings = app.Resolve<SecuritySettings>();
+                var viewModel = new AuthenticationViewModel(accountService, securitySettings);
+                var loginWindow = new AuthenticationView(viewModel);
+                viewModel.Window = loginWindow;
+                loginWindow.ShowDialog();
+
+                if (securitySettings.IsAuthenticated)
+                {
+                    RunApp();
+                    return;
                 }
+
                 MainWindow.Close();
             }
         }
