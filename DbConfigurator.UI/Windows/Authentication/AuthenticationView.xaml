@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DbConfigurator.UI.Windows.Authentication"
         mc:Ignorable="d"
-        Title="AuthenticationView" Height="290" Width="500"
+        Title="AuthenticationView" Height="290" Width="500" Icon="/Windows/DbConfigurator.png"
         WindowStartupLocation="CenterScreen">
 
     <Grid FocusManager.FocusedElement="{Binding ElementName=userTextbox}">

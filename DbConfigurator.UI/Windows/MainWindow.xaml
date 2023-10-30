@@ -9,9 +9,9 @@
         xmlns:reg="clr-namespace:DbConfigurator.UI.Features.Panels.Region"
         xmlns:cr="clr-namespace:DbConfigurator.UI.Features.Panels.Creation"
         mc:Ignorable="d"
-        Title="DbConfigurator" Height="750" Width="1200"
-        WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize">
+        Title="DbConfigurator" Height="750" Width="1200" 
+        WindowStartupLocation="CenterScreen" 
+        ResizeMode="CanMinimize" Icon="/Windows/DbConfigurator.png">
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type dis:DistributionInformationPanelViewModel}">

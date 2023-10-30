@@ -9,13 +9,18 @@
 
   <ItemGroup>
     <Compile Remove="bin\**" />
+    <Compile Remove="Resources\**" />
     <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="Resources\**" />
     <None Remove="bin\**" />
+    <None Remove="Resources\**" />
     <Page Remove="bin\**" />
+    <Page Remove="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Regions.csv" />
+    <None Remove="Windows\DbConfigurator.png" />
     <None Remove="Windows\MainWindowViewModel.cs~RF6a1b373.TMP" />
   </ItemGroup>
 
@@ -50,6 +55,10 @@
     <None Update="Regions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Windows\DbConfigurator.png" />
   </ItemGroup>
 
 </Project>

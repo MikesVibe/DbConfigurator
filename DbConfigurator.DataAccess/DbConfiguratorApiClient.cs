@@ -19,6 +19,7 @@ namespace DbConfigurator.DataAccess
         {
             var client = new HttpClient()
             {
+                //BaseAddress = new Uri("http://localhost:8001/api/")
                 BaseAddress = new Uri("https://localhost:8443/api/")
             };
 
