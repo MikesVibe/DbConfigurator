@@ -14,6 +14,7 @@
             <ColumnDefinition Width="150"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="40"/>
@@ -21,38 +22,62 @@
             <RowDefinition Height="60"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+            <!-- New row for the status bar -->
         </Grid.RowDefinitions>
 
         <Grid.InputBindings>
             <KeyBinding Command="{Binding EnterClickCommand, Mode=OneWay}" Key="Return"
-                      CommandParameter="{Binding ElementName=passwordBox}"/>
+                    CommandParameter="{Binding ElementName=passwordBox}"/>
         </Grid.InputBindings>
 
         <TextBlock Text="DbConfigurator" Grid.Row="0" Grid.ColumnSpan="2"
-                 HorizontalAlignment="Center" VerticalAlignment="Center" 
-                 FontWeight="Bold" FontSize="25" 
-                 Margin="20 0 0 0"/>
+               HorizontalAlignment="Center" VerticalAlignment="Center" 
+               FontWeight="Bold" FontSize="25" 
+               Margin="20 0 0 0"/>
 
         <TextBlock Text="Username:" Grid.Row="1" VerticalAlignment="Center" 
-                 FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
-        <TextBlock Text="Password:" Grid.Row="2" VerticalAlignment="Center"
-                 FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
+               FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
         <TextBox x:Name="userTextbox" Text="{Binding Username}" Height="30"
-               Grid.Row="1" Grid.Column="1" Margin="0,5,50,5" VerticalContentAlignment="Center">
+             Grid.Row="1" Grid.Column="1" Margin="0,5,50,5" VerticalContentAlignment="Center">
         </TextBox>
+
+        <TextBlock Text="Password:" Grid.Row="2" VerticalAlignment="Center"
+               FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
         <PasswordBox x:Name="passwordBox" Height="30" Grid.Row="2" Grid.Column="1" Margin="0,5,50,5" VerticalContentAlignment="Center"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
             <Button Content="Log in" FontSize="15" FontWeight="Bold" Height="30" Width="120" Margin="0,15,0,0"                     
-                  Command="{Binding LoginCommand, Mode=OneTime}"
-                  CommandParameter="{Binding ElementName=passwordBox}"
-                  HorizontalAlignment="Center">
+                Command="{Binding LoginCommand, Mode=OneTime}"
+                CommandParameter="{Binding ElementName=passwordBox}"
+                HorizontalAlignment="Center">
             </Button>
 
             <Button Content="Log out" FontSize="15" FontWeight="Bold" Height="30" Width="120" Margin="5,15,0,0"
-                  Command="{Binding LogoutCommand, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}"
-                  HorizontalAlignment="Center">
+                Command="{Binding LogoutCommand, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}"
+                HorizontalAlignment="Center">
             </Button>
         </StackPanel>
+
+        <!-- New status bar -->
+        <TextBlock Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"
+               Background="#E0E0E0" Padding="10" FontSize="14" FontWeight="Bold">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="Status: {0}">
+                    <Binding Path="StatusMessage"/>
+                </MultiBinding>
+            </TextBlock.Text>
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="Green"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsConnected}" Value="False">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </Grid>
+
 </Window>

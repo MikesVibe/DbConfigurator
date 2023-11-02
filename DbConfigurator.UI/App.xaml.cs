@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DbConfigurator.Authentication;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Account.Services;
 using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel;
@@ -50,7 +51,8 @@ namespace DbConfigurator
 
                 var accountService = app.Resolve<IAccountService>();
                 var securitySettings = app.Resolve<SecuritySettings>();
-                var viewModel = new AuthenticationViewModel(accountService, securitySettings);
+                var statusService = app.Resolve<IStatusService>();
+                var viewModel = new AuthenticationViewModel(accountService, statusService, securitySettings);
                 var loginWindow = new AuthenticationView(viewModel);
                 viewModel.Window = loginWindow;
                 loginWindow.ShowDialog();

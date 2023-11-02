@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using DbConfigurator.Authentication;
 using DbConfigurator.DataAccess;
+using DbConfigurator.UI.Base;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Account.Services;
 using DbConfigurator.UI.Features.Areas;
@@ -53,6 +54,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<RecipientService>().As<IRecipientService>().SingleInstance();
             builder.RegisterType<PriorityService>().As<IPriorityService>().SingleInstance();
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
+            builder.RegisterType<StatusService>().As<IStatusService>().SingleInstance();
 
             //Navigation Panel
             builder.RegisterType<NavigationPanelViewModel>().As<INavigationPanelViewModel>();
