@@ -8,18 +8,21 @@ namespace DbConfigurator.UI.Features.Panels.Recipient
 {
     public class RecipientPanelViewModel : PanelViewModelBase
     {
-        public RecipientPanelViewModel(IIndex<string, ITableViewModel> tableViewModelCreator)
+        public RecipientPanelViewModel(
+            IIndex<string, ITableViewModel> tableViewModelCreator,
+            IStatusService statusService) 
+            : base(statusService)
         {
             RecipientTable = tableViewModelCreator[nameof(RecipientTableViewModel)];
         }
 
         public ITableViewModel RecipientTable { get; set; }
 
-        public override async Task LoadAsync()
+        protected override async Task LoadDataAsync()
         {
             await RecipientTable.LoadAsync();
         }
-        public override async Task Refresh()
+        public override async Task RefreshAsync()
         {
             await RecipientTable.Refresh();
         }

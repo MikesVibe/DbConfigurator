@@ -7,7 +7,7 @@ namespace DbConfigurator.UI.Base.Contracts
         int Id { get; }
 
         Task LoadAsync();
-        Task Refresh();
+        Task RefreshAsync();
         void SetId(int id);
     }
 }

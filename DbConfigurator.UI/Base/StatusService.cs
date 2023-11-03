@@ -28,9 +28,14 @@ namespace DbConfigurator.UI.Base
             _apiClient = apiClient;
         }
 
+        public bool IsConnected 
+        { 
+            get => _isConnected;
+            set => _isConnected = value;
+        }
         public event EventHandler<bool> StatusChanged;
 
-        private async Task<bool> IsConnected()
+        private async Task<bool> CanConnect()
         {
             try
             {
@@ -56,11 +61,11 @@ namespace DbConfigurator.UI.Base
         {
             while (true)
             {
-                var result = await IsConnected();
-                if(result != _isConnected)
+                var result = await CanConnect();
+                if(result != IsConnected)
                 {
                     StatusChanged?.Invoke(this, result);
-                    _isConnected = result;
+                    IsConnected = result;
                 }
                 await Task.Delay(5000);
             }

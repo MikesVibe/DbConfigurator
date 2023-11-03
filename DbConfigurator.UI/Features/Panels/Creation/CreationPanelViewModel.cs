@@ -11,8 +11,9 @@ namespace DbConfigurator.UI.Features.Panels.Creation
     public class CreationPanelViewModel : PanelViewModelBase, IMainPanelViewModel
     {
         public CreationPanelViewModel(
-            IIndex<string, ITableViewModel> tableViewModelCreator
-            )
+            IIndex<string, ITableViewModel> tableViewModelCreator,
+            IStatusService statusService
+            ) : base(statusService)
         {
             AreaTable = tableViewModelCreator[nameof(AreaTableViewModel)];
             BusinessUnitTable = tableViewModelCreator[nameof(BusinessUnitTableViewModel)];
@@ -23,14 +24,14 @@ namespace DbConfigurator.UI.Features.Panels.Creation
         public ITableViewModel BusinessUnitTable { get; set; }
         public ITableViewModel CountryTable { get; set; }
 
-        public override async Task LoadAsync()
+        protected override async Task LoadDataAsync()
         {
             await AreaTable.LoadAsync();
             await BusinessUnitTable.LoadAsync();
             await CountryTable.LoadAsync();
         }
 
-        public override async Task Refresh()
+        public override async Task RefreshAsync()
         {
             await AreaTable.Refresh();
             await BusinessUnitTable.Refresh();

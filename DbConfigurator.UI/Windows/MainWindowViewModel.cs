@@ -78,7 +78,7 @@ namespace DbConfigurator.UI.ViewModel
             }
             else
             {
-                await tabelViewModel.Refresh();
+                await tabelViewModel.RefreshAsync();
             }
 
             SelectedMainPanelViewModel = tabelViewModel;
