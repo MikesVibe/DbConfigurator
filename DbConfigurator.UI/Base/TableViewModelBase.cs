@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DbConfigurator.UI.ViewModel.Base
@@ -86,7 +87,16 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         public async virtual Task LoadAsync()
         {
-            var allItems = await _dataService.GetAllAsync();
+            var result = await _dataService.GetAllAsyncResult();
+            if (result.IsFailed)
+            {
+                MessageBox.Show("Could not load data. Service may be unavailable");
+                return;
+            }
+
+            var allItems = result.Value;
+
+            Items.Clear();
 
             foreach (var item in allItems)
             {
@@ -102,25 +112,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         }
         public async virtual Task Refresh()
         {
-            var allItems = await _dataService.GetAllAsync();
-            bool success = true; //check if data service returns success
-            
-            if (success == false)
-                return;
-
-            Items.Clear();
-
-            foreach (var item in allItems)
-            {
-                if (item is null)
-                    continue;
-
-                var wrapped = (TEntityWrapper?)Activator.CreateInstance(typeof(TEntityWrapper), item);
-                if (wrapped is null)
-                    continue;
-
-                Items.Add(wrapped);
-            }
+            await LoadAsync();
         }
         protected async virtual void OnAddExecute()
         {

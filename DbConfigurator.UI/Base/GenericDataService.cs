@@ -2,6 +2,7 @@
 using DbConfigurator.Model.Contracts;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
+using FluentResults;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -116,6 +117,21 @@ namespace DbConfigurator.UI.Base
         }
 
 
+        public virtual async Task<Result<IEnumerable<TEntity>>> GetAllAsyncResult()
+        {
+            if (_entitiesLoaded == false || ChildrenHaveChanges())
+            {
+                var result = await LoadEntities();
+                if (result == false)
+                {
+                    return Result.Fail("Could not load entities");
+                }
+                _entitiesLoaded = true;
+            }
+            _hasChanges = false;
+            return _entities;
+        }
+
 
         //public async Task<TEntity> GetByIdAsync(int id)
         //{
@@ -164,7 +180,7 @@ namespace DbConfigurator.UI.Base
             }
         }
 
-        private async Task LoadEntities()
+        private async Task<bool> LoadEntities()
         {
             using (var client = _client.CreateClient())
             {
@@ -172,9 +188,11 @@ namespace DbConfigurator.UI.Base
                 {
                     var dto = await client.GetFromJsonAsync<IEnumerable<TEntity>>($"{_controllerName}/all");
                     _entities = _mapper.Mapper.Map<List<TEntity>>(dto);
+                    return true;
                 }
                 catch
                 {
+                    return false;
                 }
             }
         }

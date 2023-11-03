@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FluentResults;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Base.Contracts
@@ -14,6 +15,6 @@ namespace DbConfigurator.UI.Base.Contracts
         Task<IEnumerable<TEntity>> GetAllAsync(bool refresh = false);
         bool HasChanges();
         bool ChildrenHaveChanges();
-
+        Task<Result<IEnumerable<TEntity>>> GetAllAsyncResult();
     }
 }

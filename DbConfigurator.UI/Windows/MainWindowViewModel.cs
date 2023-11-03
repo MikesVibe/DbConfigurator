@@ -21,8 +21,9 @@ namespace DbConfigurator.UI.ViewModel
         public MainWindowViewModel(
             INavigationPanelViewModel navigationViewModel,
             IIndex<string, IMainPanelViewModel> tabelViewModelCreator,
-            IEventAggregator eventAggregator
-            )
+            IEventAggregator eventAggregator,
+            IStatusService statusService
+            ) : base(statusService)
         {
             _mainViewModelCreator = tabelViewModelCreator;
             _eventAggregator = eventAggregator;

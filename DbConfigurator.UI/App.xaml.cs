@@ -29,6 +29,23 @@ namespace DbConfigurator
             currentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            InitializeApplicationServices();
+            InitializeMainWindow();
+            StartCheckingApiConnection();
+
+            if (Debugger.IsAttached)
+            {
+                RunApp();
+            }
+            else
+            {
+                DisplayAuthenticationWindow();
+
+                LoginIntoApplication();
+            }
+        }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
@@ -38,56 +55,37 @@ namespace DbConfigurator
             MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private void LoginIntoApplication()
+        {
+            var securitySettings = _servicesContainer.Resolve<SecuritySettings>();
+            if (securitySettings.IsAuthenticated)
+            {
+                RunApp();
+            }
+        }
+
+        private void InitializeApplicationServices()
         {
             var builder = new ContainerBuilder();
             builder.AddApplicationServices();
             _servicesContainer = builder.Build();
+        }
 
-            try
-            {
-                _statusService = _servicesContainer.Resolve<IStatusService>();
-                _statusService.StartCheckingConnection();
-                //Task.Run(async () => await );
+        private void StartCheckingApiConnection()
+        {
+            _statusService = _servicesContainer.Resolve<IStatusService>();
+            _statusService.StartCheckingConnection();
+        }
 
-            }
-            catch
-            {
-
-            }
-
+        private void InitializeMainWindow()
+        {
             MainWindow = _servicesContainer.Resolve<MainWindow>();
-            if (MainWindow.DataContext as MainWindowViewModel is not null)
-            {
-                var mainWindowViewModel = (MainWindowViewModel)MainWindow.DataContext;
-                _statusService.StatusChanged += mainWindowViewModel.StatusChanged!;
-            }
-
-            if (false)//Debugger.IsAttached)
-            {
-                RunApp();
-            }
-            else
-            {
-                MainWindow.Hide();
-
-                DisplayAuthenticationWindow();
-
-                var securitySettings = _servicesContainer.Resolve<SecuritySettings>();
-                if (securitySettings.IsAuthenticated)
-                {
-                    RunApp();
-                    return;
-                }
-
-                MainWindow.Close();
-            }
+            MainWindow.Hide();
         }
 
         private void DisplayAuthenticationWindow()
         {
             var viewModel = _servicesContainer.Resolve<AuthenticationViewModel>();
-            _statusService.StatusChanged += viewModel.StatusChanged!;
             var loginWindow = new AuthenticationView(viewModel);
             viewModel.Window = loginWindow;
             loginWindow.ShowDialog();
@@ -96,7 +94,6 @@ namespace DbConfigurator
         private void RunApp()
         {
             MainWindow.Show();
-
         }
     }
 }

@@ -23,8 +23,8 @@ namespace DbConfigurator.UI.Windows.Authentication
         private readonly SecuritySettings _securitySettings;
         private int _accessFailedCount = 0;
 
-        public AuthenticationViewModel(IAccountService accountService, SecuritySettings securitySettings)
-            : base()
+        public AuthenticationViewModel(IAccountService accountService, IStatusService statusService, SecuritySettings securitySettings)
+            : base(statusService)
         {
             _accountService = accountService;
             _securitySettings = securitySettings;

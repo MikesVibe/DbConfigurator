@@ -1,4 +1,5 @@
-﻿using DbConfigurator.UI.ViewModel.Base;
+﻿using DbConfigurator.UI.Base.Contracts;
+using DbConfigurator.UI.ViewModel.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,15 @@ namespace DbConfigurator.UI.Windows
 {
     public class WindowViewModelBase : NotifyBase
     {
-        private string _statusMessage;
+        private readonly IStatusService _statusService;
+        private string _statusMessage = "";
         private bool _isConnected = false;
 
-        public WindowViewModelBase()
+        public WindowViewModelBase(IStatusService statusService)
         {
             UpdateStatusMessage();
+            _statusService = statusService;
+            _statusService.StatusChanged += StatusChanged!;
         }
 
         public bool IsConnected
