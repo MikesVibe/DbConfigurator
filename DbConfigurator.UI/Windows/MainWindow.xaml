@@ -35,12 +35,33 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
         <nav:NavigationPanelView Grid.Column="0" Margin="10"
             DataContext="{Binding NavigationViewModel}"/>
 
         <ContentControl Grid.Column="1"  Content="{Binding SelectedMainPanelViewModel}"/>
+
+        <!-- New status bar -->
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"
+               Background="#E0E0E0" Padding="10" FontSize="14" FontWeight="Bold">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="Status: {0}">
+                    <Binding Path="StatusMessage"/>
+                </MultiBinding>
+            </TextBlock.Text>
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="Green"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsConnected}" Value="False">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
 
     </Grid>
 </Window>

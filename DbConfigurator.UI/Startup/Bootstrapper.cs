@@ -25,6 +25,7 @@ using DbConfigurator.UI.Features.Regions.Services;
 using DbConfigurator.UI.Services;
 using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.Windows;
+using DbConfigurator.UI.Windows.Authentication;
 using Prism.Events;
 
 namespace DbConfigurator.UI.Startup
@@ -38,6 +39,7 @@ namespace DbConfigurator.UI.Startup
 
             builder.RegisterType<Windows.MainWindow>().AsSelf();
             builder.RegisterType<MainWindowViewModel>().AsSelf();
+            builder.RegisterType<AuthenticationViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
             builder.RegisterType<SecuritySettings>().AsSelf().SingleInstance();
 

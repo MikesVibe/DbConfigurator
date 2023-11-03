@@ -8,6 +8,8 @@ namespace DbConfigurator.UI.Base.Contracts
 {
     public interface IStatusService
     {
-        Task<bool> IsConnected();
+        event EventHandler<bool> StatusChanged;
+
+        Task StartCheckingConnection();
     }
 }

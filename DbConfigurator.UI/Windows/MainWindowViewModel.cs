@@ -2,6 +2,7 @@
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.ViewModel.Base;
+using DbConfigurator.UI.Windows;
 using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.ViewModel
 {
-    public class MainWindowViewModel : NotifyBase
+    public class MainWindowViewModel : WindowViewModelBase
     {
         private IIndex<string, IMainPanelViewModel> _mainViewModelCreator;
         private IEventAggregator _eventAggregator;

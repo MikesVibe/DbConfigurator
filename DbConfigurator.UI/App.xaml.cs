@@ -11,6 +11,7 @@ using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 namespace DbConfigurator
 {
@@ -19,11 +20,15 @@ namespace DbConfigurator
     /// </summary>
     public partial class App : Application
     {
+        private IStatusService _statusService;
+        private IContainer _servicesContainer;
+
         public App()
         {
             var currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
+
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
@@ -37,8 +42,26 @@ namespace DbConfigurator
         {
             var builder = new ContainerBuilder();
             builder.AddApplicationServices();
-            var app = builder.Build();
-            MainWindow = app.Resolve<MainWindow>();
+            _servicesContainer = builder.Build();
+
+            try
+            {
+                _statusService = _servicesContainer.Resolve<IStatusService>();
+                _statusService.StartCheckingConnection();
+                //Task.Run(async () => await );
+
+            }
+            catch
+            {
+
+            }
+
+            MainWindow = _servicesContainer.Resolve<MainWindow>();
+            if (MainWindow.DataContext as MainWindowViewModel is not null)
+            {
+                var mainWindowViewModel = (MainWindowViewModel)MainWindow.DataContext;
+                _statusService.StatusChanged += mainWindowViewModel.StatusChanged!;
+            }
 
             if (false)//Debugger.IsAttached)
             {
@@ -48,15 +71,9 @@ namespace DbConfigurator
             {
                 MainWindow.Hide();
 
+                DisplayAuthenticationWindow();
 
-                var accountService = app.Resolve<IAccountService>();
-                var securitySettings = app.Resolve<SecuritySettings>();
-                var statusService = app.Resolve<IStatusService>();
-                var viewModel = new AuthenticationViewModel(accountService, statusService, securitySettings);
-                var loginWindow = new AuthenticationView(viewModel);
-                viewModel.Window = loginWindow;
-                loginWindow.ShowDialog();
-
+                var securitySettings = _servicesContainer.Resolve<SecuritySettings>();
                 if (securitySettings.IsAuthenticated)
                 {
                     RunApp();
@@ -67,9 +84,19 @@ namespace DbConfigurator
             }
         }
 
+        private void DisplayAuthenticationWindow()
+        {
+            var viewModel = _servicesContainer.Resolve<AuthenticationViewModel>();
+            _statusService.StatusChanged += viewModel.StatusChanged!;
+            var loginWindow = new AuthenticationView(viewModel);
+            viewModel.Window = loginWindow;
+            loginWindow.ShowDialog();
+        }
+
         private void RunApp()
         {
             MainWindow.Show();
+
         }
     }
 }
