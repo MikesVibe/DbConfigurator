@@ -87,6 +87,11 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         public async virtual Task LoadAsync()
         {
+            if(_dataService.IsConnected == false)
+            {
+                return;
+            }
+
             var result = await _dataService.GetAllAsyncResult();
             if (result.IsFailed)
             {

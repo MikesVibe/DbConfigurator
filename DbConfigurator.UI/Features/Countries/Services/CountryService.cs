@@ -2,6 +2,7 @@
 using DbConfigurator.DataAccess.DTOs.CountryDtos;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
 
 namespace DbConfigurator.UI.Features.Countries.Services
@@ -10,8 +11,9 @@ namespace DbConfigurator.UI.Features.Countries.Services
     {
         public CountryService(
             IDbConfiguratorApiClient client,
+            IStatusService statusService,
             AutoMapperConfig autoMapper)
-            : base(client, autoMapper, "Country")
+            : base(client, statusService, autoMapper, "Country")
         {
         }
     }

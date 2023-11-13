@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DbConfigurator.DataAccess.DTOs.PriorityDtos;
+using DbConfigurator.UI.Base.Contracts;
 
 namespace DbConfigurator.UI.Features.Priorities.Services
 {
@@ -17,8 +18,9 @@ namespace DbConfigurator.UI.Features.Priorities.Services
     {
         public PriorityService(
             IDbConfiguratorApiClient client,
+            IStatusService statusService,
             AutoMapperConfig autoMapper)
-            : base(client, autoMapper, "Priority")
+            : base(client, statusService, autoMapper, "Priority")
         {
         }
     }

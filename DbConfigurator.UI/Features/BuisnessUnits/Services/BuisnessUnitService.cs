@@ -2,6 +2,7 @@
 using DbConfigurator.DataAccess.DTOs.BusinessUnitDtos;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
 
 namespace DbConfigurator.UI.Features.BuisnessUnits.Services
@@ -10,7 +11,8 @@ namespace DbConfigurator.UI.Features.BuisnessUnits.Services
     {
         public BusinessUnitService(
             IDbConfiguratorApiClient client,
-            AutoMapperConfig autoMapper) : base(client, autoMapper, "BusinessUnit")
+            IStatusService statusService,
+            AutoMapperConfig autoMapper) : base(client, statusService, autoMapper, "BusinessUnit")
         {
         }
         //public BusinessUnitService(BusinessUnitRepository repository, AutoMapperConfig autoMapper) : base(repository, autoMapper)

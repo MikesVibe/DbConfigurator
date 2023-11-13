@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:conver="clr-namespace:DbConfigurator.UI.Converters">
+
+    <!-- Common Converters -->
+    <conver:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+
+    <!-- Common Styles -->
+    <Style x:Key="BlurEffectStyle" TargetType="UserControl">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Blur}" Value="True">
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <BlurEffect Radius="5"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

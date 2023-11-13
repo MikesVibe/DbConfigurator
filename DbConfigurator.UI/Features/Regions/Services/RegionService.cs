@@ -2,6 +2,7 @@
 using DbConfigurator.DataAccess.DTOs.RegionDtos;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Areas.Services;
 using DbConfigurator.UI.Features.BuisnessUnits.Services;
 using DbConfigurator.UI.Features.Countries.Services;
@@ -23,8 +24,9 @@ namespace DbConfigurator.UI.Features.Regions.Services
             IAreaService areaService,
             IBusinessUnitService businessUnitService,
             ICountryService countryService,
+            IStatusService statusService,
             AutoMapperConfig autoMapper)
-        : base(client, autoMapper, "Region")
+        : base(client, statusService, autoMapper, "Region")
         {
             _areaService = areaService;
             _businessUnitService = businessUnitService;

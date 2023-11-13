@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.DataAccess;
+using DbConfigurator.DataAccess.DTOs;
 using DbConfigurator.Model.Contracts;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -20,6 +22,7 @@ namespace DbConfigurator.UI.Base
         where TEntity : class, IEntity, new()
     {
         private readonly IDbConfiguratorApiClient _client;
+        private readonly IStatusService _statusService;
         protected readonly AutoMapperConfig _mapper;
         protected readonly string _controllerName;
         private List<TEntity> _entities = new List<TEntity>();
@@ -28,11 +31,18 @@ namespace DbConfigurator.UI.Base
 
         public GenericDataService(
             IDbConfiguratorApiClient client,
+            IStatusService statusService,
             AutoMapperConfig mapper, string controllerName)
         {
             _client = client;
+            _statusService = statusService;
             _mapper = mapper;
             _controllerName = controllerName;
+        }
+
+        public bool IsConnected
+        {
+            get { return _statusService.IsConnected; }
         }
 
         public async Task<bool> CreateAsync(TEntity entity)
@@ -56,6 +66,18 @@ namespace DbConfigurator.UI.Base
                 // Check if the request was successful
                 if (response.IsSuccessStatusCode)
                 {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    if (responseContent is not null)
+                    {
+                        // Deserialize the response content to TEntityDto
+                        var serializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                        var responseDto = JsonSerializer.Deserialize<EntityIdDto>(responseContent, serializerOptions)!;
+                        
+                        entity.Id = responseDto!.Id;
+                    }
+
+
                     //Console.WriteLine("Data sent successfully!");
                     _entities.Add(entity);
                     _hasChanges = true;
@@ -196,6 +218,7 @@ namespace DbConfigurator.UI.Base
                 }
             }
         }
+
 
         public virtual bool HasChanges()
         {

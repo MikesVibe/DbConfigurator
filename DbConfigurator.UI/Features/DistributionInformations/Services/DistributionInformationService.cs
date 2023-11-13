@@ -4,6 +4,7 @@ using DbConfigurator.DataAccess.DTOs.DistributionInformationDtos;
 using DbConfigurator.DataAccess.DTOs.PriorityDtos;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base;
+using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Areas.Services;
 using DbConfigurator.UI.Features.BuisnessUnits.Services;
 using DbConfigurator.UI.Features.Countries.Services;
@@ -36,9 +37,10 @@ namespace DbConfigurator.UI.Features.DistributionInformations.Services
             ICountryService countryService,
             IPriorityService priorityService,
             IDbConfiguratorApiClient client,
+            IStatusService statusService,
             AutoMapperConfig autoMapper
             )
-            : base(client, autoMapper, "DistributionInformation")
+            : base(client, statusService, autoMapper, "DistributionInformation")
         {
             _recipientService = recipientService;
             _regionService = regionService;

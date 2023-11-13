@@ -5,9 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DbConfigurator.UI.Features.Panels.Region" 
              xmlns:table="clr-namespace:DbConfigurator.UI.View.Table"
+             Style="{StaticResource BlurEffectStyle}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+
+
+
+    <Grid IsEnabled="{Binding Blur, Converter={StaticResource InverseBooleanConverter}}">
         <table:RegionTableView DataContext="{Binding RegionTable}"/>
     </Grid>
 </UserControl>
