@@ -30,16 +30,20 @@
     <Grid IsEnabled="{Binding Blur, Converter={StaticResource InverseBooleanConverter}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <table:AreaTableView Grid.Column="0" DataContext="{Binding AreaTable}"/>
-        <table:BusinessUnitTableView Grid.Column="1" DataContext="{Binding BusinessUnitTable}"/>
+        <table:AreaTableView Height="200" Grid.Column="0" DataContext="{Binding AreaTable}"/>
+        <table:BusinessUnitTableView  Height="200" 
+            HorizontalAlignment="Right"
+            Grid.Column="1" DataContext="{Binding BusinessUnitTable}"/>
 
-        <table:CountryTableView  Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding CountryTable}"/>
+        <table:CountryTableView
+            Margin="0 20 0 0"
+            Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding CountryTable}"/>
     </Grid>
 </UserControl>

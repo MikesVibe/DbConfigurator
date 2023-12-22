@@ -33,9 +33,8 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -45,10 +44,15 @@
         <nav:NavigationPanelView Grid.Column="0" Margin="10"
             DataContext="{Binding NavigationViewModel}"/>
 
-        <ContentControl Grid.Column="1"  Content="{Binding SelectedMainPanelViewModel}"/>
+        <Border Grid.Column="1" Grid.RowSpan="2" 
+                BorderBrush="Black" BorderThickness="1 0 0 0" >
+            <ContentControl 
+                Margin="15"
+                Content="{Binding SelectedMainPanelViewModel}"/>
+        </Border>
 
         <!-- New status bar -->
-        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"
+        <TextBlock Grid.Row="1" Width="180" HorizontalAlignment="Center" VerticalAlignment="Center"
                Background="#E0E0E0" Padding="10" FontSize="14" FontWeight="Bold">
             <TextBlock.Text>
                 <MultiBinding StringFormat="Status: {0}">
