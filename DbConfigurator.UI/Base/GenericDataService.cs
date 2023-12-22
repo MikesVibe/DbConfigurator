@@ -44,6 +44,10 @@ namespace DbConfigurator.UI.Base
         {
             get { return _statusService.IsConnected; }
         }
+        public async Task<bool> CanConnect()
+        {
+            return await _statusService.CanConnect();
+        }
 
         public async Task<bool> CreateAsync(TEntity entity)
         {

@@ -7,6 +7,7 @@ using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
 using Prism.Events;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,29 +17,55 @@ namespace DbConfigurator.UI.Features.Panels.Navigation
     {
         private IEventAggregator _eventAggregator;
 
+        private bool _isAuthorizedToShowDatabaseConfigurationBorder = true;
+        private bool _isAuthorizedToShowNotificationBorder = true;
+
         public NavigationPanelViewModel(IEventAggregator eventAggregator)
         {
-            NavigationItems_ObservableCollection = new ObservableCollection<NavigationItem>();
+            DbConfigurationNavigationItems_ObservableCollection = new ObservableCollection<NavigationItem>();
 
             _eventAggregator = eventAggregator;
         }
-
-        public ObservableCollection<NavigationItem> NavigationItems_ObservableCollection { get; }
+        public bool ShouldShowDatabaseConfigurationBorder
+        {
+            get { return _isAuthorizedToShowDatabaseConfigurationBorder; }
+            set
+            {
+                if (_isAuthorizedToShowDatabaseConfigurationBorder != value)
+                {
+                    _isAuthorizedToShowDatabaseConfigurationBorder = value;
+                }
+            }
+        }
+        public bool ShouldShowNotificationBorder
+        {
+            get { return _isAuthorizedToShowNotificationBorder; }
+            set
+            {
+                if (_isAuthorizedToShowNotificationBorder != value)
+                {
+                    _isAuthorizedToShowNotificationBorder = value;
+                }
+            }
+        }
+        public ObservableCollection<NavigationItem> DbConfigurationNavigationItems_ObservableCollection { get; }
+        public ObservableCollection<NavigationItem> NotificationNavigationItems_ObservableCollection { get; }
 
         public async Task LoadAsync()
         {
             await Task.Delay(0);
 
-            NavigationItems_ObservableCollection.Add(
+            DbConfigurationNavigationItems_ObservableCollection.Add(
                 new NavigationItem(0, "Distribution List", nameof(DistributionInformationPanelViewModel), _eventAggregator));
-            NavigationItems_ObservableCollection.Add(
+            DbConfigurationNavigationItems_ObservableCollection.Add(
                 new NavigationItem(1, "Recipients", nameof(RecipientPanelViewModel), _eventAggregator));
-            NavigationItems_ObservableCollection.Add(
+            DbConfigurationNavigationItems_ObservableCollection.Add(
                 new NavigationItem(2, "Regions", nameof(RegionPanelViewModel), _eventAggregator));
-            NavigationItems_ObservableCollection.Add(
+            DbConfigurationNavigationItems_ObservableCollection.Add(
                    new NavigationItem(3, "Create", nameof(CreationPanelViewModel), _eventAggregator));
 
-            NavigationItems_ObservableCollection.First().OpenTabelViewCommand.Execute(new object());
+            DbConfigurationNavigationItems_ObservableCollection.First().OpenTabelViewCommand.Execute(new object());
         }
+
     }
 }

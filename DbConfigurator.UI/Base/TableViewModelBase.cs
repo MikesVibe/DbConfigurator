@@ -87,7 +87,8 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         public async virtual Task LoadAsync()
         {
-            if(_dataService.IsConnected == false)
+            var isConnected = await _dataService.CanConnect();
+            if (isConnected == false)
             {
                 return;
             }

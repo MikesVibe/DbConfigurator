@@ -12,6 +12,7 @@ namespace DbConfigurator.UI.Base.Contracts
 
         event EventHandler<bool> StatusChanged;
 
+        Task<bool> CanConnect();
         Task StartCheckingConnection();
     }
 }

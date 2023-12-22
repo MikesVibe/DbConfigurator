@@ -20,7 +20,7 @@ namespace DbConfigurator.UI.Base
     public class StatusService : IStatusService
     {
         private readonly IDbConfiguratorApiClient _apiClient;
-        private bool _isConnected;
+        private bool _isConnected = false;
 
 
         public StatusService(IDbConfiguratorApiClient apiClient)
@@ -35,7 +35,7 @@ namespace DbConfigurator.UI.Base
         }
         public event EventHandler<bool> StatusChanged;
 
-        private async Task<bool> CanConnect()
+        public async Task<bool> CanConnect()
         {
             try
             {
@@ -64,8 +64,8 @@ namespace DbConfigurator.UI.Base
                 var result = await CanConnect();
                 if(result != IsConnected)
                 {
-                    StatusChanged?.Invoke(this, result);
                     IsConnected = result;
+                    StatusChanged?.Invoke(this, result);
                 }
                 await Task.Delay(5000);
             }

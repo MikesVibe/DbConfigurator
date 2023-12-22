@@ -4,28 +4,48 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DbConfigurator.UI.Features.Panels.Navigation"
+             xmlns:conver="clr-namespace:DbConfigurator.UI.Converters" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <DataTemplate x:Key="NaviItemTemplate">
             <Button Content="{Binding DisplayMember}"
                     Command="{Binding OpenTabelViewCommand}"
-                    FontSize="16" Margin="2,5,2,15" Height="32"/>
+                    FontSize="16" Margin="5" Height="36"/>
         </DataTemplate>
+
+        <conver:VisibilityConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
-    <Grid>
+    
+    <Grid Width="150">
         <Grid.RowDefinitions>
-            <RowDefinition Height="300"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150" />
-        </Grid.ColumnDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding NavigationItems_ObservableCollection }"
+
+        <GroupBox 
+                BorderBrush="Black" BorderThickness="1" Margin="0 10 0 10"
+                Header="Database Configuration" Visibility="{Binding ShouldShowDatabaseConfigurationBorder, Converter={StaticResource VisibilityConverter}}">
+            <ScrollViewer
+                          VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding DbConfigurationNavigationItems_ObservableCollection}"
                             ItemTemplate="{StaticResource NaviItemTemplate}">
-            </ItemsControl>
-        </ScrollViewer>
+                </ItemsControl>
+            </ScrollViewer>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" 
+                  BorderBrush="Black" BorderThickness="1" Margin="0 10 0 10"
+                  Header="Notification" Visibility="{Binding ShouldShowNotificationBorder, Converter={StaticResource VisibilityConverter}}">
+            <ScrollViewer
+                          VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding NotificationNavigationItems_ObservableCollection}"
+                            ItemTemplate="{StaticResource NaviItemTemplate}">
+                </ItemsControl>
+            </ScrollViewer>
+        </GroupBox>
     </Grid>
 </UserControl>

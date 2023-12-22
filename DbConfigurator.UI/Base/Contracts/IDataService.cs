@@ -18,5 +18,6 @@ namespace DbConfigurator.UI.Base.Contracts
         bool HasChanges();
         bool ChildrenHaveChanges();
         Task<Result<IEnumerable<TEntity>>> GetAllAsyncResult();
+        Task<bool> CanConnect();
     }
 }

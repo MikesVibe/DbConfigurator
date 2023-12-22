@@ -30,7 +30,8 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         public async Task LoadAsync()
         {
-            if(FirstRun && _statusService.IsConnected)
+            var isConnected = await _statusService.CanConnect();
+            if (FirstRun && isConnected)// && _statusService.IsConnected)
             {
                 await LoadDataAsync();
             }

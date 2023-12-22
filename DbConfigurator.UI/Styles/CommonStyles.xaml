@@ -4,6 +4,7 @@
 
     <!-- Common Converters -->
     <conver:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    <conver:VisibilityConverter x:Key="VisibilityConverter" />
 
     <!-- Common Styles -->
     <Style x:Key="BlurEffectStyle" TargetType="UserControl">
