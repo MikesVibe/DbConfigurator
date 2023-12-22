@@ -15,6 +15,7 @@ using DbConfigurator.UI.Features.DistributionInformations.Services;
 using DbConfigurator.UI.Features.Panels.Creation;
 using DbConfigurator.UI.Features.Panels.DistributionInformation;
 using DbConfigurator.UI.Features.Panels.Navigation;
+using DbConfigurator.UI.Features.Panels.Notification;
 using DbConfigurator.UI.Features.Panels.Recipient;
 using DbConfigurator.UI.Features.Panels.Region;
 using DbConfigurator.UI.Features.Priorities.Services;
@@ -70,6 +71,8 @@ namespace DbConfigurator.UI.Startup
                  .Keyed<IMainPanelViewModel>(nameof(RegionPanelViewModel));
             builder.RegisterType<CreationPanelViewModel>()
                  .Keyed<IMainPanelViewModel>(nameof(CreationPanelViewModel));
+            builder.RegisterType<NotificationPanelViewModel>()
+                 .Keyed<IMainPanelViewModel>(nameof(NotificationPanelViewModel));
 
             //Table View Models
             builder.RegisterType<AreaTableViewModel>()

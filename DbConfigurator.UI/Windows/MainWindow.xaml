@@ -8,6 +8,7 @@
         xmlns:rec="clr-namespace:DbConfigurator.UI.Features.Panels.Recipient"
         xmlns:reg="clr-namespace:DbConfigurator.UI.Features.Panels.Region"
         xmlns:cr="clr-namespace:DbConfigurator.UI.Features.Panels.Creation"
+        xmlns:not="clr-namespace:DbConfigurator.UI.Features.Panels.Notification"
         mc:Ignorable="d"
         Title="DbConfigurator" Height="750" Width="1200" 
         WindowStartupLocation="CenterScreen" 
@@ -25,6 +26,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type cr:CreationPanelViewModel}">
             <cr:CreationPanelView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type not:NotificationPanelViewModel}">
+            <not:NotificationPanelView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>

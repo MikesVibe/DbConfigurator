@@ -1,6 +1,7 @@
 ﻿using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Panels.Creation;
 using DbConfigurator.UI.Features.Panels.DistributionInformation;
+using DbConfigurator.UI.Features.Panels.Notification;
 using DbConfigurator.UI.Features.Panels.Recipient;
 using DbConfigurator.UI.Features.Panels.Region;
 using DbConfigurator.UI.ViewModel.Base;
@@ -22,8 +23,6 @@ namespace DbConfigurator.UI.Features.Panels.Navigation
 
         public NavigationPanelViewModel(IEventAggregator eventAggregator)
         {
-            DbConfigurationNavigationItems_ObservableCollection = new ObservableCollection<NavigationItem>();
-
             _eventAggregator = eventAggregator;
         }
         public bool ShouldShowDatabaseConfigurationBorder
@@ -48,8 +47,8 @@ namespace DbConfigurator.UI.Features.Panels.Navigation
                 }
             }
         }
-        public ObservableCollection<NavigationItem> DbConfigurationNavigationItems_ObservableCollection { get; }
-        public ObservableCollection<NavigationItem> NotificationNavigationItems_ObservableCollection { get; }
+        public ObservableCollection<NavigationItem> DbConfigurationNavigationItems_ObservableCollection { get; } = new ObservableCollection<NavigationItem>();
+        public ObservableCollection<NavigationItem> NotificationNavigationItems_ObservableCollection { get; } = new ObservableCollection<NavigationItem>();
 
         public async Task LoadAsync()
         {
@@ -62,7 +61,10 @@ namespace DbConfigurator.UI.Features.Panels.Navigation
             DbConfigurationNavigationItems_ObservableCollection.Add(
                 new NavigationItem(2, "Regions", nameof(RegionPanelViewModel), _eventAggregator));
             DbConfigurationNavigationItems_ObservableCollection.Add(
-                   new NavigationItem(3, "Create", nameof(CreationPanelViewModel), _eventAggregator));
+                new NavigationItem(3, "Other", nameof(CreationPanelViewModel), _eventAggregator));
+
+            NotificationNavigationItems_ObservableCollection.Add(
+                new NavigationItem(0, "Create", nameof(NotificationPanelViewModel), _eventAggregator));
 
             DbConfigurationNavigationItems_ObservableCollection.First().OpenTabelViewCommand.Execute(new object());
         }

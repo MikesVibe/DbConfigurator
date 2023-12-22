@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Panels.DistributionInformation
 {
-    public class DistributionInformationPanelViewModel : PanelViewModelBase, IDistributionInformationPanelViewModel
+    public class DistributionInformationPanelViewModel : PanelViewModelBase, IMainPanelViewModel
     {
         public DistributionInformationPanelViewModel(
             IIndex<string, ITableViewModel> tableViewModelCreator,
