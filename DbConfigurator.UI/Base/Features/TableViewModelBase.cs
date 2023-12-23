@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.Contracts;
+﻿using DbConfigurator.Authentication;
+using DbConfigurator.Model.Contracts;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using static DbConfigurator.Authentication.Role;
 
 namespace DbConfigurator.UI.ViewModel.Base
 {
@@ -30,15 +32,17 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected readonly TDataService _dataService;
         protected readonly Func<IDetailViewModel> _detailViewModelCreator;
         protected readonly AutoMapperConfig _autoMapper;
-
+        private readonly SecuritySettings _securitySettings;
         private int _id;
         private bool _hasChanges;
+        private bool _isAuthorizedToShowEditingPanel = false;
 
         public TableViewModelBase(IEventAggregator eventAggregator,
             IEditingWindowService dialogService,
             TDataService dataService,
             Func<IDetailViewModel> detailViewModel,
-            AutoMapperConfig autoMapper)
+            AutoMapperConfig autoMapper,
+            SecuritySettings securitySettings)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<TCreateEvent>()
@@ -50,6 +54,9 @@ namespace DbConfigurator.UI.ViewModel.Base
             _dataService = dataService;
             _detailViewModelCreator = detailViewModel;
             _autoMapper = autoMapper;
+            _securitySettings = securitySettings;
+            _securitySettings.UserLoggedIn += OnUserLoginExecute;
+            OnUserLoginExecute(new object(), new UserLoggedInEventArgs());
 
             AddCommand = new DelegateCommand(OnAddExecute);
             EditCommand = new DelegateCommand(OnEditExecute, OnEditCanExecute);
@@ -84,6 +91,23 @@ namespace DbConfigurator.UI.ViewModel.Base
         public ObservableCollection<TEntityWrapper> Items { get; set; } = new();
         public TEntityWrapper? SelectedItem { get; set; }
 
+        private void OnUserLoginExecute(object sender, UserLoggedInEventArgs e)
+        {
+            if (_securitySettings.IsAuthorized(new() { new Role(UserRole.Admin), new Role(UserRole.DatabaseManager) }))
+            {
+                ShouldShowEditingPanel = true;
+            }
+        }
+
+        public bool ShouldShowEditingPanel
+        {
+            get { return _isAuthorizedToShowEditingPanel; }
+            set
+            {
+                _isAuthorizedToShowEditingPanel = value;
+                OnPropertyChanged();
+            }
+        }
 
         public async virtual Task LoadAsync()
         {

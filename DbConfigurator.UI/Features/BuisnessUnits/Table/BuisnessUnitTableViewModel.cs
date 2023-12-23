@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Wrapper;
+﻿using DbConfigurator.Authentication;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
@@ -19,8 +20,9 @@ namespace DbConfigurator.UI.Features.BusinessUnits
             IEditingWindowService dialogService,
             IBusinessUnitService dataService,
             AutoMapperConfig autoMapper,
-            Func<BusinessUnitDetailViewModel> BusinessUnitDetailViewModelCreator)
-            : base(eventAggregator, dialogService, dataService, BusinessUnitDetailViewModelCreator, autoMapper)
+            Func<BusinessUnitDetailViewModel> BusinessUnitDetailViewModelCreator,
+            SecuritySettings securitySettings)
+            : base(eventAggregator, dialogService, dataService, BusinessUnitDetailViewModelCreator, autoMapper, securitySettings)
         {
         }
     }

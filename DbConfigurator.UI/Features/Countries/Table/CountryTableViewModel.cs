@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Wrapper;
+﻿using DbConfigurator.Authentication;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
@@ -20,8 +21,9 @@ namespace DbConfigurator.UI.Features.Countries
             IEditingWindowService dialogService,
             ICountryService dataService,
             AutoMapperConfig autoMapper,
-            Func<CountryDetailViewModel> countryDetailViewModelCreator)
-            : base(eventAggregator, dialogService, dataService, countryDetailViewModelCreator, autoMapper)
+            Func<CountryDetailViewModel> countryDetailViewModelCreator,
+            SecuritySettings securitySettings)
+            : base(eventAggregator, dialogService, dataService, countryDetailViewModelCreator, autoMapper, securitySettings)
         {
         }
     }

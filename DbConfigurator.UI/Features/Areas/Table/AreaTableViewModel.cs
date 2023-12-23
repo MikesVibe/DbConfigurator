@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Wrapper;
+﻿using DbConfigurator.Authentication;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
@@ -21,8 +22,9 @@ namespace DbConfigurator.UI.Features.Areas
             IEditingWindowService dialogService,
             IAreaService dataService,
             Func<AreaDetailViewModel> areaDetailViewModelCreator,
-            AutoMapperConfig autoMapper)
-            : base(eventAggregator, dialogService, dataService, areaDetailViewModelCreator, autoMapper)
+            AutoMapperConfig autoMapper,
+            SecuritySettings securitySettings)
+            : base(eventAggregator, dialogService, dataService, areaDetailViewModelCreator, autoMapper, securitySettings)
         {
         }
     }

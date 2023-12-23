@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.DTOs.Wrapper;
+﻿using DbConfigurator.Authentication;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
@@ -26,8 +27,9 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             IEventAggregator eventAggregator,
             IDistributionInformationService dataService,
             Func<DistributionInformationDetailViewModel> DistributionInformationDetailVmCreator,
-            AutoMapperConfig autoMapper
-            ) : base(eventAggregator, dialogService, dataService, DistributionInformationDetailVmCreator, autoMapper)
+            AutoMapperConfig autoMapper,
+            SecuritySettings securitySettings
+            ) : base(eventAggregator, dialogService, dataService, DistributionInformationDetailVmCreator, autoMapper, securitySettings)
         {
             _eventAggregator.GetEvent<SelectedNotificationDistributionList>()
                 .Subscribe(OnDistributionListSelected);

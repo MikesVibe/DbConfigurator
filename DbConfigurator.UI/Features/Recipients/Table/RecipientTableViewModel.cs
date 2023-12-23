@@ -1,4 +1,5 @@
-﻿using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Authentication;
+using DbConfigurator.Model.Entities.Core;
 using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
@@ -21,8 +22,9 @@ namespace DbConfigurator.UI.Features.Recipients
             IEditingWindowService dialogService,
             IRecipientService dataService,
             AutoMapperConfig autoMapper,
-            Func<RecipientDetailViewModel> addRecipientViewModelCreator
-            ) : base(eventAggregator, dialogService, dataService, addRecipientViewModelCreator, autoMapper)
+            Func<RecipientDetailViewModel> addRecipientViewModelCreator,
+            SecuritySettings securitySettings
+            ) : base(eventAggregator, dialogService, dataService, addRecipientViewModelCreator, autoMapper, securitySettings)
         {
         }
     }
