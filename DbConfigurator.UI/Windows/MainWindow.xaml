@@ -47,7 +47,7 @@
         <Border Grid.Column="1" Grid.RowSpan="2" 
                 BorderBrush="Black" BorderThickness="1 0 0 0" >
             <ContentControl 
-                Margin="15"
+                Margin="15 15 0 15"
                 Content="{Binding SelectedMainPanelViewModel}"/>
         </Border>
 

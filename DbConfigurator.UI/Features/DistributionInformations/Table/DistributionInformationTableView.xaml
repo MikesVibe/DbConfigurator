@@ -7,19 +7,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <DataGrid
             CanUserResizeRows="False" IsReadOnly="True" SelectionMode="Single"
             ItemsSource="{Binding Items, Mode=TwoWay}"
             SelectedItem="{Binding  SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            AutoGenerateColumns="False" FontSize="11" Height="600">
+            AutoGenerateColumns="False" FontSize="11">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding SelectionChangedCommand }"/>
@@ -59,21 +55,14 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Column="1" >
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0" VerticalAlignment="Top" Margin="0 10">
-                <Button Content="Create" Width="125" Height="45" Margin="10"
+        <StackPanel Grid.Column="1" VerticalAlignment="Top">
+            <Button Content="Create" Height="45" Margin="10"
                     Command="{Binding AddCommand}"/>
-                <Button Content="Edit" Width="125" Height="45" Margin="10"
+            <Button Content="Edit" Height="45" Margin="10"
                     Command="{Binding EditCommand}"/>
-                <Button Content="Remove" Width="125" Height="45" Margin="10"
+            <Button Content="Remove" Height="45" Margin="10"
                     Command="{Binding RemoveCommand}"/>
-            </StackPanel>
-        </Grid>
+        </StackPanel>
     </Grid>
 
 </UserControl>
