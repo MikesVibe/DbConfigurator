@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DbConfigurator.UI.Features.Panels.Navigation
+namespace DbConfigurator.UI.Features.Panels.NavigationPanel
 {
     /// <summary>
     /// Interaction logic for NavigationPanelView.xaml

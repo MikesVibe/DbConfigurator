@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DbConfigurator.UI.Features.Panels.DistributionInformation
+namespace DbConfigurator.UI.Features.Panels.DistributionInformationPanel
 {
     /// <summary>
     /// Interaction logic for DistributionInformationPanelView.xaml

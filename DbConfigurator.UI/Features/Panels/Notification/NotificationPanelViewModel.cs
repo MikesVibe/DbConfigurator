@@ -21,7 +21,7 @@ using DbConfigurator.UI.Features.Areas.Event;
 using Prism.Events;
 using DbConfigurator.UI.Features.Notifications.Event;
 
-namespace DbConfigurator.UI.Features.Panels.Notification
+namespace DbConfigurator.UI.Features.Panels.NotificationPanel
 {
     public class NotificationPanelViewModel : PanelViewModelBase, IMainPanelViewModel
     {

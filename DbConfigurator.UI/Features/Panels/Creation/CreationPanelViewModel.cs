@@ -6,7 +6,7 @@ using DbConfigurator.UI.Features.Countries;
 using DbConfigurator.UI.ViewModel.Base;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Features.Panels.Creation
+namespace DbConfigurator.UI.Features.Panels.CreationPanel
 {
     public class CreationPanelViewModel : PanelViewModelBase, IMainPanelViewModel
     {

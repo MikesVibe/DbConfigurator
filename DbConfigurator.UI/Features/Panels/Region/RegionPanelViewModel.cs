@@ -4,7 +4,7 @@ using DbConfigurator.UI.Features.Regions;
 using DbConfigurator.UI.ViewModel.Base;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Features.Panels.Region
+namespace DbConfigurator.UI.Features.Panels.RegionPanel
 {
     public class RegionPanelViewModel : PanelViewModelBase
     {

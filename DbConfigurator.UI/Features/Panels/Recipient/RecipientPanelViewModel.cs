@@ -4,7 +4,7 @@ using DbConfigurator.UI.Features.Recipients;
 using DbConfigurator.UI.ViewModel.Base;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Features.Panels.Recipient
+namespace DbConfigurator.UI.Features.Panels.RecipientPanel
 {
     public class RecipientPanelViewModel : PanelViewModelBase
     {

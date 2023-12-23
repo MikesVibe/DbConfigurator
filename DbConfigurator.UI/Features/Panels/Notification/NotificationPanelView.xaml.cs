@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DbConfigurator.UI.Features.Panels.Notification
+namespace DbConfigurator.UI.Features.Panels.NotificationPanel
 {
     /// <summary>
     /// Interaction logic for NotificationPanelView.xaml

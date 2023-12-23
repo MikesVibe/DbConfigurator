@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DbConfigurator.UI.Features.Panels.Creation
+namespace DbConfigurator.UI.Features.Panels.CreationPanel
 {
     /// <summary>
     /// Interaction logic for CreationPanelView.xaml
