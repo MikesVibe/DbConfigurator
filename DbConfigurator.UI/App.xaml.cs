@@ -13,6 +13,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using static DbConfigurator.Authentication.Role;
+
 namespace DbConfigurator
 {
     /// <summary>
@@ -37,7 +39,12 @@ namespace DbConfigurator
 
             if (Debugger.IsAttached)
             {
-                RunApp();
+                var securitySettings = _servicesContainer.Resolve<SecuritySettings>();
+                //securitySettings.Login(new User { UserName = "Anonymous" });
+                //securitySettings.Login(new User { UserName = "Anonymous", UserRoles = new() { "Admin" } });
+                securitySettings.Login(new User { UserName = "Anonymous", UserRoles = new() { "SecurityAnalyst" } });
+
+                LoginIntoApplication();
             }
             else
             {

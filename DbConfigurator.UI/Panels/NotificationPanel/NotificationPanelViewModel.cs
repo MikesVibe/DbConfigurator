@@ -51,6 +51,11 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             Incident,
             Event
         }
+        public enum MatchingRegion
+        {
+            Country,
+            CountryAndBuisnessUnit
+        }
         public enum RegionField
         {
             Area = 0,
@@ -320,9 +325,9 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
 
         
 
-        private async Task<Result<IEnumerable<Model.Entities.Core.DistributionInformation>>> GetDistribiutionInfoWithMatchingRegions(string gbu)
+        private async Task<Result<IEnumerable<DistributionInformation>>> GetDistribiutionInfoWithMatchingRegions(string gbu)
         {
-            var disInfoToReturn = new List<Model.Entities.Core.DistributionInformation>();
+            var disInfoToReturn = new List<DistributionInformation>();
 
             var distributionInformation = await _distributionInformationService.GetAllAsync();
             var allAreas = await _areaService.GetAllAsync();
@@ -355,60 +360,35 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
                 d.Region.BusinessUnit.Name.ToUpper() == "ANY" &&
                 d.Region.Country.CountryName.ToUpper() == "ANY"));
 
-            Model.Entities.Core.Region exactlyMatchedRegion;
+            Region exactlyMatchedRegion;
 
             if (matchingByArea.Count() == 1)
             {
                 var matchedArea = matchingByArea.Single();
                 exactlyMatchedRegion = allRegions.Where(r => r.Area.Id == matchedArea.Id).First();
 
-                var partiallyMatchedRegion = allRegions.Where(r =>
-                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
-                    r.BusinessUnit.Name.ToUpper() == "ANY" &&
-                    r.Country.CountryName.ToUpper() == "ANY").Single();
-
-                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id));
+                var disInfo = await GetMatchingDistributionInformationWithAny(exactlyMatchedRegion, MatchingRegion.CountryAndBuisnessUnit);
+                disInfoToReturn.AddRange(disInfo);
             }
             else if (matchingByBusinessUnit.Count() == 1)
             {
                 var matchedBuisnessUnit = matchingByBusinessUnit.Single();
                 exactlyMatchedRegion = allRegions.Where(r => r.BusinessUnit.Id == matchedBuisnessUnit.Id).First();
 
-
-                var partiallyMatchedRegion = allRegions.Where(r =>
-                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
-                    r.BusinessUnit.Name.ToUpper() == "ANY" &&
-                    r.Country.CountryName.ToUpper() == "ANY").Single();
-
-                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id));
-
-
-                partiallyMatchedRegion = allRegions.Where(r =>
-                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
-                    r.BusinessUnit.Id == exactlyMatchedRegion.BusinessUnit.Id &&
-                    r.Country.CountryName.ToUpper() == "ANY").Single();
-
-                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id));
+                var disInfo = await GetMatchingDistributionInformationWithAny(exactlyMatchedRegion, MatchingRegion.CountryAndBuisnessUnit);
+                disInfoToReturn.AddRange(disInfo);
+                disInfo = await GetMatchingDistributionInformationWithAny(exactlyMatchedRegion, MatchingRegion.Country);
+                disInfoToReturn.AddRange(disInfo);
             }
             else if (matchingByCountryName.Count() == 1 || matchingByCountryCode.Count() == 1)
             {
                 var matchedCountry = matchingByCountryName.SingleOrDefault() ?? matchingByCountryCode.Single();
                 exactlyMatchedRegion = allRegions.Where(r => r.Country.Id == matchedCountry.Id).Single();
 
-                var partiallyMatchedRegion = allRegions.Where(r =>
-                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
-                    r.BusinessUnit.Name.ToUpper() == "ANY" &&
-                    r.Country.CountryName.ToUpper() == "ANY").Single();
-
-                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id));
-
-
-                partiallyMatchedRegion = allRegions.Where(r =>
-                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
-                    r.BusinessUnit.Id == exactlyMatchedRegion.BusinessUnit.Id &&
-                    r.Country.CountryName.ToUpper() == "ANY").Single();
-
-                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id));
+                var disInfo = await GetMatchingDistributionInformationWithAny(exactlyMatchedRegion, MatchingRegion.CountryAndBuisnessUnit);
+                disInfoToReturn.AddRange(disInfo);
+                disInfo = await GetMatchingDistributionInformationWithAny(exactlyMatchedRegion, MatchingRegion.Country);
+                disInfoToReturn.AddRange(disInfo);
 
                 //Add distributionInformation that contains matching Region
                 disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == exactlyMatchedRegion.Id).ToList());
@@ -423,6 +403,35 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
 
 
             return disInfoToReturn;
+        }
+
+        private async Task<IEnumerable<DistributionInformation>> GetMatchingDistributionInformationWithAny(Region exactlyMatchedRegion, MatchingRegion matchingRegion)
+        {
+            var distributionInformation = await _distributionInformationService.GetAllAsync();
+            var allRegions = await _regionService.GetAllAsync();
+
+            if(matchingRegion == MatchingRegion.CountryAndBuisnessUnit)
+            {
+                var partiallyMatchedRegion = allRegions.Where(r =>
+                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
+                    r.BusinessUnit.Name.ToUpper() == "ANY" &&
+                    r.Country.CountryName.ToUpper() == "ANY").Single();
+
+                return distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id);
+            }
+            else if (matchingRegion == MatchingRegion.Country)
+            {
+                var partiallyMatchedRegion = allRegions.Where(r =>
+                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
+                    r.BusinessUnit.Id == exactlyMatchedRegion.BusinessUnit.Id &&
+                    r.Country.CountryName.ToUpper() == "ANY").Single();
+
+                return distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id);
+            }
+            else
+            {
+                return new List<DistributionInformation>();
+            }
         }
     }
 }
