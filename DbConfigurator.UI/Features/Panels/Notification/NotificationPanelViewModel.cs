@@ -15,6 +15,11 @@ using DbConfigurator.UI.Features.Areas.Services;
 using DbConfigurator.UI.Features.BuisnessUnits.Services;
 using DbConfigurator.UI.Features.Countries.Services;
 using DbConfigurator.UI.Features.Priorities.Services;
+using DbConfigurator.UI.Features.Regions.Services;
+using DbConfigurator.DataAccess.DTOs;
+using DbConfigurator.UI.Features.Areas.Event;
+using Prism.Events;
+using DbConfigurator.UI.Features.Notifications.Event;
 
 namespace DbConfigurator.UI.Features.Panels.Notification
 {
@@ -38,6 +43,8 @@ namespace DbConfigurator.UI.Features.Panels.Notification
         private readonly IBusinessUnitService _businessUnitService;
         private readonly ICountryService _countryService;
         private readonly IPriorityService _priorityService;
+        private readonly IRegionService _regionService;
+        private readonly IEventAggregator _eventAggregator;
 
         public enum TicketType
         {
@@ -57,7 +64,9 @@ namespace DbConfigurator.UI.Features.Panels.Notification
             IAreaService areaService,
             IBusinessUnitService businessUnitService,
             ICountryService countryService, 
-            IPriorityService priorityService)
+            IPriorityService priorityService,
+            IRegionService regionService,
+            IEventAggregator eventAggregator)
             : base(statusService)
         {
             GetFromOutlookCommand = new DelegateCommand(OnGetFromOutlookExecute);
@@ -71,6 +80,8 @@ namespace DbConfigurator.UI.Features.Panels.Notification
             _businessUnitService = businessUnitService;
             _countryService = countryService;
             _priorityService = priorityService;
+            _regionService = regionService;
+            _eventAggregator = eventAggregator;
         }
 
 
@@ -211,7 +222,7 @@ namespace DbConfigurator.UI.Features.Panels.Notification
             SelectPriorityByName("P2");
 
 
-            MessageBox.Show($"Successfully retrieved data");
+            //MessageBox.Show($"Successfully retrieved data");
         }
         private void OnCreateTicketExecute()
         {
@@ -220,14 +231,17 @@ namespace DbConfigurator.UI.Features.Panels.Notification
             OpenedTime = OpenedDate.Value.ToShortTimeString();
             OpenedBy = "Mikołaj Mrukowski";
 
-            MessageBox.Show($"Successfully created ticket with number: {TicketNumber}");
+            //MessageBox.Show($"Successfully created ticket with number: {TicketNumber}");
         }
         private async void OnCreateNotificationExecute()
         {
             var result = await GetDistributionListBySingleName();
             if(result.IsSuccess)
             {
-                MessageBox.Show($"Successfully create notification");
+                var body = CreateNotificationBody(result.Value);
+
+
+                MessageBox.Show($"Successfully create notification\n\n{body}");
             }
             else
             {
@@ -235,6 +249,21 @@ namespace DbConfigurator.UI.Features.Panels.Notification
             }
         }
 
+        private string CreateNotificationBody(DistributionList distributionList)
+        {
+            string toEmails = string.Join(", ", distributionList.RecipientsTo.Select(r => r.Email));
+            string ccEmails = string.Join(", ", distributionList.RecipientsCc.Select(r => r.Email));
+
+            string toReturn = $"Ticket Type: {SelectedTicketType.ToString()}\n" +
+                $"Ticket Number: {TicketNumber}\n" +
+                $"Ticket Summary: {TicketSummary}\n" +
+                $"Priority: {SelectedPriority}\n" +
+                $"GBUs: {GBUs}\n" +
+                $"Recipients To: {toEmails}\n" +
+                $"Recipients Cc: {ccEmails}\n";
+
+            return toReturn;
+        }
 
         private string GenerateTicketNumber()
         {
@@ -249,8 +278,8 @@ namespace DbConfigurator.UI.Features.Panels.Notification
         protected override async Task LoadDataAsync()
         {
             var priorities = await _priorityService.GetAllAsync();
-            Priorities = priorities.ToList();
-            SelectPriorityByName("ANY");
+            Priorities = priorities.Where(p => p.Name.ToUpper() != "ANY").ToList();
+            SelectPriorityByName("P4");
 
             return;
         }
@@ -268,10 +297,17 @@ namespace DbConfigurator.UI.Features.Panels.Notification
             {
                 return Result.Fail("Fail");
             }
-            //var matchingDisInfo = GetDisInfoWithMatchingRegionField(matchinRegionField);
 
             var matchingDisInfoByPriority = result.Value.Where(d =>
                 d.Priority.Value >= SelectedPriority.Value);
+
+            var idsList = matchingDisInfoByPriority.Select(d => d.Id).ToList();
+            _eventAggregator.GetEvent<SelectedNotificationDistributionList>()
+                  .Publish(
+                new SelectedNotificationDistributionListArgs
+                {
+                    DistributionInformationIds = idsList,
+                });
 
             foreach (var disfInfo in matchingDisInfoByPriority)
             {
@@ -286,10 +322,14 @@ namespace DbConfigurator.UI.Features.Panels.Notification
 
         private async Task<Result<IEnumerable<Model.Entities.Core.DistributionInformation>>> GetDistribiutionInfoWithMatchingRegions(string gbu)
         {
+            var disInfoToReturn = new List<Model.Entities.Core.DistributionInformation>();
+
             var distributionInformation = await _distributionInformationService.GetAllAsync();
             var allAreas = await _areaService.GetAllAsync();
             var allBuisnessUnits = await _businessUnitService.GetAllAsync();
             var allCountries = await _countryService.GetAllAsync();
+            var allRegions = await _regionService.GetAllAsync();
+
             if (
                 allAreas == null ||
                 allBuisnessUnits == null ||
@@ -309,32 +349,80 @@ namespace DbConfigurator.UI.Features.Panels.Notification
             var matchingByCountryCode = allCountries.Where(d =>
                 d.CountryCode == gbu).ToList();
 
+            //Add distribution information that matches ANY-thing
+            disInfoToReturn.AddRange(distributionInformation.Where(d =>
+                d.Region.Area.Name.ToUpper() == "ANY" &&
+                d.Region.BusinessUnit.Name.ToUpper() == "ANY" &&
+                d.Region.Country.CountryName.ToUpper() == "ANY"));
+
+            Model.Entities.Core.Region exactlyMatchedRegion;
+
             if (matchingByArea.Count() == 1)
             {
-                return distributionInformation.Where(d => d.Region.Area.Id == matchingByArea.Single().Id).ToList();
+                var matchedArea = matchingByArea.Single();
+                exactlyMatchedRegion = allRegions.Where(r => r.Area.Id == matchedArea.Id).First();
+
+                var partiallyMatchedRegion = allRegions.Where(r =>
+                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
+                    r.BusinessUnit.Name.ToUpper() == "ANY" &&
+                    r.Country.CountryName.ToUpper() == "ANY").Single();
+
+                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id));
             }
-            if (matchingByBusinessUnit.Count() == 1)
+            else if (matchingByBusinessUnit.Count() == 1)
             {
-                return distributionInformation.Where(d => d.Region.BusinessUnit.Id == matchingByBusinessUnit.Single().Id).ToList();
+                var matchedBuisnessUnit = matchingByBusinessUnit.Single();
+                exactlyMatchedRegion = allRegions.Where(r => r.BusinessUnit.Id == matchedBuisnessUnit.Id).First();
+
+
+                var partiallyMatchedRegion = allRegions.Where(r =>
+                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
+                    r.BusinessUnit.Name.ToUpper() == "ANY" &&
+                    r.Country.CountryName.ToUpper() == "ANY").Single();
+
+                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id));
+
+
+                partiallyMatchedRegion = allRegions.Where(r =>
+                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
+                    r.BusinessUnit.Id == exactlyMatchedRegion.BusinessUnit.Id &&
+                    r.Country.CountryName.ToUpper() == "ANY").Single();
+
+                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id));
             }
-            if (matchingByCountryName.Count() == 1 || matchingByCountryCode.Count() == 1)
+            else if (matchingByCountryName.Count() == 1 || matchingByCountryCode.Count() == 1)
             {
                 var matchedCountry = matchingByCountryName.SingleOrDefault() ?? matchingByCountryCode.Single();
-                //Find first item in distributionInformation that contains matching Country
-                var disInfoWithMatchingCountry = distributionInformation.Where(d => d.Region.Country.Id == matchedCountry.Id).ToList();
-                var firstExactCountryMatch = disInfoWithMatchingCountry.FirstOrDefault();
-                if (firstExactCountryMatch is null)
-                    return Result.Fail("Fail");
+                exactlyMatchedRegion = allRegions.Where(r => r.Country.Id == matchedCountry.Id).Single();
 
-                disInfoWithMatchingCountry.AddRange(distributionInformation.Where(d =>
-                d.Region.BusinessUnit.Id == firstExactCountryMatch.Region.BusinessUnit.Id &&
-                d.Region.Country.CountryName == "ANY"));
+                var partiallyMatchedRegion = allRegions.Where(r =>
+                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
+                    r.BusinessUnit.Name.ToUpper() == "ANY" &&
+                    r.Country.CountryName.ToUpper() == "ANY").Single();
 
-                return disInfoWithMatchingCountry;
+                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id));
+
+
+                partiallyMatchedRegion = allRegions.Where(r =>
+                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
+                    r.BusinessUnit.Id == exactlyMatchedRegion.BusinessUnit.Id &&
+                    r.Country.CountryName.ToUpper() == "ANY").Single();
+
+                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id));
+
+                //Add distributionInformation that contains matching Region
+                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == exactlyMatchedRegion.Id).ToList());
+            }
+            else
+            {
+                return Result.Fail("Fail");
             }
 
 
-            return Result.Fail("Fail");
+
+
+
+            return disInfoToReturn;
         }
     }
 }

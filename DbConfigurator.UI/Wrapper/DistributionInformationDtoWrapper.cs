@@ -7,6 +7,7 @@ namespace DbConfigurator.Model.DTOs.Wrapper
 {
     public class DistributionInformationWrapper : ModelWrapper<DistributionInformation>, IWrapperWithId
     {
+        private bool _isSelected = false;
         public DistributionInformationWrapper(DistributionInformation model) : base(model)
         {
         }
@@ -50,6 +51,16 @@ namespace DbConfigurator.Model.DTOs.Wrapper
             set
             {
                 SetValue(value);
+            }
+        }
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set 
+            {
+                _isSelected = value;
+                OnPropertyChanged();
             }
         }
     }
