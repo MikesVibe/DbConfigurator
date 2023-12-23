@@ -4,7 +4,7 @@ using Prism.Commands;
 using Prism.Events;
 using System.Windows.Input;
 
-namespace DbConfigurator.UI.Features.Panels.NavigationPanel
+namespace DbConfigurator.UI.Panels.NavigationPanel
 {
     public class NavigationItem : NotifyBase
     {

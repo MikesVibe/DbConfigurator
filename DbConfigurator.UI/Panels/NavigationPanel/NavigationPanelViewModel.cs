@@ -1,9 +1,9 @@
 ﻿using DbConfigurator.UI.Base.Contracts;
-using DbConfigurator.UI.Features.Panels.CreationPanel;
-using DbConfigurator.UI.Features.Panels.DistributionInformationPanel;
-using DbConfigurator.UI.Features.Panels.NotificationPanel;
-using DbConfigurator.UI.Features.Panels.RecipientPanel;
-using DbConfigurator.UI.Features.Panels.RegionPanel;
+using DbConfigurator.UI.Panels.DistributionInformationPanel;
+using DbConfigurator.UI.Panels.NotificationPanel;
+using DbConfigurator.UI.Panels.RecipientPanel;
+using DbConfigurator.UI.Panels.RegionPanel;
+using DbConfigurator.UI.Panels.CreationPanel;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Commands;
 using Prism.Events;
@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Features.Panels.NavigationPanel
+namespace DbConfigurator.UI.Panels.NavigationPanel
 {
     public class NavigationPanelViewModel : NotifyBase, INavigationPanelViewModel
     {

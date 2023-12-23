@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="DbConfigurator.UI.Features.Panels.NotificationPanel.NotificationPanelView"
+﻿<UserControl x:Class="DbConfigurator.UI.Panels.NotificationPanel.NotificationPanelView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DbConfigurator.UI.Features.Panels.NotificationPanel"
+             xmlns:local="clr-namespace:DbConfigurator.UI.Panels.NotificationPanel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -43,29 +43,29 @@
 
             <!-- Inputs -->
             <ComboBox Name="TicketTypes"  Grid.Row="0" Grid.Column="1" Margin="5" 
-              ItemsSource="{Binding TicketTypes}" 
-              SelectedItem="{Binding SelectedTicketType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+           ItemsSource="{Binding TicketTypes}" 
+           SelectedItem="{Binding SelectedTicketType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             </ComboBox>
             <ComboBox Name="Priorities" Grid.Row="1" Grid.Column="1" Margin="5" 
-              ItemsSource="{Binding Priorities}" 
-              SelectedItem="{Binding SelectedPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              DisplayMemberPath="Name">
+           ItemsSource="{Binding Priorities}" 
+           SelectedItem="{Binding SelectedPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+           DisplayMemberPath="Name">
 
             </ComboBox>
 
             <TextBox Name="ReportedBy" Grid.Row="2" Grid.Column="1" Margin="5"
-             Text="{Binding ReportedBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+          Text="{Binding ReportedBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBox Name="GBUs" Grid.Row="3" Grid.Column="1" Margin="5" Width="Auto"  Grid.ColumnSpan="5" HorizontalAlignment="Stretch" 
-             Text="{Binding GBUs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+          Text="{Binding GBUs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBox Name="TicketSummary" Grid.Row="4" Grid.Column="1" Margin="5" Width="Auto"  Grid.ColumnSpan="5" HorizontalAlignment="Stretch" 
-             Text="{Binding TicketSummary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+          Text="{Binding TicketSummary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBox Name="Descriptoin" Grid.Row="5" Grid.Column="1" Margin="5" Grid.ColumnSpan="5" Width="Auto" Height="200" HorizontalAlignment="Stretch"
-             Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-             TextWrapping="Wrap"/>
+          Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TextWrapping="Wrap"/>
 
             <Label Content="Reported Date:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>
             <Label Content="Reported Time:" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
@@ -96,9 +96,9 @@
             <Label Content="Opened Time:" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
             <TextBox Name="TicketNumber" Grid.Row="1" Grid.Column="1" Margin="5" 
-             Text="{Binding TicketNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+          Text="{Binding TicketNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox Name="OpenedBy" Grid.Row="2" Grid.Column="1" Margin="5"
-             Text="{Binding OpenedBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+          Text="{Binding OpenedBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <!-- Date and Time Pickers -->
             <DatePicker Name="OpenedDate" Grid.Row="3" Grid.Column="1" Margin="5" Text="{Binding OpenedDate}"/>

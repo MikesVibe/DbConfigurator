@@ -4,7 +4,7 @@ using DbConfigurator.UI.Features.DistributionInformations;
 using DbConfigurator.UI.ViewModel.Base;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Features.Panels.DistributionInformationPanel
+namespace DbConfigurator.UI.Panels.DistributionInformationPanel
 {
     public class DistributionInformationPanelViewModel : PanelViewModelBase, IMainPanelViewModel
     {

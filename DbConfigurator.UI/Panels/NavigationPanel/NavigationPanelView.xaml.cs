@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DbConfigurator.UI.Features.Panels.NotificationPanel
+namespace DbConfigurator.UI.Panels.NavigationPanel
 {
     /// <summary>
-    /// Interaction logic for NotificationPanelView.xaml
+    /// Interaction logic for NavigationPanelView.xaml
     /// </summary>
-    public partial class NotificationPanelView : UserControl
+    public partial class NavigationPanelView : UserControl
     {
-        public NotificationPanelView()
+        public NavigationPanelView()
         {
             InitializeComponent();
         }

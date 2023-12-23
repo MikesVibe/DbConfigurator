@@ -1,30 +1,30 @@
 ﻿using Autofac.Features.Indexed;
 using DbConfigurator.UI.Base.Contracts;
-using DbConfigurator.UI.Features.Recipients;
+using DbConfigurator.UI.Features.Regions;
 using DbConfigurator.UI.ViewModel.Base;
 using System.Threading.Tasks;
 
-namespace DbConfigurator.UI.Features.Panels.RecipientPanel
+namespace DbConfigurator.UI.Panels.RegionPanel
 {
-    public class RecipientPanelViewModel : PanelViewModelBase
+    public class RegionPanelViewModel : PanelViewModelBase
     {
-        public RecipientPanelViewModel(
+        public RegionPanelViewModel(
             IIndex<string, ITableViewModel> tableViewModelCreator,
             IStatusService statusService) 
             : base(statusService)
         {
-            RecipientTable = tableViewModelCreator[nameof(RecipientTableViewModel)];
+            RegionTable = tableViewModelCreator[nameof(RegionTableViewModel)];
         }
 
-        public ITableViewModel RecipientTable { get; set; }
+        public ITableViewModel RegionTable { get; set; }
 
         protected override async Task LoadDataAsync()
         {
-            await RecipientTable.LoadAsync();
+            await RegionTable.LoadAsync();
         }
         public override async Task RefreshAsync()
         {
-            await RecipientTable.Refresh();
+            await RegionTable.Refresh();
         }
     }
 }
