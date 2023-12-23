@@ -10,10 +10,11 @@ namespace DbConfigurator.Model.Entities.Core
         //[Required]
         //[MaxLength(6)]
         public string Name { get; set; }
+        public int Value { get; set; }
 
         public IEntity CreateCopy()
         {
-            return new Priority { Id = Id, Name = Name };
+            return new Priority { Id = Id, Name = Name, Value = Value};
         }
     }
 }

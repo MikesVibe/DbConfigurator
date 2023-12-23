@@ -9,6 +9,12 @@ using System.Windows.Input;
 using System.Windows;
 using DbConfigurator.UI.ViewModel.Base;
 using DbConfigurator.UI.Base.Contracts;
+using FluentResults;
+using DbConfigurator.UI.Features.DistributionInformations.Services;
+using DbConfigurator.UI.Features.Areas.Services;
+using DbConfigurator.UI.Features.BuisnessUnits.Services;
+using DbConfigurator.UI.Features.Countries.Services;
+using DbConfigurator.UI.Features.Priorities.Services;
 
 namespace DbConfigurator.UI.Features.Panels.Notification
 {
@@ -26,26 +32,45 @@ namespace DbConfigurator.UI.Features.Panels.Notification
         private string _openedTime;
         private Priority _selectedPriority;
         private string _gbus;
+        private readonly IStatusService _statusService;
+        private readonly IDistributionInformationService _distributionInformationService;
+        private readonly IAreaService _areaService;
+        private readonly IBusinessUnitService _businessUnitService;
+        private readonly ICountryService _countryService;
+        private readonly IPriorityService _priorityService;
 
         public enum TicketType
         {
             Incident,
             Event
         }
+        public enum RegionField
+        {
+            Area = 0,
+            BusinessUnit = 1,
+            CountryName = 2,
+            CountryCode = 3
+        }
 
-        public NotificationPanelViewModel(IStatusService statusService) 
+        public NotificationPanelViewModel(IStatusService statusService,
+            IDistributionInformationService distributionInformationService,
+            IAreaService areaService,
+            IBusinessUnitService businessUnitService,
+            ICountryService countryService, 
+            IPriorityService priorityService)
             : base(statusService)
         {
             GetFromOutlookCommand = new DelegateCommand(OnGetFromOutlookExecute);
             CreateTicketCommand = new DelegateCommand(OnCreateTicketExecute);
             CreateNotificationCommand = new DelegateCommand(OnCreateNotificationExecute);
 
-            Priorities.Add(new Priority { Id = 1, Name = "P1" });
-            Priorities.Add(new Priority { Id = 2, Name = "P2" });
-            Priorities.Add(new Priority { Id = 3, Name = "P3" });
-            Priorities.Add(new Priority { Id = 4, Name = "P4" });
-            Priorities.Add(new Priority { Id = 99, Name = "ANY" });
-            SelectPriorityByName("ANY");
+
+            _statusService = statusService;
+            _distributionInformationService = distributionInformationService;
+            _areaService = areaService;
+            _businessUnitService = businessUnitService;
+            _countryService = countryService;
+            _priorityService = priorityService;
         }
 
 
@@ -197,9 +222,17 @@ namespace DbConfigurator.UI.Features.Panels.Notification
 
             MessageBox.Show($"Successfully created ticket with number: {TicketNumber}");
         }
-        private void OnCreateNotificationExecute()
+        private async void OnCreateNotificationExecute()
         {
-            MessageBox.Show($"Successfully create notification");
+            var result = await GetDistributionListBySingleName();
+            if(result.IsSuccess)
+            {
+                MessageBox.Show($"Successfully create notification");
+            }
+            else
+            {
+                MessageBox.Show($"Couldn't create notification :(");
+            }
         }
 
 
@@ -213,14 +246,95 @@ namespace DbConfigurator.UI.Features.Panels.Notification
             SelectedPriority = Priorities.Where(p => p.Name.ToLower() == name.ToLower()).Single();
         }
 
-        protected override Task LoadDataAsync()
+        protected override async Task LoadDataAsync()
         {
-            return Task.CompletedTask;
+            var priorities = await _priorityService.GetAllAsync();
+            Priorities = priorities.ToList();
+            SelectPriorityByName("ANY");
+
+            return;
         }
 
         public override Task RefreshAsync()
         {
             return Task.CompletedTask;
+        }
+
+        public async Task<Result<DistributionList>> GetDistributionListBySingleName()
+        {
+            var toReturn = new DistributionList();
+            var result = await GetDistribiutionInfoWithMatchingRegions(GBUs);
+            if(result.IsFailed)
+            {
+                return Result.Fail("Fail");
+            }
+            //var matchingDisInfo = GetDisInfoWithMatchingRegionField(matchinRegionField);
+
+            var matchingDisInfoByPriority = result.Value.Where(d =>
+                d.Priority.Value >= SelectedPriority.Value);
+
+            foreach (var disfInfo in matchingDisInfoByPriority)
+            {
+                toReturn.RecipientsTo.AddRange(disfInfo.RecipientsTo);
+                toReturn.RecipientsCc.AddRange(disfInfo.RecipientsCc);
+            }
+
+            return toReturn;
+        }
+
+        
+
+        private async Task<Result<IEnumerable<Model.Entities.Core.DistributionInformation>>> GetDistribiutionInfoWithMatchingRegions(string gbu)
+        {
+            var distributionInformation = await _distributionInformationService.GetAllAsync();
+            var allAreas = await _areaService.GetAllAsync();
+            var allBuisnessUnits = await _businessUnitService.GetAllAsync();
+            var allCountries = await _countryService.GetAllAsync();
+            if (
+                allAreas == null ||
+                allBuisnessUnits == null ||
+                allCountries == null ||
+                distributionInformation == null
+                )
+            {
+                return Result.Fail("fail");
+            }
+
+            var matchingByArea = allAreas.Where(d =>
+                d.Name == gbu).ToList();
+            var matchingByBusinessUnit = allBuisnessUnits.Where(d =>
+                d.Name == gbu).ToList();
+            var matchingByCountryName = allCountries.Where(d =>
+                d.CountryName == gbu).ToList();
+            var matchingByCountryCode = allCountries.Where(d =>
+                d.CountryCode == gbu).ToList();
+
+            if (matchingByArea.Count() == 1)
+            {
+                return distributionInformation.Where(d => d.Region.Area.Id == matchingByArea.Single().Id).ToList();
+            }
+            if (matchingByBusinessUnit.Count() == 1)
+            {
+                return distributionInformation.Where(d => d.Region.BusinessUnit.Id == matchingByBusinessUnit.Single().Id).ToList();
+            }
+            if (matchingByCountryName.Count() == 1 || matchingByCountryCode.Count() == 1)
+            {
+                var matchedCountry = matchingByCountryName.SingleOrDefault() ?? matchingByCountryCode.Single();
+                //Find first item in distributionInformation that contains matching Country
+                var disInfoWithMatchingCountry = distributionInformation.Where(d => d.Region.Country.Id == matchedCountry.Id).ToList();
+                var firstExactCountryMatch = disInfoWithMatchingCountry.FirstOrDefault();
+                if (firstExactCountryMatch is null)
+                    return Result.Fail("Fail");
+
+                disInfoWithMatchingCountry.AddRange(distributionInformation.Where(d =>
+                d.Region.BusinessUnit.Id == firstExactCountryMatch.Region.BusinessUnit.Id &&
+                d.Region.Country.CountryName == "ANY"));
+
+                return disInfoWithMatchingCountry;
+            }
+
+
+            return Result.Fail("Fail");
         }
     }
 }
