@@ -20,6 +20,7 @@ using DbConfigurator.DataAccess.DTOs;
 using DbConfigurator.UI.Features.Areas.Event;
 using Prism.Events;
 using DbConfigurator.UI.Features.Notifications.Event;
+using DbConfigurator.UI.Services;
 
 namespace DbConfigurator.UI.Panels.NotificationPanel
 {
@@ -44,6 +45,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
         private readonly ICountryService _countryService;
         private readonly IPriorityService _priorityService;
         private readonly IRegionService _regionService;
+        private readonly EmailService _emailService;
         private readonly IEventAggregator _eventAggregator;
 
         public enum TicketType
@@ -71,6 +73,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             ICountryService countryService, 
             IPriorityService priorityService,
             IRegionService regionService,
+            EmailService emailService,
             IEventAggregator eventAggregator)
             : base(statusService)
         {
@@ -86,6 +89,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             _countryService = countryService;
             _priorityService = priorityService;
             _regionService = regionService;
+            _emailService = emailService;
             _eventAggregator = eventAggregator;
         }
 
@@ -211,23 +215,24 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
 
         private void OnGetFromOutlookExecute()
         {
-            TicketSummary = "Testing ticket summary";
-            SelectedTicketType = TicketTypes.Single(t => t == TicketType.Event);
-            ReportedBy = "Andrzej Kowalski";
-            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." +
-                "\r\nCommodo ullamcorper a lacus vestibulum sed arcu non. Eu augue ut lectus arcu bibendum at varius vel pharetra." +
-                "\r\nPenatibus et magnis dis parturient. Gravida neque convallis a cras semper auctor neque vitae tempus." +
-                "\r\nUrna neque viverra justo nec ultrices. Nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque." +
-                "\r\nEget felis eget nunc lobortis mattis. Pellentesque elit eget gravida cum sociis natoque penatibus et magnis. Viverra orci sagittis eu volutpat." +
-                "\r\nPlatea dictumst quisque sagittis purus sit amet volutpat consequat mauris. Mauris vitae ultricies leo integer malesuada nunc.";
-            GBUs = "Poland";
-            Random rnd = new Random();
-            ReportedDate = DateTime.Now.AddMinutes(rnd.Next(-7, -1));
-            ReportedTime = ReportedDate.Value.ToShortTimeString();
-            SelectPriorityByName("P2");
+            var result = _emailService.GetEmailData();
 
-
-            //MessageBox.Show($"Successfully retrieved data");
+            if(result.IsSuccess)
+            {
+                var emailData = result.Value;
+                TicketSummary = emailData.Title;
+                SelectedTicketType = TicketTypes.Single(t => t.ToString() == emailData.TicketType);
+                ReportedBy = emailData.Requester;
+                Description = emailData.Description;
+                GBUs = emailData.GBU;
+                ReportedDate = emailData.ReportedDate;
+                ReportedTime = emailData.ReportedDate.ToShortTimeString();
+                SelectPriorityByName(emailData.Priority);
+            }
+            else
+            {
+                MessageBox.Show($"Data couldn't be retrived from email.");
+            }
         }
         private void OnCreateTicketExecute()
         {

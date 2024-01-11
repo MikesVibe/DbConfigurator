@@ -41,8 +41,8 @@ namespace DbConfigurator
             {
                 var securitySettings = _servicesContainer.Resolve<SecuritySettings>();
                 //securitySettings.Login(new User { UserName = "Anonymous" });
-                //securitySettings.Login(new User { UserName = "Anonymous", UserRoles = new() { "Admin" } });
-                securitySettings.Login(new User { UserName = "Anonymous", UserRoles = new() { "SecurityAnalyst" } });
+                securitySettings.Login(new User { UserName = "Anonymous", UserRoles = new() { "Admin" } });
+                //securitySettings.Login(new User { UserName = "Anonymous", UserRoles = new() { "SecurityAnalyst" } });
 
                 LoginIntoApplication();
             }

@@ -48,6 +48,7 @@ namespace DbConfigurator.UI.Startup
 
             //Services
             builder.RegisterType<EditingWindowService>().As<IEditingWindowService>().SingleInstance();
+            builder.RegisterType<EmailService>().AsSelf();
             
             builder.RegisterType<DistributionInformationService>().As<IDistributionInformationService>().SingleInstance();
             builder.RegisterType<RegionService>().As<IRegionService>().SingleInstance();
