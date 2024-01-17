@@ -6,6 +6,7 @@ using Microsoft.Office.Interop.Outlook;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace DbConfigurator.UI.Services
 {
     public class EmailService
     {
+        const string attachmentName = "TicketData.txt";
+
         private MailItem? _lastSelectedMailItem;
 
         public Result<EmailData> GetEmailData()
@@ -22,17 +25,17 @@ namespace DbConfigurator.UI.Services
 
             var selectedEmail = GetSelectedEmail();
             if (selectedEmail.IsFailed)
-                return Result.Fail("Failed get data from email.");
-            
+                return Result.Fail(selectedEmail.Errors.First().Message);
+
             var emailData = ProcessMailItem(selectedEmail.Value);
             if (emailData.IsFailed)
-                return Result.Fail("Failed get data from email.");
-        
+                return Result.Fail(emailData.Errors.First().Message);
+
             return Result.Ok(emailData.Value);
         }
         public bool CreateReplayEmail(DistributionList distributionList, NotificationData notificationData)
         {
-            if(_lastSelectedMailItem is null)
+            if (_lastSelectedMailItem is null)
                 return false;
 
             var reply = _lastSelectedMailItem.Reply();
@@ -64,20 +67,28 @@ namespace DbConfigurator.UI.Services
 
         private Result<EmailData> ProcessMailItem(MailItem mailItem)
         {
-            if (mailItem.Attachments.Count != 1)
-                return Result.Fail("Failed to read attachment from email.");
+            if(mailItem.Attachments.Count == 0)
+                return Result.Fail($"Couldn't find propper attachment in selected email.\nProper name for attachment is \"{attachmentName}\"");
 
-            Attachment attachment = mailItem.Attachments[1];
+            foreach (Attachment attachment in mailItem.Attachments)
+            {
+                if(attachment.FileName != attachmentName)
+                {
+                    continue;
+                }
 
-            // Read attachment content
-            string attachmentContent = ReadAttachmentContent(attachment);
+                // Read attachment content
+                string attachmentContent = ReadAttachmentContent(attachment);
 
-            var emailData = JsonSerializer.Deserialize<EmailData>(attachmentContent);
-            if(emailData is null)
-                return Result.Fail("Failed to read data from attachment.");
-            
-            emailData.ReportedDate = mailItem.ReceivedTime;
-            return Result.Ok(emailData);
+                var emailData = JsonSerializer.Deserialize<EmailData>(attachmentContent);
+                if (emailData is null)
+                    return Result.Fail("Couldn't serialize data from attachment.");
+
+                emailData.ReportedDate = mailItem.ReceivedTime;
+                return Result.Ok(emailData);
+            }
+
+            return Result.Fail($"Couldn't find propper attachment in selected email.\nProper name for attachment is \"{attachmentName}\"");
         }
 
         private string ReadAttachmentContent(Attachment attachment)
@@ -103,26 +114,34 @@ namespace DbConfigurator.UI.Services
 
         private Result<MailItem> GetSelectedEmail()
         {
-            Selection selection = new Application().ActiveExplorer().Selection;
-            List<MailItem> mailItems = new();
-
-            foreach (MailItem email in selection)
-            {
-                mailItems.Add(email);
-            }
-
             try
             {
+                Selection selection = new Application().ActiveExplorer().Selection;
+                List<MailItem> mailItems = new();
+
+                foreach (MailItem email in selection)
+                {
+                    mailItems.Add(email);
+                }
+
                 _lastSelectedMailItem = mailItems.Single();
                 return Result.Ok(_lastSelectedMailItem);
             }
-            catch
+            catch (NullReferenceException ex)
             {
-                return Result.Fail("Failed get data from email.");
+                return Result.Fail("Could not get data from email. Make sure that outlook app is open.");
             }
-            finally
+            catch (InvalidOperationException ex)
             {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(selection);
+                return Result.Fail("Invalid number of emails selected, please select exactly one email.");
+            }
+            catch (COMException ex)
+            {
+                return Result.Fail("Could not get data from email. Outlook application has to be opened with the same windows user as this application e.g. Administrator");
+            }
+            catch (System.Exception ex)
+            {
+                return Result.Fail($"Some unexpected error occured.\nPlease inform administrator about this error.\nException message:{ex}");
             }
         }
 

@@ -235,7 +235,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             }
             else
             {
-                MessageBox.Show($"Data couldn't be retrived from email.");
+                MessageBox.Show(result.Errors.First().Message);
             }
         }
         private void OnCreateTicketExecute()
