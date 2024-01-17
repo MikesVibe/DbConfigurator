@@ -273,15 +273,23 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
         }
         private async void OnCreateNotificationExecute()
         {
-            var result = await GetDistributionListBySingleName();
+            var result = await GetDistribiutionInfoWithMatchingRegionsAndMatchingPriorityAsync(GBUs, SelectedPriority!.Value);
             if (result.IsFailed)
             {
                 MessageBox.Show(result.Errors.First().Message);
-                return;
             }
 
+            var distributionList = new DistributionList(result.Value);
+
+            _eventAggregator.GetEvent<SelectedNotificationDistributionList>()
+                  .Publish(
+                new SelectedNotificationDistributionListArgs
+                {
+                    DistributionInformationIds = distributionList.SelectedDistributionInformationIds,
+                });
+
             var notificationData = GetNotificationData();
-            var emailCreatedSuccesfuly = _emailService.CreateReplayEmail(result.Value, notificationData);
+            var emailCreatedSuccesfuly = _emailService.CreateReplayEmail(distributionList, notificationData);
             if (emailCreatedSuccesfuly.IsFailed)
             {
                 MessageBox.Show(emailCreatedSuccesfuly.Errors.First().Message);
@@ -342,38 +350,10 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             return Task.CompletedTask;
         }
 
-        public async Task<Result<DistributionList>> GetDistributionListBySingleName()
-        {
-            var toReturn = new DistributionList();
-            var result = await GetDistribiutionInfoWithMatchingRegions(GBUs);
-            if (result.IsFailed)
-            {
-                return Result.Fail(result.Errors.First().Message);
-            }
-
-            var matchingDisInfoByPriority = result.Value.Where(d =>
-                d.Priority.Value >= SelectedPriority!.Value);
-
-            var idsList = matchingDisInfoByPriority.Select(d => d.Id).ToList();
-            _eventAggregator.GetEvent<SelectedNotificationDistributionList>()
-                  .Publish(
-                new SelectedNotificationDistributionListArgs
-                {
-                    DistributionInformationIds = idsList,
-                });
-
-            foreach (var disfInfo in matchingDisInfoByPriority)
-            {
-                toReturn.RecipientsTo.AddRange(disfInfo.RecipientsTo);
-                toReturn.RecipientsCc.AddRange(disfInfo.RecipientsCc);
-            }
-
-            return toReturn;
-        }
 
 
 
-        private async Task<Result<IEnumerable<DistributionInformation>>> GetDistribiutionInfoWithMatchingRegions(string gbu)
+        private async Task<Result<IEnumerable<DistributionInformation>>> GetDistribiutionInfoWithMatchingRegionsAndMatchingPriorityAsync(string gbu, int priority)
         {
             var disInfoToReturn = new List<DistributionInformation>();
 
@@ -383,15 +363,15 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             var allCountries = await _countryService.GetAllAsync();
             var allRegions = await _regionService.GetAllAsync();
 
-            if (
-                allAreas == null ||
-                allBuisnessUnits == null ||
-                allCountries == null ||
-                distributionInformation == null
-                )
-            {
-                return Result.Fail("Could not retrive data API");
-            }
+            //if (
+            //    allAreas == null ||
+            //    allBuisnessUnits == null ||
+            //    allCountries == null ||
+            //    distributionInformation == null
+            //    )
+            //{
+            //    return Result.Fail("Could not retrive data API");
+            //}
 
             var matchingByArea = allAreas.Where(d =>
                 d.Name == gbu).ToList();
@@ -445,6 +425,9 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             {
                 return Result.Fail($"Could not find GBU with specified name: {gbu}");
             }
+
+            var matchingDisInfoByPriority = disInfoToReturn.Where(d =>
+                d.Priority.Value >= priority);
 
             return disInfoToReturn;
         }
