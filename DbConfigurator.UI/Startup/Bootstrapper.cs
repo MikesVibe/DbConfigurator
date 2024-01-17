@@ -28,6 +28,7 @@ using DbConfigurator.UI.ViewModel;
 using DbConfigurator.UI.Windows;
 using DbConfigurator.UI.Windows.Authentication;
 using Prism.Events;
+using DbConfigurator.UI.Features.Notification.Services;
 
 namespace DbConfigurator.UI.Startup
 {
@@ -59,6 +60,7 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<PriorityService>().As<IPriorityService>().SingleInstance();
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
             builder.RegisterType<StatusService>().As<IStatusService>().SingleInstance();
+            builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
 
             //Navigation Panel
             builder.RegisterType<NavigationPanelViewModel>().As<INavigationPanelViewModel>();

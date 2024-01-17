@@ -16,7 +16,7 @@ using static DbConfigurator.UI.Panels.NotificationPanel.NotificationPanelViewMod
 
 namespace DbConfigurator.UI.Features.Notification.Services
 {
-    public class NotificationService : INofiticationService
+    public class NotificationService : INotificationService
     {
         private readonly IDistributionInformationService _distributionInformationService;
         private readonly IAreaService _areaService;
@@ -53,7 +53,7 @@ namespace DbConfigurator.UI.Features.Notification.Services
             return priorities.Where(p => p.Name.ToUpper() != "ANY").ToList();
         }
 
-        public async Task<Result<IEnumerable<DistributionInformation>>> GetDistribiutionInfoWithMatchingRegionsAndMatchingPriorityAsync(string gbu, int priority)
+        public async Task<Result<DistributionList>> GetDistribiutionInfoWithMatchingRegionsAndMatchingPriorityAsync(string gbu, int priority)
         {
             var disInfoToReturn = new List<DistributionInformation>();
 
@@ -129,7 +129,7 @@ namespace DbConfigurator.UI.Features.Notification.Services
             var matchingDisInfoByPriority = disInfoToReturn.Where(d =>
                 d.Priority.Value >= priority);
 
-            return disInfoToReturn;
+            return new DistributionList(disInfoToReturn);
         }
 
         public async Task<IEnumerable<DistributionInformation>> GetMatchingDistributionInformationWithAny(Region exactlyMatchedRegion, MatchingRegion matchingRegion)

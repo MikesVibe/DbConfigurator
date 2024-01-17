@@ -47,7 +47,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
         private bool _canCreateNotification = false;
         
         private readonly IStatusService _statusService;
-        private readonly INofiticationService _notificationService;
+        private readonly INotificationService _notificationService;
         private readonly EmailService _emailService;
         private readonly SecuritySettings _securitySettings;
         private readonly IEventAggregator _eventAggregator;
@@ -75,7 +75,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             SecuritySettings securitySettings,
             IEventAggregator eventAggregator,
             IStatusService statusService,
-            INofiticationService nofiticationService)
+            INotificationService nofiticationService)
             : base(statusService)
         {
             GetFromOutlookCommand = new DelegateCommand(OnGetFromOutlookExecute);
@@ -266,8 +266,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             {
                 MessageBox.Show(result.Errors.First().Message);
             }
-
-            var distributionList = new DistributionList(result.Value);
+            var distributionList = result.Value;
 
             _eventAggregator.GetEvent<SelectedNotificationDistributionList>()
                   .Publish(
@@ -276,7 +275,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
                     DistributionInformationIds = distributionList.SelectedDistributionInformationIds,
                 });
 
-            var notificationData = GetNotificationData();
+            var notificationData = CollectNotificationData();
             var emailCreatedSuccesfuly = _emailService.CreateReplayEmail(distributionList, notificationData);
             if (emailCreatedSuccesfuly.IsFailed)
             {
@@ -304,7 +303,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             OpenedDate = null;
             OpenedTime = string.Empty;
         }
-        private NotificationData GetNotificationData()
+        private NotificationData CollectNotificationData()
         {
             return new Model.NotificationData()
             {

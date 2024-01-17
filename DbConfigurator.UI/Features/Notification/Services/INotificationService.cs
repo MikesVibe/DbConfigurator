@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.UI.Features.Notification.Services
 {
-    public interface INofiticationService
+    public interface INotificationService
     {
         Task<IEnumerable<Priority>> GetAllPriorities();
-        Task<Result<IEnumerable<DistributionInformation>>> GetDistribiutionInfoWithMatchingRegionsAndMatchingPriorityAsync(string gbu, int priority);
+        Task<Result<DistributionList>> GetDistribiutionInfoWithMatchingRegionsAndMatchingPriorityAsync(string gbu, int priority);
         Task<IEnumerable<DistributionInformation>> GetMatchingDistributionInformationWithAny(Region exactlyMatchedRegion, NotificationPanelViewModel.MatchingRegion matchingRegion);
     }
 }
