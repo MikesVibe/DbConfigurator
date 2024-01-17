@@ -10,7 +10,7 @@
         xmlns:cr="clr-namespace:DbConfigurator.UI.Panels.CreationPanel"
         xmlns:not="clr-namespace:DbConfigurator.UI.Panels.NotificationPanel"
         mc:Ignorable="d"
-        Title="DbConfigurator" Height="750" Width="1200" 
+        Title="DbConfigurator" Height="650" Width="1200" 
         WindowStartupLocation="CenterScreen" 
         ResizeMode="CanMinimize" Icon="/Windows/DbConfigurator.png">
 
