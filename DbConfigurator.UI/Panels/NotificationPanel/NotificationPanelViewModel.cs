@@ -23,6 +23,7 @@ using DbConfigurator.UI.Features.Notifications.Event;
 using DbConfigurator.UI.Services;
 using DbConfigurator.Authentication;
 using DbConfigurator.Model;
+using DbConfigurator.UI.Features.Notification.Services;
 
 namespace DbConfigurator.UI.Panels.NotificationPanel
 {
@@ -44,13 +45,9 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
 
         private bool _canCreateTicket = false;
         private bool _canCreateNotification = false;
+        
         private readonly IStatusService _statusService;
-        private readonly IDistributionInformationService _distributionInformationService;
-        private readonly IAreaService _areaService;
-        private readonly IBusinessUnitService _businessUnitService;
-        private readonly ICountryService _countryService;
-        private readonly IPriorityService _priorityService;
-        private readonly IRegionService _regionService;
+        private readonly INofiticationService _notificationService;
         private readonly EmailService _emailService;
         private readonly SecuritySettings _securitySettings;
         private readonly IEventAggregator _eventAggregator;
@@ -73,32 +70,23 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             CountryCode = 3
         }
 
-        public NotificationPanelViewModel(IStatusService statusService,
-            IDistributionInformationService distributionInformationService,
-            IAreaService areaService,
-            IBusinessUnitService businessUnitService,
-            ICountryService countryService,
-            IPriorityService priorityService,
-            IRegionService regionService,
+        public NotificationPanelViewModel(
             EmailService emailService,
             SecuritySettings securitySettings,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            IStatusService statusService,
+            INofiticationService nofiticationService)
             : base(statusService)
         {
             GetFromOutlookCommand = new DelegateCommand(OnGetFromOutlookExecute);
             CreateTicketCommand = new DelegateCommand(OnCreateTicketExecute, () => CanCreateTicket);
             CreateNotificationCommand = new DelegateCommand(OnCreateNotificationExecute, () => CanCreateNotification);
 
-            _statusService = statusService;
-            _distributionInformationService = distributionInformationService;
-            _areaService = areaService;
-            _businessUnitService = businessUnitService;
-            _countryService = countryService;
-            _priorityService = priorityService;
-            _regionService = regionService;
             _emailService = emailService;
             _securitySettings = securitySettings;
             _eventAggregator = eventAggregator;
+            _statusService = statusService;
+            _notificationService = nofiticationService;
         }
 
         #region Public Properties
@@ -273,7 +261,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
         }
         private async void OnCreateNotificationExecute()
         {
-            var result = await GetDistribiutionInfoWithMatchingRegionsAndMatchingPriorityAsync(GBUs, SelectedPriority!.Value);
+            var result = await _notificationService.GetDistribiutionInfoWithMatchingRegionsAndMatchingPriorityAsync(GBUs, SelectedPriority!.Value);
             if (result.IsFailed)
             {
                 MessageBox.Show(result.Errors.First().Message);
@@ -339,126 +327,13 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
 
         protected override async Task LoadDataAsync()
         {
-            var priorities = await _priorityService.GetAllAsync();
-            Priorities = priorities.Where(p => p.Name.ToUpper() != "ANY").ToList();
-
+            Priorities = (await _notificationService.GetAllPriorities()).ToList();
             return;
         }
 
         public override Task RefreshAsync()
         {
             return Task.CompletedTask;
-        }
-
-
-
-
-        private async Task<Result<IEnumerable<DistributionInformation>>> GetDistribiutionInfoWithMatchingRegionsAndMatchingPriorityAsync(string gbu, int priority)
-        {
-            var disInfoToReturn = new List<DistributionInformation>();
-
-            var distributionInformation = await _distributionInformationService.GetAllAsync();
-            var allAreas = await _areaService.GetAllAsync();
-            var allBuisnessUnits = await _businessUnitService.GetAllAsync();
-            var allCountries = await _countryService.GetAllAsync();
-            var allRegions = await _regionService.GetAllAsync();
-
-            //if (
-            //    allAreas == null ||
-            //    allBuisnessUnits == null ||
-            //    allCountries == null ||
-            //    distributionInformation == null
-            //    )
-            //{
-            //    return Result.Fail("Could not retrive data API");
-            //}
-
-            var matchingByArea = allAreas.Where(d =>
-                d.Name == gbu).ToList();
-            var matchingByBusinessUnit = allBuisnessUnits.Where(d =>
-                d.Name == gbu).ToList();
-            var matchingByCountryName = allCountries.Where(d =>
-                d.CountryName == gbu).ToList();
-            var matchingByCountryCode = allCountries.Where(d =>
-                d.CountryCode == gbu).ToList();
-
-            //Add distribution information that matches ANY-thing
-            disInfoToReturn.AddRange(distributionInformation.Where(d =>
-                d.Region.Area.Name.ToUpper() == "ANY" &&
-                d.Region.BusinessUnit.Name.ToUpper() == "ANY" &&
-                d.Region.Country.CountryName.ToUpper() == "ANY"));
-
-            Region exactlyMatchedRegion;
-
-            if (matchingByArea.Count() == 1)
-            {
-                var matchedArea = matchingByArea.Single();
-                exactlyMatchedRegion = allRegions.Where(r => r.Area.Id == matchedArea.Id).First();
-
-                var disInfo = await GetMatchingDistributionInformationWithAny(exactlyMatchedRegion, MatchingRegion.CountryAndBuisnessUnit);
-                disInfoToReturn.AddRange(disInfo);
-            }
-            else if (matchingByBusinessUnit.Count() == 1)
-            {
-                var matchedBuisnessUnit = matchingByBusinessUnit.Single();
-                exactlyMatchedRegion = allRegions.Where(r => r.BusinessUnit.Id == matchedBuisnessUnit.Id).First();
-
-                var disInfo = await GetMatchingDistributionInformationWithAny(exactlyMatchedRegion, MatchingRegion.CountryAndBuisnessUnit);
-                disInfoToReturn.AddRange(disInfo);
-                disInfo = await GetMatchingDistributionInformationWithAny(exactlyMatchedRegion, MatchingRegion.Country);
-                disInfoToReturn.AddRange(disInfo);
-            }
-            else if (matchingByCountryName.Count() == 1 || matchingByCountryCode.Count() == 1)
-            {
-                var matchedCountry = matchingByCountryName.SingleOrDefault() ?? matchingByCountryCode.Single();
-                exactlyMatchedRegion = allRegions.Where(r => r.Country.Id == matchedCountry.Id).Single();
-
-                var disInfo = await GetMatchingDistributionInformationWithAny(exactlyMatchedRegion, MatchingRegion.CountryAndBuisnessUnit);
-                disInfoToReturn.AddRange(disInfo);
-                disInfo = await GetMatchingDistributionInformationWithAny(exactlyMatchedRegion, MatchingRegion.Country);
-                disInfoToReturn.AddRange(disInfo);
-
-                //Add distributionInformation that contains matching Region
-                disInfoToReturn.AddRange(distributionInformation.Where(d => d.Region.Id == exactlyMatchedRegion.Id).ToList());
-            }
-            else
-            {
-                return Result.Fail($"Could not find GBU with specified name: {gbu}");
-            }
-
-            var matchingDisInfoByPriority = disInfoToReturn.Where(d =>
-                d.Priority.Value >= priority);
-
-            return disInfoToReturn;
-        }
-
-        private async Task<IEnumerable<DistributionInformation>> GetMatchingDistributionInformationWithAny(Region exactlyMatchedRegion, MatchingRegion matchingRegion)
-        {
-            var distributionInformation = await _distributionInformationService.GetAllAsync();
-            var allRegions = await _regionService.GetAllAsync();
-
-            if (matchingRegion == MatchingRegion.CountryAndBuisnessUnit)
-            {
-                var partiallyMatchedRegion = allRegions.Where(r =>
-                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
-                    r.BusinessUnit.Name.ToUpper() == "ANY" &&
-                    r.Country.CountryName.ToUpper() == "ANY").Single();
-
-                return distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id);
-            }
-            else if (matchingRegion == MatchingRegion.Country)
-            {
-                var partiallyMatchedRegion = allRegions.Where(r =>
-                    r.Area.Id == exactlyMatchedRegion.Area.Id &&
-                    r.BusinessUnit.Id == exactlyMatchedRegion.BusinessUnit.Id &&
-                    r.Country.CountryName.ToUpper() == "ANY").Single();
-
-                return distributionInformation.Where(d => d.Region.Id == partiallyMatchedRegion.Id);
-            }
-            else
-            {
-                return new List<DistributionInformation>();
-            }
         }
     }
 }
