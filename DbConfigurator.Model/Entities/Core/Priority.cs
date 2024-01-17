@@ -16,5 +16,10 @@ namespace DbConfigurator.Model.Entities.Core
         {
             return new Priority { Id = Id, Name = Name, Value = Value};
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

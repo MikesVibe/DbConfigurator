@@ -64,7 +64,7 @@
           Text="{Binding TicketSummary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBox Name="Descriptoin" Grid.Row="5" Grid.Column="1" Margin="5" Grid.ColumnSpan="5" Width="Auto" Height="200" HorizontalAlignment="Stretch"
-          Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          Text="{Binding TicketDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
           TextWrapping="Wrap"/>
 
             <Label Content="Reported Date:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"/>

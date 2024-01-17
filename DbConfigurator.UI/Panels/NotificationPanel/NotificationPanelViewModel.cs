@@ -21,6 +21,8 @@ using DbConfigurator.UI.Features.Areas.Event;
 using Prism.Events;
 using DbConfigurator.UI.Features.Notifications.Event;
 using DbConfigurator.UI.Services;
+using DbConfigurator.Authentication;
+using DbConfigurator.Model;
 
 namespace DbConfigurator.UI.Panels.NotificationPanel
 {
@@ -46,6 +48,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
         private readonly IPriorityService _priorityService;
         private readonly IRegionService _regionService;
         private readonly EmailService _emailService;
+        private readonly SecuritySettings _securitySettings;
         private readonly IEventAggregator _eventAggregator;
 
         public enum TicketType
@@ -70,17 +73,17 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             IDistributionInformationService distributionInformationService,
             IAreaService areaService,
             IBusinessUnitService businessUnitService,
-            ICountryService countryService, 
+            ICountryService countryService,
             IPriorityService priorityService,
             IRegionService regionService,
             EmailService emailService,
+            SecuritySettings securitySettings,
             IEventAggregator eventAggregator)
             : base(statusService)
         {
             GetFromOutlookCommand = new DelegateCommand(OnGetFromOutlookExecute);
             CreateTicketCommand = new DelegateCommand(OnCreateTicketExecute);
             CreateNotificationCommand = new DelegateCommand(OnCreateNotificationExecute);
-
 
             _statusService = statusService;
             _distributionInformationService = distributionInformationService;
@@ -90,6 +93,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             _priorityService = priorityService;
             _regionService = regionService;
             _emailService = emailService;
+            _securitySettings = securitySettings;
             _eventAggregator = eventAggregator;
         }
 
@@ -165,7 +169,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
                 OnPropertyChanged();
             }
         }
-        public string Description
+        public string TicketDescription
         {
             get => _description;
             set
@@ -217,13 +221,13 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
         {
             var result = _emailService.GetEmailData();
 
-            if(result.IsSuccess)
+            if (result.IsSuccess)
             {
                 var emailData = result.Value;
                 TicketSummary = emailData.Title;
                 SelectedTicketType = TicketTypes.Single(t => t.ToString() == emailData.TicketType);
                 ReportedBy = emailData.Requester;
-                Description = emailData.Description;
+                TicketDescription = emailData.Description;
                 GBUs = emailData.GBU;
                 ReportedDate = emailData.ReportedDate;
                 ReportedTime = emailData.ReportedDate.ToShortTimeString();
@@ -239,40 +243,56 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             TicketNumber = GenerateTicketNumber();
             OpenedDate = DateTime.Now;
             OpenedTime = OpenedDate.Value.ToShortTimeString();
-            OpenedBy = "Mikołaj Mrukowski";
+            OpenedBy = _securitySettings.User;
 
             //MessageBox.Show($"Successfully created ticket with number: {TicketNumber}");
         }
         private async void OnCreateNotificationExecute()
         {
             var result = await GetDistributionListBySingleName();
-            if(result.IsSuccess)
+            if (result.IsFailed)
             {
-                var body = CreateNotificationBody(result.Value);
-
-
-                MessageBox.Show($"Successfully create notification\n\n{body}");
+                MessageBox.Show($"Couldn't create notification");
+                return;
             }
-            else
+
+            try
             {
-                MessageBox.Show($"Couldn't create notification :(");
+                var notificationData = GetNotificationData();
+                var emailCreatedSuccesfuly = _emailService.CreateReplayEmail(result.Value, notificationData);
+                if (!emailCreatedSuccesfuly)
+                {
+                    MessageBox.Show($"Couldn't create notification");
+                    return;
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show($"Couldn't create notification");
+                return;
             }
         }
 
-        private string CreateNotificationBody(DistributionList distributionList)
+        private NotificationData GetNotificationData()
         {
-            string toEmails = string.Join(", ", distributionList.RecipientsTo.Select(r => r.Email));
-            string ccEmails = string.Join(", ", distributionList.RecipientsCc.Select(r => r.Email));
+            if (OpenedDate is null || ReportedDate is null)
+            {
+                throw new ArgumentNullException();
+            }
 
-            string toReturn = $"Ticket Type: {SelectedTicketType.ToString()}\n" +
-                $"Ticket Number: {TicketNumber}\n" +
-                $"Ticket Summary: {TicketSummary}\n" +
-                $"Priority: {SelectedPriority}\n" +
-                $"GBUs: {GBUs}\n" +
-                $"Recipients To: {toEmails}\n" +
-                $"Recipients Cc: {ccEmails}\n";
-
-            return toReturn;
+            return new Model.NotificationData()
+            {
+                TicketNumber = TicketNumber,
+                TicketDescription = TicketDescription,
+                TicketSummary = TicketSummary,
+                TicketType = SelectedTicketType.ToString(),
+                OpenedBy = OpenedBy,
+                Priority = SelectedPriority.ToString(),
+                GBU = GBUs,
+                OpenedDate = (DateTime)OpenedDate,
+                ReportedDate = (DateTime)ReportedDate,
+                ReportedBy = ReportedBy
+            };
         }
 
         private string GenerateTicketNumber()
@@ -303,7 +323,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
         {
             var toReturn = new DistributionList();
             var result = await GetDistribiutionInfoWithMatchingRegions(GBUs);
-            if(result.IsFailed)
+            if (result.IsFailed)
             {
                 return Result.Fail("Fail");
             }
@@ -328,7 +348,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             return toReturn;
         }
 
-        
+
 
         private async Task<Result<IEnumerable<DistributionInformation>>> GetDistribiutionInfoWithMatchingRegions(string gbu)
         {
@@ -415,7 +435,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             var distributionInformation = await _distributionInformationService.GetAllAsync();
             var allRegions = await _regionService.GetAllAsync();
 
-            if(matchingRegion == MatchingRegion.CountryAndBuisnessUnit)
+            if (matchingRegion == MatchingRegion.CountryAndBuisnessUnit)
             {
                 var partiallyMatchedRegion = allRegions.Where(r =>
                     r.Area.Id == exactlyMatchedRegion.Area.Id &&

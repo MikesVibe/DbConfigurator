@@ -10,5 +10,6 @@ namespace DbConfigurator.Model.Entities.Core
     {
         public List<Model.Entities.Core.Recipient> RecipientsTo { get; set; } = new List<Model.Entities.Core.Recipient>();
         public List<Model.Entities.Core.Recipient> RecipientsCc { get; set; } = new List<Model.Entities.Core.Recipient>();
+
     }
 }

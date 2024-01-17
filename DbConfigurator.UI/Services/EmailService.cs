@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Model;
+using DbConfigurator.Model.Entities.Core;
 using FluentResults;
 using HtmlAgilityPack;
 using Microsoft.Office.Interop.Outlook;
@@ -13,6 +14,7 @@ namespace DbConfigurator.UI.Services
 {
     public class EmailService
     {
+        private MailItem? _lastSelectedMailItem;
 
         public Result<EmailData> GetEmailData()
         {
@@ -27,6 +29,36 @@ namespace DbConfigurator.UI.Services
                 return Result.Fail("Failed get data from email.");
         
             return Result.Ok(emailData.Value);
+        }
+        public bool CreateReplayEmail(DistributionList distributionList, NotificationData notificationData)
+        {
+            if(_lastSelectedMailItem is null)
+                return false;
+
+            var reply = _lastSelectedMailItem.Reply();
+            reply.To = string.Join("; ", distributionList.RecipientsTo.Select(r => r.Email));
+            reply.CC = string.Join("; ", distributionList.RecipientsCc.Select(r => r.Email));
+
+            reply.Subject = $"{notificationData.TicketNumber} | {notificationData.Priority} | {notificationData.GBU} | {notificationData.TicketSummary}";
+
+            var body =
+                $"Type: {notificationData.TicketType.ToString()}<br/>" +
+                $"Ticket Number: {notificationData.TicketNumber}<br/>" +
+                $"Summary: {notificationData.TicketSummary}<br/>" +
+                $"Priority: {notificationData.Priority}<br/>" +
+                $"Reported By: {notificationData.ReportedBy}<br/>" +
+                $"Opened By: {notificationData.OpenedBy}<br/>" +
+                $"GBUs: {notificationData.GBU}<br/>" +
+                $"Reported Date: {notificationData.ReportedDate.ToString()}<br/>" +
+                $"Opened Date: {notificationData.OpenedDate.ToString()}<br/>" +
+                $"Description: {notificationData.TicketDescription}";
+
+
+            reply.HTMLBody = reply.HTMLBody.Insert(0, body);
+
+            reply.Display();
+
+            return true;
         }
 
 
@@ -81,7 +113,8 @@ namespace DbConfigurator.UI.Services
 
             try
             {
-                return Result.Ok(mailItems.Single());
+                _lastSelectedMailItem = mailItems.Single();
+                return Result.Ok(_lastSelectedMailItem);
             }
             catch
             {
