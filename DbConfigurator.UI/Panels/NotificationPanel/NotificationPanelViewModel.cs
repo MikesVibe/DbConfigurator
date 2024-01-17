@@ -28,18 +28,22 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
 {
     public class NotificationPanelViewModel : PanelViewModelBase, IMainPanelViewModel
     {
-        private string _ticketNumber;
-        private string _ticketSummary;
-        private string _reportedBy;
-        private string _openedBy;
-        private string _description;
-        private TicketType _selectedTicketType;
+        private string _ticketNumber = string.Empty;
+        private string _ticketSummary = string.Empty;
+        private string _reportedBy = string.Empty;
+        private string _openedBy = string.Empty;
+        private string _description = string.Empty;
+        private string _reportedTime = string.Empty;
+        private string _openedTime = string.Empty;
+        private string _gbus = string.Empty;
+
+        private TicketType? _selectedTicketType;
+        private Priority? _selectedPriority;
         private DateTime? _reportedDate;
         private DateTime? _openedDate;
-        private string _reportedTime;
-        private string _openedTime;
-        private Priority _selectedPriority;
-        private string _gbus;
+
+        private bool _canCreateTicket = false;
+        private bool _canCreateNotification = false;
         private readonly IStatusService _statusService;
         private readonly IDistributionInformationService _distributionInformationService;
         private readonly IAreaService _areaService;
@@ -82,8 +86,8 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             : base(statusService)
         {
             GetFromOutlookCommand = new DelegateCommand(OnGetFromOutlookExecute);
-            CreateTicketCommand = new DelegateCommand(OnCreateTicketExecute);
-            CreateNotificationCommand = new DelegateCommand(OnCreateNotificationExecute);
+            CreateTicketCommand = new DelegateCommand(OnCreateTicketExecute, () => CanCreateTicket);
+            CreateNotificationCommand = new DelegateCommand(OnCreateNotificationExecute, () => CanCreateNotification);
 
             _statusService = statusService;
             _distributionInformationService = distributionInformationService;
@@ -97,15 +101,12 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             _eventAggregator = eventAggregator;
         }
 
-
-
-
         #region Public Properties
-        public ICommand GetFromOutlookCommand { get; }
-        public ICommand CreateTicketCommand { get; }
-        public ICommand CreateNotificationCommand { get; }
+        public DelegateCommand GetFromOutlookCommand { get; }
+        public DelegateCommand CreateTicketCommand { get; }
+        public DelegateCommand CreateNotificationCommand { get; }
         public List<Priority> Priorities { get; set; } = new();
-        public Priority SelectedPriority
+        public Priority? SelectedPriority
         {
             get => _selectedPriority;
             set
@@ -115,7 +116,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             }
         }
         public List<TicketType> TicketTypes { get; } = new List<TicketType>() { TicketType.Incident, TicketType.Event };
-        public TicketType SelectedTicketType
+        public TicketType? SelectedTicketType
         {
             get => _selectedTicketType;
             set
@@ -214,29 +215,47 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
                 OnPropertyChanged();
             }
         }
+        public bool CanCreateTicket
+        {
+            get => _canCreateTicket;
+            set
+            {
+                _canCreateTicket = value;
+                CreateTicketCommand.RaiseCanExecuteChanged();
+            }
+        }
+        public bool CanCreateNotification
+        {
+            get => _canCreateNotification;
+            set
+            {
+                _canCreateNotification = value;
+                CreateNotificationCommand.RaiseCanExecuteChanged();
+            }
+        }
         #endregion Public Properties
 
 
         private void OnGetFromOutlookExecute()
         {
             var result = _emailService.GetEmailData();
-
-            if (result.IsSuccess)
-            {
-                var emailData = result.Value;
-                TicketSummary = emailData.Title;
-                SelectedTicketType = TicketTypes.Single(t => t.ToString() == emailData.TicketType);
-                ReportedBy = emailData.Requester;
-                TicketDescription = emailData.Description;
-                GBUs = emailData.GBU;
-                ReportedDate = emailData.ReportedDate;
-                ReportedTime = emailData.ReportedDate.ToShortTimeString();
-                SelectPriorityByName(emailData.Priority);
-            }
-            else
+            if (result.IsFailed)
             {
                 MessageBox.Show(result.Errors.First().Message);
+                return;
             }
+
+            var emailData = result.Value;
+            TicketSummary = emailData.Title;
+            SelectedTicketType = TicketTypes.Single(t => t.ToString() == emailData.TicketType);
+            ReportedBy = emailData.Requester;
+            TicketDescription = emailData.Description;
+            GBUs = emailData.GBU;
+            ReportedDate = emailData.ReportedDate;
+            ReportedTime = emailData.ReportedDate.ToShortTimeString();
+            SelectPriorityByName(emailData.Priority);
+
+            CanCreateTicket = true;
         }
         private void OnCreateTicketExecute()
         {
@@ -245,60 +264,65 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             OpenedTime = OpenedDate.Value.ToShortTimeString();
             OpenedBy = _securitySettings.User;
 
-            //MessageBox.Show($"Successfully created ticket with number: {TicketNumber}");
+            CanCreateNotification = true;
+        }
+        private string GenerateTicketNumber()
+        {
+            Random rdn = new();
+            return $"INC{rdn.Next(1000000, 9999999)}";
         }
         private async void OnCreateNotificationExecute()
         {
             var result = await GetDistributionListBySingleName();
             if (result.IsFailed)
             {
-                MessageBox.Show($"Couldn't create notification");
+                MessageBox.Show(result.Errors.First().Message);
                 return;
             }
 
-            try
+            var notificationData = GetNotificationData();
+            var emailCreatedSuccesfuly = _emailService.CreateReplayEmail(result.Value, notificationData);
+            if (emailCreatedSuccesfuly.IsFailed)
             {
-                var notificationData = GetNotificationData();
-                var emailCreatedSuccesfuly = _emailService.CreateReplayEmail(result.Value, notificationData);
-                if (!emailCreatedSuccesfuly)
-                {
-                    MessageBox.Show($"Couldn't create notification");
-                    return;
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                MessageBox.Show($"Couldn't create notification");
+                MessageBox.Show(emailCreatedSuccesfuly.Errors.First().Message);
                 return;
             }
+
+            CanCreateTicket = false;
+            CanCreateNotification = false;
+
+            ResetAllFields();
         }
-
+        private void ResetAllFields()
+        {
+            SelectedTicketType = null;
+            SelectedPriority = null;
+            ReportedBy = string.Empty;
+            GBUs = string.Empty;
+            TicketSummary = string.Empty;
+            TicketDescription = string.Empty;
+            ReportedDate = null;
+            ReportedTime = string.Empty;
+            TicketNumber = string.Empty;
+            OpenedBy = string.Empty;
+            OpenedDate = null;
+            OpenedTime = string.Empty;
+        }
         private NotificationData GetNotificationData()
         {
-            if (OpenedDate is null || ReportedDate is null)
-            {
-                throw new ArgumentNullException();
-            }
-
             return new Model.NotificationData()
             {
                 TicketNumber = TicketNumber,
                 TicketDescription = TicketDescription,
                 TicketSummary = TicketSummary,
-                TicketType = SelectedTicketType.ToString(),
+                TicketType = SelectedTicketType.ToString()!,
                 OpenedBy = OpenedBy,
-                Priority = SelectedPriority.ToString(),
+                Priority = SelectedPriority!.ToString(),
                 GBU = GBUs,
-                OpenedDate = (DateTime)OpenedDate,
-                ReportedDate = (DateTime)ReportedDate,
+                OpenedDate = (DateTime)OpenedDate!,
+                ReportedDate = (DateTime)ReportedDate!,
                 ReportedBy = ReportedBy
             };
-        }
-
-        private string GenerateTicketNumber()
-        {
-            Random rdn = new();
-            return $"INC{rdn.Next(1000000, 9999999)}";
         }
         private void SelectPriorityByName(string name)
         {
@@ -309,7 +333,6 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
         {
             var priorities = await _priorityService.GetAllAsync();
             Priorities = priorities.Where(p => p.Name.ToUpper() != "ANY").ToList();
-            SelectPriorityByName("P4");
 
             return;
         }
@@ -325,11 +348,11 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             var result = await GetDistribiutionInfoWithMatchingRegions(GBUs);
             if (result.IsFailed)
             {
-                return Result.Fail("Fail");
+                return Result.Fail(result.Errors.First().Message);
             }
 
             var matchingDisInfoByPriority = result.Value.Where(d =>
-                d.Priority.Value >= SelectedPriority.Value);
+                d.Priority.Value >= SelectedPriority!.Value);
 
             var idsList = matchingDisInfoByPriority.Select(d => d.Id).ToList();
             _eventAggregator.GetEvent<SelectedNotificationDistributionList>()
@@ -367,7 +390,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
                 distributionInformation == null
                 )
             {
-                return Result.Fail("fail");
+                return Result.Fail("Could not retrive data API");
             }
 
             var matchingByArea = allAreas.Where(d =>
@@ -420,12 +443,8 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
             }
             else
             {
-                return Result.Fail("Fail");
+                return Result.Fail($"Could not find GBU with specified name: {gbu}");
             }
-
-
-
-
 
             return disInfoToReturn;
         }

@@ -17,7 +17,7 @@ namespace DbConfigurator.UI.Services
     {
         const string attachmentName = "TicketData.txt";
 
-        private MailItem? _lastSelectedMailItem;
+        private MailItem? _lastValidSelectedMailItem;
 
         public Result<EmailData> GetEmailData()
         {
@@ -31,14 +31,17 @@ namespace DbConfigurator.UI.Services
             if (emailData.IsFailed)
                 return Result.Fail(emailData.Errors.First().Message);
 
+            //Important that this code is placed after processingMailItem so it is valid email to respond
+            _lastValidSelectedMailItem = selectedEmail.Value;
+
             return Result.Ok(emailData.Value);
         }
-        public bool CreateReplayEmail(DistributionList distributionList, NotificationData notificationData)
+        public Result CreateReplayEmail(DistributionList distributionList, NotificationData notificationData)
         {
-            if (_lastSelectedMailItem is null)
-                return false;
+            if (_lastValidSelectedMailItem is null)
+                return Result.Fail("Replying is only possible for properly selected email with valid data inside attachment.");
 
-            var reply = _lastSelectedMailItem.Reply();
+            var reply = _lastValidSelectedMailItem.Reply();
             reply.To = string.Join("; ", distributionList.RecipientsTo.Select(r => r.Email));
             reply.CC = string.Join("; ", distributionList.RecipientsCc.Select(r => r.Email));
 
@@ -61,7 +64,7 @@ namespace DbConfigurator.UI.Services
 
             reply.Display();
 
-            return true;
+            return Result.Ok();
         }
 
 
@@ -124,8 +127,7 @@ namespace DbConfigurator.UI.Services
                     mailItems.Add(email);
                 }
 
-                _lastSelectedMailItem = mailItems.Single();
-                return Result.Ok(_lastSelectedMailItem);
+                return Result.Ok(mailItems.Single());
             }
             catch (NullReferenceException ex)
             {
