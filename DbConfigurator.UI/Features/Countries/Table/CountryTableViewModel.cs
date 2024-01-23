@@ -9,6 +9,7 @@ using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System;
+using DbConfigurator.Core.Contracts;
 
 namespace DbConfigurator.UI.Features.Countries
 {
@@ -22,7 +23,7 @@ namespace DbConfigurator.UI.Features.Countries
             ICountryService dataService,
             AutoMapperConfig autoMapper,
             Func<CountryDetailViewModel> countryDetailViewModelCreator,
-            SecuritySettings securitySettings)
+            ISecuritySettings securitySettings)
             : base(eventAggregator, dialogService, dataService, countryDetailViewModelCreator, autoMapper, securitySettings)
         {
         }

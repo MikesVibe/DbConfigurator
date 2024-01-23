@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Authentication;
+using DbConfigurator.Core.Contracts;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -8,9 +9,9 @@ namespace DbConfigurator.DataAccess
 {
     public class DbConfiguratorApiClient : IDbConfiguratorApiClient
     {
-        private readonly SecuritySettings _settings;
+        private readonly ISecuritySettings _settings;
 
-        public DbConfiguratorApiClient(SecuritySettings settings)
+        public DbConfiguratorApiClient(ISecuritySettings settings)
         {
             _settings = settings;
         }

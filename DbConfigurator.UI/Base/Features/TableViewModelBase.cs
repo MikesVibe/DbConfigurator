@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Authentication;
+using DbConfigurator.Core;
 using DbConfigurator.Core.Contracts;
 using DbConfigurator.Core.Models;
 using DbConfigurator.UI.Base.Contracts;
@@ -32,7 +33,7 @@ namespace DbConfigurator.UI.ViewModel.Base
         protected readonly TDataService _dataService;
         protected readonly Func<IDetailViewModel> _detailViewModelCreator;
         protected readonly AutoMapperConfig _autoMapper;
-        private readonly SecuritySettings _securitySettings;
+        private readonly ISecuritySettings _securitySettings;
         private int _id;
         private bool _hasChanges;
         private bool _isAuthorizedToShowEditingPanel = false;
@@ -42,7 +43,7 @@ namespace DbConfigurator.UI.ViewModel.Base
             TDataService dataService,
             Func<IDetailViewModel> detailViewModel,
             AutoMapperConfig autoMapper,
-            SecuritySettings securitySettings)
+            ISecuritySettings securitySettings)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<TCreateEvent>()

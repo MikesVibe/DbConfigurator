@@ -14,17 +14,19 @@ using System.Threading.Tasks;
 using DbConfigurator.Authentication;
 using static DbConfigurator.Authentication.Role;
 using System;
+using DbConfigurator.Core;
+using DbConfigurator.Core.Contracts;
 
 namespace DbConfigurator.UI.Panels.NavigationPanel
 {
     public class NavigationPanelViewModel : NotifyBase, INavigationPanelViewModel
     {
         private IEventAggregator _eventAggregator;
-        private readonly SecuritySettings _securitySettings;
+        private readonly ISecuritySettings _securitySettings;
         private bool _isAuthorizedToShowDatabaseConfigurationBorder = true;
         private bool _isAuthorizedToShowNotificationBorder = false;
 
-        public NavigationPanelViewModel(IEventAggregator eventAggregator, SecuritySettings securitySettings)
+        public NavigationPanelViewModel(IEventAggregator eventAggregator, ISecuritySettings securitySettings)
         {
             _eventAggregator = eventAggregator;
             _securitySettings = securitySettings;

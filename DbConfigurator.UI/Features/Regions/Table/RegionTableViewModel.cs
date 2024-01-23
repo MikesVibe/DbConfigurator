@@ -9,6 +9,7 @@ using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System;
+using DbConfigurator.Core.Contracts;
 
 namespace DbConfigurator.UI.Features.Regions
 {
@@ -23,7 +24,7 @@ namespace DbConfigurator.UI.Features.Regions
             IRegionService dataService,
             AutoMapperConfig autoMapper,
             Func<RegionDetailViewModel> addRegionCreator,
-            SecuritySettings securitySettings
+            ISecuritySettings securitySettings
             ) : base(eventAggregator, dialogService, dataService, addRegionCreator, autoMapper, securitySettings)
         {
         }

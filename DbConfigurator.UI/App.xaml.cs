@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DbConfigurator.Authentication;
+using DbConfigurator.Core.Contracts;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Account.Services;
 using DbConfigurator.UI.Startup;
@@ -39,7 +40,7 @@ namespace DbConfigurator
 
             if (Debugger.IsAttached)
             {
-                var securitySettings = _servicesContainer.Resolve<SecuritySettings>();
+                var securitySettings = _servicesContainer.Resolve<ISecuritySettings>();
                 //securitySettings.Login(new User { UserName = "Anonymous" });
                 securitySettings.Login(new User { UserName = "Anonymous", UserRoles = new() { "Admin" }, FirstName = "Mikołaj", LastName = "Admin"});
                 //securitySettings.Login(new User { UserName = "Anonymous", UserRoles = new() { "SecurityAnalyst" } });
@@ -64,7 +65,7 @@ namespace DbConfigurator
 
         private void LoginIntoApplication()
         {
-            var securitySettings = _servicesContainer.Resolve<SecuritySettings>();
+            var securitySettings = _servicesContainer.Resolve<ISecuritySettings>();
             if (securitySettings.IsAuthenticated)
             {
                 RunApp();

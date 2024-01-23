@@ -9,6 +9,7 @@ using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System;
+using DbConfigurator.Core.Contracts;
 
 namespace DbConfigurator.UI.Features.Areas
 {
@@ -23,7 +24,7 @@ namespace DbConfigurator.UI.Features.Areas
             IAreaService dataService,
             Func<AreaDetailViewModel> areaDetailViewModelCreator,
             AutoMapperConfig autoMapper,
-            SecuritySettings securitySettings)
+            ISecuritySettings securitySettings)
             : base(eventAggregator, dialogService, dataService, areaDetailViewModelCreator, autoMapper, securitySettings)
         {
         }

@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Authentication;
+using DbConfigurator.Core.Contracts;
 using DbConfigurator.Core.Models;
 using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Base.Contracts;
@@ -23,7 +24,7 @@ namespace DbConfigurator.UI.Features.Recipients
             IRecipientService dataService,
             AutoMapperConfig autoMapper,
             Func<RecipientDetailViewModel> addRecipientViewModelCreator,
-            SecuritySettings securitySettings
+            ISecuritySettings securitySettings
             ) : base(eventAggregator, dialogService, dataService, addRecipientViewModelCreator, autoMapper, securitySettings)
         {
         }

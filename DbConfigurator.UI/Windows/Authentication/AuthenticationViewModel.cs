@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Authentication;
+using DbConfigurator.Core.Contracts;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Account;
 using DbConfigurator.UI.Features.Account.Services;
@@ -20,10 +21,10 @@ namespace DbConfigurator.UI.Windows.Authentication
     public class AuthenticationViewModel : WindowViewModelBase
     {
         private readonly IAccountService _accountService;
-        private readonly SecuritySettings _securitySettings;
+        private readonly ISecuritySettings _securitySettings;
         private int _accessFailedCount = 0;
 
-        public AuthenticationViewModel(IAccountService accountService, IStatusService statusService, SecuritySettings securitySettings)
+        public AuthenticationViewModel(IAccountService accountService, IStatusService statusService, ISecuritySettings securitySettings)
             : base(statusService)
         {
             _accountService = accountService;

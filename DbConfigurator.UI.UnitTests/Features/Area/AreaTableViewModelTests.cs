@@ -55,7 +55,7 @@ namespace DbConfigurator.UI.UnitTests.Features.AreaFeatures
                 DataServiceMock.Object,
                 DetailVmCreator,
                 new AutoMapperConfig(),
-                new Authentication.SecuritySettings());
+                SecuritySettings.Object);
         }
 
         //protected override TableViewModelBase

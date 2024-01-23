@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using DbConfigurator.Core.Contracts;
 
 namespace DbConfigurator.UI.Features.DistributionInformations
 {
@@ -28,7 +29,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             IDistributionInformationService dataService,
             Func<DistributionInformationDetailViewModel> DistributionInformationDetailVmCreator,
             AutoMapperConfig autoMapper,
-            SecuritySettings securitySettings
+            ISecuritySettings securitySettings
             ) : base(eventAggregator, dialogService, dataService, DistributionInformationDetailVmCreator, autoMapper, securitySettings)
         {
             _eventAggregator.GetEvent<SelectedNotificationDistributionList>()

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DbConfigurator.Core.Contracts;
 using DbConfigurator.DataAccess;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Account.Services;
@@ -15,7 +16,7 @@ namespace DbConfigurator.Authentication
         public static void AddAuthenticationServices(this ContainerBuilder builder)
         {
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
-            builder.RegisterType<SecuritySettings>().AsSelf().SingleInstance();
+            builder.RegisterType<SecuritySettings>().As<ISecuritySettings>().SingleInstance();
         }
     }
 }

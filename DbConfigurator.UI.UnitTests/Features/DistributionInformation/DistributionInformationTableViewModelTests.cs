@@ -89,7 +89,7 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformationFeatures
                  DataServiceMock.Object,
                  DetailVmCreator,
                  new AutoMapperConfig(),
-                 new Authentication.SecuritySettings());
+                 SecuritySettings.Object);
             return vm;
         }
 

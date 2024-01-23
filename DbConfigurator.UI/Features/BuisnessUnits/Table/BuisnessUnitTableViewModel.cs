@@ -9,6 +9,7 @@ using DbConfigurator.UI.Startup;
 using DbConfigurator.UI.ViewModel.Base;
 using Prism.Events;
 using System;
+using DbConfigurator.Core.Contracts;
 
 namespace DbConfigurator.UI.Features.BusinessUnits
 {
@@ -21,7 +22,7 @@ namespace DbConfigurator.UI.Features.BusinessUnits
             IBusinessUnitService dataService,
             AutoMapperConfig autoMapper,
             Func<BusinessUnitDetailViewModel> BusinessUnitDetailViewModelCreator,
-            SecuritySettings securitySettings)
+            ISecuritySettings securitySettings)
             : base(eventAggregator, dialogService, dataService, BusinessUnitDetailViewModelCreator, autoMapper, securitySettings)
         {
         }

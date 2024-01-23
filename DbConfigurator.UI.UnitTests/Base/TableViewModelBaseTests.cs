@@ -1,5 +1,7 @@
-﻿using DbConfigurator.Core.Contracts;
+﻿using DbConfigurator.Authentication;
+using DbConfigurator.Core.Contracts;
 using DbConfigurator.UI.Base.Contracts;
+using DbConfigurator.UI.Features.Notifications.Event;
 using DbConfigurator.UI.ViewModel.Base;
 using Moq;
 using Prism.Events;
@@ -32,6 +34,7 @@ namespace DbConfigurator.UI.UnitTests.Base
         protected TableViewModelBase<TEntityWrapper, TEntity, TDataService,
             TCreateEvent, TCreateEventArgs,
         TEditEvent, TEditEventArgs> ViewModel;
+        protected Mock<ISecuritySettings> SecuritySettings;
         private TCreateEvent _createItemEvent;
         private TEditEvent _editItemEvent;
 
@@ -44,9 +47,13 @@ namespace DbConfigurator.UI.UnitTests.Base
                 .Returns(_createItemEvent);
             EventAggregatorMock.Setup(ea => ea.GetEvent<TEditEvent>())
                 .Returns(_editItemEvent);
+            EventAggregatorMock.Setup(ea => ea.GetEvent<SelectedNotificationDistributionList>())
+                .Returns(new SelectedNotificationDistributionList());
 
             EditingWindow = new Mock<IEditingWindowService>();
             DataServiceMock = new Mock<TDataService>();
+            SecuritySettings = new Mock<ISecuritySettings>();
+            SecuritySettings.Setup(s => s.IsAuthorized(It.IsAny<List<Role>>())).Returns(true);
 
             DetailVmCreator = CreateNewDetailViewModel;
             ViewModel = CreateViewModel();

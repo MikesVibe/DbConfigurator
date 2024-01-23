@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DbConfigurator.Core;
+using DbConfigurator.Core.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.Authentication
 {
-    public class SecuritySettings
+    public class SecuritySettings : ISecuritySettings
     {
         public event EventHandler<UserLoggedInEventArgs>? UserLoggedIn;
         public User User { get; set; } = new User();

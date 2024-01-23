@@ -24,6 +24,7 @@ using DbConfigurator.UI.Services;
 using DbConfigurator.Authentication;
 using DbConfigurator.Model;
 using DbConfigurator.UI.Features.Notification.Services;
+using DbConfigurator.Core.Contracts;
 
 namespace DbConfigurator.UI.Panels.NotificationPanel
 {
@@ -49,7 +50,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
         private readonly IStatusService _statusService;
         private readonly INotificationService _notificationService;
         private readonly EmailService _emailService;
-        private readonly SecuritySettings _securitySettings;
+        private readonly ISecuritySettings _securitySettings;
         private readonly IEventAggregator _eventAggregator;
 
         public enum TicketType
@@ -72,7 +73,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
 
         public NotificationPanelViewModel(
             EmailService emailService,
-            SecuritySettings securitySettings,
+            ISecuritySettings securitySettings,
             IEventAggregator eventAggregator,
             IStatusService statusService,
             INotificationService nofiticationService)
