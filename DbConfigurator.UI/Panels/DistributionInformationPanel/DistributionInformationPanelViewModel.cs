@@ -27,7 +27,8 @@ namespace DbConfigurator.UI.Panels.DistributionInformationPanel
         }
         public override async Task RefreshAsync()
         {
-            await DistributionInformationTable.Refresh();
+            if(DistributionInformationTable is not null)
+                await DistributionInformationTable.Refresh();
         }
     }
 }
