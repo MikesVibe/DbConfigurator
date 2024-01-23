@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.Contracts;
+﻿using DbConfigurator.Core.Contracts;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.ViewModel.Base;
 using Moq;
@@ -12,25 +12,25 @@ using Xunit;
 
 namespace DbConfigurator.UI.UnitTests.Base
 {
-    public abstract class TableViewModelBaseTests<TWrapper, TDto, TDataService, TDetailVm,
+    public abstract class TableViewModelBaseTests<TEntityWrapper, TEntity, TDataService, TDetailVm,
         TCreateEvent, TCreateEventArgs,
         TEditEvent, TEditEventArgs>
-        where TWrapper : IWrapperWithId
-        where TDto : class, IEntityDto
-        where TDataService : class, IDataService<TDto>
+        where TEntityWrapper : IWrapperWithId
+        where TEntity : class, IEntity, new()
+        where TDataService : class, IDataService<TEntity>
         where TDetailVm : IDetailViewModel
         where TCreateEvent : PubSubEvent<TCreateEventArgs>, new()
-        where TCreateEventArgs : IEventArgs<TDto>, new()
+        where TCreateEventArgs : IEventArgs<TEntity>, new()
         where TEditEvent : PubSubEvent<TEditEventArgs>, new()
-        where TEditEventArgs : IEventArgs<TDto>, new()
+        where TEditEventArgs : IEventArgs<TEntity>, new()
     {
         protected Mock<IEventAggregator> EventAggregatorMock;
 
         protected Mock<IEditingWindowService> EditingWindow;
         protected Mock<TDataService> DataServiceMock;
         protected Func<TDetailVm> DetailVmCreator;
-        protected TableViewModelBase<TWrapper, TDto, TDataService,
-        TCreateEvent, TCreateEventArgs,
+        protected TableViewModelBase<TEntityWrapper, TEntity, TDataService,
+            TCreateEvent, TCreateEventArgs,
         TEditEvent, TEditEventArgs> ViewModel;
         private TCreateEvent _createItemEvent;
         private TEditEvent _editItemEvent;
@@ -53,17 +53,17 @@ namespace DbConfigurator.UI.UnitTests.Base
         }
 
 
-        protected abstract TableViewModelBase<TWrapper, TDto, TDataService, TCreateEvent, TCreateEventArgs,
+        protected abstract TableViewModelBase<TEntityWrapper, TEntity, TDataService, TCreateEvent, TCreateEventArgs,
         TEditEvent, TEditEventArgs> CreateViewModel();
         protected abstract TDetailVm CreateNewDetailViewModel();
-        protected abstract TDto CreateNewEntityDtoItem(int id);
-        protected abstract IEnumerable<TWrapper> CreateItemsList();
+        protected abstract TEntity CreateNewEntityDtoItem(int id);
+        protected abstract IEnumerable<TEntityWrapper> CreateItemsList();
 
         [Fact]
         public async Task ShouldLoadItemsOnLoadAsyncMethod()
         {
             // Arrange
-            var testData = new List<TDto>();
+            var testData = new List<TEntity>();
             testData.Add(CreateNewEntityDtoItem(1));
             testData.Add(CreateNewEntityDtoItem(2));
             testData.Add(CreateNewEntityDtoItem(3));
@@ -89,10 +89,10 @@ namespace DbConfigurator.UI.UnitTests.Base
         [Fact]
         public void ShouldOpenEditingWindowAfterPressingAddButton()
         {
-            ViewModel.Items = new ObservableCollection<TWrapper>(CreateItemsList());
+            ViewModel.Items = new ObservableCollection<TEntityWrapper>(CreateItemsList());
             ViewModel.SelectedItem = ViewModel.Items.First();
 
-            //ViewModel.SelectedItem = new TWrapper();
+            //ViewModel.SelectedItem = new TEntityWrapper();
             ViewModel.EditCommand.Execute(null);
 
             EditingWindow.Verify(ew => ew.ShowWindow(It.IsAny<IDetailViewModel>()), Times.Once);

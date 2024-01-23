@@ -1,5 +1,5 @@
 ﻿using DbConfigurator.Model;
-using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Core.Models;
 using FluentResults;
 using HtmlAgilityPack;
 using Microsoft.Office.Interop.Outlook;

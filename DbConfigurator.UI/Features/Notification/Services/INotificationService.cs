@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Core.Models;
 using DbConfigurator.UI.Panels.NotificationPanel;
 using FluentResults;
 using System;

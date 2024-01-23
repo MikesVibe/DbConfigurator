@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.Contracts;
+﻿using DbConfigurator.Core.Contracts;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;

@@ -1,5 +1,5 @@
 ﻿using DbConfigurator.Authentication;
-using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Core.Models;
 using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;

@@ -8,7 +8,7 @@ using DbConfigurator.DataAccess.DTOs.PriorityDtos;
 using DbConfigurator.DataAccess.DTOs.RecipientDtos;
 using DbConfigurator.DataAccess.DTOs.RegionDtos;
 using DbConfigurator.Model.DTOs.Wrapper;
-using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Core.Models;
 using DbConfigurator.Model.Entities.Wrapper;
 using System.Linq;
 

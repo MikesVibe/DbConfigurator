@@ -1,5 +1,5 @@
-﻿using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Core.Contracts;
+using DbConfigurator.Core.Models;
 
 namespace DbConfigurator.Model.Entities.Wrapper
 {

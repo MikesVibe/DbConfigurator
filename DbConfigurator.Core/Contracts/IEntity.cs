@@ -1,4 +1,4 @@
-﻿namespace  DbConfigurator.Core.Contracts
+﻿namespace DbConfigurator.Core.Contracts
 {
     public interface IEntity
     {

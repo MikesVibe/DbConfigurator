@@ -1,6 +1,6 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.DataAccess.DTOs.AreaDtos;
-using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Core.Models;
 using DbConfigurator.UI.Base;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;

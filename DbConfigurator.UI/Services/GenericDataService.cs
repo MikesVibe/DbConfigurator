@@ -1,6 +1,6 @@
 ﻿using DbConfigurator.DataAccess;
 using DbConfigurator.DataAccess.DTOs;
-using DbConfigurator.Model.Contracts;
+using DbConfigurator.Core.Contracts;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
 using FluentResults;
@@ -131,7 +131,7 @@ namespace DbConfigurator.UI.Base
             return true;
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(bool refresh = false)
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             if (_entitiesLoaded == false || ChildrenHaveChanges())
             {

@@ -1,5 +1,6 @@
-﻿using DbConfigurator.DataAccess.DTOs.DistributionInformationDtos;
-using DbConfigurator.Model.DTOs.Core;
+﻿using DbConfigurator.Core.Models;
+using DbConfigurator.DataAccess.DTOs.DistributionInformationDtos;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Features.DistributionInformations;
@@ -9,10 +10,10 @@ using DbConfigurator.UI.UnitTests.Base;
 using DbConfigurator.UI.ViewModel.Base;
 using System.Collections.Generic;
 
-namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
+namespace DbConfigurator.UI.UnitTests.Features.DistributionInformationFeatures
 {
-    public class DistributionInformationTableViewModelTests : TableViewModelBaseTests<DistributionInformationDtoWrapper,
-        DistributionInformationDto,
+    public class DistributionInformationTableViewModelTests : TableViewModelBaseTests<DistributionInformationWrapper,
+        DistributionInformation,
         IDistributionInformationService,
         DistributionInformationDetailViewModel,
         CreateDistributionInformationEvent, CreateDistributionInformationEventArgs,
@@ -24,11 +25,11 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
         {
         }
 
-        protected override IEnumerable<DistributionInformationDtoWrapper> CreateItemsList()
+        protected override IEnumerable<DistributionInformationWrapper> CreateItemsList()
         {
-            var list = new List<DistributionInformationDtoWrapper>();
-            list.Add(new DistributionInformationDtoWrapper(CreateNewEntityDtoItem(1)));
-            list.Add(new DistributionInformationDtoWrapper(CreateNewEntityDtoItem(2)));
+            var list = new List<DistributionInformationWrapper>();
+            list.Add(new DistributionInformationWrapper(CreateNewEntityDtoItem(1)));
+            list.Add(new DistributionInformationWrapper(CreateNewEntityDtoItem(2)));
             return list;
         }
 
@@ -39,32 +40,32 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
                 EventAggregatorMock.Object);
         }
 
-        protected override DistributionInformationDto CreateNewEntityDtoItem(int id)
+        protected override DistributionInformation CreateNewEntityDtoItem(int id)
         {
-            return new DistributionInformationDto
+            return new DistributionInformation
             {
                 Id = id,
-                Region = new RegionDto
+                Region = new Region
                 {
                     Id = 1,
-                    Area = new AreaDto
+                    Area = new Area
                     {
                         Id = 1,
                         Name = "Americas"
                     },
-                    BusinessUnit = new BusinessUnitDto
+                    BusinessUnit = new BusinessUnit
                     {
                         Id = 1,
                         Name = "NAO"
                     },
-                    Country = new CountryDto
+                    Country = new Country
                     {
                         Id = 1,
                         CountryName = "Canada",
                         CountryCode = "CA"
                     }
                 },
-                Priority = new PriorityDto
+                Priority = new Priority
                 {
                     Id = 1,
                     Name = "P1"
@@ -75,19 +76,21 @@ namespace DbConfigurator.UI.UnitTests.Features.DistributionInformation
 
 
         protected override TableViewModelBase
-            <DistributionInformationDtoWrapper,
-            DistributionInformationDto,
+            <DistributionInformationWrapper,
+            DistributionInformation,
             IDistributionInformationService,
             CreateDistributionInformationEvent, CreateDistributionInformationEventArgs,
             EditDistributionInformationEvent, EditDistributionInformationEventArgs>
             CreateViewModel()
         {
-            return new DistributionInformationTableViewModel(
+            var vm = new DistributionInformationTableViewModel(
                  EditingWindow.Object,
                  EventAggregatorMock.Object,
                  DataServiceMock.Object,
                  DetailVmCreator,
-                 new AutoMapperConfig());
+                 new AutoMapperConfig(),
+                 new Authentication.SecuritySettings());
+            return vm;
         }
 
 

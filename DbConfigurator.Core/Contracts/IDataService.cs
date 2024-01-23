@@ -14,7 +14,7 @@ namespace DbConfigurator.UI.Base.Contracts
         Task<bool> UpdateAsync(TEntity entity);
         Task<bool> DeleteAsync(int id);
         //Task<TEntity> GetByIdAsync(int id);
-        Task<IEnumerable<TEntity>> GetAllAsync(bool refresh = false);
+        Task<IEnumerable<TEntity>> GetAllAsync();
         bool HasChanges();
         bool ChildrenHaveChanges();
         Task<Result<IEnumerable<TEntity>>> GetAllAsyncResult();

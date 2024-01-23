@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DbConfigurator.Core\DbConfigurator.Core.csproj" />
     <ProjectReference Include="..\DbConfigurator.UI\DbConfigurator.UI.csproj" />
   </ItemGroup>
 

@@ -1,6 +1,6 @@
 ﻿using DbConfigurator.Authentication;
-using DbConfigurator.Model.Contracts;
-using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Core.Contracts;
+using DbConfigurator.Core.Models;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Startup;
 using Prism.Commands;

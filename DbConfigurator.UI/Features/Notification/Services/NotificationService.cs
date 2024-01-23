@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Core.Models;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Areas.Services;
 using DbConfigurator.UI.Features.BuisnessUnits.Services;

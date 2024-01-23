@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DbConfigurator.Model.Contracts;
+using DbConfigurator.Core.Contracts;
 using System.Net.Http.Json;
 using System.Threading;
 using System.Net.Sockets;

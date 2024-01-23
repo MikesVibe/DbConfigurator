@@ -2,7 +2,7 @@
 using DbConfigurator.DataAccess.DTOs.BusinessUnitDtos;
 using DbConfigurator.DataAccess.DTOs.DistributionInformationDtos;
 using DbConfigurator.DataAccess.DTOs.PriorityDtos;
-using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Core.Models;
 using DbConfigurator.UI.Base;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Features.Areas.Services;

@@ -1,6 +1,6 @@
 ﻿using DbConfigurator.DataAccess.DTOs.CountryDtos;
 using DbConfigurator.DataAccess;
-using DbConfigurator.Model.Entities.Core;
+using DbConfigurator.Core.Models;
 using DbConfigurator.UI.Base;
 using DbConfigurator.UI.Features.Countries.Services;
 using DbConfigurator.UI.Startup;

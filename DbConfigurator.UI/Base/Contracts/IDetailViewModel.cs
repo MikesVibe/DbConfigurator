@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.Contracts;
+﻿using DbConfigurator.Core.Contracts;
 using System;
 using System.Threading.Tasks;
 

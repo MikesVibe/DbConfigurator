@@ -1,7 +1,7 @@
 using Autofac.Features.Indexed;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
-using DbConfigurator.UI.Features.Panels.DistributionInformation;
+using DbConfigurator.UI.Panels.DistributionInformationPanel;
 using DbConfigurator.UI.ViewModel;
 using Moq;
 using Prism.Events;
@@ -17,6 +17,7 @@ namespace DbConfigurator.UI.UnitTests.Windows
         private Mock<IEventAggregator> _eventAggregatorMock;
         private OpenPanelViewEvent _openTableViewEvent;
         private Mock<IIndex<string, IMainPanelViewModel>> _tableViewModelCreatorMock;
+        private Mock<IStatusService> _statusServiceMock;
 
         public MainWindowViewModelTests()
         {
@@ -28,10 +29,11 @@ namespace DbConfigurator.UI.UnitTests.Windows
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<OpenPanelViewEvent>())
                 .Returns(_openTableViewEvent);
+            _statusServiceMock = new Mock<IStatusService>();
 
             // Create a mock for IDistributionInformationPanelViewModel and setup IIndex to return it for the specified key
             var fake = new Mock<IIndex<string, ITableViewModel>>();
-            var mockDistributionInformationPanelViewModel = new DistributionInformationPanelViewModel(fake.Object);
+            var mockDistributionInformationPanelViewModel = new DistributionInformationPanelViewModel(fake.Object, _statusServiceMock.Object);
             //var mockDistributionInformationPanelViewModel = new Mock<DistributionInformationPanelViewModel>();
 
 
@@ -43,7 +45,8 @@ namespace DbConfigurator.UI.UnitTests.Windows
             _viewModel = new MainWindowViewModel(
                 _navigationPanelViewModelMock.Object,
                 _tableViewModelCreatorMock.Object,
-                _eventAggregatorMock.Object);
+                _eventAggregatorMock.Object,
+                _statusServiceMock.Object);
         }
 
 

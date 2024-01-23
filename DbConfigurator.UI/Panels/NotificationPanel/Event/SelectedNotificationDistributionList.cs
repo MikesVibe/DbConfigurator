@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Core.Models;
 using DbConfigurator.UI.Base.Contracts;
 using Prism.Events;
 using System;

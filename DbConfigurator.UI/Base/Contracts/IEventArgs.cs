@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.Contracts;
+﻿using DbConfigurator.Core.Contracts;
 
 namespace DbConfigurator.UI.Base.Contracts
 {

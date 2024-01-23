@@ -1,4 +1,4 @@
-﻿namespace DbConfigurator.Model.Contracts
+﻿namespace DbConfigurator.Core.Contracts
 {
     //public interface IWrapperWithId<TEntity>
     public interface IWrapperWithId

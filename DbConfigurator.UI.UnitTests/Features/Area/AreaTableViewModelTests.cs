@@ -1,19 +1,21 @@
 ﻿using DbConfigurator.DataAccess.DTOs.AreaDtos;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Features.Areas.Services;
 using DbConfigurator.UI.Startup;
+using DbConfigurator.Core.Models;
 using DbConfigurator.UI.UnitTests.Base;
 using DbConfigurator.UI.ViewModel.Base;
 using System.Collections.Generic;
 
-namespace DbConfigurator.UI.UnitTests.Features.Area
+namespace DbConfigurator.UI.UnitTests.Features.AreaFeatures
 {
 
     public class AreaTableViewMmodelTests : TableViewModelBaseTests
-        <AreaDtoWrapper,
-        AreaDto,
+        <AreaWrapper,
+        Area,
         IAreaService,
         AreaDetailViewModel,
         CreateAreaEvent, CreateAreaEventArgs,
@@ -25,11 +27,11 @@ namespace DbConfigurator.UI.UnitTests.Features.Area
 
         }
 
-        protected override IEnumerable<AreaDtoWrapper> CreateItemsList()
+        protected override IEnumerable<AreaWrapper> CreateItemsList()
         {
-            var list = new List<AreaDtoWrapper>();
-            list.Add(new AreaDtoWrapper(CreateNewEntityDtoItem(1)));
-            list.Add(new AreaDtoWrapper(CreateNewEntityDtoItem(2)));
+            var list = new List<AreaWrapper>();
+            list.Add(new AreaWrapper(CreateNewEntityDtoItem(1)));
+            list.Add(new AreaWrapper(CreateNewEntityDtoItem(2)));
             return list;
         }
 
@@ -40,25 +42,37 @@ namespace DbConfigurator.UI.UnitTests.Features.Area
                 EventAggregatorMock.Object);
         }
 
-        protected override AreaDto CreateNewEntityDtoItem(int id)
+        protected override Area CreateNewEntityDtoItem(int id)
         {
-            return new AreaDto() { Id = id, Name = "Americas" };
+            return new Area() { Id = id, Name = "Americas" };
         }
 
-        protected override TableViewModelBase
-            <AreaDtoWrapper,
-            AreaDto,
-            IAreaService,
-            CreateAreaEvent, CreateAreaEventArgs,
-            EditAreaEvent, EditAreaEventArgs>
-            CreateViewModel()
+        protected override TableViewModelBase<AreaWrapper, Area, IAreaService, CreateAreaEvent, CreateAreaEventArgs, EditAreaEvent, EditAreaEventArgs> CreateViewModel()
         {
             return new AreaTableViewModel(
                 EventAggregatorMock.Object,
                 EditingWindow.Object,
                 DataServiceMock.Object,
                 DetailVmCreator,
-                new AutoMapperConfig());
+                new AutoMapperConfig(),
+                new Authentication.SecuritySettings());
         }
+
+        //protected override TableViewModelBase
+        //    <AreaWrapper,
+        //    Area,
+        //    IAreaService,
+        //    CreateAreaEvent, CreateAreaEventArgs,
+        //    EditAreaEvent, EditAreaEventArgs>
+        //    CreateViewModel()
+        //{
+        //    return new AreaTableViewModel(
+        //        EventAggregatorMock.Object,
+        //        EditingWindow.Object,
+        //        DataServiceMock.Object,
+        //        DetailVmCreator,
+        //        new AutoMapperConfig(),
+        //        new Authentication.SecuritySettings());
+        //}
     }
 }

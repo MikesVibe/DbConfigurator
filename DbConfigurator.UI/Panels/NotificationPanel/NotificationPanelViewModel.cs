@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model.Entities.Core;
+﻿using DbConfigurator.Core.Models;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
