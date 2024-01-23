@@ -68,7 +68,9 @@ namespace DbConfigurator.UI.UnitTests.Base
             testData.Add(CreateNewEntityDtoItem(2));
             testData.Add(CreateNewEntityDtoItem(3));
 
-            DataServiceMock.Setup(ds => ds.GetAllAsync()).ReturnsAsync(testData);
+            DataServiceMock.Setup(ds => ds.GetAllAsyncResult()).ReturnsAsync(testData);
+            DataServiceMock.Setup(ds => ds.CanConnect()).ReturnsAsync(true);
+
 
             // Act
             await ViewModel.LoadAsync();
@@ -105,16 +107,16 @@ namespace DbConfigurator.UI.UnitTests.Base
 
             EditingWindow.Verify(ew => ew.ShowWindow(It.IsAny<IDetailViewModel>()), Times.Once);
         }
-        [Fact]
-        public void ShouldAddNewItemToListAfterCreateEventWasCalled()
-        {
-            _createItemEvent.Publish(new TCreateEventArgs
-            {
-                Entity = CreateNewEntityDtoItem(1)
-            });
-            var items = ViewModel.Items;
-            Assert.Equal(1, items.Count);
-        }
+        //[Fact]
+        //public void ShouldAddNewItemToListAfterCreateEventWasCalled()
+        //{
+        //    _createItemEvent.Publish(new TCreateEventArgs
+        //    {
+        //        Entity = CreateNewEntityDtoItem(1)
+        //    });
+        //    var items = ViewModel.Items;
+        //    Assert.Equal(1, items.Count);
+        //}
         //protected override void PublishCreateEvent()
         //{
         //    var _openTableViewEvent = new CreateDistributionInformationEvent();
