@@ -5,13 +5,13 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.UI", "DbConfigurator.UI\DbConfigurator.UI.csproj", "{E36D3F97-B175-487C-825D-866EE34F15C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.Model", "DbConfigurator.Model\DbConfigurator.Model.csproj", "{34AAA02D-8975-4DA7-8D7B-1BBE06B4A5EB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.DataAccess", "DbConfigurator.DataAccess\DbConfigurator.DataAccess.csproj", "{B7912BE8-2794-4E58-86B9-E0217A0CDBE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbConfigurator.UI.UnitTests", "DbConfigurator.UI.UnitTests\DbConfigurator.UI.UnitTests.csproj", "{6EE56CCA-AED2-48CB-B18D-EB5260D45843}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbConfigurator.Authentication", "DbConfigurator.Authentication\DbConfigurator.Authentication.csproj", "{EC4BCDCD-AA87-43D1-839C-C9DACFC207EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.Authentication", "DbConfigurator.Authentication\DbConfigurator.Authentication.csproj", "{EC4BCDCD-AA87-43D1-839C-C9DACFC207EF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbConfigurator.Core", "DbConfigurator.Core\DbConfigurator.Core.csproj", "{F628BA62-5936-4CD9-8DF4-8F493B8C7BD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		{E36D3F97-B175-487C-825D-866EE34F15C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E36D3F97-B175-487C-825D-866EE34F15C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E36D3F97-B175-487C-825D-866EE34F15C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34AAA02D-8975-4DA7-8D7B-1BBE06B4A5EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34AAA02D-8975-4DA7-8D7B-1BBE06B4A5EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34AAA02D-8975-4DA7-8D7B-1BBE06B4A5EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34AAA02D-8975-4DA7-8D7B-1BBE06B4A5EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7912BE8-2794-4E58-86B9-E0217A0CDBE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7912BE8-2794-4E58-86B9-E0217A0CDBE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7912BE8-2794-4E58-86B9-E0217A0CDBE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{EC4BCDCD-AA87-43D1-839C-C9DACFC207EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC4BCDCD-AA87-43D1-839C-C9DACFC207EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC4BCDCD-AA87-43D1-839C-C9DACFC207EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F628BA62-5936-4CD9-8DF4-8F493B8C7BD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F628BA62-5936-4CD9-8DF4-8F493B8C7BD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F628BA62-5936-4CD9-8DF4-8F493B8C7BD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F628BA62-5936-4CD9-8DF4-8F493B8C7BD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

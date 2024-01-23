@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DbConfigurator.Core\DbConfigurator.Core.csproj" />
     <ProjectReference Include="..\DbConfigurator.DataAccess\DbConfigurator.DataAccess.csproj" />
     <ProjectReference Include="..\DbConfigurator.Model\DbConfigurator.Model.csproj" />
   </ItemGroup>
