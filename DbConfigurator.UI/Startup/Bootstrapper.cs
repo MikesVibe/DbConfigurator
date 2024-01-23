@@ -43,10 +43,10 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<MainWindowViewModel>().AsSelf();
             builder.RegisterType<AuthenticationViewModel>().AsSelf();
             builder.RegisterType<EditingWindow>().AsSelf();
-            builder.RegisterType<SecuritySettings>().AsSelf().SingleInstance();
 
 
             builder.AddDataAccessServices();
+            builder.AddAuthenticationServices();
 
             //Services
             builder.RegisterType<EditingWindowService>().As<IEditingWindowService>().SingleInstance();
@@ -59,7 +59,6 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<CountryService>().As<ICountryService>().SingleInstance();
             builder.RegisterType<RecipientService>().As<IRecipientService>().SingleInstance();
             builder.RegisterType<PriorityService>().As<IPriorityService>().SingleInstance();
-            builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
             builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
 
             //Navigation Panel
