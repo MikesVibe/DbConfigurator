@@ -44,7 +44,7 @@ namespace DbConfigurator.UI.Windows.Authentication
             var passwordBox = parameter as PasswordBox;
             var clearTextPassword = passwordBox!.Password;
 
-            var result = await _accountService.Login(new LoginDto { UserName = Username, Password = clearTextPassword });
+            var result = await _accountService.Login(Username, clearTextPassword);
             if (result.IsSuccess)
             {
                 _securitySettings.Login(result.Value);
