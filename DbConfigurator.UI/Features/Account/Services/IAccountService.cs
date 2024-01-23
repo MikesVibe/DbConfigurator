@@ -10,6 +10,6 @@ namespace DbConfigurator.UI.Features.Account.Services
 {
     public interface IAccountService
     {
-        Task<Result<User>> Login(LoginDto login);
+        Task<Result<User>> Login(string userName, string password);
     }
 }

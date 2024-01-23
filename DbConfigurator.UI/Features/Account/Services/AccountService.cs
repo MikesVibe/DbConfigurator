@@ -22,8 +22,9 @@ namespace DbConfigurator.UI.Features.Account.Services
             _client = client;
         }
 
-        public async Task<Result<User>> Login(LoginDto login)
+        public async Task<Result<User>> Login(string userName, string password)
         {
+            LoginDto login = new LoginDto() { UserName = userName, Password = password };
             using (HttpClient client = _client.CreateClient())
             {
                 // Convert ClassDto to JSON
