@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace  DbConfigurator.Core.Entities
+namespace DbConfigurator.Core.Models
 {
     public class DistributionList
     {

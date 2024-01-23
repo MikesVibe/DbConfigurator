@@ -1,8 +1,8 @@
-using  DbConfigurator.Core.Contracts;
+using DbConfigurator.Core.Contracts;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace  DbConfigurator.Core.Entities
+namespace DbConfigurator.Core.Models
 {
     public class DistributionInformation : IEntity
     {
@@ -17,11 +17,11 @@ namespace  DbConfigurator.Core.Entities
 
         public IEntity CreateCopy()
         {
-            return new DistributionInformation 
-            { 
-                Id = Id, 
-                Region = Region, 
-                Priority = Priority, 
+            return new DistributionInformation
+            {
+                Id = Id,
+                Region = Region,
+                Priority = Priority,
                 RecipientsCc = new ObservableCollection<Recipient>(RecipientsCc),
                 RecipientsTo = new ObservableCollection<Recipient>(RecipientsTo)
             };

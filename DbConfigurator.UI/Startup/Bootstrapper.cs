@@ -45,7 +45,8 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<EditingWindow>().AsSelf();
             builder.RegisterType<SecuritySettings>().AsSelf().SingleInstance();
 
-            builder.RegisterType<DbConfiguratorApiClient>().As<IDbConfiguratorApiClient>().SingleInstance();
+
+            builder.AddDataAccessServices();
 
             //Services
             builder.RegisterType<EditingWindowService>().As<IEditingWindowService>().SingleInstance();
@@ -59,7 +60,6 @@ namespace DbConfigurator.UI.Startup
             builder.RegisterType<RecipientService>().As<IRecipientService>().SingleInstance();
             builder.RegisterType<PriorityService>().As<IPriorityService>().SingleInstance();
             builder.RegisterType<AccountService>().As<IAccountService>().SingleInstance();
-            builder.RegisterType<StatusService>().As<IStatusService>().SingleInstance();
             builder.RegisterType<NotificationService>().As<INotificationService>().SingleInstance();
 
             //Navigation Panel

@@ -1,6 +1,6 @@
-﻿using  DbConfigurator.Core.Contracts;
+﻿using DbConfigurator.Core.Contracts;
 
-namespace  DbConfigurator.Core.Entities
+namespace DbConfigurator.Core.Models
 {
     public class Priority : IEntity
     {
@@ -14,7 +14,7 @@ namespace  DbConfigurator.Core.Entities
 
         public IEntity CreateCopy()
         {
-            return new Priority { Id = Id, Name = Name, Value = Value};
+            return new Priority { Id = Id, Name = Name, Value = Value };
         }
 
         public override string ToString()

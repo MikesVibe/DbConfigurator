@@ -1,7 +1,7 @@
-﻿using  DbConfigurator.Core.Contracts;
+﻿using DbConfigurator.Core.Contracts;
 using System.ComponentModel.DataAnnotations;
 
-namespace  DbConfigurator.Core.Entities
+namespace DbConfigurator.Core.Models
 {
     public class Country : IEntity
     {

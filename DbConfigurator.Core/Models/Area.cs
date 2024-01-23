@@ -1,9 +1,9 @@
-﻿using  DbConfigurator.Core.Contracts;
+﻿using DbConfigurator.Core.Contracts;
 using System.ComponentModel.DataAnnotations;
 
-namespace  DbConfigurator.Core.Entities
+namespace DbConfigurator.Core.Models
 {
-    public class BusinessUnit : IEntity
+    public class Area : IEntity
     {
         [Required]
         public int Id { get; set; }
@@ -13,7 +13,7 @@ namespace  DbConfigurator.Core.Entities
 
         public IEntity CreateCopy()
         {
-            return new BusinessUnit { Id = Id, Name = Name };
+            return new Area { Id = Id, Name = Name };
         }
     }
 }

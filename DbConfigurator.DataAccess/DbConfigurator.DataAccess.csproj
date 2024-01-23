@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.5.0" />
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -14,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DbConfigurator.Authentication\DbConfigurator.Authentication.csproj" />
+    <ProjectReference Include="..\DbConfigurator.Core\DbConfigurator.Core.csproj" />
     <ProjectReference Include="..\DbConfigurator.Model\DbConfigurator.Model.csproj" />
   </ItemGroup>
 

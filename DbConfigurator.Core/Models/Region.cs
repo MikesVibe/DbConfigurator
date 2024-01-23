@@ -1,7 +1,7 @@
-﻿using  DbConfigurator.Core.Contracts;
+﻿using DbConfigurator.Core.Contracts;
 using System.ComponentModel.DataAnnotations;
 
-namespace  DbConfigurator.Core.Entities
+namespace DbConfigurator.Core.Models
 {
     public class Region : IEntity
     {
@@ -13,7 +13,7 @@ namespace  DbConfigurator.Core.Entities
 
         public IEntity CreateCopy()
         {
-            return new Region { Id=Id, Area = Area, BusinessUnit = BusinessUnit, Country = Country};
+            return new Region { Id = Id, Area = Area, BusinessUnit = BusinessUnit, Country = Country };
         }
     }
 }
