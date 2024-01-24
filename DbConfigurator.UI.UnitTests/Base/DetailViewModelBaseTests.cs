@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Core.Contracts;
+using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.ViewModel.Base;
 using Moq;
@@ -7,11 +8,12 @@ using Xunit;
 
 namespace DbConfigurator.UI.UnitTests.Base
 {
-    public abstract class DetailViewModelBaseTests<TDataService, TEntity>
+    public abstract class DetailViewModelBaseTests<TDataService, TEntity, TWrapper>
         where TDataService : class, IDataService<TEntity>
         where TEntity : class, IEntity, new()
+        where TWrapper : ModelWrapper<TEntity>
     {
-        protected DetailViewModelBase<TDataService, TEntity> DetialViewModel;
+        protected DetailViewModelBase<TDataService, TEntity, TWrapper> DetialViewModel;
         protected Mock<TDataService> DataServiceMock;
         protected Mock<IEventAggregator> EventAgregatorMock;
         private IEntity _entityId;
