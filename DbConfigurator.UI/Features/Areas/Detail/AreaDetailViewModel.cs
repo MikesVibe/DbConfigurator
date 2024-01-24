@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Core.Models;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
@@ -9,7 +10,7 @@ using System.ComponentModel;
 
 namespace DbConfigurator.UI.Features.Areas
 {
-    public class AreaDetailViewModel : DetailViewModelBase<IAreaService, Area>, IDetailViewModel, INotifyPropertyChanged
+    public class AreaDetailViewModel : DetailViewModelBase<IAreaService, Area, AreaWrapper>, IDetailViewModel, INotifyPropertyChanged
     {
         public AreaDetailViewModel(IAreaService areaService, IEventAggregator eventAggregator) : base(areaService, eventAggregator)
         {

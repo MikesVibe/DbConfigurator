@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Core.Models;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
@@ -9,7 +10,7 @@ using System.ComponentModel;
 
 namespace DbConfigurator.UI.Features.BusinessUnits
 {
-    public class BusinessUnitDetailViewModel : DetailViewModelBase<IBusinessUnitService, BusinessUnit>, IDetailViewModel, INotifyPropertyChanged
+    public class BusinessUnitDetailViewModel : DetailViewModelBase<IBusinessUnitService, BusinessUnit, BusinessUnitWrapper>, IDetailViewModel, INotifyPropertyChanged
     {
         public BusinessUnitDetailViewModel(IBusinessUnitService BusinessUnitService, IEventAggregator eventAggregator) : base(BusinessUnitService, eventAggregator)
         {

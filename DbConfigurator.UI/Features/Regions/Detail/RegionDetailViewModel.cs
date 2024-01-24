@@ -1,5 +1,6 @@
 ﻿using DbConfigurator.Core.Contracts;
 using DbConfigurator.Core.Models;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Features.Regions.Services;
@@ -13,7 +14,7 @@ using System.Windows.Input;
 
 namespace DbConfigurator.UI.Features.Regions
 {
-    public class RegionDetailViewModel : DetailViewModelBase<IRegionService, Region>
+    public class RegionDetailViewModel : DetailViewModelBase<IRegionService, Region, RegionWrapper>
     {
         private Area? _selectedArea;
         private Country? _selectedBusinessUnit;

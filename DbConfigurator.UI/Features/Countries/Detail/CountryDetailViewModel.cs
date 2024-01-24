@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Core.Models;
+using DbConfigurator.Model.DTOs.Wrapper;
 using DbConfigurator.UI.Base.Contracts;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
@@ -9,7 +10,7 @@ using System.ComponentModel;
 
 namespace DbConfigurator.UI.Features.Countries
 {
-    public class CountryDetailViewModel : DetailViewModelBase<ICountryService, Country>, IDetailViewModel, INotifyPropertyChanged
+    public class CountryDetailViewModel : DetailViewModelBase<ICountryService, Country, CountryWrapper>, IDetailViewModel, INotifyPropertyChanged
     {
         public CountryDetailViewModel(ICountryService countryService, IEventAggregator eventAggregator) : base(countryService, eventAggregator)
         {

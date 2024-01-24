@@ -12,10 +12,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DbConfigurator.Model.DTOs.Wrapper;
 
 namespace DbConfigurator.UI.Features.DistributionInformations
 {
-    public class DistributionInformationDetailViewModel : DetailViewModelBase<IDistributionInformationService, DistributionInformation>
+    public class DistributionInformationDetailViewModel : DetailViewModelBase<IDistributionInformationService, DistributionInformation, DistributionInformationWrapper>
     {
         private IEnumerable<Recipient> _allRecipients;
         private ObservableCollection<Recipient> _recipientsTo_ListView = new();

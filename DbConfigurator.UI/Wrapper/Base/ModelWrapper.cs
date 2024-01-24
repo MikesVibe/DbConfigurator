@@ -13,7 +13,7 @@ namespace DbConfigurator.Model.Entities.Wrapper
             Entity = (IEntity)model;
         }
 
-        public T Model { get; }
+        public T Model { get; set; }
         public IEntity Entity { get; }
 
 

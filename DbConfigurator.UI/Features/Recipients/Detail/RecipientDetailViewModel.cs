@@ -1,4 +1,5 @@
 ﻿using DbConfigurator.Core.Models;
+using DbConfigurator.Model.Entities.Wrapper;
 using DbConfigurator.UI.Event;
 using DbConfigurator.UI.Features.Areas.Event;
 using DbConfigurator.UI.Features.Recipients.Services;
@@ -7,7 +8,7 @@ using Prism.Events;
 
 namespace DbConfigurator.UI.Features.Recipients
 {
-    public class RecipientDetailViewModel : DetailViewModelBase<IRecipientService, Recipient>
+    public class RecipientDetailViewModel : DetailViewModelBase<IRecipientService, Recipient, RecipientWrapper>
     {
         public RecipientDetailViewModel(IRecipientService recipientService, IEventAggregator eventAggregator) : base(recipientService, eventAggregator)
         {
