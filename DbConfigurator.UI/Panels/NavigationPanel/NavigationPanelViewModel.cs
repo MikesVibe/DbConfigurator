@@ -74,7 +74,7 @@ namespace DbConfigurator.UI.Panels.NavigationPanel
             DbConfigurationNavigationItems_ObservableCollection.Add(
                 new NavigationItem(2, "Regions", nameof(RegionPanelViewModel), _eventAggregator));
             DbConfigurationNavigationItems_ObservableCollection.Add(
-                new NavigationItem(3, "Other", nameof(CreationPanelViewModel), _eventAggregator));
+                new NavigationItem(3, "Region Units", nameof(CreationPanelViewModel), _eventAggregator));
 
             NotificationNavigationItems_ObservableCollection.Add(
                 new NavigationItem(0, "Create", nameof(NotificationPanelViewModel), _eventAggregator));

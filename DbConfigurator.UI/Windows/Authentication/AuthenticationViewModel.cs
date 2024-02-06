@@ -45,11 +45,16 @@ namespace DbConfigurator.UI.Windows.Authentication
             var passwordBox = parameter as PasswordBox;
             var clearTextPassword = passwordBox!.Password;
 
+            //tr
             var result = await _accountService.Login(Username, clearTextPassword);
             if (result.IsSuccess)
             {
                 _securitySettings.Login(result.Value);
                 Window.Close();
+            }
+            else if(result.Errors.First() is ConnectionError)
+            {
+                MessageBox.Show("Failed to connect with server. Ensure that you are connected to network.", "Connection error");
             }
             else
             {
