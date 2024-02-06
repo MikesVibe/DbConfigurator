@@ -38,7 +38,7 @@ namespace DbConfigurator
             InitializeMainWindow();
             StartCheckingApiConnection();
 
-            if (Debugger.IsAttached)
+            if (false)//Debugger.IsAttached)
             {
                 var securitySettings = _servicesContainer.Resolve<ISecuritySettings>();
                 //securitySettings.Login(new User { UserName = "Anonymous" });

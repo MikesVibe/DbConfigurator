@@ -34,7 +34,7 @@
                                     Binding="{Binding Country.CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Column="1" VerticalAlignment="Top">
+        <StackPanel Grid.Column="1" VerticalAlignment="Top" Visibility="{Binding ShouldShowEditingPanel, Converter={StaticResource VisibilityConverter}}">
             <Button Content="Create" Height="45" Margin="10"
                     Command="{Binding AddCommand}"/>
             <Button Content="Edit" Height="45" Margin="10"

@@ -23,7 +23,7 @@
                                     Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel VerticalAlignment="Top" >
+            <StackPanel VerticalAlignment="Top" Visibility="{Binding ShouldShowEditingPanel, Converter={StaticResource VisibilityConverter}}">
                 <Button Content="Create" Width="100" Height="40" Margin="5"
                     Command="{Binding AddCommand}"/>
                 <Button Content="Edit" Width="100" Height="40" Margin="5"
