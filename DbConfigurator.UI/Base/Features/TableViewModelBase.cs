@@ -94,7 +94,7 @@ namespace DbConfigurator.UI.ViewModel.Base
 
         private void OnUserLoginExecute(object sender, UserLoggedInEventArgs e)
         {
-            if (_securitySettings.IsAuthorized(new() { new Role(UserRole.Admin), new Role(UserRole.DatabaseManager) }))
+            if (_securitySettings.UserRole == UserRole.Admin || _securitySettings.UserRole == UserRole.DatabaseManager)
             {
                 ShouldShowEditingPanel = true;
             }

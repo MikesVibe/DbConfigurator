@@ -11,10 +11,11 @@ namespace DbConfigurator.Core.Contracts
     {
         User User { get; set; }
         bool IsAuthenticated { get; set; }
+        Role.UserRole UserRole { get; set; }
 
         event EventHandler<UserLoggedInEventArgs>? UserLoggedIn;
 
-        bool IsAuthorized(List<Role> authorizedRoles);
+        //bool IsAuthorized(List<Role> authorizedRoles);
         void Login(User user);
         void Logout();
     }

@@ -38,11 +38,11 @@ namespace DbConfigurator
             InitializeMainWindow();
             StartCheckingApiConnection();
 
-            if (false)//Debugger.IsAttached)
+            if (Debugger.IsAttached)
             {
                 var securitySettings = _servicesContainer.Resolve<ISecuritySettings>();
-                //securitySettings.Login(new User { UserName = "Anonymous" });
-                securitySettings.Login(new User { UserName = "Anonymous", UserRoles = new() { "Admin" }, FirstName = "Mikołaj", LastName = "Admin"});
+                securitySettings.Login(new User { UserName = "Anonymous" });
+                //securitySettings.Login(new User { UserName = "Anonymous", UserRole = "Admin", FirstName = "Mikołaj", LastName = "Admin"});
                 //securitySettings.Login(new User { UserName = "Anonymous", UserRoles = new() { "SecurityAnalyst" } });
 
                 LoginIntoApplication();
