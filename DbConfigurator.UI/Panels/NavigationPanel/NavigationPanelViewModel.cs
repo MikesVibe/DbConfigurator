@@ -40,7 +40,7 @@ namespace DbConfigurator.UI.Panels.NavigationPanel
             {
                 ShouldShowNotificationBorder = true;
             }
-            if (_securitySettings.UserRole == UserRole.Admin || _securitySettings.UserRole == UserRole.DatabaseManager)
+            if (_securitySettings.UserRole == UserRole.Admin || _securitySettings.UserRole == UserRole.DatabaseManager || _securitySettings.UserRole == UserRole.SecurityAnalyst)
             {
                 ShouldShowDatabaseConfigurationBorder = true;
             }

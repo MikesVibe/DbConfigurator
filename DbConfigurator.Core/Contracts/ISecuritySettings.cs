@@ -11,7 +11,7 @@ namespace DbConfigurator.Core.Contracts
     {
         User User { get; set; }
         bool IsAuthenticated { get; set; }
-        Role.UserRole UserRole { get; set; }
+        UserRole UserRole { get; }
 
         event EventHandler<UserLoggedInEventArgs>? UserLoggedIn;
 

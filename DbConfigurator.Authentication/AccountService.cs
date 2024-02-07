@@ -46,6 +46,7 @@ namespace DbConfigurator.UI.Features.Account.Services
                     {
                         var resultValue = await response.Content.ReadAsStringAsync();
                         var serializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                        serializerOptions.Converters.Add(new UserRoleConverter());
                         var user = JsonSerializer.Deserialize<User>(resultValue, serializerOptions);
                         if (user is null)
                         {

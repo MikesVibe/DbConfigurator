@@ -6,15 +6,8 @@ using System.Threading.Tasks;
 
 namespace DbConfigurator.Authentication
 {
-    public class Role
+    public partial class Role
     {
-        public enum UserRole
-        {
-            None,
-            Admin,
-            SecurityAnalyst,
-            DatabaseManager
-        }
         public Role()
         {
             new Role(UserRole.None);

@@ -12,7 +12,7 @@ namespace DbConfigurator.Authentication
     {
         public event EventHandler<UserLoggedInEventArgs>? UserLoggedIn;
         public User User { get; set; } = new User();
-        public Role.UserRole UserRole { get; set; } = Role.UserRole.None;
+        public UserRole UserRole { get => User.UserRole; }
         public bool IsAuthenticated { get; set; } = false;
 
         public void Login(User user)
@@ -20,8 +20,6 @@ namespace DbConfigurator.Authentication
             IsAuthenticated = true;
             User = user;
             UserLoggedIn?.Invoke(this, new UserLoggedInEventArgs());
-            var role = new Role(user.UserRole);
-            UserRole = role.URole;
         }
         public void Logout() 
         {
