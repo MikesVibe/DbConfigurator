@@ -15,6 +15,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DbConfigurator.DataAccess.Errors;
 
 namespace DbConfigurator.UI.Base
 {
@@ -148,9 +149,9 @@ namespace DbConfigurator.UI.Base
             if (_entitiesLoaded == false || ChildrenHaveChanges())
             {
                 var result = await LoadEntities();
-                if (result == false)
+                if (result.IsFailed)
                 {
-                    return Result.Fail("Could not load entities");
+                    return Result.Fail(result.Errors);
                 }
                 _entitiesLoaded = true;
             }
@@ -206,7 +207,7 @@ namespace DbConfigurator.UI.Base
             }
         }
 
-        private async Task<bool> LoadEntities()
+        private async Task<Result> LoadEntities()
         {
             using (var client = _client.CreateClient())
             {
@@ -214,11 +215,15 @@ namespace DbConfigurator.UI.Base
                 {
                     var dto = await client.GetFromJsonAsync<IEnumerable<TEntity>>($"{_controllerName}/all");
                     _entities = _mapper.Mapper.Map<List<TEntity>>(dto);
-                    return true;
+                    return Result.Ok();
+                }
+                catch(HttpRequestException ex)
+                {
+                    return Result.Fail(new AuthorizationError());
                 }
                 catch
                 {
-                    return false;
+                    return Result.Fail("");
                 }
             }
         }

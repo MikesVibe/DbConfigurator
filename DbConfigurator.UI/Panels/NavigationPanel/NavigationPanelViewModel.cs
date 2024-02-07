@@ -23,7 +23,7 @@ namespace DbConfigurator.UI.Panels.NavigationPanel
     {
         private IEventAggregator _eventAggregator;
         private readonly ISecuritySettings _securitySettings;
-        private bool _isAuthorizedToShowDatabaseConfigurationBorder = false;
+        private bool _isAuthorizedToShowDatabaseConfigurationBorder = true;
         private bool _isAuthorizedToShowNotificationBorder = false;
 
         public NavigationPanelViewModel(IEventAggregator eventAggregator, ISecuritySettings securitySettings)
@@ -40,10 +40,10 @@ namespace DbConfigurator.UI.Panels.NavigationPanel
             {
                 ShouldShowNotificationBorder = true;
             }
-            if (_securitySettings.UserRole == UserRole.Admin || _securitySettings.UserRole == UserRole.DatabaseManager || _securitySettings.UserRole == UserRole.SecurityAnalyst)
-            {
-                ShouldShowDatabaseConfigurationBorder = true;
-            }
+            //if (_securitySettings.UserRole == UserRole.Admin || _securitySettings.UserRole == UserRole.DatabaseManager || _securitySettings.UserRole == UserRole.SecurityAnalyst)
+            //{
+            //    ShouldShowDatabaseConfigurationBorder = true;
+            //}
         }
 
         public bool ShouldShowDatabaseConfigurationBorder

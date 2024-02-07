@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using DbConfigurator.Core.Contracts;
+using System.Windows;
 
 namespace DbConfigurator.UI.Features.DistributionInformations
 {
@@ -49,7 +50,7 @@ namespace DbConfigurator.UI.Features.DistributionInformations
             var result = await _dataService.GetAllAsyncResult();
             if (result.IsFailed)
             {
-                //MessageBox.Show("Could not load data. Service may be unavailable");
+                MessageBox.Show(result.Errors.First().Message);
                 return;
             }
 

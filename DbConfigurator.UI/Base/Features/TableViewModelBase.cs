@@ -121,7 +121,7 @@ namespace DbConfigurator.UI.ViewModel.Base
             var result = await _dataService.GetAllAsyncResult();
             if (result.IsFailed)
             {
-                //MessageBox.Show("Could not load data. Service may be unavailable");
+                MessageBox.Show(result.Errors.First().Message);
                 return;
             }
 
