@@ -57,7 +57,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2"  Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Button Content="Add" Margin="40" Width="200" Height="60" 
+            <Button Content="Save" Margin="40" Width="200" Height="60" 
                     Command="{Binding SaveCommand}"/>
             <Button Content="Cancel" Margin="40" Width="200" Height="60"
                     Command="{Binding CancelCommand}"/>
