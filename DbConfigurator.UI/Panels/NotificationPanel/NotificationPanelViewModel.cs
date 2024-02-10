@@ -22,9 +22,9 @@ using Prism.Events;
 using DbConfigurator.UI.Features.Notifications.Event;
 using DbConfigurator.UI.Services;
 using DbConfigurator.Authentication;
-using DbConfigurator.Model;
 using DbConfigurator.UI.Features.Notification.Services;
 using DbConfigurator.Core.Contracts;
+using DbConfigurator.Core;
 
 namespace DbConfigurator.UI.Panels.NotificationPanel
 {
@@ -306,7 +306,7 @@ namespace DbConfigurator.UI.Panels.NotificationPanel
         }
         private NotificationData CollectNotificationData()
         {
-            return new Model.NotificationData()
+            return new NotificationData()
             {
                 TicketNumber = TicketNumber,
                 TicketDescription = TicketDescription,

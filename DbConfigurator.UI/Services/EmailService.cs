@@ -1,4 +1,4 @@
-﻿using DbConfigurator.Model;
+﻿using DbConfigurator.Core;
 using DbConfigurator.Core.Models;
 using FluentResults;
 using HtmlAgilityPack;
